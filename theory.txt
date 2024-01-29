@@ -1,0 +1,45 @@
+Sunbeam notes :
+getters is also called as Inspectors ;
+setters is also called as mutators;
+facilitators :		display() / accept()
+
+static methods :
+	class Calender 
+	{
+		static
+		{
+			Calender cal = Calender.getInstance();	//creating object using such static method in the class is called as "static factory pattern".
+		}
+	}
+
+
+
+//==================================
+9.7 Wrapper Class :
+	- Integer / Character / Double / Float / Byte
+		- Boxing  /	- UnBoxing
+		- AutoBoxing / - AutoUnBoxing
+	
+Statement :
+	- Normal Statement : int i = 1;
+	- Critical Statement : k=i/j;
+	
+		
+Object Copy :
+	1. Shallow Copy
+	2. Deep Copy
+	3. Clone
+	3. Clone
+	
+	
+	
+	
+Collections and Generics :
+	Interface 	: Collection , List , Set , Map
+	Classes 	: Collections , ArrayList , HasSet, TreeSet , HashMap ,HashTable
+	
+
+	Interface		:	Class
+	Collection,List :	ArrayList
+	Set				:	HasSet , TreeSet
+	Map				:	HashMap ,HashTable

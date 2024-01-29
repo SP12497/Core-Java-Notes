@@ -1,0 +1,26 @@
+JDBC :
+	1.	Import the package
+			import java.sql.*
+	2.	a. Load the Drivers :
+			download mysql-connector jar file from google
+		b. Register the Drivers :
+			Class.forName("com.mysql.jdbc.Driver");
+	3.	Establish the connection :
+			enstanciate interface connection
+				Connection con = DirverManager.getConnection("url","username","password");
+	4.	Create the statement :
+			Statement st = con.CreateStatement();
+			a. Normal Statement	  : Execute the query
+			b. Prepared Statement : execute inbuild query with different values
+			c. Collable Statement : To execute PL stored procedural Language
+	5.	Execute the Query :
+			ResultSet rs = st.executeQuery("Select * from Students");
+	6.	Process Result	:
+			while(rs.next())
+			{
+				syso(rs.getIn(1) + "  " + rs.getString(2));
+			}
+			
+	7.	Close
+			st.close();
+			con.close();

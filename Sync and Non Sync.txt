@@ -1,0 +1,5 @@
+Synchronized basically means that only one thread can access methods of that particular class at any given time. StringBuffer is an example of a synchronized class. A Synchronized class is a thread-safe class.
+
+Non-Synchronized means that two or more threads can access the methods of that particular class at any given time. 
+StringBuilder is an example of a non-synchronized class. Generally, a non-synchronized class is not thread-safe. (but some non-synchronized classes are thread-safe)
+

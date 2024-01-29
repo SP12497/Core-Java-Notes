@@ -1,0 +1,46 @@
+Collection :	
+	- collection is a framework
+	
+ 	- which helps as to manipulate object(data) 
+	   We can manipulate the data by :
+			search
+			sort
+			insert
+			delete
+			update
+	- every this is of object
+	- no primitives only objects (Provide Wrapper Classes)
+	- Provide set of implemented classes and interface
+
+		  Interface      implemented class
+		
+			Set	         HashSet
+		                 	 - unique data structure
+		                    
+		                 LinkHashSet
+		
+		
+			list		ArrayList
+		                  	- allow duplicate
+		                  	- store data
+		                   insert
+		                   remove
+		                   change
+						LinkedList
+						Vector
+						Stack
+		                	- first in last out
+		
+			queue       PriorityQueue 
+		                	- first in first out         
+		
+		
+			Map         HashMap
+							 - key value(pair of element)
+		               LinkedhashMap
+		               
+		               
+
+
+			
+	

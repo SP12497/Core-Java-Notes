@@ -1,0 +1,52 @@
+lab exam
+ - advanced java
+ - dbt
+ - cpp
+ - os
+ - Se
+
+lab test core java
+ - 26-11-2020
+
+
+oops - 1 question
+
+ - classes objects
+ - inheritance
+ - overriding
+ - abstraction
+ - interface
+- runtime polymorphism
+ 
+
+collection- 2 question
+
+ - arraylist
+   - all method
+ - map
+   - all method
+
+  object based
+
+file handling
+
+   - object based read /write
+   - function- do with object after reading    - from file
+
+Networing
+
+   - object based - read/ write- socket
+   - function- after reading object from         socket
+
+jdbc
+   - prepared statement
+   - menu driven
+   - insert/update/delete/select
+
+
+we will meet at 11.45
+thank you
+
+
+
+

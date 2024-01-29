@@ -1,0 +1,9 @@
+Packages :
+	- Buillt in packages
+		- java.io		-file handling containing io related classes and interface.
+		- java.sql		- jdbc
+		- java.itil		- Collection
+		- java.net		- networking
+		- java.lang		
+	- User defined packages
+	

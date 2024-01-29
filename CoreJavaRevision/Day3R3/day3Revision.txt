@@ -1,0 +1,150 @@
+collection
+   arralylist
+   map
+
+jdbc
+  prepared statement
+
+
+
+file handling
+     -object based
+
+networking
+     -object based
+
+two different machine
+-client
+-server
+
+
+
+
+File handling
+stream
+
+  flow of data from one place to another place
+
+inputstream
+
+ - to read data from file or console or socket
+
+outputstream
+
+ - to write data to the file or console or socket
+
+
+inputstream -read
+
+  FileinputStream - to create file and open for read
+  Bufferedinputstream
+  datainputstream
+  objectinputstream - to read object from file
+
+
+
+outputstream - write
+
+  fileoutputstream - to create file for write 
+  bufferedoutputstream
+  dataoutputstream
+  objectoutputstream - to write object to the file
+
+
+
+//read data from console
+
+
+Reader
+  -input
+
+inputstreamReader - to read data from console or file 		    file
+bufferedreader
+
+Writer
+  -output
+
+
+take a break
+meet at 11.30
+
+networking
+     -object based
+
+socket programming
+
+client to server
+
+Server
+
+Serversocket
+
+accept()
+
+
+
+clinet
+
+socket  (ip address of the server and the port)
+
+read write operation
+  to socket
+
+object based
+
+file io
+
+Inputstream is =s.getinputstream()- open socket for read
+Outputstream os = s.getoutptustream() - open socket for write
+
+
+
+objectOutputStream- to write object to the socket
+objectinputstream - to read object from socket
+
+
+
+
+server
+
+create connection
+accept
+
+
+
+client
+create socket pass ip
+create object
+write object to the socket
+
+file
+  - object based read wirte
+
+
+anydesk - id passwd
+
+g:\test1\eclipse
+
+g:\test1\prn_name
+
+g:\test1\javashare
+
+extract
+
+-execute eclipse
+
+-change path
+
+in eclips
+
+create project
+create class
+
+
+
+
+
+
+
+
+

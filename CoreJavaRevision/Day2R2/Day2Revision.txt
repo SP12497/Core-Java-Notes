@@ -1,0 +1,132 @@
+java Revision
+
+- oops
+   classes and objects
+   inheritance
+   overriding
+   abstract class
+   interface
+   -runtime polymorphism
+
+- packages
+
+- collection
+    - interfaces,implemented class
+    - data structure
+    - improved version of array
+
+    - built in method to play with data
+    - manipulating the data
+    
+list  -
+          Arraylist
+          stack
+          linkedlist
+          vector
+
+map     - hashMap
+        - key and value
+
+
+
+
+
+
+iterator - interface - helps to retrive the data
+for each
+
+
+map
+    
+map     - hashMap
+        - key and value
+
+
+getkey
+getvalue
+entryset()
+
+put
+get
+set
+
+we will meet at 11.35
+
+thank you
+
+
+
+jdbc
+  - helps us to connect java with data base
+
+  - java
+
+  - data base- mysql
+  
+  jar file
+  connection code
+
+//loading driver
+
+// create connection
+
+
+  - prepared statement
+
+
+Wrapper class
+
+String name = "shan";
+
+primitives class
+int        Integer
+float      Float
+char       Charactor
+
+
+
+wrapper
+- to convert int to integer object
+
+String cname = "cdac";
+String name = new String("shan");
+
+Integer iobj = new Integer(20)
+
+
+Integer
+{
+int no
+
+Integer(int no)
+{
+this.no = no;
+}
+}
+
+public static void main(String arg[]);
+
+
+Integer.parseint(arg[0])+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
