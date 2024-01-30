@@ -2,6 +2,7 @@ public class Main
 {
 	public static void main(String[] args) {
 	    System.out.println(RBI.balance);
+	    System.out.println(SBI.balance);
 		System.out.println(SBI.getBalance(6)); // RBI Method Hiding
 		System.out.println(RBI.getBalance(5));
 		System.out.println(RBI.getBalance(""));
@@ -9,7 +10,8 @@ public class Main
 		RBI rbi = new RBI();
         System.out.println(rbi.balance);
 	   // System.out.println(rbi.interest); // Data Hiding
-		
+		/*
+         */
 	}
 }
 

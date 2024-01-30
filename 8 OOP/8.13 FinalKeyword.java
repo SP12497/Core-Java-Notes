@@ -12,7 +12,7 @@ Final variables:
 //Final Method 			: Prevent Method Overriding  
 //Final Class 			: Prevent Inheritance
 
-public class FinalKeyword {
+public class Main {
 	public static void main(String[] args) {
 		int i = 10; // Local Variable // Primitive Variable
 		i++;
@@ -21,14 +21,14 @@ public class FinalKeyword {
 		// ------------------------
 		// Final Variable: Once initialize, you can not modified
 		final int k = 10; // initialize at the time of declaration.
-		// k++; // error
+// 		k++; // error: cannot assign a value to final variable k
 		System.out.println("Final Primitive Variable k =" + k);
 
 		// OR
 
 		final int j;
 		j = 10; // Once initialize, you can not modified
-		// j++; // error
+		// j++; // error: cannot assign a value to final variable k
 		System.out.println("Primitive Variable j =" + j);
 
 		// Final Method:
@@ -64,6 +64,7 @@ class FinalA {
 class InheritB extends FinalA {
 	// once Final , we cant override the final method.
 	// public void show() { System.out.println("Show B"); }
+	
 	public void show(int a) {
 		System.out.println("InheritB : Show A  :" + a);
 	}

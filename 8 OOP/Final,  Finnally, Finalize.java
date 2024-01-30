@@ -5,7 +5,8 @@
 
 3. finalize() :
 	- is a method of object class
-	- finalize() is a method which is always invoked by garbage collector just before destroying an object to perform cleanup activities.
+	- finalize() is a method which is always invoked by garbage collector 
+	  just before destroying an object to perform cleanup activities.
 
 Note : 
 finally meant for cleanup activities related to try block. 

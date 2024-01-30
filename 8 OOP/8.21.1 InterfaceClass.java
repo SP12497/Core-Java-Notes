@@ -1,4 +1,4 @@
-//An interface is a completely "abstract class" that is 
+// An interface is a completely "abstract class" that is 
 //	used to group related methods with empty bodies:
 
 // - To access the interface methods, the interface must be implemented (kinda like inherited)
@@ -12,7 +12,7 @@
 	 * 		   "Animal" object in the MyMainClass) 
 	 * 		b] Interface methods do not have a body - the body is provided by the "implements" class
 	 * 		c] On implementation of an interface, you must override all of its methods or make class as Abstract.
-	 * 		d] Interface methods are by default : public abstract  , no need to specity.
+	 * 		d] Interface methods are by default : public abstract, no need to specity.
 	 * 		e] Interface attributes/variables are by default : public, static and final 
 	 * 		e] An interface cannot contain a constructor 
 	 * 		   (as it cannot be used to create objects) 
@@ -23,15 +23,14 @@
 
  * Why And When To Use Interfaces? 
  *	 1) To achieve security - hide certain details and 
- *	    only show the important details of an object (interface).
- * 
+ *	    only show the important details of an object (interface). (Hide implementation details)
  *	 2) Java does not support "multiple inheritance on classes" (a class can only inherit
  *	 from one superclass). However, it can be achieved with interfaces, because
  *	 the class can implement multiple interfaces. Note: To implement multiple
  * 	 interfaces, separate them with a comma (see example below). 
  
 When to go for interface and when to Abstract class ?
-	- When we know only the specifications , then should go for interface.
+	- When we know only the specifications, then should go for interface.
 	- When we know implentations but not completely, then should go with Abstract.
 	- When we know all the implementations then should go with Concreate class / Normal Class.
 
@@ -39,7 +38,7 @@ When to go for interface and when to Abstract class ?
 */
 
 //Types of Interface :
-//	1] Marker Interface -> without any methods
+//	1] Marker Interface -> without any method
 //	2] SAM -> Single Abstract Method -> Functional Interface => only one abstract method
 //	3] Normal Interface.
 //		There are many more types of interfaces...
@@ -47,7 +46,7 @@ When to go for interface and when to Abstract class ?
 interface inter0 {
 } // Marker Interface
 
-interface Inter1 // Functional Interface
+interface Inter1 // Functional Interface // Single Abstract Method
 {
 	double salary = 10.00; // by default public static final //and compulsory to assign values at the time
 							// of declaration.
@@ -87,12 +86,12 @@ interface Inter4 // from java 8 : default and static method
 		System.out.println("	Inter4 Common()");
 	}
 
-	default void defaultMethod() // instance method //access by object
+	default void defaultMethod() // instance method // access by object
 	{
 		System.out.println("	Inter4 Default defaultMethod");
 	}
 
-	static void staticMethod() // static method //access by interface name
+	static void staticMethod() // static method // access by interface name
 	{
 		System.out.println("	Inter4 Static staticMethod");
 	}
@@ -130,11 +129,11 @@ public class CMain {
 		// -------------------
 		System.out.println("Create constructor of Interface only inside in main. :");
 
-		Inter1 obj2 = new Inter1() // Anonymous Object//Inner class
+		Inter1 obj2 = new Inter1() // Anonymous Object // Inner class
 		{
 			public void show() {
 				System.out.println(
-						"	In Inter1 Interface using Inter1() constructor created inside main. Salary : " + salary);
+						"	Anonymous object. In Inter1 Interface using Inter1() constructor created inside main. Salary : " + salary);
 			}
 		}; // use Semicolon ;
 

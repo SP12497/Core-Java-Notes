@@ -17,8 +17,8 @@ Inheritance	: - Sharing the Information.
 
 public class InheritanceIsA {
 	public static void main(String[] args) {
-		// Add obj = new Add();
-		// System.out.println(obj.sum());
+		Add obj = new Add();
+		System.out.println(obj.sum());
 		// //System.out.println(obj.sub()); //error
 
 		AddSub obj1 = new AddSub();
