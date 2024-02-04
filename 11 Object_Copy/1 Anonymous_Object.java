@@ -1,14 +1,14 @@
 // Anonymous_Object :
-public class CMain 
+public class Main 
 {
 	public static void main(String[] args) 
 	{
 		 A obj = new A();		//Reference Object.
-		 obj.i=10;
+		 obj.i = 10;
 		 obj.show();
 
 System.out.println("---------------------");
-		new A().i =20;
+		new A().i = 20;
 		new A().show();
 
 System.out.println("---------------------");

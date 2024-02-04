@@ -46,7 +46,7 @@ When to go for interface and when to Abstract class ?
 interface inter0 {
 } // Marker Interface
 
-interface Inter1 // Functional Interface // Single Abstract Method
+interface Inter1 // Functional Interface // Single Abstract Method Interface
 {
 	double salary = 10.00; // by default public static final //and compulsory to assign values at the time
 							// of declaration.

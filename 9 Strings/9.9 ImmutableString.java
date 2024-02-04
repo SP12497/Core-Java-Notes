@@ -1,17 +1,17 @@
+import java.util.Scanner;
+
 /*
-String :
+String:
 	Once we creates a string object, we can't perform any changes in the existing object.
-	if we are trying to perform any changes with those changes a new object will be created .
-	this non changeable nature is nothing  but immutability.
-StringBuffer :
+	if we are trying to perform any changes with those changes a new object (new memory) will be created .
+	this non changeable nature is nothing but immutability.
+StringBuffer:
 	Once we creates a StringBuffer object we can perform any type of changes in the existing object.
 	this changeble nature is nothing but mutability of the StringBuffer object.
 
+Immutable means after changing the value of object, new object (new memory) is created.
+It does not change the same value, bcoz old object (memory) is also pointed by the another objects.
 */
-
-
-//Immutable means after changing the value of object, new object (new memory) is created.
-//	Does not change the same value, bcoz old object (memory) is also pointed by the another objects.
 
 public class Main 
 {
@@ -31,23 +31,18 @@ public class Main
 		System.out.println("str1 : " + str1.hashCode());
 		System.out.println("str2 : " + str2.hashCode());
 
-		System.out.println("2----------------------------------");
 		
 //   here memory created in HEAP and store "Sagar" in memory.
 //	suppose "Sagar" stored with memory address is 1001.
 //	then both str1 and str2 are pointing to the same memory location ie. 1001 addresss in heap.
 
+		System.out.println("2----------------------------------");
 		str1 ="Suraj";	// Now here new memory is created for str1 at another address.		
-
 		System.out.println("str1 : " + str1.hashCode());
 		System.out.println("str2 : " + str2.hashCode());
 
-		
-		
-		String obj = new String("Sagar");
-		
 		System.out.println("3----------------------------------");
-		
+		String obj = new String("Sagar");
 		System.out.println("obj : " + obj.hashCode());
 		System.out.println("str2 : " + str2.hashCode());
 //		System.out.println("str1 : " + str1.hashCode());

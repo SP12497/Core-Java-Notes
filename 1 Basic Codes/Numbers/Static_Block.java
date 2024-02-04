@@ -5,29 +5,62 @@ package Numbers;
 
 import static java.lang.System.out;
 
-public class Static_Block
-{
-	static int i ;	//by default 0;
-	static
-	{
-		i++;
-		out.println("Hello : "+ i);
-	}
+public class Main {
+    int a = 5;
+    static {
+        // static (class level) block
+        out.println("CA static 1");
+    }
 
-	public static void main(String [] args)
-	{		
-		out.println(++i);
-		out.println("java : "+ ++i);
-	}
+    {
+        // instance (object level) block
+        out.println("CA instance 1");
+    }
 
-	static
-	{
-		out.println("Not Bye : "+ ++i);
-	}
-	
-	//This is instance block calls when obj created before constructor call
-	{
-		
-	}
+
+    public static void main(String[] args) {
+        out.println("CA main");
+        CB cb;
+        Main m = new Main();
+        cb = new CB();
+    }    
+    
+    static {
+        out.println("CA static 2");
+    }
+    {out.println("CA instance 2");}
+}
+
+class CB {
+
+    {
+        out.println("CB instance 1");
+    }
+
+    public static int getBalance() {
+        return 123;
+    }
+
+   static {
+        // static block
+        out.println("CB static 1");
+    }
+
+    CB() {
+        out.println("CB default constructor");
+    }
+   {out.println("CB instance 2");}
 
 }
+
+
+
+/*
+CA static 1
+CA static 2
+CA main
+CB static 1
+CB instance 1
+CB instance 2
+CB default constructor
+ */

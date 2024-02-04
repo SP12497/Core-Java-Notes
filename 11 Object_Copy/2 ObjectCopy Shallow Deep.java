@@ -40,8 +40,8 @@ System.out.println("------------Shallow Copy------------");
 		
 		//CObj obj2 = Obj1; 
 		
-		CObj obj2 = new CObj();		// Here both the reference (obj1 and obj2) pointing to the same object (same memory) is called as shallow copy
-		obj2 = obj1;	//means another name of obj1 is obj2 //copies reference
+		CObj obj2 = new CObj();
+		obj2 = obj1;	// Here both the reference (obj1 and obj2) pointing to the same object (same memory) is called as shallow copy means another name of obj1 is obj2 //copies reference
 		//CObj obj2 = obj1;
 		
 		System.out.println("Before Modify :");
