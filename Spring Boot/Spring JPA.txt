@@ -1,0 +1,54 @@
+JPA : Java Persistance API
+
+	public interface Repository<T, ID> {}
+	
+	public interface CrudRepository<T, ID> extends Repository<T, ID> {}
+	
+	public interface PagingAndSortingRepository<T, ID> extends CrudRepository<T, ID> {}
+	
+	public interface JpaRepository<T, ID> extends PagingAndSortingRepository<T, ID>, QueryByExampleExecutor<T> {}
+
+
+	interface StudentRepository extends JPARepository (Student , Integer)
+
+-----------------------------------
+
+Spring data jpa provides three different approaches for creating custom queries with query methods.
+
+1. Creating Database Queries from Method Names :
+	 List<User> findByEmailAddressAndLastname(String emailAddress, String lastname);
+	 
+2. Creating Database Queries with Named Queries :
+	@NamedQueries(value ={
+		@NamedQuery (name="" , query= ""),
+		@NamedQuery (name="" , query= "")
+	})
+	public class Person{}
+	
+	- @NamedQuery annotation : for JPA query language
+	- @NamedNativeQuery annotation : allow you to define the query in native SQL by losing the database platform independent.
+
+3. Creating Database Queries with the @Query Annotation :
+	@Query("SELECT p FROM Person p WHERE LOWER(p.lastname) = LOWER(:lastname) ")
+	public List<Person> find(@Param ("lastname") String lastName);
+	
+	@Query(value="select u from User u where u.emailAddress = ?1")
+	User findByEmailAddress (String emailAddress);
+
+	for SQL Query
+	@Query(value="select * from User u where u.emailAddress = ?1" , nativeQuery= true)
+	User findByEmailAddress (String emailAddress);
+	
+	Using named parameters
+	@Query("select u from User u where u.firstname = :firstname or u.lastname = :lastname")
+	User findByLastnameOrFirstname(@Param("lastname") String lastname , @Param("firstname") String firstname )
+
+	--------------
+	for update query in @Query then we jave to also add @Modifying query
+	
+	@Transactional 	//for update
+	@Modifying		//when we modifying data
+	@Query("update User u set u.firstname = ?1 where u.lastname = ?2")
+	int setFixedFirstnameFor(String firstname, String lastname);
+
+

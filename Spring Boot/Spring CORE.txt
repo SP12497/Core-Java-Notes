@@ -1,0 +1,282 @@
+
+IOC container  = Dependency	Injection (inversion of control)
+	- Spring IoC is the mechanism to achieve loose-coupling between Objects dependencies.
+
+MVC = Web Framework / Servlet JSP/ UI LAYER
+
+	Spring Core
+	Spring Data Integration
+	Spring Web
+	Spring Boot
+	Spring JDBC
+	Spring ORM
+	ORM Tool = Hybernate
+
+=====================================
+ORM Frameworks :
+	- TopLink
+	- Hibernate
+	- iBATISS
+	- ORMLite
+	- JPOX
+-----------------------------------------
+
+
+		=============
+		Spring Core :
+		=============
+
+ - package name of the code :
+	YOUTUBE : Spring Framework Tutorial in Hindi by LearnCodeWithDurgesh.
+	
+	#6 First Maven Proj : package com.springcore;
+	#9 Injecting Collection Types[ List , Set , Map , Properties ] : package com.springcore.collection;
+	#10 Injecting Reference Type : package com.springcore.reference;
+	#11 Constructor Injection : package com.springcore.constructor_Injection;
+	#12 Ambiguity Problem and its Solution with Constructor Injection (use index no) : package com.springcore.constructor_Injection;
+	#14 Lifecycle methods Using XML/Annotation : package com.springcore.lifecycle;
+	#18 Autowiring using XML complete Session  : package com.springcore.auto.wire;
+	#19 @Autowired Annotation for Autowiring : package com.springcore.auto.wire.annotation;
+	#21 Spring Standalone Collections[List,Map,Properties] | Util Schema in Spring : package com.springcore.stand.alone.collection;
+	#22 Stereotype Annotations | @Component Annotation | @Value Annotation | Singleton prototype : package com.springcore.stereotype;
+	#25 Spring Expression Language | SpEL : package com.springcore.spel;
+	#28 Removing Complete XML for Spring Configuration | @Configuration | @ComponentScan | @Bean Annotation : package com.springcore.javaconfig;
+				----End----
+
+====================================
+Steps to create project :
+	1. Create MAVEN project
+	2. Adding dependancy => spring core , spring context
+		pom.xml :	
+			<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>5.2.5.RELEASE</version>
+			</dependency>
+				
+			<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>5.2.5.RELEASE</version>
+			</dependency>
+	3. Creating beans-java pojo :
+	 Plain Old Java Object :
+		- It is an ordinary Java object, not bound by any special restriction other than those forced by the Java Language Specification and not requiring any classpath. 
+	4. Creating configuration file => config.xml
+			<beans	 	xmlns="http://www.springframework.org/schema/beans"
+						xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+						xmlns:context= "http://www.springframework.org/schema/context"
+						xmlns:p= "http://www.springframework.org/schema/p"
+						xmlns:c="http://www.springframework.org/schema/c"
+						xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context.xsd
+					">
+			 </beans>
+	5. Setter Injection :
+		
+			<!-- This is First Object -->
+				<bean class="com.springcore.StudentBean" name="student1" >
+					<property name="studentId">
+						<value>101</value>
+					</property>
+				
+					<property name="studentName" value="Sagar Patil" /> 
+								
+					<property name="studentAddress">
+						<value>Nandurbar</value>
+					</property>
+				</bean>
+			
+			<!-- This is Second Object -->  <!-- using p schema -->
+				<bean class="com.springcore.StudentBean" name="student2" p:studentId="111" p:studentName="Suraj Patil" p:studentAddress="Bangalore" />
+	
+
+	6. Main class : which can pull the object and use.
+
+What is Spring :
+	Spring is a Dependency Injection framework to make java application loosely coupled.
+
+SPRING MODULE :
+	- Spring Core  :
+		- Core 
+		- beans
+		- Context 
+		- spEL
+		SPRING CORE:
+			- Introduction
+			- ioc using Dependency Injection (DI)
+			- Spring Container
+			- Types of Container
+			- Bean and Bean Lifecyle
+			- DI using Constructor
+			- DI using Setter
+			- AutoWiring
+	- AOP
+	- MVC
+	- Boot
+	- REST
+	- JDBC AND JPA
+	
+	- Aspect
+	- Instrumentation
+	- Messaging
+	- Data Access / Integration :
+		- JDBC
+		- ORM : Object Relational Mapping
+		- JMS : Java Messaging Service
+		- OXM : Object XML Mapping
+	- WEB :
+		- Web
+		- Servlet
+		- Portlet
+		- WebSocket
+	- TEST
+	
+	
+--------------------------
+Spring IOC Container : manage object life cycle , dependancy injection , we get ready to use object
+	-> ApplicationContext extends Beansfactory  : represents IOC Container
+		- ClassPathXMLApplicationContext
+		- AnnotationConfigApplicationContext
+		- FileSystemXMLApplicationContext
+
+Dependency Injection can be done in 2 ways :
+	- Using Setter Injection / Property Injection
+	- Using Constructor Injection
+Configuration files :
+	- Where we declare beans and its dependancy
+	
+Data Types (Dependencies) :
+		1. Primitive Data Types
+		2. Collection Types :
+			List, Set, Map, and Properties
+		3. Reference Type :
+			Other class Object
+			
+
+================================================
+#13 : Life Cycle Methods :   
+  (Code : package com.springcore.lifecycle)
+	- Spring provide two important methods to every bean :
+		- public void init();	:
+			- Initialization code, loading config, connection db, webservice etc
+		- public void destroy();:
+			- Clean up code
+			
+	- We can implement using following 3 types:
+		1. Using XML
+		2. Using Interface
+			- InitializingBean		//for init method
+			- DisposableBean		//for destroy method
+		3. Annotations
+			- @PostConstruct
+			- @PreDestroy
+
+
+======================================
+#17 : Autowiring :
+	- Feature of spring framework in which spring container inject the dependencies automatically.
+	- cant be used to inject primitive and string values.
+		It works only with reference only. (works on object only)
+	- Manual wiring :	<ref bean=""/>
+
+	There are 2 Types :
+		1. XML :	code: package com.springcore.auto.wire;
+			- byName	: autowire="byName"
+			- byType
+			- constructor
+		2. Annotations		: code: package com.springcore.auto.wire.annotations;	
+			- @Autowired : 
+				- we can use autowire annotation using 3 types:
+					1. On Property	:
+					2. On Setter	: 
+					3. On constructor: 
+				- It works on byType
+					
+#20 : @Qualifier	: code: package com.springcore.auto.wire.annotations;
+	 
+		- There may be a situation when you create more than one bean of the same type 
+			and want to wire only one of them with a property. 
+			In such cases, you can use the @Qualifier annotation along with @Autowired 
+			to remove the confusion by specifying which exact bean will be wired.
+			
+	@Autowired
+	@Qualifier("address2")		//check by bean name
+	private Address address;
+
+
+#21 : Spring Standalone Collections[List,Map,Properties] 
+		- It uses util schema.
+		- 
+		
+#22 : Stereotype Annotation :	code :package com.springcore.stereotype;
+		@Component : on the class	
+			- create object automatically.
+			config.xml :  <context:component-scan base-package="Only_package_name" />
+			
+			- it by default create object as classRoom class name using camelcase 
+				(eg. ClassRoom classRoom = new ClassRoom();)
+				if class Student{}  then object name is : (student) by default
+			- specify name of object :	 
+				@Component("obj")
+
+		@Value :
+			- on the property.
+			- Used to set the value into the variable/property
+
+#23 @Value with Collections
+		eg. @Value("#{addressId1}")
+			private List<String> address;
+
+#24 Beans Scope :
+	@Scope("singleton")
+		Singleton : only one obj of one class. // by default
+		Prototype : one class , many object
+		request
+		session
+		globalsession
+
+#25 Spring Expression Language | SpEL
+	Code : package com.springcore.SpEL;
+	
+		- Supports Parsing and executing expresssion with the help of @Value annotations
+		eg.
+			@Value("#{expresssion}")
+			@Value("#{3+5}")
+			@Value("#{8>6?88:66}")
+			@Value("#{}")
+			
+		- Expression can be Classes, Variable,(static /non static) Methods,Constructors and Objects
+			and Symbols like char, numerics, operators, keywords, 
+			and special symbols which return a value.
+	
+	Q) How to invoke static method and variable?
+		T(class).method(param)  ->	@Value("#{ T(java.lang.Math).sqrt(144) }")
+		T(class).variable		->	@Value("#{ T(java.lang.Math).PI }")	
+
+	Q) How to create Object?	->	@Value("#{ new java.lang.String('Sagar Patil')}")
+		new Object(value)
+		
+		
+
+#28 Removing complex XML for Spring Configuration	:
+	
+	@Configuration :	
+		- used on Java configuration Class
+		- Mark class as XML file
+	
+	@ComponentScan	:
+		- set Package (which package to scan?)
+		- eg :  @ComponentScan(basePackages = "com.springcore.javaconfig")
+	
+	@Bean :
+		- on method which return object;
+		
+	We have 3 types to create Dependency Injection :
+		1. XML Config file
+		2. @Component Annotation
+		3. @Bean Annotation

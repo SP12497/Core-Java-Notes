@@ -1,0 +1,245 @@
+Types of server :
+	- Apache Tomcat
+	- Apache Geronimo
+	- Apache TomEE
+	
+	- Oracle WebLogic
+	- GlassFish - Oracle
+	
+	- Jetty - The Jetty web server is developed under the Eclipse Foundation.
+	- IBM WebSphere
+	- WildFly - Wildfly is an open-source Java application server, developed by Red Hat
+=====================================
+ORM Frameworks :
+	- TopLink
+	- Hibernate
+	- iBATISS
+	- ORMLite
+	- JPOX
+=====================================
+Hibernate Framework : 
+	- Hibernate is a java framework that simplifies the development
+	  of java application to interact with the database.
+	- Hibernate is ORM (Object Relational Mapping) tool.
+	- Open source , lightweight 
+	- is a non-invasive framework, means it wont forced the programmers 
+	  to extend/implement any class/interface.
+	- invented by Gavin King in 2001
+	- Any type of application can build with Hibernet Framework.
+	
+Hebernate Configuration file :	
+	hibernate.cfg.xml :
+
+			<!DOCTYPE hibernate-configuration PUBLIC
+				"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+				"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+				
+			<hibernate-configuration>
+				<session-factory>
+					<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+					<property name="connection.url">jdbc:mysql://localhost:3306/myhiber</property>
+					<property name="connection.username">root</property>
+					<property name="connection.password"></property>
+					<property name="dialect">org.hibernate.dialect.MySQLDialect</property>		<!-- Database language/dialect -->
+					<property name="hbm2ddl.auto">update</property>  <!-- automatic create table using class -->
+					<property name="show_sql">true</property>  <!-- show sql query created by hibernet -->
+					<property name=""></property>
+				</session-factory>
+			</hibernate-configuration>
+			
+			
+			
+			
+
+---------------------------
+Annotations : 
+	Some commonly used hibernate annotations :
+		@Entity – use to mark any class as Entity.	We have 3 things : java Class, Entity is mediator between class and db , Table name in DB.
+		
+		@Table – use to change the table details.
+			Class - Entity - Table
+		
+		@Id - (primary key) use to mark column as id.
+		
+		@GeneratedValue - (auto Increment) hibernate will automatically generate values for that using an internal sequence. Therefore we don’t have to set it manually.
+		
+		@Column - Can be used to specify column mappings. For example, to change the column name in the associated table in database.
+		
+		@Transient - This tells hibernate not to save this field into DB. Its a temporary field.
+		
+		@Embeddable : If a class has-a another class, and we want both class field in the same table. the we mark @Embeddable on the another class :
+			- @Entity
+			class Student
+			{
+				private int rollno;	
+				private FullName fullname;				
+			}
+			
+			@Embeddable
+			class FullName
+			{
+				String fname;	String mname;	String lname;
+			}
+			
+			DB table column name is :	rollno	fname	mname	lname
+	
+		
+		
+		
+		@Temporal - (set date format) @Temporal over a date field tells hibernate the format in which the date needs to be saved
+			- @Temporal(TemporalType.Date)	//.Time
+				Date date; 
+		
+		
+		@Lob - @Lob tells hibernate that this is a large object, not a simple object.
+		
+		@OneToOne 	: (Foreign Key) unidirection mapping 
+		@OneToMany	: 
+			@OneToMany(mappedBy="name_of_the_filed")
+			List <String> list  = new ArrayList <> ();	// One question has many answer	
+		@ManyToOne	: Many answer has 1 question
+		@ManyToMany	: Many students has Many Laptops
+		@JoinColumn :
+		
+		@JoinTable 	: used to change the table name.
+					@JoinTable		//change table as well as column name
+					(
+						name = "Emp_Proj_Mapping",
+						joinColumns = {@JoinColumn(name="Emp_Id")},
+						inverseJoinColumns = {@JoinColumn(name="Proj_Id")}
+					)
+		
+		
+-------------------------------------------------------------
+Attributes :
+	mappedBy 	: @OneToMany(mappedBy = "question")
+				- if we dont want to create this table , map with another table
+	fetch		: @OneToMany(fetch = FetchType.EAGER)
+				- provied Lazy or Eager Loading
+	name		: @JoinColumn(name="Emp_Id")
+				- Used to change the name in of field in database.
+
+---------------------------------------------------------------------
+
+Get :
+	Student stud = session.get(Student.class,101);
+	syso(stud);
+	- Get will hit the database everytime and fire a query when it is called.
+
+Load :
+	Student stud = session.load(Student.class,101);
+	syso(stud);
+	- Load will hit the database and fire a query only when data in required/used. (ie here when we use syso(stud))
+	- Load gives us a proxy object.
+
+---------------------------------------------------------------------
+Loading	 :
+	1. Lazy loading : 
+		- It is by default.
+		- Select query called when necessary. Two select query called specially for (Question  and (foreign table) Answer Class).	
+		- Select query will call for self table fields , not for foreign key.
+		- calls select query for foreign table to fetch data when it is necessary.
+	2. Eager Loading :
+		- @OneToMany(fetch = FetchType.EAGER)	//@OneToMany(mappedBy="anotherClassColumnName" , fetch = FetchType.EAGER)
+			class Student{
+				private int rollno;	private String name;
+				
+				@OneToMany(mappedBy="stud" , fetch = FetchType.EAGER)
+				private Collection <laptop> laps = new ArrayList<laptop>();
+			}
+		- Only 1 select query call for Question and Answer Class.	(for self as well as foreign table)
+
+---------------------------------------------------------------------
+Hibernate/Persistence lifecycle states :
+	1. Transient State	:	Object after setting the values comes is Transient State
+						- Obj is not available to the Database as well as Session.
+	2. Persistence State:	after session.save(obj) or session.persist(obj) or session.update(obj);  
+						- Obj available to the Database as well as Session.
+	3. Detached State	:	after session.close() or session.clear()
+						- Obj available to the Database but not in Session.
+	4. Removed State	:	after session.delete()
+						- Obj available to the Session but not in Database.
+
+	session - db
+	0-0			= 1 Transient
+	1-1			= 2 Persistence
+	0-1			= 3 Detached
+	1-0			= 4 Removed
+
+------------------------------------
+HQL	 : Hibernate Query Language.
+	- select rollno from Student
+		- here, rollno is property/variable name
+			and Student is a class name (S is capital)
+		- from Student
+		- List<Student> studs = query.list();
+			for (Student s : studs)
+			{ syso(s); }
+
+		- Query q = session.createQuery("from Student where marks>40");
+		List<Student> students = q.list();
+			for (Student s : students)
+			{ syso(s); }
+
+		- select rollno , name , marks from Student
+			List<Object[]> students = (List<Object[]>)	q.list();
+			for (Object[] s : students)
+			{ syso(s[0]+s[1]+s[2]); }
+
+	- select rollno , s.name , s.marks from Student s where s.marks>60;		//here s is obj
+	- select sum(marks) from Student s where s.marks>60;
+
+	- int b = 60;
+	  Query q = session.createQuery("select sum(marks) from Student s where s.marks> :b;")
+	  q.setParameter("b" , b);
+------------------------
+SQL Query in Hibernet :
+	- sql in hibernate is called as native query.
+	- select rollno from student
+		- here, rollno is column name
+			and Student is a table name
+	- ResultSet rs = st.executeQuery(sql);
+		while(rs.hasnext())
+		{	syso(rs.next()); }
+		
+		
+	
+------------------------
+Cascading :
+------------------------
+Caching :
+	- Caching is a mechanism to enhance the performance of a Application
+	- Cache is use to reduce the number of database queries.
+	- if we want the data , first it goes to the session and check data is available to its cache or not 
+		if not then goes to the db and give data to the user.
+
+	TYPES :
+		- First Level	: 
+			- Store in session 
+			- by default provided by the hibernet
+			- Data is available in only for one session.
+			
+		- Second Level	: 
+			- Required external cache provider for second level cache.
+			- Data store in SessionFactory cache.
+			- SessionFactory is a parent of session.
+			- So, Data is available in in multiple session.
+			- SessionFactory
+					//Provide manually
+					Cache Provider : 
+						- OS cache
+						- ehcache :
+						- add 2 dependancy :
+							1. net.sf.ehcache
+							2. hibernate-ehcache
+						- hibernate.cfg.xml :
+							<property name="hibernate.cache.use_second_level_cache" >true</property>
+							
+							<property name="hibernate.region.factory_class" >org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+
+						- On the class : 
+							@Cacheble	@Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
+							public class Alien{}
+							
+							
+		

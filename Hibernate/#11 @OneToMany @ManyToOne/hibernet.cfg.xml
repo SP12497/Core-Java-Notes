@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+	
+<hibernate-configuration>
+	<session-factory>
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql://localhost:3306/myhiber</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password"></property>
+		<property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>		<!-- Database language/dialect -->
+		<property name="hbm2ddl.auto">create</property>  <!-- automatic create table using class -->
+		<property name="show_sql">true</property>  <!-- show sql query created by hibernet -->
+		
+		<mapping class="com.tut.Student" /> 		<!-- if we use Annotation as mapping -->	
+		<!-- <mapping resource="com.tut.Student"/>   if we use xml as mapping   -->
+		<mapping class="com.tut.Address" />
+		
+		<mapping class="com.QueAns.Answer"/>
+		<mapping class="com.QueAns.Question"/>
+		
+		
+		
+		
+	</session-factory>
+</hibernate-configuration>
