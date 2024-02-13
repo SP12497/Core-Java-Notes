@@ -2,7 +2,7 @@
 	- An enum is a special "class" that represents a group of constants (unchangeable variables, like final variables).
 	- An enumeration is a user-defined data type that consists of integral constants
 	
-	CPP : 
+	CPP: 
 		enum week { Sunday, Monday = 5, Tuesday, Wednesday };
 		
 	Java :
@@ -27,12 +27,12 @@ class Mobile
 class CA{}
 interface IA{}
 
-//enum Mobile  extends Enum 	//enum by default extends Enum Class so we can not multiple Inherit with it.
+//enum Mobile extends Enum 	//enum by default extends Enum Class so we can not multiple Inherit with it.
 //enum Mobile extends CA  //Error , multiple Inheritance not allowed
 //enum Mobile implements IA 	// Allows
 enum Mobile
 {
-	Apple, Samsung(200),Realme;   // These are the objects	//Mobile constructor is called for all objects // by default static final
+	Apple, Samsung(200), Realme;   // These are the objects	//Mobile constructor is called for all objects // by default static final
 	
 	int price;
 	
@@ -63,7 +63,7 @@ public class CMain
 
 		
 		Mobile m = Mobile.Apple;	//obj1 = obj2
-		Mobile.Apple.price= 10000;
+		Mobile.Apple.price = 10000;
 		
 		System.out.println(Mobile.Samsung.getPrice());	//200
 		System.out.println(Mobile.Realme.getPrice());	//100
@@ -79,7 +79,7 @@ public class CMain
 			case Realme:
 				System.out.println("In Realme : " + m.getPrice());
 
-			//case Tiger:	// Switch only allows enum Objects.
+			//case Tiger:	// Error: Switch only allows enum Objects.
 		}
 	}
 }

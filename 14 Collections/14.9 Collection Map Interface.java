@@ -6,19 +6,19 @@
 		- Therefore it behaves a bit differently from the rest of the collection types. 
 		- A map contains unique keys.
 			
-			- HashMap Class : not Synchronous/ Not Thread safe		//Insertion order is not fix.	//only one NULL allow //1.2
+			- HashMap Class : Asynchronous/ Not Thread safe		//Insertion order is not fix.	//only one NULL allow //1.2
 			- HashTable Class : Synchronous/Thread safe				//Insertion order is not fix.	//no NULL	//1.2
 
 			- LinkedHashMap Class : Insertion order is fixed.
 			- TreeHashMap : Insertion in sorted format.
 
 	Map <String,String> map = new HashMap<>();
-		map.put("Name", "Sagar");		//(Key , Value);
-		map.set("Name", "Suraj");
+		map.put("Name", "Sagar");	//create	//(Key , Value);
+		map.set("Name", "Suraj");	//update
 		map					//toString
 		map.get("key_name")		//value
-		map.values()		// list of values
 		map.keySet()		//list of keys
+		map.values()		//list of values
 		map.entrySet();		//list of keys and values
 	
 	Set <  Map.Entry<String,String> > val  = map.entrySet(); :

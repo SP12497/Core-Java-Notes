@@ -29,12 +29,7 @@ class Stud implements Comparable<Stud>
 		return this.marks>o.marks? 1 : this.marks < o.marks ? -1 : 0;
 	}
 
-
-
-
-
-
-
+	// ---------
 	public Stud(int rollno, int marks) {
 		super();
 		this.rollno = rollno;

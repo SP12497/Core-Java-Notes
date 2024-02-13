@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.Properties;
 
-public class CMain
+public class Main
 {
 	public static void main(String[] args) throws IOException 
 	{
@@ -12,7 +12,7 @@ public class CMain
 			p.setProperty("url", "localhost:3306/mydatabase");
 			p.setProperty("uname", "Sagar");
 			p.setProperty("pass", "0000");
-			p.store(os, "This is just a comment");
+			p.store(os, "This is just a comment"); // save file
 			//p.store(os);
 
 

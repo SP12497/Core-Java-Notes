@@ -1,5 +1,6 @@
 //Yes, you can define a class inside an interface. 
-//In general, if the methods of the interface use this class and if we are not using it anywhere else we will declare a class within an interface.
+//In general, if the methods of the interface use this class 
+// and if we are not using it anywhere else, we will declare a class within an interface.
 
 //Example 1
 
@@ -8,8 +9,8 @@ interface Library {
    void retrieveBook(Book b);
 
    public class Book {			//Liabrary.Book
-      int bookId;
-      String bookName;
+      int bookId = 1;
+      String bookName = "myBook";
       int issueDate;
       int returnDate;
    }
@@ -18,11 +19,11 @@ interface Library {
 public class Sample implements Library {
 
    public void issueBook(Book b) {
-      System.out.println("Book Issued");
+      System.out.println("Book Issued: ", b.bookId);
    }
 
    public void retrieveBook(Book b) {
-      System.out.println("Book Retrieved");
+      System.out.println("Book Retrieved: ", , b.bookName);
    }
 
    public static void main(String args[]) {
@@ -39,9 +40,7 @@ public class Sample implements Library {
 //--------------------------------------
 //If we need to provide a default implementation of the interface, we will define a class inside an interface as:
 
-
 // Example 2
-
 interface Library {
    
    void issueBook(Book b);
@@ -71,10 +70,9 @@ interface Library {
 public class Sample {
    public static void main(String args[]) {
 	  
-	  Library l = new Library.Book();
+	   Library l = new Library.Book();
       l.sampleBook();
-	  l.issueBook(new Library.Book());
-	  
+	   l.issueBook(new Library.Book());
 	  
    }
 }

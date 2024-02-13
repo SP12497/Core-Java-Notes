@@ -23,7 +23,7 @@ class GFG {
         hs.add("E");
 
 
-		System.out.println(hash_Set); [A, B,C, D, E]
+		System.out.println(hs); // [A, B,C, D, E]
 
 		System.out.println("Contains " + hs.contains("D"));	//TRUE
  
@@ -34,12 +34,11 @@ class GFG {
         System.out.println();
 		
 		hs.remove("B");
-		hs.clear()	//empting the set
+		hs.clear();	//empting the set
 	//-----------------
 		
 		Set<Integer> a = new HashSet<Integer>();
-        a.addAll(Arrays.asList(
-            new Integer[] { 1, 3, 2, 4, 8, 9, 0 }));
+        a.addAll(Arrays.asList( new Integer[] { 1, 3, 2, 4, 8, 9, 0 }));
 			
 			
 			

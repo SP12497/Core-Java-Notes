@@ -29,7 +29,7 @@ class CMain
 
 		//Sort by last digit using lambda expression
 		Collections.sort(c, (o1,o2)->{
-			return o1 > o2 ? 1 : -1;
+			return o1 > o2 ? 1 : -1;	// Ascending order
 		} );
 			
 		//System.out.println(c.size());

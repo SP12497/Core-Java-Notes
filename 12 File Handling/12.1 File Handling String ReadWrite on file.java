@@ -7,7 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 // String ReadWrite on file :
-public class CMain
+public class Main
 {
 	public static void main(String[] args) throws IOException
 	{
