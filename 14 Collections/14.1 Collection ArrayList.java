@@ -4,7 +4,7 @@
 //List : default size is 10.
 
 // ArrayList : 			int newCapacity = (oldCapacity * 3)/2 + 1;  
-//	Introduced in 1.2 //Dynamic Array
+//	Introduced in 1.2 // Dynamic Array
 //	Increase the capacity by 50% when size exceeded
 //	ASynchronised / Not Thread Safe //Fast
 
@@ -26,11 +26,14 @@ class CMain
 		//Collection c = new ArrayList();
 		Collection<Integer> c = new ArrayList<>();		//<Generics>
 		c.add(11);
+		c.add(11);
 		c.add(22);
 		c.add(33);
+		// c.add(2, 88);	// error, not supported in Collection, supported in List
 //		c.add("Sagar");
 //		c.add(3.4);
-		c.remove(33);
+		c.remove(33);	// [11, 11, 22]
+		c.remove(new Integer(11));	// [11,22]
 //		for(Object o : c)
 //		{
 //			System.out.println(o);
@@ -42,6 +45,7 @@ class CMain
 		
 		// 2. Using aslist method() using List Interface
 		List <Integer> ls1 = Arrays.asList(11,33,22,55,44);
+		ls1.add(2, 88);
 		//	ls1.forEach(System.out::println);
 		
 		// 3. Double Brace Initialization using List Interface
@@ -53,9 +57,5 @@ class CMain
 		}};
 		
 		ls2.forEach(System.out::println);		//java 8
-		
-		
-		
-	
 	}
 }

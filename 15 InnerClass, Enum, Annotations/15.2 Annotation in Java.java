@@ -18,7 +18,6 @@ interface IA
 {
 	public void print();
 	//public void show();	//Second methode creation will throw errors.
-
 }
 
 
@@ -28,10 +27,11 @@ class CA
 		System.out.println("CA showData");
 	}
 }
+
 class CB extends CA
 {
 	//@Override
-	//public void showdata(){} //not allows non parent method or spelling mistake
+	//public void showdata(){} //  not allows non parent method or spelling mistake
 	
 	@Override
 	@SuppressWarnings("unchecked") // is used to suppress warnings issued by the compiler.
@@ -41,7 +41,8 @@ class CB extends CA
 		System.out.println("CB showData");
 	}
 }
-public class CMain
+
+public class Main
 {
 	public static void main(String[] args) 
 	{

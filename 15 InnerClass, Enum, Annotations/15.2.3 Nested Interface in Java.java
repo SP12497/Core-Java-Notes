@@ -23,16 +23,19 @@ class Testing implements Test.Yes
     } 
 } 
   
-class A 
-{ 
-    public static void main(String[] args) 
+class A {
+    public static void main(String[] args)
     { 
-        Test.Yes obj; 
-        Testing t = new Testing(); 
-        obj=t; 
-        obj.show(); 
-    } 
-} 
+        Test.Yes ref; 
+        Testing tObj = new Testing(); 
+
+        ref = tObj;
+        ref.show();
+
+        // -------------
+        Test.Yes ref2 = new Testing(); 
+    }
+}
 //output
 	//show method of interface 
 	

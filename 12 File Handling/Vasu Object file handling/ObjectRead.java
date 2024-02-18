@@ -10,12 +10,8 @@ import java.util.Comparator;
 
 public class ObjectRead
 {
-	
-	
-
 	public static void main(String[] args) throws IOException, ClassNotFoundException 
 	{
-	
 		FileInputStream fis = new FileInputStream("BookFile.txt");
 		ObjectInputStream ois = new ObjectInputStream(fis);
 		Book obj;
@@ -43,7 +39,7 @@ public class ObjectRead
 		
 		ArrayList<Book> al = new ArrayList<>();
 		
-		sortbyprice sp = new sortbyprice();
+		Sortbyprice sp = new Sortbyprice();
 		
 		Collections.sort(al,sp);
 		
@@ -52,7 +48,7 @@ public class ObjectRead
 }
 
 
-class sortbyprice implements Comparator<Book>
+class Sortbyprice implements Comparator<Book>
 {
 
 	@Override

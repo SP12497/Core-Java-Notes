@@ -7,7 +7,7 @@
 */
 import java.lang.reflect.Method;
 
-public class CMain
+public class Main
 {
 	public static void main(String[] args) throws Exception  
 	{
