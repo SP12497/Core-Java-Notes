@@ -4,7 +4,7 @@
 	SET interface :
 		HashSet			//insertion order not fix	//only one NULL
 		LinkedHashSet  //insertion order fix		//only one NULL
-		TreeSet			//sorted form				//no NULL (throws NullPointerException)
+		TreeSet			//sorted format				//no NULL (throws NullPointerException)
 */
 
 import java.util.*;

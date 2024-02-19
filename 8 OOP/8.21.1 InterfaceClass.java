@@ -120,7 +120,6 @@ public class CMain {
 
 		// Inter1 obj1 = new Inter1(); //Error Interface does not contain any
 		// Constructor.
-
 		System.out.println("Reference of Inter1 interface using constructor of child class :");
 		Inter1 obj1 = new ClassInter();
 		obj1.show(); // Inter1

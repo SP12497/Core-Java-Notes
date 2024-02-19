@@ -12,7 +12,12 @@ Inheritance	: - Sharing the Information.
 	Inheritance : Is-A Relationship.
 	Composition : Has-A Relationship.
 	
-	- Multiple Inheritance is not supports in java bcoz of Diamond Problem.
+	Types of Inheritance:
+		- Single Inheritance	(B:A)
+		- Multi-Level			(C:B:A)
+		- Hierarchical			(B:A  -  C:A)
+		- Multiple Inherinca: 	(C:A,B)				Not support in java, bcoz of Diamond Problem.
+		- Hybrid				(C:A,B - A:P - B:P)	- Not Support
 */
 
 public class InheritanceIsA {

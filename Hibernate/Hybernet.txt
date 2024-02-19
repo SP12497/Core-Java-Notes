@@ -10,7 +10,7 @@ Types of server :
 	- IBM WebSphere
 	- WildFly - Wildfly is an open-source Java application server, developed by Red Hat
 =====================================
-ORM Frameworks :
+ORM Frameworks (Object Relational Mapping) :
 	- TopLink
 	- Hibernate
 	- iBATISS
@@ -48,9 +48,6 @@ Hebernate Configuration file :
 			</hibernate-configuration>
 			
 			
-			
-			
-
 ---------------------------
 Annotations : 
 	Some commonly used hibernate annotations :
@@ -65,7 +62,7 @@ Annotations :
 		
 		@Column - Can be used to specify column mappings. For example, to change the column name in the associated table in database.
 		
-		@Transient - This tells hibernate not to save this field into DB. Its a temporary field.
+		@Transient - This tells hibernate not to save this field into DB, like password. Its a temporary field.
 		
 		@Embeddable : If a class has-a another class, and we want both class field in the same table. the we mark @Embeddable on the another class :
 			- @Entity
@@ -81,9 +78,7 @@ Annotations :
 				String fname;	String mname;	String lname;
 			}
 			
-			DB table column name is :	rollno	fname	mname	lname
-	
-		
+			DB table column name is :	rollno	fname	mname	lname		
 		
 		
 		@Temporal - (set date format) @Temporal over a date field tells hibernate the format in which the date needs to be saved
@@ -102,12 +97,12 @@ Annotations :
 		@JoinColumn :
 		
 		@JoinTable 	: used to change the table name.
-					@JoinTable		//change table as well as column name
-					(
-						name = "Emp_Proj_Mapping",
-						joinColumns = {@JoinColumn(name="Emp_Id")},
-						inverseJoinColumns = {@JoinColumn(name="Proj_Id")}
-					)
+			@JoinTable		//change table as well as column name
+			(
+				name = "Emp_Proj_Mapping",
+				joinColumns = {@JoinColumn(name="Emp_Id")},
+				inverseJoinColumns = {@JoinColumn(name="Proj_Id")}
+			)
 		
 		
 -------------------------------------------------------------
