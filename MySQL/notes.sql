@@ -13,7 +13,19 @@
 	
     describe book;	-- show structure of book
     desc book;
+-- SHOW ----
+    SHOW databases;
+    show tables;
+    show COLUMNS from book; -- same as: desc book;
+    show INDEX from my_table;
+    show CREATE TABLE my_table;
+    show GRANTS FOR 'user'@'localhost';
+    show VARIABLES;
+    show STATUS;
+    show PROCESSLIST;
+    show table status LIKE "book"; -- internal details of table;
 /*
+    
 -------------------------
 Constraints:
     - rules or conditions applied to the data in a table.
@@ -299,16 +311,12 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
     select subject, count(salary) as salaryCount, avg(salary) as "salary Average" from Teacher group by subject;
 
 --# Advanced SELECT Queries:
--- Select with Join Clause:
-    select b.bookName, a.authorName from Book b JOIN Author a;
-    SELECT e.first_name, d.department_name FROM employees e JOIN departments d ON e.department_id = d.department_id;
-    -- below 2 queries are same:
-        select b.bookName, a.authorName from Book b JOIN Author a ON b.authorId = a.authorId;
-        select b.bookName, a.authorName from Book b JOIN Author a where b.authorId = a.authorId;
 -- Select with Subquery:
     SELECT first_name, last_name FROM employees WHERE department_id IN (SELECT department_id FROM departments WHERE location = 'New York');
 -- Select with Aggregate Functions:
     SELECT AVG(salary), MAX(age), MIN(sales) FROM employees;
+    -- we can not use aggregate functions in where clause:
+        -- SELECT AVG(salary) from employees WHERE MAX(age) = 20;   ...Wrong
 -- Select with Having Clause:
     -- Having we use on top of "Group By", because we can't use 2 where clause. select where groupby having.
     -- In having, we can use aggregate function, but in where clause, we can not.
@@ -318,3 +326,20 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
     select category, avg(bookPrice) from book group by category having avg(bookPrice)>500;
     select authorId, category, avg(bookPrice) from book group by category, authorId having avg(bookPrice)>500;
     select authorId, category, avg(bookPrice) from book where bookPrice>500 group by authorId, category having avg(bookPrice)>1000;
+/*
+-- JOINS --
+There are 6 types of joins:
+1. Inner Join: Returns records that have matching values in both tables
+2. Outer Join:
+    2.1 LEFT Join: Returns all records from the left table, and the matched records from the right table
+    2.2 RIGHT Join: Returns all records from the right table, and the matched records from the left table.
+    2.3 Full Join: Full join returns all rows from both tables. Return all matching and non-matching records from both tables.
+3. CROSS JOIN: Cross join returns the Cartesian product of the two tables, i.e., it combines each row of the first table with every row of the second table.
+4. SELF JOIN: Self join is used to join a table to itself. It is helpful when you want to compare rows within the same table.
+*/
+-- Select with Join Clause:
+    select b.bookName, a.authorName from Book b JOIN Author a;
+    SELECT e.first_name, d.department_name FROM employees e JOIN departments d ON e.department_id = d.department_id;
+    -- below 2 queries are same:
+        select b.bookName, a.authorName from Book b JOIN Author a ON b.authorId = a.authorId;
+        select b.bookName, a.authorName from Book b JOIN Author a where b.authorId = a.authorId;
