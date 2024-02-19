@@ -14,7 +14,7 @@ https://www.guru99.com/multithreading-java.html#:~:text=MULTITHREADING%20in%20Ja
 
 // Thread class or Runnable Interface :
 
-//1. Extending Thread Class
+//1. Extending: class Thread implements Runnable
 class A extends Thread
 {
 	@Override
