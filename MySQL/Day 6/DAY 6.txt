@@ -1,0 +1,233 @@
+		==============================
+			 	  DAY 6
+		   FUNCTION and PROCEDURE
+		==============================
+
+		
+How to select sepreate year , month , day from date?
+	- SELECT YEAR(DOJ) , MONTH(DOJ) , DAY(DOJ) FROM MEMBER;
+   ---------
+    - select count(memberid) from member where year(doj) = 2019;
+    - select count(*) from member where year(doj) = 2019; 
+	
+    ----------- Function --------------
+CALL : 
+	we call function using: Select Function_Name;
+	
+Create a function that count doj of all member if we pass YEAR in it. :
+ 
+		delimiter /
+		create function mbrByYr(yr int(10))
+		returns int
+		begin
+			return ( select count(memberid) from member where year(doj) = yr);
+		end /
+		delimiter ;
+	We can add string in select :
+		- select ' No. of members in this year :  ' + mbrByYr(2019) as members;
+
+--------------------------
+How to pass two parameter in function:
+	We have to pass Sex and Disignation and get doj of the member?
+	
+		delimiter /
+		create function cntemp (gndr varchar(20) , Dsgn varchar(20))
+		returns date 
+		begin
+		return (select doj from member where sex = gndr and designation = dsgn);
+		end / 
+		delimiter ;
+		
+	Call :
+		- select cntemp ('Male','Accountant');
+------
+INTO :
+------
+	-The SELECT INTO statement copies data from one table into a new table or variable
+	- select authorname INTO @ANAME from author where authorid ='A002';
+	- SELECT * INTO CustomersBackupTable FROM CustomersTable;
+	- INSERT INTO Customers (CustomerName, City, Country) SELECT SupplierName, City, Country FROM Suppliers;
+
+__________
+Variable :
+---------- 
+	Types of variables :
+		- @Session Variable
+		- Local variable :
+			DECLARE variable_name datatype.
+		- Input Variable	:
+			IN variable_name datatype
+		- Output Variable	: 
+			OUT variable_name datatype
+
+-----------------
+Variable : We can write variable using @ chara.  eg , @name , @id .
+-----------------
+	@session_variable : 
+	- select  authorname INTO @ANAME from author where authorid ='A002';
+	- select @ANAME; // to see data in variable.
+	
+	- select authorname INTO @ANAME from author where authorid ='A004';
+	- select authorname from author where authorid ='A004' INTO @ANAME;
+
+  -> This variable has scope for session so it is called as 'Session Variable'.
+	 This variable is only for that (one) session.
+	- exit then login and check variable variable is gone.
+
+-----------------------------
+Function with Function_Variable;
+	-> function variable :  
+		declare variable_name datatype;
+	- It has local scope.
+	-> DECLARE variable_name datatype;
+
+		delimiter /
+		create function cntemp (gndr varchar(20) , Dsgn varchar(20))
+		returns date 
+		begin
+			declare Joindate date;	//function variable using declare
+		select doj INTO Joindate from member where sex = gndr and designation = dsgn;
+		return (joindate);
+		end / 
+		delimiter ;
+	// This Joindate variable scope is only for this Function.
+	Call : 
+		- select cntemp('Male','Accountant');
+		- select @Joindate; //No data. Bcoz its only inside function.
+
+-----------------------------------		
+Function with @Session_Variable;
+-----------------------------------
+		delimiter /
+		create function cntemp (gndr varchar(20) , Dsgn varchar(20))
+		returns date 
+		begin
+			select doj INTO @Joindate from member where sex = gndr and designation = dsgn;
+		return (@joindate);
+		end / 
+		delimiter ;
+	// This Joindate variable scope is only for this Function.
+	Call : 
+		- select cntemp ('Male','Accountant');		//display joindate
+		- select @Joindate;							//display joindate
+		
+-------------------------------------
+Function with If Else :
+-------------------------------------
+		Delimiter /
+		create function chkmbr(yr int(10))
+		returns varchar(30)
+		begin
+			declare sts varchar(20);
+				If yr>=2021 THEN SET sts='Latest Member';
+					ElseIf yr = 2021 THEN SET sts='Current Member';
+					Else SET sts='Old Member';
+				end if;
+			return sts;
+		end / 
+		Delimiter ;
+	
+	Call : 
+		- select chkmbr(2019);
+		- Select membername , doj , chkmbr(year(doj)) from member;
+		- Select membername , doj , chkmbr(year(doj)) from member where chkmbr(year(doj))='Current Member';	
+------------------------------
+How many Years Pass of member?
+		- Select membername , doj , year(current_date)-Year(doj) AS YearsJoin from member;
+		- Select now();  //returns the current date and time  "YYYY-MM-DD HH-MM-SS"
+
+
+=============================
+Stored Procedure :
+=============================
+		-> Its just like 'Shell' in OS.
+		-> We can gather bunch of query and call it.
+		-> A stored procedure is a segment of declarative SQL statementts 
+		   stored inside the database catalog.
+		-> It will compile
+		-> Information_schema is an online catalog 
+		-> Required less Execution Time.Its decides on
+			-> 1. Internet Speed, 2. Load on Server, 3. Progamming Structure. 
+		-> A stored procedure can be invoked by...
+			-> CALL Keyword
+			-> Triggers
+			-> Other stored procedure
+			-> Applications such as Java , Python , PHP
+			
+		when a query fired then it goes to 
+			->Front end ->Back End -> Server -> Server resolve it -> Back end ->Front End.
+		//This will take a lot of time each time.
+		//Typing Increases.
+
+Syntax:
+		Delimiter $
+		Create PROCEDURE getLocation()
+		Begin
+			Select * from location;
+		End $
+		Delimiter ;
+	//There is no return.
+	
+Call:
+		CALL getLocation;
+-----------------------
+Syntax with Parameter :
+		Delimiter $
+		Create PROCEDURE gerBookInfo(IN ctr varchar(20))  // IN = Input Variable //Required to specify in procedure.
+		Begin
+			Select bookid , bookname,cost from book WHERE category = ctr;
+		End $
+		Delimiter ;
+		
+How to see all Procedure List:
+		- SELECT ROUTINE_NAME, ROUTINE_TYPE FROM INFROMATION_SCHEMA.ROUTINES 
+		  where ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_SCHEMA = 'LIABRARY';
+		
+		
+
+						========================
+								LEC 2 
+							Time - 11:40
+						========================	
+
+
+-----------------------------
+Procedure with OUT Variable :
+-----------------------------
+		Dellimiter $
+		Create PROCEDURE gerBookName(OUT mcount int(10) , OUT fcount int(10))
+				// OUT : Output Variable behaves like Return Variable.
+		Begin
+			Select count(memberid) INTO mcount from member where sex = 'male';
+			Select count(memberid) INTO fcount from member where sex = 'female';
+		End $
+		Delimiter ;
+	CALL : 
+		We call Procedure using CALL <Procedure_Name>;
+		
+		Call Getbook(@mcount ,@fcount);
+		SELECT @mcout ,@fcount;
+		
+
+----------------------------
+Procedure with Switch Case :
+----------------------------
+		
+		Delimiter /
+		Create Procedure useSwitch( IN id varchar(10) , OUT mbrsts varchar(30))
+		begin 
+		declare yr int (10);
+			select year(doj) into yr from member where memberid = id;
+			
+			CASE
+					WHEN yr>=2021 THEN SET mbrsts='Latest Member';
+					WHEN yr=2020 THEN SET mbrsts='Last Year Member';		
+					WHEN yr < 2020 THEN SET mbrsts='Old Member';		
+			End case;
+		
+		End /
+		Delimiter ;
+		
+	Call : 
+		CALL useSwitch('M005',@sts);
+		Select @sts;

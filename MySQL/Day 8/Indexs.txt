@@ -1,0 +1,46 @@
+Index :	
+	CREATE INDEX index_name
+	ON table_name (column1,column2,...);
+
+
+	DROP INDEX index_name
+	ON table_name ;
+
+	- Used for fast searching.
+	
+	example :
+		create index studdob on students (dob);
+		
+		select * from students where dob> "1999-01-01";
+		
+		show index from students;
+
+		drop index studdob on students;
+
+---------	
+CURSORS :
+---------
+
+	delimiter $
+	create procedure proc_emp()
+	begin
+		declare v_ename carchar(100);
+		declare v_salary int;
+		declare v_finished integer default 0;
+		
+		declare c1 cursor for select ename , salary from employees;
+		declare continue handler for NOT FOUND set v_finished=1;
+		
+		open c1;
+		get_emp: LOOP
+		fetch c1 into v_ename , v_salary;
+		if v_finished =1 then
+			leave get_emp;
+		end if;
+		select concat(v_ename,concat('-',v_salary));
+	END LOOP get_emp;
+	close c1;
+	end $
+	
+	delimiter /
+

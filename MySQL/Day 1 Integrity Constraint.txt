@@ -1,0 +1,30 @@
+Integrity Constraits over relation:
+-----------------------------------
+- Its used to ensure accurancy and consistency of the data in relation database.
+- Its a set of rules that the database is not permitted to vioate.
+- ex. Blood group: A,B,O...
+
+Types of Integrity Constraits:
+------------------------------
+1. Domain Constraits	: on Attribute Condition/checks
+2. Entity Integrity Constraits	: primary key null not allowed
+3. Referential Integrity Constraits	: FK should be PK of other table or null
+4. Key Constraits	: choose entity/column as Primary key which is unique and not null
+
+================
+1. Domain Constraits:
+	- its defines the domain or the valie set of values for an attribute
+	- Age: positive number
+	- The data type of domain includes string, character, integer, time, date, currency, etc. The value of the attribute must be available in the corresponding domain.
+	
+2. Entity Integrity Constraits":
+	- its states that primary key value can't be null
+
+3. Referential Integrity Constraits: 
+	- its specified between two tables.
+	- its enforced when a foreign key references the primary key of the table.
+	- its either primary key of other table or null.
+	
+4. Key Constraits: on Attribute
+	- For Primary Key, (Unique and not null)
+	- An entity set can have multiple keys or candidate keys (minimal superkey), but out of which one key will be the primary

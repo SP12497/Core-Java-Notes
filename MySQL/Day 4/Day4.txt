@@ -1,0 +1,371 @@
+			======
+			Day 4
+			======
+
+create table aa(id int(10) auto_increment primary key , Name varchar(20));
+
+insert into aa(name) values ('Ram');
+
+drop table aa;
+
+-----------------
+CHECK Constrain :
+-----------------
+	- The CHECK constraint is used to limit the value range that can be placed in a column.
+	1. CREATE TABLE Persons (
+			ID int NOT NULL,
+			FirstName varchar(255),
+			
+			Age int CHECK (Age>=18)
+		);
+	2. CREATE TABLE Persons (
+			ID int NOT NULL,
+			FirstName varchar(255),
+			
+			Age int,
+			CHECK (Age>=18)
+		);
+
+
+	ALTER TABLE Persons ADD CHECK (Age>=18);
+
+	- insert into Person (1 ,'Patil', 'Sagar' , 10); 	//error
+	- insert into Person (2 ,'Patil', 'Sagar' , 18); 	//data inserted
+
+	- ALTER TABLE Persons DROP CHECK CHK_PersonAge;
+
+---------------------------
+How to remove foreign key ?
+---------------------------
+   MUL= combination of index key and foreign key.
+	-Desc Member;
+	
+	--------------
+	There are 3 commands to show contraint / foreign key name :
+	--------------
+		- SHOW INDEX FROM table_name;
+		- show create table member;
+		- select column_name , constraint_name from 
+			  information_schema.KEY_Column_usage 
+			  where TABLE_NAME ='book';
+		
+	- show create table member;
+		// foreign key constraint name = member_ibfk_1
+		//index key name = idx_membername
+	- SHOW INDEX FROM table_name;
+	-----------
+	Remove Index and FK :
+	-----------
+	-alter table member drop foreign key member_ibfk_1;
+	- alter table book drop index authorid;
+		or 
+		- alter table member drop index idx_membername;
+
+	
+
+-------------------
+Count () function :
+-------------------
+	- select count (nationaity) from author;
+	- select nationality , count (nationality)	from author group by nationality;
+
+1) Limit :
+	-> Used to see only limited rows :
+	-> Used to see no of rows.
+	-> Limit Data Selections From a MySQL Database
+	-> MySQL provides a LIMIT clause that is used to specify the number of records to return. The LIMIT clause makes it easy to code multi page results or pagination with SQL, and is very useful on large tables.
+
+	- select * from book limit 2,3;
+		// Shows only 3 rows except first 2 rows. ie row no : 3,4,5.
+	
+	- select * from author ORDER BY authorid LIMIT 4;
+		// shows only first 4 rows ie row no :1,2,3,4.
+		
+	- Try this one for finding 5th highest salary :
+		SELECT DISTINCT(column name) FROM table ORDER BY (column name) desc LIMIT 4,1
+
+----------------
+DISTINCT Clause:
+----------------
+	->Used to remove duplicate records from the table
+     	and fetch only the unique records. 
+		The DISTINCT clause is only used with the SELECT statement.
+	- select distinct city from customers;
+	- select distinct(city) from customers;
+	- select count(distinct(city)) from customers;
+
+---------
+ORDER BY:
+---------
+	- Used to sort the rows in Ascending Or Descending Order.
+   Syntax: 
+	SELECT select_list
+	FROM table_name
+	ORDER BY 
+ 	  column1 [ASC|DESC], 
+ 	  column2 [ASC|DESC],  ...;
+
+	Both are Same Queries :
+		- SELECT name, salary FROM employee ORDER BY name, salary;
+		- SELECT name, salary FROM employee ORDER BY 1, 2;	//specifying the position of a column in the SELECT list //2=salary
+	
+	SELECT name, salary FROM employee ORDER BY name DESC, salary ; //salary ASC
+	
+	20% increase in the salary :
+		SELECT name, salary, salary*1.2 AS new_salary FROM employee 
+			WHERE salary*1.2 > 30000 ORDER BY new_salary DESC;
+	
+	
+-------------
+2) Group by :
+-------------
+	->GROUP BY. ORDER BY. 
+	1. Group by statement is used to group the rows that have the same value. 
+	   Whereas Order by statement sort the result-set either in 
+	   ascending or in descending order.
+	2. The Group by clause is used in conjunction with the SELECT statement and Aggregate function to group rows together by commonn column values.
+
+	- select nationality , count(nationality) from author GROUP BY nationality;
+	- select gender, count(gender) from author GROUP BY gender;
+	
+	-> there is small difference between distinct and group by;
+		- We can apply DISTINCT to remove the duplicate records
+		- Select group by can be used to get data from different columns and group into one or more column. This can also be applied with aggregate function.
+	
+	
+	------------------------------
+	- select deptname , count(employee.deptid) from department , employee 
+		WHERE department.dept = employee.deptid 
+			GROUP BY employee.deptid   
+				WHERE count(employee.deptid)>1;					//error
+		// WE CAN NOT USE 'WHERE' MORE THAN ONE TIMES.
+		//instead of where , use 'HAVING' on 2nd time.
+
+	--------
+	HAVING :
+	--------
+	- select deptname , count(employee.deptid) from department , employee 
+		where department.deptid = employee.deptid 
+			group by employee.deptid 
+				HAVING count(employee.deptid)>1;
+
+-------------------------------------
+
+
+how to select minimum cost?
+	- Using Aggregate Function :
+		- select bookname , min(cost) from book;
+
+---------------
+3) Subqueries:-
+---------------
+	-> query within the query is called sub query.
+	-> A MySQL subquery is a query nested within another query such as SELECT, INSERT, UPDATE or DELETE. 
+	   In addition, a subquery can be nested inside another subquery.
+	-> If a subquery returns more than one value, you can use other operators such as IN or NOT IN operator in the WHERE clause.
+
+	- select bookname, cost from book where cost = (select min(cost) from book);
+			// here subquery returns only one row. hence = is used 
+			// we can also use IN instead of =
+
+	- select rackid, rackcapacity from rack 
+		where rackid IN (select rackid from rack where rackcapacity > 300);
+
+----------
+4) IN () :
+----------
+	-> When inner query return only 1 row then use '=' sign
+	-> when an inner query gives one or more than one result then use IN.
+
+	- select rackid , rackcapacity from rack where rackid = (select rackid from rack where rackcapacity > 300);
+		//  Error: Subquery returns more than 1 row.
+
+  then use IN command:
+	- select rackid , rackcapacity from rack where rackid IN (select rackid from rack where rackcapacity > 300);
+	
+	- select bookname from allbooks where bookname NOT IN (select bookname from book); 
+	
+
+----------
+4) Joins :		https://www.educba.com/joins-in-mysql/
+----------
+	how many types of joins are there in MYSQL?
+	-> 3 : Inner, Left, Right.
+	how many types of joins are there in SQL?
+	-> 4 : Inner, Left, Right , Full.
+
+how to pick data from 2 tables?
+	- Select bookname , authorname from  book ,  author ;
+		//no error but this is not perfect match
+
+	- select bookname , authorname from book , author where authorid = authorid;
+		// error : Column 'authorid' where clause is ambihuous
+		// compiler is confused between 2  table author
+
+	- select bookname , authorname from book , author where book.authorid = authoor.authorid;
+
+Types of Joins:	
+	1) Inner Join / Perfect Join : 
+		Show all the rows which is perfectly join both tables.
+		
+		-> 	join word is optional;	join => , 
+		-> we can use WHERE or ON.
+
+		- select bookname , authorname from book,author where book.authorid = author.authorid;
+		- select bookname , authorname from book JOIN author ON book.authorid = authoor.authorid;
+		- select bookname , authorname from book JOIN author where book.authorid=author.authorid;
+		
+		- select bookname , authorname from book INNER JOIN author where book.authorid=author.authorid;
+
+ 		- select bookname, rack.rackid, rackcapacity from book JOIN rack ON book.rackid = rack.rackid;
+		
+		- SELECT emp.emp_id, emp.department, ads.address
+			FROM employee AS emp
+				INNER JOIN address AS ads
+					ON emp.emp_id = ads.emp_id;
+
+     2) Outer Join:
+		2.A) Left Join :- 
+			Show all the rows from the Left table and show matching data from the right table
+			- select bookname,authorname from book LEFT JOIN author ON book.authorid = author.authorid;
+			- select bookname,authorname from book LEFT OUTER JOIN author ON book.authorid = author.authorid;
+			
+			- SELECT cust.Customer_id, cust.Name, ord.Order_id
+				FROM customer cust
+					LEFT JOIN order ord
+						ON cust.customer_id = ord.customer_id;
+		2.B) Right Join :- 
+			Show all the rows from the Right table and show matching data from the Left table
+			- select bookname , authorname from book RIGHT JOIN author ON book.authorid = author.authorid;
+			- select bookname , authorname from book RIGHT OUTER JOIN author ON book.authorid = author.authorid;
+
+		4. Full Outer Join :-
+			The full outer join returns all the records from both the tables if there is a common field shared. (A+B-(|A-B|))
+
+			SELECT cust.Customer_id, cust.Name, ord.Order_id
+				FROM customer cust
+					FULL OUTER JOIN order ord
+						ON cust.customer_id = ord.customer_id;
+						
+		5. Self-Join
+			- Self-join is a regular join and here the table joins with itself only.
+			- Find the name of employees whose city is same but name is different :
+				=> a<>0; means  a<0;  a>0;
+			SELECT e1.name AS Employee_name1, e2.name AS employee_name2, e1.City
+				FROM employee e1, employee e2
+					WHERE e1.name <> e2.name
+					AND e1.city = e2.city;
+		
+/*		6. Cross Join
+			This join produces a result where the number of rows in the first table gets multiplied with the rows in the second table. This kind of result is called the Cartesian Product. If we use the WHERE clause with this join, then this will work as an inner join.
+*/			
+			SELECT p.product_name, p.prod_unit, c.company_name
+				FROM product p
+				CROSS JOIN company c;
+/*					- Every product_name will show each company_name.					
+					p -> 1 2 
+					c -> 4 5 
+					o/p-> 14 24	15 25
+			
+
+----------
+5) Union:-   (A union B)
+----------
+	-> Show all different records and show common records only once.
+	->	Show all different data from 2 tables (only distinct values))
+	-> UNION shows duplicate records only once (where all columns in the results are the same)
+			- select bookname from allbooks UNION select bookname from book;
+	-> show only distinct matching records between 2 tables.	
+
+Union All :
+	-> The UNION ALL command combines the result set of two or more 
+	-> Show all records from both table no matter its duplicate or not.
+		SELECT statements (allows duplicate as well as distinct	values).
+		
+	-> UNION ALL combines the result set from multiple tables and returns all records into a single result set.
+	- select bookname from allbooks UNION ALL select bookname from book;
+		
+
+-----------------
+6) INTERSECTION:- (A intersection B)
+-----------------
+		// Show only the data from allbooks table which is present in Book table.
+	-> Show only dupllicates/similar/common names from both tables only once.
+	-> only show non-distinct values
+	-> opposite of UNION.
+
+	- select bookname from allbooks where bookname IN (select bookname from book);
+
+-----------
+7) Minus :- 	NOT IN :
+----------- 
+  (A - B):-
+*/	- SELECT column_list FROM table1  
+		LEFT JOIN table2 ON condition  
+			WHERE table2.column_name IS NULL;  
+
+	- select bookname from allbooks where bookname NOT IN (select bookname from book); 
+/*		// Show only the data from allbooks table which is not present in Book table.	(show only Non distinct value)
+  (B - A):-
+*/	- select bookname from BOOK where bookname NOT IN (select bookname from allbooks);
+
+		// Show only the data from Books table which is not present in allBook table.
+
+
+			================================
+					Lec 2 : 
+			pdf (Views and Temporary Tables)
+			================================
+/*--------
+7) Views :
+----------
+	-> Its a virtual Table.
+	-> They are subset of base tables.
+	-> Created mainly for information security and information encapsulation purpose
+	-> If you update the data in view , data in base table gets updated ( Through not in all cases.)
+	-> Also if you update table, data in view is getting updated.
+	-> In SQL, a view is a virtual table based on the result-set of an SQL statement.
+
+
+Types:
+	1. Updatable : 
+		->only using select command.
+			Create view Studs AS Sel
+			ect sno , sname from Students; 
+	2. Non Updatable.
+		-> Limit
+		-> Aggrigate functions such as MIN , MAX ,AVG.
+		-> Distinct
+		-> Group By clause
+		-> Having clause
+		-> Union or Union All clause
+		-> Join
+		-> Subquery in select clause or in the WHERE CLAUSE 
+		   that refers the table appeared in the FROM Clause.
+
+	Queries:-
+		- create view vbook as select bookid, bookname , cost from book;
+			// Updatable View, bcoz we only sselect command.
+		- Show full tables;  
+			// To check view table.
+		- Drop view vbook;
+			// To delete table;
+	
+--------------------
+8) Temporary table :
+--------------------
+	-> A special type of table that allows you to store a temporary result set.
+	   which you can reuse several times in a SINGLE SESSION.
+	-> You can further query the data from temporary tables.
+	-> These tables will get automatcally removed when the session ends.
+	-> You may use DROP TABLE command to drop such tables explicitly as well.	
+
+	- create TEMPORARY TABLE tauthor as select authorname , gender from author;
+
+	-> we cant see the table using (show full tables;)  
+		- SELECT * FROM INFORMATION_SCHEMA.INNODB_TEMP_TABLE_INFO\G
+
+	- select * from tauthor;
+	- drop table tauthor;
+
+	-> if we make changes in temporary table , this will make change in only temporary table, not in base table. 

@@ -146,6 +146,7 @@ DDL 2. Alter:
         alter table rack Drop rackFloor;
     
     -- Change: rename column name:
+        alter table department RENAME COLUMN dept_id to department_id;
         alter table rack change rackFloor rackFloorNo int(20);
         alter table rack change column rackFloor rackFloorNo int(20);
     
@@ -329,17 +330,72 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
 /*
 -- JOINS --
 There are 6 types of joins:
-1. Inner Join: Returns records that have matching values in both tables
+1. Join / Inner Join: Returns records that have matching values in both tables
 2. Outer Join:
     2.1 LEFT Join: Returns all records from the left table, and the matched records from the right table
     2.2 RIGHT Join: Returns all records from the right table, and the matched records from the left table.
-    2.3 Full Join: Full join returns all rows from both tables. Return all matching and non-matching records from both tables.
+    2.3 (Not In MYSQ) Full Join: Full join returns all rows from both tables. Return all matching and non-matching records from both tables.
 3. CROSS JOIN: Cross join returns the Cartesian product of the two tables, i.e., it combines each row of the first table with every row of the second table.
 4. SELF JOIN: Self join is used to join a table to itself. It is helpful when you want to compare rows within the same table.
+Note: Below employee queries are from "tables-for-joins.sql" file.
 */
--- Select with Join Clause:
-    select b.bookName, a.authorName from Book b JOIN Author a;
-    SELECT e.first_name, d.department_name FROM employees e JOIN departments d ON e.department_id = d.department_id;
-    -- below 2 queries are same:
+--1. Join / Inner Join:
+    -- Inner Join = Fetches matching records only.
+        SELECT e.emp_name, d.dept_name FROM employee e JOIN department d ON e.dept_id = d.dept_id;
+    -- below queries are same:
+        select b.bookName, a.authorName from Book b INNER JOIN Author a ON b.authorId = a.authorId;
         select b.bookName, a.authorName from Book b JOIN Author a ON b.authorId = a.authorId;
         select b.bookName, a.authorName from Book b JOIN Author a where b.authorId = a.authorId;
+        -- we can also achieve inner join withor JOIN keyword
+        select b.bookName, a.authorName from book b, author a where a.authorId = b.authorId;
+-- 2. Left OUTER Join:
+    -- left join = inner join + any additional records in the left table.
+        -- if on condition will fail, then right table columns will show null.
+        SELECT e.emp_name, d.dept_name FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id;
+        SELECT e.emp_name, d.dept_name FROM employee e LEFT OUTER JOIN department d ON e.dept_id = d.dept_id;
+        select b.bookName, a.authorName from Book b LEFT JOIN Author a ON b.authorId = a.authorId;
+-- 3. Right OUTER Join:
+    -- right join = inner join + any additional records in the right table (left table columns will be null).
+        -- if on condition will fail, then .
+        SELECT e.emp_name, d.dept_name FROM employee e RIGHT JOIN department d ON e.dept_id = d.dept_id;
+        SELECT e.emp_name, d.dept_name FROM employee e RIGHT OUTER JOIN department d ON e.dept_id = d.dept_id;
+        select b.bookName, a.authorName from Book b RIGHT JOIN Author a ON b.authorId = a.authorId;
+
+-- Problem: Fetch details of ALL emp, their manager, their department and the projects they work on.
+    select e.emp_name, m.manager_name, d.dept_name, p.project_name from Employee e Join Manager m ON e.manager_id = m.manager_id left Join department d ON e.dept_id = d.dept_id left JOIN projects p ON e.emp_id = p.team_member_id;
+
+/* 4. FULL OUTER Join: (Not In MySQL)
+   -- Full Join = Inner Join 
+                  + any additional records in the left table (right table columns will be null) 
+                  + any additional records in the right table (left table columns will be null)
+*/  -- SQL:
+        SELECT e.emp_name, d.dept_name FROM employee e FULL JOIN department d ON e.dept_id = d.dept_id;
+        SELECT e.emp_name, d.dept_name FROM employee e FULL OUTER JOIN department d ON e.dept_id = d.dept_id;
+    -- MySQL: Left Join + UNION + Right Join.
+        SELECT e.emp_name, d.dept_name FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id UNION SELECT e.emp_name, d.dept_name FROM employee e RIGHT JOIN department d ON e.dept_id = d.dept_id;
+        SELECT e.emp_name, d.dept_name FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id UNION ALL SELECT e.emp_name, d.dept_name FROM employee e RIGHT JOIN department d ON e.dept_id = d.dept_id where e.dept_id IS NULL;
+
+-- 5. CROSS JOIN:
+    -- returns cartesian project. : Employee->6records, Department->4records = Total 24 records. (each record match each other)
+    -- Cross Join don't need "ON"
+    SELECT e.emp_name, d.dept_name FROM employee e CROSS JOIN department d;
+-- Problem 2: Write a query to fetch the employee name and their corresponding department name.
+-- Also make sure to display the company name and the company location corresponding to each employee.
+    select e.emp_name, d.dept_name, c.company_name, c.location from Employee e LEFT JOIN Department d ON e.dept_id = d.dept_id CROSS JOIN Company c;
+    select e.emp_name, d.dept_name, c.company_name, c.location from Employee e LEFT JOIN Department d ON e.dept_id = d.dept_id CROSS JOIN Company c where c.company_id = "C001";
+
+-- 6. Natural Joins
+    -- Natural Join don't need "ON"
+    -- If 2 tables, sharing the same column name -> then it will do INNER JOIN.
+        SELECT e.emp_name, d.dept_name FROM employee e NATURAL JOIN department d;
+    -- If 2 tables, sharing the different column name -> then it will do CROSS JOIN.
+        alter table department rename column dept_id to department_id;
+        SELECT e.emp_name, d.dept_name FROM employee e NATURAL JOIN department d;
+    -- control goes to sql to choose the column, where the join should happen. So using natural joins are highly not recommended.
+
+-- 7. self Join:
+  -- there is no keywork as SELF, When we do join table to itself, then this called as self join.
+  -- Problem: Write a query to fetch the child name and their age corresponding to their parent name and parent age.
+  select child.name as child_name, child.age as child_age, parent.name as parent_name, parent.age as parent_age 
+  from family as child JOIN family as parent 
+  ON child.parent_id=parent.member_id;

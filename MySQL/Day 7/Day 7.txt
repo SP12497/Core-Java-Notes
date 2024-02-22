@@ -1,0 +1,247 @@
+			==============================
+				   DAY 7
+				Trigger (PDF)
+			==============================
+
+----------		
+Triggers :
+----------
+		-> Simply , Trigger is used to add condition to the Table.
+		-> Special Stored Procedure.
+		-> Special because it can not called directly
+		   like a normal stored procedure.
+		-> It is called automatically when a data modification event
+		   is made against a table.
+
+		-> Triggers are used for validation on table when we 
+			perform DML (insert update delete) operations.
+		-> We have 2 Keywords :
+			1. OLD : OLD object for old table.
+			2. NEW : NEW object for NEW table.
+		-> And we have 6 operations :
+			- Before INSERT		- After INSERT
+			- Before UPDATE		- After UPDATE
+			- Before DELETE		- After DELETE
+		-> It called automatically when me fire insert/update/delete query.
+		-> When trigger created 2 tables is created ie. (Before , After).
+		-> Alterrnative way to check in integrity of data.
+		-> Triggers implement Domain Integrity.
+
+	--------------------
+	Types of Integrity :
+		-> Entity :
+			The entity integrity constraint states that primary key value can't be null.
+			- primary key cant be null.
+		-> Domain :
+			Domain constraints can be defined as the definition of a valid set of values for an attribute.
+		-> Referencial :
+			In the Referential integrity constraints, if a foreign key in Table 1 refers to the Primary Key of Table 2, then every value of the Foreign Key in Table 1 must be null or be available in Table 2.
+		-> Key :
+			- Keys are the entity (row) set that is used to identify an entity within its entity set uniquely.
+			- primary key is a unique key.
+			
+	--------------------
+
+	Syntax:
+		CREATE TRIGGER <TRIGGER_NAME> 
+		AFTER/BEFORE 	INSERT/UPDATE/DELETE 
+		ON <TABLE_NAME>
+		FOR EACH ROW
+		BEGIN	
+			//Statements
+		END
+		
+	Check Triggers in database :
+	- SELECT Trigger_NAME, EVENT_OBJECT_TABLE FROM INFORMATION_SCHEMA.triggers where INFORMATION_SCHEMA.triggers.TRIGGER_SCHEMA LIKE '%classroom%' ;
+
+	Show all triggers definations in database	:
+		- SHOW TRIGGERS IN database_name;
+
+  
+	Drop:
+		- Drop trigger <Trigger_NAME>
+	
+	
+----------------------CODES--------------------------
+		
+		CREATE TABLE Numbers (num int);
+		INSERT INTO Numbers values (10);
+		CREATE TABLE NumbersBackup (no int);
+		
+	Trigger 1 : Before Insert :
+		Q1) Number should be between 0 to 100;
+				DELIMITER /
+				CREATE TRIGGER checknum
+				before Insert 
+				ON Numbers
+				FOR EACH ROW
+				BEGIN
+					IF NEW.num > 100 THEN SET NEW.num=100;
+					ELSEIF NEW.num < 0 THEN SET NEW.num = 0;
+					END IF;
+				END /
+				DELIMITER ;
+
+			Check :
+				INSERT INTO Numbers values(120);	//100
+				INSERT INTO Numbers values(-120);	//0
+				
+	Trigger 2 : BEFORE DELETE :
+	
+		Q) We inserted records in Numbers table. We want to create one table that,
+		    when we will delete records from Numbers table. This data is added as record in
+		    NumbersBackup table for backup purpose :	
+			
+				DELIMITER /
+				CREATE TRIGGER backupNum
+				before delete 				//AFTER delete
+				ON Numbers
+				FOR EACH ROW
+				BEGIN
+					INSERT INTO NumbersBackup values (OLD.num);
+				END /
+				DELIMITER ;
+
+			Check :
+				DELETE from Numbers where num=10;
+				Select * from NumbersBackup;
+	
+
+	Trigger 3 : BEFORE UPDATE :	
+				// old value will be inserted into the Backup table.
+
+				DELIMITER /
+				CREATE TRIGGER updateBackupNum
+				before update 
+				ON Numbers
+				FOR EACH ROW
+				BEGIN
+					INSERT INTO NumbersBackup values (OLD.num);		
+				END /
+				DELIMITER ;
+
+			Check : 
+				update numbers set num=55 where num=20;
+
+		
+	Trigger 4 : Trigger for validation and error message
+		Q).  If someone date of join of employee out of year 1990-2020
+				then show the error message.
+					SIGNAL SQLSTATE 'Error_Message_No'		//This is error no. Index no 45000 to 45010 are kept for user access.
+					SET MESSAGE_TEXT = 'Error Message';
+		
+				delimiter /
+				create trigger checkyr 
+				before insert ON Employee
+				for each row
+				BEGIN
+						if year(new.doj) > 2021 then
+						SIGNAL SQLSTATE '45000'	
+						SET MESSAGE_TEXT = 'Sorry.. Year cant be greater than 2020';
+					
+						Elseif year(new.doj) < 1990 then
+						SIGNAL SQLSTATE '45001'
+						SET MESSAGE_TEXT = 'Sorry.. Year cant be less than 1900';				
+					end if;
+			  end /
+			  delimiter ;
+
+
+
+
+
+						=======
+						 Lec 2
+						=======
+						
+Example :						
+-----------------------------------------------------------------------
+Trigger calls Procedure : 
+-----------------------------------------------------------------------
+	Procedure 1 :- 
+		- delimiter /
+		  create Procedure checkYear(IN yr int(10))
+		  BEGIN
+				if yr > 2020 then
+				SIGNAL SQLSTATE '45000'		
+				SET MESSAGE_TEXT = 'Sorry.. Year cant be greater than 2020';
+				
+				Elseif yr < 1990 then
+				SIGNAL SQLSTATE '45001'
+				SET MESSAGE_TEXT = 'Sorry.. Year cant be less than 1900';
+				
+				end if;
+		  end /
+		  delimiter ;
+
+	Insert Trigger 1 :-
+			delimeter /
+			Create trigger checkYrInsert 
+			before insert 
+			on Employee
+			for each row
+			Begin
+				Call CheckYear(year(new.doj));  //Call Procedure1
+			End /
+			Delimiter ;
+
+	Update Trigger 2 :- 
+			delimeter /
+			Create trigger checkYrUpdate 
+			before UPDATE on Employee
+			for each row
+			Begin
+				Call CheckYear(year(new.doj));  //Call Procedure1
+			End /
+			Delimiter ;
+
+
+
+
+Example :	for before 
+--------------------------------
+Member and all members Trigger :
+--------------------------------
+	Member Table : (Current Member Table)
+		(Fields : MemberId , memberName , Gender , DOJ...)
+	AllMembers Table (Info about all the members of past and present).
+		(Fields : MemberId , memberName )
+	
+	After Trigger :
+		Whenever a new row get added to member table,
+		same entry should be copied to 'AllMembers' table.
+		
+	
+	TRIGGER :
+		Delimiter /
+		Create trigger addDataAllMembers 
+		AFTER insert on member
+		for each row
+		begin
+			Insert into AllMembers values (NEW.memberId , NEW.MemberName);
+		end /
+		Delimiter;
+
+	Operations :-
+		- insert into Member values('M007','Alia Bhat','Female','2019-01-05'); 
+		- select * from Member;
+		- select * from AllMembers;
+		
+	-------------
+	After update with old :
+	----------------
+		delimiter /
+		Create trigger updateNum 
+			AFTER update 
+			on numbers
+			for each row
+			begin
+				Insert into NumbersBackup values (Old.num);
+			end /
+			Delimiter;
+
+		- update numbers set num = 50 where num=100;
+		- select * from numbersbackup;		//100 = OLD
+		- select * from numbers;			//50 = NEW
+		
+		

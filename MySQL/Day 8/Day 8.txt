@@ -1,0 +1,16 @@
+	
+			  DAY 8
+			24.07.20202
+			  CURSORS
+			===========000
+
+MySQL 
+1. While DO
+2. Repeat
+3. LOOP
+4. Cursor
+
+	DELIMITER /
+	CREATE PROCEDURE chkwhiledo()
+	begin
+	end

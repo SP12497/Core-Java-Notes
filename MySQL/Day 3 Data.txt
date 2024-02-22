@@ -1,0 +1,340 @@
+Day 3 : create, alter ,insert, update, delete, drop
+		Show databases, show table, use table 	
+		All columnns , Few columns ,Few rows(where)
+		max , min, avg
+		>, < , >=, <= , between
+		And OR
+		Asc / Desc Order By
+
+	=> The relational data model was introduced by C. F. Codd in 1970.
+	mysql -u root -p <password>
+	show databases;
+	create database mydb;
+	use mydb;
+	show tables;  //empty sets  +e
+	use mydb;
+
+DDL , DML , DCL , TCL , DQL
+
+DDL :
+	1. Create
+	2. Alter
+	3. Drop
+	4. Truncate
+
+DML : 
+	1. Create
+	2. Update
+	3. Delete
+
+DQL : Data Query Language :
+	1. SELECT :
+	- SELECT * FROM table_name;
+
+DCL : Data Control Language :
+	1 Grant 
+	2 Revoke
+
+TCL : Transaction Control Language 
+		1 Commit
+		2 RollBack
+		3 Savepoint
+	- TCL commands are used to manage transactions in the database. These are used to manage the changes made to the data in a table by DML statements.
+	
+	
+DDL Command : Data Defination Language.
+  -> Once it delete , we cant rollback.
+	1. Create :	table, database, column, view, temporary table.
+		- CREATE TABLE newbook select * from book;
+		- Create Table Table_name;
+		
+	2. Alter :
+		- ALTER TABLE table_name;
+		-> used to change the structure of the Table.
+		-> Properties : a. add  , b. modify column / alter , c. drop
+			- alter table class modify column sname varchar(20) not null;	//To change the data type of a column in a table
+			- alter table class add cost int(10) after name;	// add new column
+			- alter table class add Pages int(10);	
+			- alter table student drop column sname;
+
+
+	3. Drop : 
+		- DROP TABLE table_name;
+			-> drop structure and data both. 
+		- DROP database mydb;
+		
+	4.Truncate :
+ 		- TRUNCATE TABLE newbook;
+		-> use to delete all data but not the structure.
+		-> Once it delete , we cant rollback.
+		-> TRUNCATE is faster than DELETE
+		-> TRUNCATE does not return the number of rows
+		-> Note on delete mechanism: it will drop the table and create a new structure, so deletion in TRUNCATE is faster than DELETE query
+
+-------------------
+	DML Command : Data Manupulation Language.
+	->This can be rollback.
+	1. INSERT INTO :
+		- INSERT INTO book (bookname) values ('Family Man');
+		- INSERT INTO book (bookname) values ('Family Man') , ('Harry Potter');
+	2. UPDATE :
+		- Update book set bookname = 'Dark Knights' where bookname ='Family Man';
+	3. DELETE FROM :
+		-> Only delete data not the structure.
+		- DELETE FROM table_name ;
+
+Properties: set , values , rename , modify , limit , as, between and , drop
+Clause : where ,  like
+Aggregate functions: min() max(), avg , sum, per , count() , now() , YEAR(DOJ) , MONTH(DOJ) , DAY(DOJ)
+
+
+
+
+dataTypes:
+	varchar(size)
+	int(size)
+	null
+	not null
+	enum ('A' , NA')
+	date
+	varchar(10) not null primary key
+	Default 'value'
+	time
+	... many more
+
+------------------------------------------------------
+Create Book Table Column With Primary and Foreign Key:
+------------------------------------------------------
+
+	create table Book
+	(	
+		bookid varchar(10) not null,
+		bookname varchar(20) not null Default 'No Book',
+		authorid varchar(10) not null,
+		Catogery varchar(20),
+		cost int(20)
+		NoOfPages int(10),
+		Rackid varchar(10),
+		BookStatus enum ('A' , NA') not null,
+		BookLastIssuedDate date,
+		BookIssuedTime time ,
+		Primary Key (bookid),
+		Foreign Key (authorid) REFERENCES author(authorid),
+		ForeignKey(rackid)  References rack(rackid)
+	);
+	//Failed to open the referenced table 'author'
+	 solution: foreign key table must be created first before assign;
+
+-------------------------------------------
+Create Book Table Column With Primary Key :
+-------------------------------------------
+	create table Book
+	(	
+		bookid varchar(10) not null,
+		bookname varchar(20),
+		authorid varchar(10) not null,
+		Catogery varchar(20),
+		Cost int(20),
+		NoOfPages int(10),
+		Rackid varchar(10),
+		BookStatus enum ('A','NA') not null,
+		BookLastIssuedDate date,
+		BookIssuedTime time ,
+		Primary Key (bookid)
+	);
+
+	create table Rack (
+		rackId varchar(10) not null primary key,
+		rackCapacity int(20)
+	);
+	
+	create table author (
+		authorId varchar(10) not null primary key,
+		authorName varchar(20)
+	);
+--------------------------------------	
+How to see all tables in a Database?
+	- show tables;		->tables
+	- show full tables;	->tables , temporary table , views
+
+How to see structure of the table?
+	- describe Book;
+	- desc Book;
+
+How to see Data (row) in a table?
+	- select * from Book; // to show table data;
+	
+-----------------------------
+Create Rack table Structure :
+-----------------------------
+	Create table rack
+	(
+		rackid varchar(10) not null primary key,
+		rackCapacity int(20)
+	);
+
+-------
+Alter :
+-------
+	alter = used to change the structure of the table.
+	-> The ALTER TABLE statement is used to add, delete, or modify columns in an existing table.
+	-> The ALTER TABLE statement is also used to add and drop various constraints on an existing table.
+	
+	- ALTER TABLE Persons DROP COLUMN DateOfBirth;
+-----------------
+add Foreign Key :
+-----------------
+	Foreign Key:
+	- Alter table Book add CONSTRAINT foreign Key (rackid) references rack(rackid);
+	- ALTER TABLE Orders ADD FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
+
+	- desc rackid ;  // used to check structure of rack table.
+	
+---------
+MUL key :
+---------	
+	MUL = Multiple key is a combination of Index key and Foreign key.
+	
+	- Index Key : 
+		- Indexes are used to find rows with specific column values quickly. 
+		- Without an index, MySQL must begin with the first row and then read through the entire table to find the relevant rows.
+-------------------------------
+Modify/Change structure of the table :
+-------------------------------
+	Alter table book MODIFY rackid varchar(10) not null;	//change data type of existing column
+	
+How to change the column position?
+		- alter table author modify nationality varchar(20) after authorname;
+
+-------------------	
+How to Drop Column?
+-------------------
+	-> Using Drop Property :
+		-> Drop is used to delete structure in the table.
+		-> We can delete table, column, datatype and many more.
+		
+		- alter table rack drop rackfloorno; // here we delete column.
+
+----------------
+Delete Command :
+----------------
+	-> Delete is used to delete data (rows) from the table.
+	
+	- delete from table_name where table_id = 'ID_No'; //Specific Row.
+	- Delete from table_name; 	// All data will be deleted/erased but not structure.
+	
+
+
+			
+	
+	
+			======	
+			LEC 2
+			======
+
+==============
+Author Table :
+==============
+	create table author
+	(
+		authorid varchar(20),
+		authorname varchar(20),
+		Gender enum ('M','F') not null ,
+		Country varchar(20)
+    );
+---------------------------------------------------------------
+author table primary key is add for foreign key in book table :
+---------------------------------------------------------------
+	- alter table book add foreign key (authorid) references author(authorid);
+
+---------------------------
+Show how to Insert values ?
+---------------------------
+	- Insert into book Values('B001','2 Statess', 'A001', 'Fiction' ,300,267, 'R001' , 'A', '2020/01/23', '22:10:40' );   // 'YYYY/MM/DD' 'HH:MM:SS'
+
+	- Insert into book Values('B002','Rich dad Poor dad',500,'A001','Fiction',200,'R002','A','2020/02/26','11:08:20');
+	//Error bcoz foreign key table, first First we have to add data in foreign Key table.
+	
+	Insert into book Values('B003','Basic English',700,'A004','Learning',400,'R002','NA','2019/06/6','1:03:24');
+-----------------------------------------
+how to Insert values in selected column ?
+-----------------------------------------
+	 - insert into book(bookid , bookname) values ('B002','Rich Dad');
+	 
+	 - desc rack;
+	 - insert into rack values ('R001',500);
+	 
+	 - desc author;
+	 - insert into author values ('A001','Chetan Bhagat','M','Indian');
+	 
+-----------------------------------
+Add one more column in rack table : 
+-----------------------------------	 
+	-> Used to add column in table.
+ 
+	- alter table rack add rackfloor int(10);
+
+--------------------------
+How to modify/Change added data :
+--------------------------
+	-> Alter Modify is used to make changes is structure of the table.
+	- alter table rack modify rackfloor int (10) not null; // here we add Not Null.
+
+
+-----------------------	 
+How to change the data?
+-----------------------
+	 - update rack SET rackcapacity = 500 WHERE rackid ='R001';
+
+-----------------------	 
+How to delete row data?
+-----------------------
+	- delete from rack where rackid = 'R002';
+	 
+	- insert into author values('A002','Agatha christi','F','British');
+
+------------------------------	 
+How to rename the column name?
+------------------------------
+		-> RENAME TO for change Table name
+		-> CHANGE TO for column name
+	--------------------
+	Change Column name :
+	--------------------
+		- ALTER TABLE table_name CHANGE COLUMN old_name TO new_name;
+		- ALTER TABLE table_name CHANGE oldcolname newcolname datatype(length);
+	-------------------
+	Rename table name :
+	-------------------
+		- alter table table_name RENAME TO new_table_name;
+	-----------------
+	RENAME UserName :
+	-----------------
+		- RENAME USER 'username'@'host' TO 'new_username'@'host';
+
+------------------------------------
+Different types of Select Commands :
+------------------------------------
+	- select employeename, employeeid , designation , sex, doj from employee;
+
+	- select employeename, employeeid , designation , sex, doj from employee where sex='Male';
+ as :
+ 	- select employeename as name, employeeid as 'Reg. NO' , designation as title, sex, doj from employee;
+
+	- select * from member where sex = 'Male' AND status = 'Active' ;	AND= 1 1->1	1 0-> 0  0 1 ->0  0 0-> 0 
+
+	- select * from member where sex = 'Male' OR status='Active';		OR=  1 1->1	1 0->1   0 1 ->1  0 0-> 0 
+
+	- select * from Book where cost <= 200;	// >=  == 	!=
+
+	- select * from Book where cost between 100 and 200;
+
+	- select max(cost) from book;
+
+	- select * from member ORDER BY planid ;   // asc for ascending //by default asc
+
+	- select * from member ORDER BY planid desc; // descending
+
+	-select * from book by bookid limit 2,3;	
+		//limit startFrom , total_rows;
+		// show rows from row 3 to row 5.

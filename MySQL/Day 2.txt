@@ -1,0 +1,58 @@
+ACID ?
+
+Normalization:
+	- Process of reducing the redundancy of data.
+	- Improves the Data Integrity.
+	used for:
+		- used to eliminate repeated data.
+		- ensure data dependency make some logical sence
+	- 
+		- Removes repeating groups from the table.
+		- Create a separate table for each set of related data
+		- Identify each set of related data with a primary key
+		- eg. Student and Address should not be in single row, create seprate table
+
+Data Anamolies:
+	- means problems that occured on the data.
+	1. Insertion Anamoly
+	2. Update Anamoly
+	3. Deletion Anamoly
+	
+Normalization Types:
+- 1st Normal form:
+	- Each cell in a row contain single value.
+- 2nd Normal form:
+	- Table (non-prime attribute) should depends on Primary Key (prime attribute), And its should be unique, not null.
+- 3rd Normal form:
+	- There should be no transitive dependency for non-prime attributes.
+	- Student and Address should no be in single row, create a seprate table.
+	- Transitively dependency?
+		- Suppose, C is depends on B and B is depends on A. Then transitively  C is depends of A.
+	- All non prime attributes(sName, sAge), must be depends on prime attributes (sRollNo)
+- Boyce Codd Normal form/ BCNF/ 3.5 normal form:
+	- Every functional dependency A->B, then A has to be the Super Key of that particular table. 
+	- below table is in 3rd normal form. but Subject and subject Professon is linked to each other, each Professon have specific subject.
+	  Table 1. | StudentId | Name |
+	  
+	  Table 2.  | StudentId | Subject | Professon |
+				-----------------------------------
+				| 01		| MySQL	  | Prof. M	  |
+				| 01		| Java	  | Prof. J	  |
+				-----------------------------------
+	- so divide table 2, create seprate table for sub n prof.
+
+		Table 1. | StudentId | ProfessorId |	
+		
+		Table 2. | ProfessorId | Subject | Professor |
+		
+- Denormalization:
+	- Opposite the normalization, Combine all table into single table.
+	- Student Table 	| sId | sName |
+	- Depaertment Table	| dId | dName |
+	=> Single Table:	| sId | sName | dId | dName |
+	- Its combines the data and organizes it in a single table. 
+	- Denormalization is the process of adding redundant (repeated) data to the normalized relational database to optimize its performance.
+	- Benefits:
+		- Faster data read operations.
+	- Cons:
+		- Increase data redundancy (repeatability)

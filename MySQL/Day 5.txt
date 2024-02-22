@@ -1,0 +1,191 @@
+								DAY 5:
+
+----------------------------
+ROLLBACK :  
+----------------------------
+		-> Is is use to undo the last query (Transaction);
+		-> We can rollback only data not structure;
+		-> use to remove last query by :
+			- ROLLBACK;
+				 -> Can be rolled back( Only if the session is in autocommit OFF(0) mode.
+				 -> autocommit = 0 (off)
+				// If Error : bcoz by default in mysql , 
+				// when we start the session  
+				// Session is always in "Auto-Commite Mode".
+				// Auto-Commite Means Auto_save.
+	-> If we want to use ROLLBACK  then remove AUTOCOMMIT before rollback by:
+		- SET AUTOCOMMIT = 0; // To run into Manual MOde.
+		MANUAL MODE :
+			-> All query transaction required to manually commite by using :
+			- COMMIT; // once commited we cant rollback. (commit means saves)
+			- if you dont commit and close the session then all the uncommited data will be lost.
+			
+	then 
+	do any query : 
+		- INSERT into book (bookname) values ('Family Man');
+	and to undo last query by :
+	- ROLLBACK ;
+
+------------------------------
+Types of command :
+------------------------------
+	DDL ,DML,DCL,TCL,DQL
+
+DDL Command : Data Defination Language.
+  -> Once it delete , we cant rollback.
+	1. Create :	table, database ,  column , view, temp table.
+	    -	CREATE TABLE newbook as select * from book;
+	2. Alter :
+		- ALTER TABLE table_name;
+		-> used to change the structure of the Table.
+	3. Drop : 
+		- DROP TABLE table_name;
+		-> drop structure and data both. 
+	4.Truncate :
+		- TRUNCATE TABLE newbook;
+		-> use to delete all data but not the structure.
+		-> Once it delete , we cant rollback.
+		-> Fast as compare to delete.
+
+-----------------
+DQL Command : Data Query Language :
+	1. SELECT :
+		- SELECT * FROM table_name;
+		- Select  rollno  from table_name;
+
+-----------------	
+DML Command : Data Manupulation Language.
+	->This can be rollback.
+	1. Insert into :
+		- INSERT into book (bookname) values ('Family Man');
+		- Insert into table_name;
+	2. Update :
+		-update book set bookname = 'Harry Potter' where bookname ='Family Man';
+		
+	3. Delete from :
+		-> Only delete data or specific data but not the structure.
+		- DELETE FROM table_name;
+
+-----------------
+		
+DCL Command : Data Controlled Language.
+	1. Rollback :
+	2. Commit :
+	3. Savepoint :
+		- SET AUTOCOMMIT = 0; 	//Manual Mode
+		
+		- SAVEPOINT ONE;
+		- insert into author values('A011','Vikram','UK','Male'); 
+		- UPDATE author set nationality ='Rus'  where authorid = 'A011';
+
+		- SAVEPOINT TWO;
+		- UPDATE author set nationality ='USA'  where authorid = 'A011';
+		
+		- SAVEPOINT THREE;
+		- UPDATE author set nationality ='India'  where authorid = 'A011';
+ 	
+		- ROLLBACK TO THREE; //UNDO
+		- ROLLBACK TO TWO;
+		- ROLLBACK TO ONE;
+		
+		- Commit;  //permanently save all data 
+
+------------------
+		
+	Previlleges : 
+		-> Create/ Drop / Alter / Truncate /Select/ Update/Delete = ALL
+		1. Grant  :
+			-> used to give permission;
+			- GRANT permissions ON DatahaseName.TableName TO userName;
+			- GRANT ALL ON DatabaseName.TableName TO userName;
+		2. Revoke :
+			-> used to take/remove permission;
+			- Revoke permissions ON DatahaseName.TableName FROM userName; 
+------------------------------------------
+USER MODE :
+------------------------------------------	
+How to create new user?
+	- - CREATE USER 'USERNAME'@'localhost' IDENTIFIED BY 'PASSWORD';
+	- CREATE USER 'abc'@'localhost' IDENTIFIED BY 'lms';
+Login : 
+	- mysql -u abc -p
+	- lms			<- password
+	- show databases;
+	- Syntax : GRANT  permissions ON DatahaseName.TableName TO userName;
+
+How to give privelleges to the user?
+	ROOT -> Only root user can create , grand and revoke user.
+		- GRANT select ON lms.* TO 'abc'@'localhost';
+						// lms.* means ( database.table1 , table2)
+	USER -> - show databases; 
+			- drop table table_name;
+				// Error. We have only select privellege.
+	ROOT -> - GRANT select,update,drop ON lms.* TO 'abc'@'localhost';	
+				//lms.*  means all tables from lms database.				
+		OR  - GRANT ALL ON lms.* TO 'abc'@'localhost';
+
+How to change user password?
+	- CREATE USER 'pqr'@'localhost';
+	- ALTER USER 'pqr'@'localhost' IDENTIFIED BY 'ABC';
+
+How to delete the user?
+	- DROP USER 'abc'@'localhost';
+
+How to remove permission?
+	- Revoke select,update,drop ON lms.* FROM 'abc'@'localhost';
+		// exit and login again.
+
+How to show the GRANTS?
+	- SHOW GRANTS FOR pqr@localhost;
+	
+
+	=====================================
+				Lec 2 
+			TIME : 2:29
+	=====================================
+	
+FUNCTION :
+	-> Function retun only one column of only one row.
+	-> When to use...
+		-> When multiple client applications are written in different language or
+		   work on different platforms, but need to perform the same database operations.
+
+	How to create ParameterLess FUNCTION? :
+		- DELIMITER $           //ats as a terminator. (we can use special chara)
+		- CREATE FUNCTION gerAuthorInfo()
+		  RETURNS varchar(20)
+		  BEGIN 
+			//  RETURN ( Select * from author where authorid ='A001');
+				//error. this query returns multiple columns bcoz of * .
+		  RETURN ( Select authorname from author where authorid ='A001');
+				// FUNCTION return only one value or column.
+		  END $
+		- Delimiter ;
+		
+		Error : less safe log_trust_function_creators = 1;
+			-> SET GLOBAL log_trust_function_creators = 1;
+			
+	How to run the FUNCTION? :
+		- SELECT getauthor();
+		
+	How to drop function?
+		- DROP FUNCTION gerAuthorInfo;
+		
+	How to create Parameterised FUNCTION :
+		- DELIMITER /           
+		- CREATE FUNCTION gerAuthorInfo(aid varchar(20))
+		  RETURNS varchar(20)
+		  BEGIN 
+		  RETURN ( Select authorname from author where authorid = aid);
+				// FUNCTION return only one value or column.
+		  END /
+		- Delimiter ;
+		
+	 Call:
+		- SELECT getauthor('A001');
+		
+		
+	How to check functions in Database?
+		- SELECT ROUTINE_NAME, ROUTINE_TYPE FROM INFORMATION_SCHEMA.ROUTINES 
+		  where ROUTINE_TYPE = 'FUNCTION' AND ROUTINE_SCHEMA = 'databaseName';
+		-> ROUTINE means Function and Procedure.
