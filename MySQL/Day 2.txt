@@ -1,4 +1,3 @@
-ACID ?
 
 Normalization:
 	- Process of reducing the redundancy of data.

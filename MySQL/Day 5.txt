@@ -107,6 +107,7 @@ USER MODE :
 How to create new user?
 	- - CREATE USER 'USERNAME'@'localhost' IDENTIFIED BY 'PASSWORD';
 	- CREATE USER 'abc'@'localhost' IDENTIFIED BY 'lms';
+	- exit;
 Login : 
 	- mysql -u abc -p
 	- lms			<- password

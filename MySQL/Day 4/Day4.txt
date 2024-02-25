@@ -138,8 +138,8 @@ ORDER BY:
 		WHERE department.dept = employee.deptid 
 			GROUP BY employee.deptid   
 				WHERE count(employee.deptid)>1;					//error
-		// WE CAN NOT USE 'WHERE' MORE THAN ONE TIMES.
-		//instead of where , use 'HAVING' on 2nd time.
+		// WE CAN NOT USE 'WHERE' on aggregate function.
+		//instead of where , use 'HAVING'.
 
 	--------
 	HAVING :
@@ -241,11 +241,11 @@ Types of Joins:
 
 		4. Full Outer Join :-
 			The full outer join returns all the records from both the tables if there is a common field shared. (A+B-(|A-B|))
-
-			SELECT cust.Customer_id, cust.Name, ord.Order_id
-				FROM customer cust
-					FULL OUTER JOIN order ord
-						ON cust.customer_id = ord.customer_id;
+			In SQL:
+				SELECT cust.Customer_id, cust.Name, ord.Order_id
+					FROM customer cust
+						FULL OUTER JOIN order ord
+							ON cust.customer_id = ord.customer_id;
 						
 		5. Self-Join
 			- Self-join is a regular join and here the table joins with itself only.
@@ -347,7 +347,7 @@ Types:
 		- create view vbook as select bookid, bookname , cost from book;
 			// Updatable View, bcoz we only sselect command.
 		- Show full tables;  
-			// To check view table.
+			// To check table types.
 		- Drop view vbook;
 			// To delete table;
 	

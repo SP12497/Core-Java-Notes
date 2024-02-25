@@ -1,11 +1,13 @@
 -- Login:
 	-- mysql -u root -p
+-- clear command line history :   \! cls
 
 -- Databases:
 	show databases;
     create database myDb;
     use myDb;
     drop database myDb; -- delete DB;
+    select database()   -- selected database name.
 
 -- tables:
 	show tables;	-- only tables
@@ -21,11 +23,13 @@
     show CREATE TABLE my_table;
     show GRANTS FOR 'user'@'localhost';
     show VARIABLES;
-    show STATUS;
+    show STATUS;  -- db status
     show PROCESSLIST;
     show table status LIKE "book"; -- internal details of table;
+-- explain:
+    explain select * from book;
 /*
-    
+
 -------------------------
 Constraints:
     - rules or conditions applied to the data in a table.
@@ -59,7 +63,7 @@ Types of SQL Commands:
         GRANT: Gives specific privileges to users or roles.
         REVOKE: Removes specific privileges from users or roles.
 5. TCL (Transaction Control Language):
-    - sed for managing transactions within the database.
+    - used for managing transactions within the database.
         COMMIT: Saves changes made during a transaction.
         ROLLBACK: Undoes changes made during a transaction.
         SAVEPOINT: Sets a point within a transaction to which you can later roll back.
@@ -70,6 +74,7 @@ Types of SQL Commands:
 DDL 1. Create:
     Create Table, create Index, create View, create Trigger
 */
+create table aa(id int(10) auto_increment primary key , Name varchar(20));
 create table Book (
 	bookId varchar(10) not null,
     bookName varchar(255) not null default 'No Book',
@@ -78,7 +83,7 @@ create table Book (
     rackId varchar(10),
     category varchar(20),
     bookPrice Double,
-    noOfPages int,
+    noOfPages int /* CHECK (noOfPages >= 10) */,
     bookStatus enum('A', 'NA') not null,
     bookLastIssueDate date,
     bookLastIssueTime time,
@@ -111,20 +116,22 @@ create table newBook (
     bookLastIssueTime time
 );
 
-create table Books As select * from book;
+-- How to create table from data of another table?
+    create table Books As select * from book;
+    create table employee_backup as select emp_id, emp_name from employee;
 /*
 -----------------------
 DDL 2. Alter:
     used to change the structure of the table.
     - Clause: 2.1 Add, 2.2 Modify, 2.3 Drop, 2.4 Change, 2.5 Rename To */
     create Primary Key
-        add PK
+        -- add PK
         alter table newBook add Primary Key (bookId);
         alter table newBook modify bookId varchar(10) primary key;
         alter table newBook2 add bookId int primary key; -- add new column
         -- remove PK
-        alter table newBook drop primary key;  -- only delete PK on bookId, not deleting the field.
-        alter table book2 drop bookId; -- delete PK and field both
+        alter table newBook drop primary key;  -- only delete PK on bookId, not deleting the column.
+        alter table book2 drop bookId; -- delete PK and column both
         -- alter table newBook modify bookId varchar(10) -- this will not remove PK.
     -- create foreign key.
         alter table newBook add foreign key (authorId) references author (authorId);
@@ -139,17 +146,16 @@ DDL 2. Alter:
         alter table Rack Modify rackFloor varchar(20);
         alter table Rack Modify rackFloor varchar(22) not null; -- before applying not null, make sure rackFloor must be present in all existing records.
         alter table Rack Modify rackFloor varchar(20) after bookName;
-        alter table Rack modify rackName varchar(20) after rackCapacity;
 
     -- Drop Column:
         alter table rack Drop Column rackFloor;
         alter table rack Drop rackFloor;
     
     -- Change: rename column name:
-        alter table department RENAME COLUMN dept_id to department_id;
         alter table rack change rackFloor rackFloorNo int(20);
         alter table rack change column rackFloor rackFloorNo int(20);
-    
+    -- RENAME column
+        alter table department RENAME COLUMN dept_id to department_id;
     -- Rename: rename table name:
         alter table book1 Rename To book2;
 
@@ -157,6 +163,9 @@ DDL 2. Alter:
         Rename table newBook to newBook1;   -- only one command.
 -- DDL 3. Drop:
     -- used to delete existing database objects such as tables, indexes, views, or databases themselves.
+    drop table employee;
+    drop table employee, department;
+
     DROP DATABASE database_name;
     DROP TABLE table_name;
     DROP INDEX index_name ON table_name;
@@ -167,7 +176,7 @@ DDL 2. Alter:
 
 /* DDL 4. Truncate:
     use to delete all data but not the structure.
-    Once it delete , we cant rollback.
+    Once it delete, we cant rollback.
     TRUNCATE is faster than DELETE.
     TRUNCATE does not return the number of rows.
     Truncate bypasses contraints and triggers.
@@ -213,6 +222,7 @@ DML: 1. Insert ... Into:
 -- 3. Inserting Data from Another Table:
     INSERT INTO employees_archive (id, name, salary) SELECT id, name, salary FROM employees WHERE hire_date < '2022-01-01';
     insert into student_archive (sId, sName) select sId, sName from students where sMarks > 40;
+    insert into student_archive select sId, sName from students where sMarks > 40;  -- if student_archive table only have 2 columns, ie sId, sName.
 /*
 -------------------
 DML 2: Update ... SET:
@@ -292,10 +302,16 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
     SELECT first_name AS "first name", last_name AS lastName FROM employees; -- AS, display column name last_name as lastName
 -- 3. Select Distinct Values from a Column:
     select Distinct departments from employees; -- return unique departments.
+    select count(distinct(city)) from customers;
 -- 4. Select with WHERE Clause:
     select * from employees where department = "IT";
     -- select bookName from book where count(noOfPages) >200;  -- error: we can't use aggregate funcition in where clause.
-
+-- Other:
+    select * from member where sex = 'Male' AND status = 'Active' ;
+    select * from member where sex = 'Male' OR status='Active';
+    select * from Book where cost <= 200;  -- >=  == 	!=
+    select * from Book where cost between 100 and 200;
+    
 -- # Intermediate SELECT Queries:
 -- Select with Order By Clause:
     select * from students Order By sname;  -- by default ascending
@@ -303,21 +319,27 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
     select * from students Order By sname DESC;
 -- Select with Limit Clause:
     select * from employees LIMIT 10; -- return first 10 records.
+    -- skip first 10 rows, then display next 5 rows(11-15)
+    SELECT * FROM employees LIMIT 10, 5;  -- offset:10, Limit: 5
+    -- skip first 5 rows, then display next 10 rows(6-15)
     SELECT * FROM employees LIMIT 10 OFFSET 5; -- display row 6-15, skip first 5 rows.
-    SELECT * FROM employees LIMIT 10, 5;  -- LIMIT row_count, offset_value. (rows: 6-15).
+    -- 2nd highest salary:
+        select Distinct salary from employee order by salary DESC limit 1,1;
+        select Distinct salary from employee order by salary DESC limit 1 offset 1;
 -- Select with Group By Clause:
-    select avg(salary) from employees; -- no error
-    select department, avg(salary) from employees; -- error: Group by clause required on department.
+    -- Group by statement is used to group the rows that have the same value. 
+    -- The Group by clause is used in conjunction with the SELECT statement and Aggregate function to group rows together by commonn column values.
+    select avg(salary) from employees;  -- return average salary count.
+    -- select department, avg(salary) from employees; -- error: Group by clause required on department.
     select department, avg(salary) from employees GROUP BY department;
     select subject, count(salary) as salaryCount, avg(salary) as "salary Average" from Teacher group by subject;
+    /*
+    -> there is small difference between distinct and group by;
+    - We can apply DISTINCT to remove the duplicate records
+    - Select group by can be used to get data from different columns and group into one or more column. This can also be applied with aggregate function.
+    */
 
 --# Advanced SELECT Queries:
--- Select with Subquery:
-    SELECT first_name, last_name FROM employees WHERE department_id IN (SELECT department_id FROM departments WHERE location = 'New York');
--- Select with Aggregate Functions:
-    SELECT AVG(salary), MAX(age), MIN(sales) FROM employees;
-    -- we can not use aggregate functions in where clause:
-        -- SELECT AVG(salary) from employees WHERE MAX(age) = 20;   ...Wrong
 -- Select with Having Clause:
     -- Having we use on top of "Group By", because we can't use 2 where clause. select where groupby having.
     -- In having, we can use aggregate function, but in where clause, we can not.
@@ -327,6 +349,25 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
     select category, avg(bookPrice) from book group by category having avg(bookPrice)>500;
     select authorId, category, avg(bookPrice) from book group by category, authorId having avg(bookPrice)>500;
     select authorId, category, avg(bookPrice) from book where bookPrice>500 group by authorId, category having avg(bookPrice)>1000;
+-- Select with Subquery:
+    SELECT first_name, last_name FROM employees WHERE department_id IN (SELECT department_id FROM departments WHERE location = 'New York');
+-- Select with Aggregate Functions:
+    SELECT AVG(salary), MAX(age), MIN(sales) FROM employees;
+    -- we can not use aggregate functions in where clause:
+        -- SELECT AVG(salary) from employees WHERE MAX(age) = 20;   ...Wrong
+-- Union: Show all different records and show common records only once from 2 tables.
+    select bookname from allbooks UNION select bookname from book;  -- show only unique book names of from both table
+-- Union ALL: Show all records from both table no matter its duplicate or not.
+    select bookname from allbooks UNION ALL select bookname from book;  -- show only unique book names of from both table
+-- INTERSECTION:- (A intersection B)
+    -- only show non-distinct values
+    -- Show only the data from allbooks table which is present in Book table.
+    select bookname from allbooks where bookname IN (select bookname from book);
+--  Minus :- 	NOT IN :
+    select bookname from allbooks where bookname NOT IN (select bookname from book); 
+    SELECT column_list FROM table1  
+		LEFT JOIN table2 ON condition  
+			WHERE table2.column_name IS NULL; 
 /*
 -- JOINS --
 There are 6 types of joins:
@@ -334,43 +375,46 @@ There are 6 types of joins:
 2. Outer Join:
     2.1 LEFT Join: Returns all records from the left table, and the matched records from the right table
     2.2 RIGHT Join: Returns all records from the right table, and the matched records from the left table.
-    2.3 (Not In MYSQ) Full Join: Full join returns all rows from both tables. Return all matching and non-matching records from both tables.
+    2.3 (Not In MYSQL, Its in SQL) Full Join: Full join returns all rows from both tables. Return all matching and non-matching records from both tables.
 3. CROSS JOIN: Cross join returns the Cartesian product of the two tables, i.e., it combines each row of the first table with every row of the second table.
 4. SELF JOIN: Self join is used to join a table to itself. It is helpful when you want to compare rows within the same table.
-Note: Below employee queries are from "tables-for-joins.sql" file.
+Note: Below employee structure queries are available in "tables-for-joins.sql" file.
 */
---1. Join / Inner Join:
+--1. Join / Inner Join / Perfect Join:
     -- Inner Join = Fetches matching records only.
         SELECT e.emp_name, d.dept_name FROM employee e JOIN department d ON e.dept_id = d.dept_id;
     -- below queries are same:
         select b.bookName, a.authorName from Book b INNER JOIN Author a ON b.authorId = a.authorId;
         select b.bookName, a.authorName from Book b JOIN Author a ON b.authorId = a.authorId;
         select b.bookName, a.authorName from Book b JOIN Author a where b.authorId = a.authorId;
-        -- we can also achieve inner join withor JOIN keyword
+        -- JOIN keyword is optional
         select b.bookName, a.authorName from book b, author a where a.authorId = b.authorId;
 -- 2. Left OUTER Join:
     -- left join = inner join + any additional records in the left table.
         -- if on condition will fail, then right table columns will show null.
-        SELECT e.emp_name, d.dept_name FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id;
         SELECT e.emp_name, d.dept_name FROM employee e LEFT OUTER JOIN department d ON e.dept_id = d.dept_id;
+        SELECT e.emp_name, d.dept_name FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id;
         select b.bookName, a.authorName from Book b LEFT JOIN Author a ON b.authorId = a.authorId;
 -- 3. Right OUTER Join:
     -- right join = inner join + any additional records in the right table (left table columns will be null).
         -- if on condition will fail, then .
-        SELECT e.emp_name, d.dept_name FROM employee e RIGHT JOIN department d ON e.dept_id = d.dept_id;
         SELECT e.emp_name, d.dept_name FROM employee e RIGHT OUTER JOIN department d ON e.dept_id = d.dept_id;
+        SELECT e.emp_name, d.dept_name FROM employee e RIGHT JOIN department d ON e.dept_id = d.dept_id;
         select b.bookName, a.authorName from Book b RIGHT JOIN Author a ON b.authorId = a.authorId;
 
 -- Problem: Fetch details of ALL emp, their manager, their department and the projects they work on.
-    select e.emp_name, m.manager_name, d.dept_name, p.project_name from Employee e Join Manager m ON e.manager_id = m.manager_id left Join department d ON e.dept_id = d.dept_id left JOIN projects p ON e.emp_id = p.team_member_id;
+    select e.emp_name, m.manager_name, d.dept_name, p.project_name 
+    from Employee e Join Manager m ON e.manager_id = m.manager_id 
+    left Join department d ON e.dept_id = d.dept_id 
+    left JOIN projects p ON e.emp_id = p.team_member_id;
 
 /* 4. FULL OUTER Join: (Not In MySQL)
    -- Full Join = Inner Join 
-                  + any additional records in the left table (right table columns will be null) 
-                  + any additional records in the right table (left table columns will be null)
+                + any additional records in the left table (right table columns will be null) 
+                + any additional records in the right table (left table columns will be null)
 */  -- SQL:
-        SELECT e.emp_name, d.dept_name FROM employee e FULL JOIN department d ON e.dept_id = d.dept_id;
         SELECT e.emp_name, d.dept_name FROM employee e FULL OUTER JOIN department d ON e.dept_id = d.dept_id;
+        SELECT e.emp_name, d.dept_name FROM employee e FULL JOIN department d ON e.dept_id = d.dept_id;
     -- MySQL: Left Join + UNION + Right Join.
         SELECT e.emp_name, d.dept_name FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id UNION SELECT e.emp_name, d.dept_name FROM employee e RIGHT JOIN department d ON e.dept_id = d.dept_id;
         SELECT e.emp_name, d.dept_name FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id UNION ALL SELECT e.emp_name, d.dept_name FROM employee e RIGHT JOIN department d ON e.dept_id = d.dept_id where e.dept_id IS NULL;
@@ -378,7 +422,8 @@ Note: Below employee queries are from "tables-for-joins.sql" file.
 -- 5. CROSS JOIN:
     -- returns cartesian project. : Employee->6records, Department->4records = Total 24 records. (each record match each other)
     -- Cross Join don't need "ON"
-    SELECT e.emp_name, d.dept_name FROM employee e CROSS JOIN department d;
+    SELECT e.emp_name, d.dept_name FROM employee e CROSS JOIN department d; 
+    -- Above, no ON check so, employee and department dont have relationships, it each record of employee will match to each record of department.
 -- Problem 2: Write a query to fetch the employee name and their corresponding department name.
 -- Also make sure to display the company name and the company location corresponding to each employee.
     select e.emp_name, d.dept_name, c.company_name, c.location from Employee e LEFT JOIN Department d ON e.dept_id = d.dept_id CROSS JOIN Company c;
@@ -387,15 +432,144 @@ Note: Below employee queries are from "tables-for-joins.sql" file.
 -- 6. Natural Joins
     -- Natural Join don't need "ON"
     -- If 2 tables, sharing the same column name -> then it will do INNER JOIN.
+        -- eg. Employee: dept_id, Department: dept_id
         SELECT e.emp_name, d.dept_name FROM employee e NATURAL JOIN department d;
     -- If 2 tables, sharing the different column name -> then it will do CROSS JOIN.
+        -- eg. Employee: dept_id, Department: department_id
         alter table department rename column dept_id to department_id;
         SELECT e.emp_name, d.dept_name FROM employee e NATURAL JOIN department d;
     -- control goes to sql to choose the column, where the join should happen. So using natural joins are highly not recommended.
 
 -- 7. self Join:
-  -- there is no keywork as SELF, When we do join table to itself, then this called as self join.
+  -- there is no keyword as SELF, When we do join table to itself, then this called as self join.
   -- Problem: Write a query to fetch the child name and their age corresponding to their parent name and parent age.
   select child.name as child_name, child.age as child_age, parent.name as parent_name, parent.age as parent_age 
   from family as child JOIN family as parent 
   ON child.parent_id=parent.member_id;
+
+
+
+/* =============================================
+============= TCL =============
+5. TCL (Transaction Control Language):
+    - used for managing transactions within the database.
+    COMMIT: Saves changes made during a transaction.
+    ROLLBACK: Undoes changes made during a transaction.
+    SAVEPOINT: Sets a point within a transaction to which you can later roll back.
+    SET TRANSACTION: Specifies characteristics for the transaction.
+*/
+-- by default, Session is always in "Auto-Commite Mode".
+    SET AUTOCOMMIT = 0; -- To run into Manual Mode.
+
+    SAVEPOINT ONE;
+	insert into author values('A011','Vikram','UK','Male'); 
+	UPDATE author set nationality ='Rus'  where authorid = 'A011';
+
+	SAVEPOINT TWO;
+	UPDATE author set nationality ='USA'  where authorid = 'A011';
+		
+	SAVEPOINT THREE;
+	UPDATE author set nationality ='India'  where authorid = 'A011';
+ 	
+	ROLLBACK TO THREE; //UNDO
+	ROLLBACK TO TWO;
+    -- RELEASE SAVEPOINT ONE
+	ROLLBACK TO ONE;
+		
+	Commit;  //permanently save all data 
+
+/*
+DCL (Data Control Language):
+    - Used for controlling access to data within the database.
+        GRANT: Gives specific privileges to users or roles.
+        REVOKE: Removes specific privileges from users or roles.
+    ALL = Create/ Drop / Alter / Truncate /Select/ Update/Delete / Insert
+CREATE USER 'USERNAME'@'localhost' IDENTIFIED BY 'PASSWORD';
+*/
+    CREATE USER 'abc'@'localhost' IDENTIFIED BY 'lms';
+    GRANT select ON mydb.* to 'abc'@'localhost';
+    use mydb; GRANT select ON employee to 'abc'@'localhost';
+
+    ALTER USER 'pqr'@'localhost' IDENTIFIED BY 'ABC';
+    Revoke select,update,drop ON lms.* FROM 'abc'@'localhost';
+
+    DROP USER 'abc'@'localhost';
+-- How to show the GRANTS?
+	SHOW GRANTS FOR pqr@localhost;
+
+
+-- View Table:
+    create view vbook as select bookid, bookname , cost from book;
+    Show full tables; 
+    Drop view vbook;
+/*
+-- Temporary Table:
+    - A special type of table that allows you to store a temporary result set.
+	   which you can reuse several times in a SINGLE SESSION.
+    - These tables will get automatcally removed when the session ends.
+    You may use DROP TABLE command to drop such tables explicitly as well.	
+    - if we make changes in temporary table , this will make change in only temporary table, not in base table.
+*/
+    create TEMPORARY TABLE tauthor as select authorname , gender from author;
+    -- we cant see the table using (show full tables;)  
+    SELECT * FROM INFORMATION_SCHEMA.INNODB_TEMP_TABLE_INFO\G
+    select * from tauthor;
+    drop table tauthor;
+
+/*
+__________
+Variable :
+---------- 
+	Types of variables :
+		- @Session Variable
+		- Local variable :
+			DECLARE variable_name datatype.
+		- Input Variable	:
+			IN variable_name datatype
+		- Output Variable	: 
+			OUT variable_name datatype
+*/
+    select  authorname INTO @ANAME from author where authorid ='A002'
+    select @ANAME;
+
+    select authorname INTO @ANAME from author where authorid ='A004';
+    select authorname from author where authorid ='A004' INTO @ANAME;
+/*
+
+===================================
+FUNCTION :
+	-> Function retun only one column value of a row.
+	-> When to use...
+		-> When multiple client applications are written in different language or
+		   work on different platforms, but need to perform the same database operations.
+*/
+-- How to create ParameterLess FUNCTION?
+    DELIMETER $
+    CREATE FUNCTION getAuthorInfo()
+    RETURNS varchar(20)
+    BEGIN
+        return (select authorName from author where authorId = "a1");
+    END
+    $
+    DELIMITER ;
+-- call:
+    select 'Employee Name: ' + getAuthorInfo();
+
+    drop function getAuthorInfo
+
+-- parameterized function:
+    DELIMITER #
+    CREATE FUNCTION getAuthorInfo(aid varchar(20))
+    RETURNS varchar(20)
+        RETURN (SELECT authorName from author where authorId = aid);
+    END #
+    DELIMITER ;
+
+    SELECT getAuthorInfo("a1");
+
+-- How to check functions in Database?
+	SELECT ROUTINE_NAME, ROUTINE_TYPE FROM INFORMATION_SCHEMA.ROUTINES 
+		where ROUTINE_TYPE = 'FUNCTION' AND ROUTINE_SCHEMA = 'databaseName';
+    -- ROUTINE means Function and Procedure.
+
+-- ============================

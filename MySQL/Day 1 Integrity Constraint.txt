@@ -1,3 +1,9 @@
+What is ACID PROPERTIES?
+-> 	Atomicity
+	Consistency
+	Isolation
+	Durability
+-------------------------
 Integrity Constraits over relation:
 -----------------------------------
 - Its used to ensure accurancy and consistency of the data in relation database.
