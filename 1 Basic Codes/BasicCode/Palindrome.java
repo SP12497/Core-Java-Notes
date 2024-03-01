@@ -15,8 +15,8 @@ class Palindrome
 		  while(n>0)
 		  {    
 		   r=n%10;  //getting remainder / get last digit of number
-		   n=n/10; 	// remove last digit of number
 		   sum=(sum*10)+r;
+		   n=n/10; 	// remove last digit of number
 		  }    
 		  
 		  if(temp==sum)    

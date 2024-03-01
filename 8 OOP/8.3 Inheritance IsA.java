@@ -17,7 +17,7 @@ Inheritance	: - Sharing the Information.
 		- Multi-Level			(C:B:A)
 		- Hierarchical			(B:A  -  C:A)
 		- Multiple Inherinca: 	(C:A,B)				Not support in java, bcoz of Diamond Problem.
-		- Hybrid				(C:A,B - A:P - B:P)	- Not Support
+		- Hybrid				(C:A,B - A:P - B:P)	- Not Support : Hierarchical + Multiple
 */
 
 public class InheritanceIsA {

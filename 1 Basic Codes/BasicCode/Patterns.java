@@ -13,9 +13,9 @@ public class Patterns {
 				j=3	* * * * 
 				j=4	* * * * 	*/
 		
-		for (int i=0; i<=4 ; i++)	//Rows
+		for (int i=0; i<4 ; i++)	//Rows
 		{
-			for (int j=0; j<=4;	j++)	//Columns
+			for (int j=0; j<4;	j++)	//Columns
 			{
 				System.out.print(" * ");
 			}

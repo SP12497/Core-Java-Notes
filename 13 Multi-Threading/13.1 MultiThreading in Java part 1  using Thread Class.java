@@ -3,7 +3,7 @@
 //We can achieve Multi-Threading using
 	//	- class Thread
 	//	- interface Runnable
-
+// class Thread implements Runnable{}
 /*
 What is Multithreading in Java?
  MULTITHREADING in Java is a process of executing two or more threads simultaneously to maximum utilization of CPU. 

@@ -8,7 +8,7 @@ public class Fibonacci_Series
 		 
 		 int k = 1;
 		 
-		 System.out.print(k + " ");
+		 System.out.print("0 " +k + " ");
 		 
 		 while(k <= 100)	// prints series till 100
 		 {
@@ -19,5 +19,4 @@ public class Fibonacci_Series
 			 b = k;
 		 }
 	}
-
 }

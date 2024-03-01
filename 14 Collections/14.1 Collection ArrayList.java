@@ -34,6 +34,7 @@ class CMain
 //		c.add(3.4);
 		c.remove(33);	// [11, 11, 22]
 		c.remove(new Integer(11));	// [11,22]
+		System.out.println(c.contains(22));
 //		for(Object o : c)
 //		{
 //			System.out.println(o);

@@ -50,7 +50,7 @@ class MyComparator implements Comparator<Integer>
 	public int compare(Integer o1, Integer o2) 
 	{
 		//Sort by last digit
-		if(o1%10>o2%10)		//Last digit Ascending order 
+		if(o1%10>o2%10)		// sort by Last digit Ascending order 
 		{
 			return 1;
 		}

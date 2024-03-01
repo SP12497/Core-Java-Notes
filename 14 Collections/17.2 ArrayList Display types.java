@@ -42,9 +42,6 @@ public class CMain
 	System.out.println("Stream API :");
 		values.forEach(System.out::println);		//Method reference(::) =>its know we have to do println(i); bcoz of Consumer is a functional interface
 
-
-
-
 	//2. External Iteration : It has 3 types
 	System.out.println("for loop :");
 		for(int i=0 ; i<values.size() ; i++)	//arr.length is for normal arrays

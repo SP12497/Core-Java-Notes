@@ -2,7 +2,7 @@
 	Map Interface :
 		- Array of key value pair
 		- The Map interface present in java.util package represents a mapping between a key and a value. 
-		- The Map interface is not a subtype of the Collection interface. 
+		- The Map interface is not a subtype of the Collection interface.
 		- Therefore it behaves a bit differently from the rest of the collection types. 
 		- A map contains unique keys.
 			
@@ -17,8 +17,8 @@
 		map.set("Name", "Suraj");	//update
 		map					//toString
 		map.get("key_name")		//value
-		map.keySet()		//list of keys
 		map.values()		//list of values
+		map.keySet()		//list of keys
 		map.entrySet();		//list of keys and values
 	
 	Set <  Map.Entry<String,String> > val  = map.entrySet(); :

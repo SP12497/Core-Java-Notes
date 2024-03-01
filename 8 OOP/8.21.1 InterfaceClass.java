@@ -48,12 +48,12 @@ interface inter0 {
 
 interface Inter1 // Functional Interface // Single Abstract Method Interface
 {
-	double salary = 10.00; // by default public static final //and compulsory to assign values at the time
+	double salary = 10.00; // by default: public static final //and compulsory to assign values at the time
 							// of declaration.
 	// double balance; // error : compulsory to assign values at the time of
 	// declaration.
 
-	void show(); // by default public abstract , no need to specify.
+	void show(); // by default: public abstract , no need to specify.
 }
 
 interface Inter2 {
@@ -86,7 +86,7 @@ interface Inter4 // from java 8 : default and static method
 		System.out.println("	Inter4 Common()");
 	}
 
-	default void defaultMethod() // instance method // access by object
+	default public void defaultMethod() // instance method // access by object
 	{
 		System.out.println("	Inter4 Default defaultMethod");
 	}
@@ -165,8 +165,7 @@ public class CMain {
 		Inter4.staticMethod(); // Static Method access by Interface/Class name
 		// Inter4.defaultMethod(); //Default Method access by Object
 
-		Inter4 i4 = new Inter4() {
-		}; // {} important
+		Inter4 i4 = new Inter4() {}; // anonymous object
 		i4.defaultMethod();
 
 	}

@@ -8,6 +8,7 @@ public class Main {
 	public static void main(String[] args) {
 		int i, j, k = 0;
 		int a[] = new int[4]; // array of 4
+		// int b[] = {11,22};
 		i = 8;
 		j = 2;
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -29,12 +30,12 @@ public class Main {
 				System.out.println(value);
 			}
 		} catch (IOException e) {
+			System.exit(0); // skip finally block.
 			System.out.println("IOException: some IO Error. ==> ");
 		} catch (ArithmeticException e) { // It catch only arithmetic errors
 			System.out.println("ArithmeticException: Cannot Divide by Zero  ==> " + e);
 		} catch (ArrayIndexOutOfBoundsException e) { // It catch Array related errors.
 			System.out.println("ArrayIndexOutOfBoundsException: Exceeded array index... Maximum no of values is 4 ==> " + e);
-			System.exit(0); // skip finally block.
 		} catch (Exception e) { // It catch all the errors
 			System.out.println("Exception: Unknown exception" + e);
 		}
