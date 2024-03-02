@@ -538,11 +538,103 @@ Variable :
 
 ===================================
 FUNCTION :
+There are 2 types:
+1. Single Row Functions
+	- Work on each individual row of a table and return result for each row.
+	- For example, ucase(), round(), sqrt(), mode() etc. are single row functions.
+2. Multiple Row (Aggregate) functions:
+	- Work on multiple rows together and return a summary result for a group of rows.
+	- For eg: sum(), avg(), count(), min()
+
 	-> Function retun only one column value of a row.
 	-> When to use...
 		-> When multiple client applications are written in different language or
 		   work on different platforms, but need to perform the same database operations.
 */
+-- 1. Single Row Functions:
+-- 1.1 Text functions.
+-- char()
+    select char(65); => 0x41		
+    select char(65 using ASCII); -- 'A'  [65-90 A-Z] [97-122 a-z]
+    select char(70,65,90 using ASCII); -- FAZ
+-- concat
+    select concat(name, " ", lastname) as "Full Name" from student; -- "Sagar Patil"
+    select concat(concat(name, " is from "), city) from student; -- Sagar is from Nandurbar
+-- lower/lcase
+    select lower(name) from student;
+    select lcase(name) from student;
+-- upper/ucase
+    select upper(name) from student;
+    select ucase(name) from student;
+-- substr(data, startIndex, stringLength):
+    select substr('computer', 4,3);  -- put
+    select substr(name, 4,3) from student;  -- put
+-- trim: 
+    select trim('   spaces   '); -- 'spaces'
+    select ltrim('   spaces   '); -- 'spaces   '
+    select rtrim('   spaces   '); -- '   spaces'
+-- instr(data, searchData);
+    select instr('computer', "mp"); -- 3
+    select (name, "gar") from student;  -- sagar 3  -- Nilesh 0
+-- length
+    select length("Sagar"); -- 5
+-- left/right
+    select left("Sagar"); -- Sa
+    select right("Sagar"); -- ar
+-- mid
+    select mid("Computer", 4,3); -- put
+
+-- 1.2 Numeric functions:
+    select mod(5,3);    -- modules => reminder 2
+
+    select pow(2,6);    -- 2^6 = 64
+    select power(2,6);    -- 2^6 = 64
+
+    select round(15.195, 1); -- 15.2
+    select round(15.195,-1); -- 20
+    select round(13.195,-1); -- 10
+
+    select sign(15); -- 1
+    select sign(0); -- 0
+    select sign(-15); -- -1
+
+    select sqrt(25); -- 5
+
+    select truncate(15.195, 1); -- 15.1 -- take 1 value after point.
+    select truncate(15.195, 2); -- 15.19
+
+-- 1.3 Time and Date"
+    select curdate(); -- 2024-02-29
+    select current_date(); -- 2024-02-29
+    select current_date; -- 2024-02-29
+
+    select now(); -- 2024-02-29 17:05:39
+    select sysdate(); -- 2024-02-29 17:05:39
+    -- difference between now and sysdate();
+    select now(), sleep(5), now(); -- 2024-02-29 17:05:00  | 0 | 2024-02-29 17:05:00
+    select sysdate(), sleep(5), sysdate(); -- 2024-02-29 17:05:00  | 0 | 2024-02-29 17:05:05
+
+    select date('2024-02-29 17:05:39'); -- 2024-02-29
+    select month('2024-02-29 17:05:39'); -- 2
+    select monthname('2024-02-29 17:05:39'); -- February
+    select day('2024-02-29 17:05:39'); -- 29
+    select dayname('2024-02-29 17:05:39'); -- Thusday
+    select year('2024-02-29 17:05:39'); -- 2024
+
+    select dayofmonth('2024-02-29 17:05:39'); -- 18
+    select dayofweek('2024-02-29 17:05:39'); -- 5  -- week starts from sunday
+    select dayofyear('2024-02-29 17:05:39'); -- 60  -- week starts from sunday
+    
+    select (); --
+    select (); --
+    select (); --
+    select (); --
+    select (); --
+    select (); --
+    select (); --
+    select (); --
+
+-- CUSTOM FUNCTIONS:
 -- How to create ParameterLess FUNCTION?
     DELIMETER $
     CREATE FUNCTION getAuthorInfo()
