@@ -129,6 +129,7 @@ Triggers :
 				then show the error message.
 					SIGNAL SQLSTATE 'Error_Message_No'		//This is error no. Index no 45000 to 45010 are kept for user access.
 					SET MESSAGE_TEXT = 'Error Message';
+					
 		
 				delimiter /
 				create trigger checkyr 
@@ -223,7 +224,7 @@ Member and all members Trigger :
 		Delimiter;
 
 	Operations :-
-		- insert into Member values('M007','Alia Bhat','Female','2019-01-05'); 
+		- insert into Member values('M007','Alia Bhatt','Female','2019-01-05'); 
 		- select * from Member;
 		- select * from AllMembers;
 		

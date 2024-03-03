@@ -43,7 +43,7 @@ How to pass two parameter in function:
 ------
 INTO :
 ------
-	-The SELECT INTO statement copies data from one table into a new table or variable
+	- The SELECT INTO statement copies data from one table into a new table or variable
 	- select authorname INTO @ANAME from author where authorid ='A002';
 	- SELECT * INTO CustomersBackupTable FROM CustomersTable;
 	- INSERT INTO Customers (CustomerName, City, Country) SELECT SupplierName, City, Country FROM Suppliers;
@@ -142,7 +142,7 @@ Stored Procedure :
 =============================
 		-> Its just like 'Shell' in OS.
 		-> We can gather bunch of query and call it.
-		-> A stored procedure is a segment of declarative SQL statementts 
+		-> A stored procedure is a segment of declarative SQL statements 
 		   stored inside the database catalog.
 		-> It will compile
 		-> Information_schema is an online catalog 
@@ -213,21 +213,4 @@ Procedure with OUT Variable :
 Procedure with Switch Case :
 ----------------------------
 		
-		Delimiter /
-		Create Procedure useSwitch( IN id varchar(10) , OUT mbrsts varchar(30))
-		begin 
-		declare yr int (10);
-			select year(doj) into yr from member where memberid = id;
-			
-			CASE
-					WHEN yr>=2021 THEN SET mbrsts='Latest Member';
-					WHEN yr=2020 THEN SET mbrsts='Last Year Member';		
-					WHEN yr < 2020 THEN SET mbrsts='Old Member';		
-			End case;
 		
-		End /
-		Delimiter ;
-		
-	Call : 
-		CALL useSwitch('M005',@sts);
-		Select @sts;

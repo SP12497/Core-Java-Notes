@@ -9,15 +9,126 @@
     drop database myDb; -- delete DB;
     select database()   -- selected database name.
 
+/* 
+==============
+Normalization:
+	- Process of reducing the redundancy of data.
+	- Improves the Data Integrity.
+	- used for:
+		- used to eliminate repeated data.
+		- ensure data dependency make some logical sence
+		- Removes repeating groups from the table.
+		- Create a separate table for each set of related data
+		- Identify each set of related data with a primary key
+		- eg. Student and Address should not be in single row, create seprate table
+Normalization Types:
+- 1st Normal form:
+	- Each cell in a row contain single value.
+- 2nd Normal form:
+	- Table (non-prime attribute) should depends on Primary Key (prime attribute), And its should be unique, not null.
+- 3rd Normal form:
+	- There should be no transitive dependency for non-prime attributes.
+	- Student and Address should no be in single row, create a seprate table.
+	- Transitively dependency?
+		- Suppose, C is depends on B and B is depends on A. Then transitively  C is depends of A.
+	- All non prime attributes(sName, sAge), must be depends on prime attributes (sRollNo)
+
+
+==============
+ACID Properties.
+1. Atomicity:
+    - Atomicity ensures that a transaction is treated as a single unit of work that either completes entirely or has no effect at all.
+    - Example: Consider a bank transfer where money is withdrawn from one account and deposited into another. 
+      Atomicity ensures that if the deposit operation succeeds but the withdrawal operation fails (due to insufficient funds), 
+      the entire transaction is rolled back, and neither account is affected.
+2. Consistency:
+    - Consistency ensures that a transaction transforms the database from one consistent state to another consistent state.
+    - Example: In a database system enforcing a foreign key constraint, consistency ensures that 
+      if a transaction attempts to insert a record with a foreign key referencing a non-existing primary key, 
+      the transaction fails, maintaining the overall consistency of the database.
+3. Isolation:
+    - Isolation ensures that the execution of one transaction is isolated from the effects of other concurrently executing transactions.
+    - Example: In a multi-user database system, isolation ensures that 
+      if one transaction reads data while another transaction is updating the same data, 
+      the first transaction sees a consistent view of the data, unaffected by the changes made by the second transaction until it's committed.
+4. Durability:
+    - Durability guarantees that once a transaction is committed, its effects are permanent and persist even in the event of system failures.
+      Such as power outages or crashes. Committed changes must be stored permanently in non-volatile storage (e.g., disk) 
+      and should not be lost even if the system fails.
+    - Example: After a successful transaction to transfer funds between accounts, 
+      durability ensures that the changes made to the account balances are persisted to disk. 
+      Even if the database system crashes after the transaction is committed, the changes are not lost upon system recovery.
+
+These examples illustrate how each ACID property ensures data integrity, consistency, and reliability in database transactions.
+
+===============
+Integrity Constraits:
+    - Database integrity refers to the accuracy, consistency, and reliability of data stored in a database. 
+    - There are several types of integrity constraints that help maintain data integrity:
+- 1. Entity Integrity:
+    - In short, it states that primary key value can't be null.
+    - Entity integrity ensures that each row (or record) in a table is uniquely identifiable. 
+    - It is typically enforced by primary key constraints, which prevent duplicate or null values in the primary key column(s).
+2. Referential Integrity:
+    - In short, Foreign key value can be either available in reference table or must be null.
+    - Referential integrity ensures the consistency of relationships between tables. 
+    - It is enforced by foreign key constraints, which ensure that values in a foreign key column must match values in the corresponding primary key column of another table (or be NULL).
+3. Domain Integrity:
+    - Domain constraints can be defined as the definition of a valid set of values for an attribute.
+    - Domain integrity ensures that values in a database adhere to defined data types, formats, and ranges. 
+    - It is enforced by data type constraints, check constraints, and domain constraints.
+    - eg. salary should be int or decimal and greater the 0.
+4. User-Defined Integrity:
+    - User-defined integrity constraints are custom rules specified by the database administrator or application developer 
+      to ensure data consistency according to specific business rules.
+    - These constraints are enforced through triggers, stored procedures, or application logic.
+5. Semantic Integrity:
+    - Semantic integrity ensures that the data stored in the database accurately represents real-world entities and relationships. 
+    - It is maintained through proper database design, normalization, and business logic enforcement.
+
+1. Domain Constraits	: on Attribute Condition/checks
+2. Entity Integrity Constraits	: primary key null not allowed
+3. Referential Integrity Constraits	: FK should be PK of other table or null
+4. Key Constraits	: choose entity/column as Primary key which is unique and not null
+
+By enforcing these integrity constraints, databases ensure data accuracy, consistency, and reliability, which are crucial for reliable and meaningful data storage and retrieval.
+===============================
+Literals :
+    Literals are fixed values that are directly used in SQL statements. 
+     They can be of various data types such as strings, numbers, dates, or boolean values. 
+1. String Literals: Enclosed in single quotes (' ') or double quotes (" ").
+    'Hello, World!'
+    "MySQL"
+2. Numeric Literals: Representing integer or floating-point numbers.
+    123
+    3.14
+3. Date and Time Literals: Representing specific points in time.
+    DATE '2022-03-14'
+    TIME '12:30:00'
+    TIMESTAMP '2022-03-01 12:30:00'
+4. Boolean Literals: Representing true or false values.
+    TRUE
+    FALSE
+5. NULL Literal: Represents a null value.
+    NULL
+6. Binary Literals: Representing binary data. Enclosed in single quotes (' ') followed by the letter b or B.
+    b'1101'
+    B'0010'
+7. Hexadecimal Literals: Representing hexadecimal data. Enclosed in single quotes (' ') followed by the letter x or X.
+    x'4A'
+    X'FF'
+*/
+
 -- tables:
 	show tables;	-- only tables
     show full tables; -- tables , temporary table , views
 	
-    describe book;	-- show structure of book
+    describe book;	-- show structure of book table
     desc book;
 -- SHOW ----
     SHOW databases;
     show tables;
+    SHOW FULL TABLES LIKE 'temp_%';
     show COLUMNS from book; -- same as: desc book;
     show INDEX from my_table;
     show CREATE TABLE my_table;
@@ -25,7 +136,7 @@
     show VARIABLES;
     show STATUS;  -- db status
     show PROCESSLIST;
-    show table status LIKE "book"; -- internal details of table;
+        show table status LIKE "book"; -- internal details of table;
 -- explain:
     explain select * from book;
 /*
@@ -296,6 +407,7 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
 
 -- # Basic SELECT Queries:
 -- 1. Select All Columns from a Table:
+    select * from database_name.employees;
     select * from employees;
 -- 2. Select Specific Columns from a Table:
     SELECT first_name, last_name FROM employees;
@@ -479,47 +591,211 @@ Note: Below employee structure queries are available in "tables-for-joins.sql" f
 	Commit;  //permanently save all data 
 
 /*
-DCL (Data Control Language):
-    - Used for controlling access to data within the database.
-        GRANT: Gives specific privileges to users or roles.
-        REVOKE: Removes specific privileges from users or roles.
-    ALL = Create/ Drop / Alter / Truncate /Select/ Update/Delete / Insert
-CREATE USER 'USERNAME'@'localhost' IDENTIFIED BY 'PASSWORD';
+===============================================
+-- How to Create a User?
+    CREATE USER 'username'@'hostname' IDENTIFIED BY 'password';
+    - 'username': This is the username you want to create.
+    - 'hostname': This is the hostname from which the user will connect. 
+        For example, 'localhost' means the user can only connect from the local machine,
+        while '%' means the user can connect from any host.
+    - 'password': This is the password for the user.
+Basic User Creation:
+    - This command creates a user named 'myuser' who can connect only from the local machine ('localhost') with the password 'mypassword'.
+    -- After creating the user, you may need to grant privileges to the user to allow them to perform specific actions on databases and tables. This is typically done using the GRANT statement.
 */
-    CREATE USER 'abc'@'localhost' IDENTIFIED BY 'lms';
-    GRANT select ON mydb.* to 'abc'@'localhost';
-    use mydb; GRANT select ON employee to 'abc'@'localhost';
+-- Show current user:
+    select user();
+    select current_user();
+-- Show all list of users:
+    select user, host from mysql.user;
+-- 1. Basic User Creation:
+    create user 'user3'@'localhost';
+    CREATE USER 'myuser'@'localhost' IDENTIFIED BY 'mypassword';
+-- 2. Create User with No Password:
+    CREATE USER 'username'@'hostname' IDENTIFIED BY '';
+-- 3. Create User with SSL Requirements:
+    CREATE USER 'username'@'hostname' REQUIRE SSL;
+-- 4. Create User with SSL and X.509 Certificate Requirements:
+    CREATE USER 'username'@'hostname' REQUIRE X509;
+-- 5. Create User with Specific Resource Limits:
+    CREATE USER 'username'@'hostname' WITH MAX_QUERIES_PER_HOUR 100 MAX_UPDATES_PER_HOUR 10;
+    -- This creates a user with specific resource limits for queries and updates per hour.
+-- 6. Create User with Account Expiry:
+    CREATE USER 'username'@'hostname' WITH PASSWORD EXPIRE;
+    -- This creates a user whose password will expire. You can also specify PASSWORD EXPIRE NEVER to disable password expiry.
+-- 7. Create User with Password Expiry Policy:
+    CREATE USER 'username'@'hostname' PASSWORD EXPIRE INTERVAL 90 DAY;
+    -- This creates a user with a password expiry policy. Passwords must be changed within the specified interval.
 
-    ALTER USER 'pqr'@'localhost' IDENTIFIED BY 'ABC';
-    Revoke select,update,drop ON lms.* FROM 'abc'@'localhost';
-
-    DROP USER 'abc'@'localhost';
--- How to show the GRANTS?
-	SHOW GRANTS FOR pqr@localhost;
-
-
--- View Table:
-    create view vbook as select bookid, bookname , cost from book;
-    Show full tables; 
-    Drop view vbook;
+-- ------------
+-- Some other common commands related to user:
+-- 1. DROP USER: Removes one or more existing database users.
+    DROP USER 'username'@'hostname';
+-- 2. ALTER USER: Modifies the properties of an existing user, such as the password or account lock status.
+    ALTER USER 'username'@'hostname' IDENTIFIED BY 'new_password';
+    ALTER USER 'username'@'hostname' Password expire;
+    ALTER USER 'username'@'hostname' account lock;
+-- 3. RENAME USER: Renames an existing user account to a new name.
+    RENAME USER 'old_username'@'hostname' TO 'new_username'@'hostname';
+-- 4. GRANT: Grants specific privileges to a user or group of users.
+    GRANT SELECT, INSERT ON database.* TO 'username'@'hostname';
+-- 5. REVOKE: Revokes previously granted privileges from a user or group of users.
+    REVOKE SELECT, INSERT ON database.* FROM 'username'@'hostname';
+-- 7. FLUSH PRIVILEGES: Reloads the grant tables in the MySQL server, applying any changes made using the GRANT or REVOKE statements.
+    FLUSH PRIVILEGES;
+-- 8. SHOW GRANTS: Displays the privileges granted to a specific user or group of users.
+    SHOW GRANTS FOR 'username'@'hostname';
+-- 9. SHOW GRANTS FOR CURRENT_USER(): Displays the privileges granted to the currently authenticated user.
+    SHOW GRANTS FOR CURRENT_USER();
 /*
+===============================================
+DCL (Data Control Language):
+    - privilege: privilege is a permission given by DBA.
+    - Privilege can be divided into 2 parts:
+        1. System privileges : DDL
+        2. Object Privileges : DQL, DML
+    - Used for controlling access to data within the database.
+    - MySQL provides 2 DCL commands to manupulate the privileges.
+        1. GRANT: Gives specific privileges to users or roles.
+        2. REVOKE: Removes specific privileges from users or roles.
+    In Grant ALL, Truncate is not available.
+What are the privileges are granted in GRANT ALL ?
+-> In MySQL, the GRANT ALL command is used to grant all available privileges on a database or table to a user. 
+    SELECT: Permission to read data from tables.
+    INSERT: Permission to insert new rows into tables.
+    UPDATE: Permission to modify existing rows in tables.
+    DELETE: Permission to delete rows from tables.
+    CREATE: Permission to create new databases and tables.
+    DROP: Permission to drop (delete) existing databases and tables.
+    ALTER: Permission to alter the structure of existing tables (e.g., add or drop columns).
+    INDEX: Permission to create and drop indexes on tables.
+    CREATE TEMPORARY TABLES: Permission to create temporary tables.
+    CREATE VIEW: Permission to create views based on queries.
+    SHOW VIEW: Permission to show the CREATE VIEW statement for views.
+    CREATE ROUTINE: Permission to create stored procedures and functions.
+    ALTER ROUTINE: Permission to alter existing stored procedures and functions.
+    EXECUTE: Permission to execute stored procedures and functions.
+    CREATE USER, RELOAD, PROCESS, REFERENCES: These are administrative privileges and are typically only granted to administrative users for managing the MySQL server and user accounts.
+*/
+-- GRANTS: (ON, TO)
+    USE database_name; GRANT SELECT ON table_name TO 'username'@'hostname';
+    GRANT ALL PRIVILEGES ON database_name.* TO 'username'@'hostname';
+    GRANT ALL ON database_name.* TO 'username'@'hostname';
+    GRANT SELECT, INSERT, UPDATE, DELETE ON database_name.* TO 'username'@'hostname';
+    grant select, update(name,salary) ON mydb.emp TO 'u1'@'localhost';
+        --  update emp set emp_name = "sagar", salary=333333., dept_id="D3" where emp_id = 1;
+    GRANT EXECUTE ON PROCEDURE procedure_name TO 'username'@'hostname';
+    GRANT CREATE, DROP ON database_name.* TO 'username'@'hostname';
+    GRANT ALTER, CREATE VIEW ON database_name.* TO 'username'@'hostname';
+    GRANT USAGE ON *.* TO 'username'@'hostname';
+    -- GRANT OPTION: This command allows the user to grant privileges to other users. 
+    -- It is often used in combination with other privileges to delegate the ability to grant access to databases or tables.
+    GRANT SELECT ON database_name.* TO 'username'@'hostname' WITH GRANT OPTION;
+
+-- REVOKE:  (ON, FROM)
+    REVOKE ALL PRIVILEGES ON *.* FROM 'username'@'hostname';
+    REVOKE SELECT, INSERT, UPDATE, DELETE ON database_name.* FROM 'username'@'hostname';
+    REVOKE EXECUTE ON PROCEDURE procedure_name FROM 'username'@'hostname';
+    REVOKE CREATE, DROP ON database_name.* FROM 'username'@'hostname';
+    REVOKE ALTER, CREATE VIEW ON database_name.* FROM 'username'@'hostname';
+    REVOKE USAGE ON *.* FROM 'username'@'hostname';
+    REVOKE GRANT OPTION ON database_name.* FROM 'username'@'hostname';
+
+/* ===================================================================
+Views:
+    - In SQL, a view is a virtual table based on the result-set of an SQL statement.
+    - A view contains rows and columns, just like a real table. The fields in a view are fields from one or more real tables in the database.
+    Advantages:
+        - simplify complex query. (create view from joins and show all necessary data in single table.)
+        - provide extra layer of security.  (we can skip password of employee and show employee details to other user's.)
+    Disadvantages:
+        - Performance decreases.
+        - Dependency on table. (View dont have its own storage. Every time it will query table and show latest data.)
+*/
+-- show all view and tables views:
+    show tables;
+    show full tables;
+-- create view:
+    CREATE VIEW vemployee AS select emp_name from employee;
+    CREATE OR REPLACE VIEW vemployee2 AS select emp_id, emp_name from employee;     -- AS is mandatory
+    CREATE VIEW `employee department` AS SELECT e.emp_name, d.dept_name FROM employee e JOIN department d ON e.dept_id = d.dept_id;
+    select * from `employee names`;
+-- change view:
+    ALTER VIEW vemployee AS select emp_id, emp_name, salary from employee;
+    CREATE OR REPLACE VIEW vemployee AS select emp_id, emp_name from employee;
+-- Renave view name:
+    RENAME TABLE vemployee TO vemp;
+-- Drop View:
+    drop view vemployee3;
+    drop view vemployee2, vemp;
+-- Practical:
+    insert into vemployee values ("E7","Yogesh");
+    insert into employee (emp_id, emp_name, salary, dept_id, manager_id) values ("E8","Nilesh", 12345, "D2", "M2");
+    -- Note: both E7 and E8 record will reflect in employee table and view vemployee table.
+    -- Its proves that, Vies is just a representation, its dont have own storage, every time it will query its parent tables.
+    Drop view vbook;
+
+/* ==================================================================
 -- Temporary Table:
     - A special type of table that allows you to store a temporary result set.
 	   which you can reuse several times in a SINGLE SESSION.
     - These tables will get automatcally removed when the session ends.
-    You may use DROP TABLE command to drop such tables explicitly as well.	
-    - if we make changes in temporary table , this will make change in only temporary table, not in base table.
+    - Temporary table has its own storage.
+    - If changes made in Temporary Table, it only reflect to Temporary table, wont reflect on Base table like view.
 */
-    create TEMPORARY TABLE tauthor as select authorname , gender from author;
-    -- we cant see the table using (show full tables;)  
+-- Creating a Local Temporary Table:
+    CREATE TEMPORARY TABLE temp_table_name (
+        column1 datatype1,
+        column2 datatype2,
+        INDEX tIndex (column1)
+    );
+-- Create only structure, not data from other table:
+    CREATE TEMPORARY TABLE tEmployee LIKE employee; 
+    desc tEmployee;
+-- Create only structure and data from other table:
+    CREATE TEMPORARY TABLE tEmployee2 AS select emp_id, emp_name from employee; -- AS is not mandatory
+    CREATE TEMPORARY TABLE tEmployee select emp_id, emp_name from employee;
+    select * from tEmployee;
+-- DROP:
+    DROP TEMPORARY TABLE tEmployee; -- This is safe to use, if wont delete Table or view. 
+    DROP TEMPORARY TABLE IF EXISTS tEmployee2;  -- No error, if present then delete
+    DROP TABLE tEmployee2;
+-- we cant see the table using (show full tables;)  
     SELECT * FROM INFORMATION_SCHEMA.INNODB_TEMP_TABLE_INFO\G
-    select * from tauthor;
-    drop table tauthor;
+-- Practical:
+    -- Session 1
+    CREATE TEMPORARY TABLE local_temp_table (
+        id INT,
+        name VARCHAR(50)
+    );
+    INSERT INTO local_temp_table (id, name) VALUES (1, 'John'), (2, 'Alice');
+    -- Query the temporary table
+    SELECT * FROM local_temp_table; -- Returns data
+    -- End of Session 1
+    -- The local_temp_table is automatically dropped
 
 /*
 __________
 Variable :
 ---------- 
+    -  Variables are used to store data temporarily during the execution of SQL statements or stored procedures. 
+    - Type of Variables:
+        1. User-Defined Variables:
+            - User-defined variables in MySQL start with the '@' symbol.
+            - They are local to the session in which they are created.
+        2. Local Variable:
+            - The local variable is a strongly typed variable.
+            - The scope of the local variable is in a stored program block in which it is declared.
+            - MySQL uses the DECLARE keyword to specify the local variable. The DECLARE statement also combines a DEFAULT clause to provide a default value to a variable. 
+            - initial value is NULL. 
+            - It is mainly used in the stored procedure program.
+            - eg:
+        3. System Variables:
+            - System variables are predefined by MySQL and control various aspects of the MySQL server's behavior. 
+            - They are accessed using the @@ symbol.
+        4. Function Variables:
+            declare Joindate date;
+            declare name varchar(50)
 	Types of variables :
 		- @Session Variable
 		- Local variable :
@@ -528,16 +804,46 @@ Variable :
 			IN variable_name datatype
 		- Output Variable	: 
 			OUT variable_name datatype
+INTO :
+------
+	- The SELECT INTO statement copies data from one table into a new table or variable
+	- select authorname INTO @ANAME from author where authorid ='A002';
+	- SELECT * INTO CustomersBackupTable FROM CustomersTable;
+	- INSERT INTO Customers (CustomerName, City, Country) SELECT SupplierName, City, Country FROM Suppliers;
 */
-    select  authorname INTO @ANAME from author where authorid ='A002'
-    select @ANAME;
+-- 1. User-Defined Variables:
+    SET @num := 10;
+    SELECT @num * 5;
+    select max(salary) INTO @sal from employee;
+    select @sal:=max(salary) INTO @SAL from employee;
+    select * from employee where salary =@sal;
+-- 2. Local Variable:
+    DELIMITER //
+    Create Procedure Test()  
+    BEGIN  
+        DECLARE A INT DEFAULT 100;  
+        DECLARE B INT;  
+        DECLARE C INT;  
+        DECLARE D INT;  
+        DECLARE E INT;          -- NULLL
+        DECLARE F VARCHAR(20);  -- NULL
+        SET B = 90;  
+        SET C = 45;  
+        SET D = A + B - C;  
+        SELECT A, B, C, D, E, F;  
+    END //  
+    DELIMITER ;
+    CALL Test();
+    DROP PROCEDURE Test;
+-- 3. System Variables:
+    SHOW VARIABLES; -- check all the list of system variables pressent in database;
+    show variables LIKE '%thread%';
+    select @@thread_cache_size;
 
-    select authorname INTO @ANAME from author where authorid ='A004';
-    select authorname from author where authorid ='A004' INTO @ANAME;
-/*
-
-===================================
+/* ===================================
 FUNCTION :
+- Function retun only one column of only one row. ie function returns only 1 value.
+MySQL has many built-in functions.
 There are 2 types:
 1. Single Row Functions
 	- Work on each individual row of a table and return result for each row.
@@ -552,7 +858,9 @@ There are 2 types:
 		   work on different platforms, but need to perform the same database operations.
 */
 -- 1. Single Row Functions:
--- 1.1 Text functions.
+-- 1.1 String functions.
+-- length():
+    SELECT LENGTH("SQL Tutorial") AS LengthOfString;
 -- char()
     select char(65); => 0x41		
     select char(65 using ASCII); -- 'A'  [65-90 A-Z] [97-122 a-z]
@@ -625,43 +933,317 @@ There are 2 types:
     select dayofweek('2024-02-29 17:05:39'); -- 5  -- week starts from sunday
     select dayofyear('2024-02-29 17:05:39'); -- 60  -- week starts from sunday
     
-    select (); --
-    select (); --
-    select (); --
-    select (); --
-    select (); --
-    select (); --
-    select (); --
-    select (); --
-
+-- ================================
 -- CUSTOM FUNCTIONS:
--- How to create ParameterLess FUNCTION?
-    DELIMETER $
-    CREATE FUNCTION getAuthorInfo()
-    RETURNS varchar(20)
+-- Show list of functions and procedures:
+    -- ROUTINE means Function and Procedure.
+    SELECT ROUTINE_NAME, ROUTINE_TYPE FROM INFORMATION_SCHEMA.ROUTINES;
+    SELECT ROUTINE_NAME, ROUTINE_TYPE FROM INFORMATION_SCHEMA.ROUTINES 
+	    where ROUTINE_TYPE = 'FUNCTION' AND ROUTINE_SCHEMA = 'database_name';
+-- 1. ParameterLess FUNCTION?
+    DELIMITER $
+    CREATE FUNCTION getFirstEmp()
+    RETURNS varchar(50)
     BEGIN
-        return (select authorName from author where authorId = "a1");
-    END
-    $
+        return (select emp_name from employee where emp_id="E1");
+    END $
     DELIMITER ;
--- call:
-    select 'Employee Name: ' + getAuthorInfo();
+-- ERROR: This function has none of DETERMINISTIC, NO SQL, or READS SQL DATA in its declaration and binary logging is enabled (you *might* want to use the less safe log_bin_trust_function_creators variable)
+-- Solution 1:
+    SET GLOBAL log_bin_trust_function_creators = 1;
+-- Solutionn 2:
+    DELIMITER $
+    CREATE FUNCTION getFirstEmp() RETURNS varchar(50)
+    DETERMINISTIC NO SQL READS SQL DATA
+    BEGIN
+        return (select emp_name from employee where emp_id="E1");
+    END $  
+    DELIMITER ;
 
-    drop function getAuthorInfo
+    -- -----------------------
+    DELIMITER $
+    CREATE FUNCTION emp_name_max_salary()
+    RETURNS varchar(50)
+    BEGIN
+        DECLARE e_max INT;
+        DECLARE e_name varchar(50);
+
+        select MAX(salary) INTO e_max from employee;
+        select emp_name INTO e_name from employee where salary = e_max;
+        return e_name;
+    END $
+    DELIMITER ;
+    -- call:
+    select 'Max salary employee Name: ' + emp_name_max_salary();
+    drop function emp_name_max_salary;
 
 -- parameterized function:
     DELIMITER #
-    CREATE FUNCTION getAuthorInfo(aid varchar(20))
-    RETURNS varchar(20)
-        RETURN (SELECT authorName from author where authorId = aid);
+    CREATE FUNCTION getEmpName(empId varchar(20)) RETURNS varchar(50)
+    BEGIN
+        return (select emp_name from employee where emp_id= empId);
     END #
     DELIMITER ;
+    select getEmpName('E3');
 
-    SELECT getAuthorInfo("a1");
 
--- How to check functions in Database?
-	SELECT ROUTINE_NAME, ROUTINE_TYPE FROM INFORMATION_SCHEMA.ROUTINES 
-		where ROUTINE_TYPE = 'FUNCTION' AND ROUTINE_SCHEMA = 'databaseName';
-    -- ROUTINE means Function and Procedure.
 
--- ============================
+/* =========================================================
+Strored Procedure:
+    - A stored procedure in MySQL is a set of SQL statements that are stored in the database server 
+        and can be called and executed repeatedly by client applications or other stored procedures.
+    - It's stores in database catalog. Information_schema is an online catalog.
+    - Required less Execution Time.Its decides on
+			-> 1. Internet Speed, 2. Load on Server, 3. Progamming Structure. 
+    - A stored procedure can be invoked by...
+        -> CALL Keyword
+        -> Triggers
+        -> Other stored procedure
+        -> Applications such as Java , Python , PHP
+    - when a query triggered then it goes to 
+			->Front end ->Back End -> Server -> Server resolve it -> Back end ->Front End.
+            - above process will repeate in each query. In procedure, will gather all the queries and send to the server and reduces the time.
+    - Stored procedures offer several advantages, including improved performance, code modularity, and enhanced security.
+    - Stored Procedure did not retun any parameters. We can take the output in the form of parameters
+    - Parameters are variables that allow you to pass values into the procedure when it is called
+    - There are three types of parameters commonly used in stored procedures:
+    1. IN Parameters: 
+        - IN parameters are used to pass values into the stored procedure. 
+        - They are read-only within the procedure, meaning their values cannot be modified by the procedure. 
+        - IN parameters are typically used to provide input to the procedure.
+    2. OUT Parameters: 
+        - OUT parameters are used to return values from the stored procedure to the caller. 
+        - They are declared in the parameter list with the OUT keyword. 
+        - Inside the procedure, you can assign values to OUT parameters, which can then be accessed after the procedure call.
+    3. INOUT Parameters: 
+        - INOUT parameters are a combination of IN and OUT parameters. 
+        - They allow passing values into the procedure and returning modified values back to the caller. 
+        - INOUT parameters are specified with the INOUT keyword.
+*/
+-- 1. Creating a Stored Procedure:
+    DELIMITER //
+    CREATE PROCEDURE GetEmployeesByDepartment(IN department_id varchar(20), INOUT num INT, OUT emp_id INT)
+    BEGIN
+        SELECT * FROM employee WHERE dept_id = department_id;
+        SET num = num + 1;
+        SELECT COUNT(*) INTO emp_id FROM employee;
+    END //
+    DELIMITER ;
+-- 2. Calling the Stored Procedure:
+    SET @myCounter = 1;
+    CALL GetEmployeesByDepartment("D1", @myCounter, @myCount);
+    SELECT @myCounter, @myCount;
+-- 3. Dropping a Stored Procedure:
+    DROP PROCEDURE IF EXISTS GetEmployeesByDepartment;
+
+-- Practice:
+    -- ----
+    CREATE PROCEDURE TransferFunds(IN sender_id INT, IN recipient_id INT, IN amount DECIMAL(10, 2))
+    BEGIN
+        START TRANSACTION;
+        UPDATE accounts SET balance = balance - amount WHERE account_id = sender_id;
+        UPDATE accounts SET balance = balance + amount WHERE account_id = recipient_id;
+        COMMIT;
+    END;
+    CALL TransferFunds(01,02, 5000);
+
+    -- ---- 
+    -- DECIMAL(10,2);   -- 12345678.12  -- Total size 10 num, and after .2
+    DELIMITER //
+    ALTER PROCEDURE GetEmployeeSalary(IN empId varchar(20))
+    BEGIN
+        DECLARE salary DECIMAL(10,2);   -- 12345678.12  -- Total size 10 num, and after .2
+        
+        SELECT salary INTO salary FROM employee WHERE emp_id = empId;
+        
+        IF salary > 50000 THEN
+            SELECT 'High Salary' AS message;
+        ELSE
+            SELECT 'Low Salary' AS message;
+        END IF;
+    END //
+    DELIMITER ;
+    CALL GetEmployeeSalary("E1");
+
+    -- -------
+    Delimiter /
+    Create Procedure useSwitch( IN id varchar(10) , OUT mbrsts varchar(30))
+    BEGIN 
+        DECLARE yr int (10);
+        SELECT year(doj) into yr from member where memberid = id;
+
+        CASE
+            WHEN yr>=2021 THEN SET mbrsts='Latest Member';
+            WHEN yr=2020 THEN SET mbrsts='Last Year Member';		
+            WHEN yr < 2020 THEN SET mbrsts='Old Member';		
+        End case;
+    END /
+    Delimiter ;
+-- Call : 
+    CALL useSwitch('M005',@sts);
+    Select @sts;
+
+
+/* =========================================================
+TRIGGERS:
+    - Triggers implement Domain Integrity.
+    - Triggers are database objects in MySQL that are associated with a table and 
+      automatically perform an action when a certain event occurs on the table.
+    - These events can be INSERT, UPDATE, or DELETE operations.
+    - Its a Special Stored Procedure. Special because it can not called directly like a normal stored procedure.
+    - It is called automatically when a data modification event is made against a table.
+    - It called automatically when me fire insert/update/delete query.
+    - We have 2 Keywords :
+			1. OLD : OLD object for old table.
+			2. NEW : NEW object for NEW table.
+    - And we have 6 operations :
+			- Before INSERT		- After INSERT
+			- Before UPDATE		- After UPDATE
+			- Before DELETE		- After DELETE
+    - Trigger event have 2 special keywords.
+        1. NEW:
+            -  Refers to the new values of columns being affected by an INSERT or UPDATE operation.
+            - INSERT / UPDATE
+        2. OLD:
+            - Refers to the old values of columns being affected by an UPDATE or DELETE operation.
+            - DELETE / UPDATE
+    - MySQL ERRORS:
+        SIGNAL SQLSTATE 'Error_Message_No' SET MESSAGE_TEXT = 'Error Message';
+        - SQLSTATE is error code. Index number 45000 to 45010 are kept for user access.
+Syntax:
+    CREATE TRIGGER trigger_name
+    {BEFORE | AFTER} {INSERT | UPDATE | DELETE}
+    ON table_name
+    FOR EACH ROW
+    BEGIN
+        -- Trigger action
+    END;
+*/
+-- DROP:
+    DROP TRIGGER IF EXISTS trigger_name;
+-- SHOW:
+    SHOW TRIGGERS;
+    SHOW TRIGGERS IN database_name;
+    SELECT Trigger_NAME, EVENT_OBJECT_TABLE FROM INFORMATION_SCHEMA.triggers where INFORMATION_SCHEMA.triggers.TRIGGER_SCHEMA LIKE '%classroom%' ;
+
+-- RETURN ERROR Message.
+CREATE TRIGGER prevent_duplicate_emails
+BEFORE INSERT ON users
+FOR EACH ROW
+BEGIN
+    IF EXISTS (SELECT * FROM users WHERE email = NEW.email) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Email must be unique';
+    END IF;
+END;
+
+---------- Practice on each type: ----------
+-- Q. If someone date of join of employee out of year 1990-2020. Give proper error messages.
+-- Setup:
+    CREATE TABLE Numbers (num int);
+    INSERT INTO Numbers values (10);
+    CREATE TABLE NumbersBackup (no int);
+    -- CREATE TABLE audit_log (event_type varchar(20), event_description varchar(50), event_timestamp date);
+    -- INSERT INTO audit_log (event_type, event_description, event_timestamp) VALUES ('INSERT', CONCAT('New employee added: ', NEW.employee_name), NOW());
+-- A. BEFORE:
+-- A1. BEFORE INSERT:
+-- Q. Employee joining data should not be in future.
+    delimiter /
+    create trigger checkyr 
+    before insert ON Employee
+    for each row
+    BEGIN
+        DECLARE greaterMsg varchar(100);
+        SET greaterMsg = concat("Sorry.. Year can't be greater than: ", now() );
+        if year(new.doj) > year(now()) then
+            SIGNAL SQLSTATE '45001'	SET MESSAGE_TEXT = greaterMsg;
+
+        Elseif year(new.doj) < 1990 then
+            SIGNAL SQLSTATE '45002' SET MESSAGE_TEXT = "Sorry.. Year can't be less than 1900";				
+        end if;
+    end /
+    delimiter ;
+    insert into employee values ("E8", "Sagar", 145000, "2028-02-14", "D4","M2");
+    insert into employee values ("E9", "Sagar", 145000, "1989-02-14", "D4","M2");
+
+-- Q1) Number should be between 0 to 100;
+    DELIMITER $
+    CREATE TRIGGER roundOffNumbersIn100
+    BEFORE INSERT
+    ON Numbers
+    FOR EACH ROW
+    BEGIN
+        IF NEW.num > 100 THEN 
+            SET NEW.num = 100;
+        ELSEIF NEW.num < 0 THEN
+            SET NEW.Num = 0;
+        END IF;
+    END $
+    DELIMITER ;
+-- TEST:
+    INSERT INTO Numbers values(120);	//100
+	INSERT INTO Numbers values(-20);	//0
+
+-- A2. BEFORE Delete:
+-- Create a backup, if record is going to delete.
+    DELIMITER //
+    CREATE TRIGGER backupUpdatedData
+    BEFORE DELETE
+    ON Numbers
+    FOR EACH ROW
+    BEGIN 
+        insert into NumbersBackup values (OLD.num);
+    END //
+    DELIMITER ;
+-- TEST:
+    delete from employee where emp_id = "E1";
+
+-- New updated salary of employee will be always greater than current salary, else retun SQL error.
+    DELIMITER //
+    CREATE TRIGGER UpdateEmpSalary BEFORE UPDATE
+    ON Employee FOR EACH ROW
+    BEGIN
+        IF NEW.salary < OLD.salary THEN 
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'New salary cannot be less than current salary.';
+        END IF;
+    END //
+    DELIMITER ;
+    update employee set salary = 10000 where emp_id = "E1";
+    -- ERROR 1644 (45000): New salary cannot be less than current salary
+
+
+-- --------TRIGGER + PROCEDURE ---------
+-- Q. Call procedure inside function.
+-- > PROCEDURE:
+    delimiter /
+    create Procedure checkYear(IN yr int(10))
+    BEGIN
+        DECLARE greaterMsg varchar(100);
+        SET greaterMsg = concat("Sorry.. Year can't be greater than: ", now() );
+
+        if yr > year(now()) then
+            SIGNAL SQLSTATE '45000'	SET MESSAGE_TEXT = checkYear;
+        ElseIf yr < 1990 then
+            SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = 'Sorry.. Year cant be less than 1900';
+        end if;
+    end /
+
+    Create trigger checkYrInsert 
+    before insert 
+    on Employee for each row
+    Begin
+        Call CheckYear(year(new.doj));  -- procedure call
+    End /
+
+    delimiter ;
+
+
+/*
+TODO:
+    1. While DO
+    2. Repeat
+    3. LOOP
+    4. Cursor
+*/
+
+
+-- ================ END ==========

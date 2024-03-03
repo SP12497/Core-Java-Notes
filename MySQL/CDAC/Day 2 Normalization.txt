@@ -1,11 +1,9 @@
-
 Normalization:
 	- Process of reducing the redundancy of data.
 	- Improves the Data Integrity.
 	used for:
 		- used to eliminate repeated data.
 		- ensure data dependency make some logical sence
-	- 
 		- Removes repeating groups from the table.
 		- Create a separate table for each set of related data
 		- Identify each set of related data with a primary key
@@ -28,6 +26,7 @@ Normalization Types:
 	- Transitively dependency?
 		- Suppose, C is depends on B and B is depends on A. Then transitively  C is depends of A.
 	- All non prime attributes(sName, sAge), must be depends on prime attributes (sRollNo)
+
 - Boyce Codd Normal form/ BCNF/ 3.5 normal form:
 	- Every functional dependency A->B, then A has to be the Super Key of that particular table. 
 	- below table is in 3rd normal form. but Subject and subject Professon is linked to each other, each Professon have specific subject.

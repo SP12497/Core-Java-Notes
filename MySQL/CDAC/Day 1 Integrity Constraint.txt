@@ -7,7 +7,7 @@ What is ACID PROPERTIES?
 Integrity Constraits over relation:
 -----------------------------------
 - Its used to ensure accurancy and consistency of the data in relation database.
-- Its a set of rules that the database is not permitted to vioate.
+- Its a set of rules that the database is not permitted to violate.
 - ex. Blood group: A,B,O...
 
 Types of Integrity Constraits:

@@ -2,17 +2,18 @@ create table employee (
     emp_id varchar(20) primary key,
     emp_name varchar(50),
     salary integer,
+    doj date,
     dept_id varchar(20),
     manager_id varchar(20)
 );
 
 insert into employee values 
-("E1", "Rahul", 15000, "D1","M1"),
-("E2", "Manoj", 15000, "D1","M1"),
-("E3", "James", 55000, "D2","M2"),
-("E4", "Michael", 25000, "D2","M2"),
-("E5", "Ali", 20000, "D10","M3"),
-("E6", "Robin", 35000, "D10","M3");
+("E1", "Rahul", 15000, "2002-02-14", "D1","M1"),
+("E2", "Manoj", 15000, "1997-04-23", "D1","M1"),
+("E3", "James", 55000, "1995-07-30", "D2","M2"),
+("E4", "Michael", 25000, "2018-02-13", "D2","M2"),
+("E5", "Ali", 20000, "2021-12-01", "D10","M3"),
+("E6", "Robin", 35000, "2000-11-01", "D10","M3");
 
 create table department (
     dept_id varchar(20) primary key,
