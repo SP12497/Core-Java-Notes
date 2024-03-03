@@ -480,14 +480,14 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
 -- Union ALL: Show all records from both table no matter its duplicate or not.
     -- ALL LEFT + ALL RIGHT
     select bookname from allbooks UNION ALL select bookname from book;  -- show only unique book names of from both table
--- INTERSECTION:- (A intersection B) -- 
+-- INTERSECTION:- (A intersection B) -- same as INNER JOIN
     -- only show non-distinct values. 
-    -- only MATCHING records in both table.
+    -- only MATCHING records from both table.
     -- LEFT = RIGHT
     -- Show only the data from allbooks table which is present in Book table.
     select bookname from allbooks where bookname IN (select bookname from book);
 --  Minus :- 	NOT IN :
-    -- only NON MATCHING records in both table.
+    -- only NON MATCHING records from both table.
     -- LEFT != RIGHT   -- ALL LEFT + ALL RIGHT - REMOVE ALL(LEFT = RIGHT)
     select bookname from allbooks where bookname NOT IN (select bookname from book); 
     SELECT column_list FROM table1  
@@ -523,7 +523,7 @@ Note: Below employee structure and data queries are available in "tables-for-joi
         select b.bookName, a.authorName from Book b LEFT JOIN Author a ON b.authorId = a.authorId;
 -- 3. Right OUTER Join:
     -- right join = inner join + any additional records in the right table (left table columns will be null).
-        -- if on condition will fail, then .
+        -- if on condition will fail, then left table columns will show null .
         SELECT e.emp_name, d.dept_name FROM employee e RIGHT OUTER JOIN department d ON e.dept_id = d.dept_id;
         SELECT e.emp_name, d.dept_name FROM employee e RIGHT JOIN department d ON e.dept_id = d.dept_id;
         select b.bookName, a.authorName from Book b RIGHT JOIN Author a ON b.authorId = a.authorId;
@@ -538,22 +538,32 @@ Note: Below employee structure and data queries are available in "tables-for-joi
    -- Full Join = Inner Join 
                 + any additional records in the left table (right table columns will be null) 
                 + any additional records in the right table (left table columns will be null)
-*/  -- SQL:
-        SELECT e.emp_name, d.dept_name FROM employee e FULL OUTER JOIN department d ON e.dept_id = d.dept_id;
-        SELECT e.emp_name, d.dept_name FROM employee e FULL JOIN department d ON e.dept_id = d.dept_id;
-    -- MySQL: Left Join + UNION + Right Join.
-        SELECT e.emp_name, d.dept_name FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id UNION SELECT e.emp_name, d.dept_name FROM employee e RIGHT JOIN department d ON e.dept_id = d.dept_id;
-        SELECT e.emp_name, d.dept_name FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id UNION ALL SELECT e.emp_name, d.dept_name FROM employee e RIGHT JOIN department d ON e.dept_id = d.dept_id where e.dept_id IS NULL;
+  -- MySQL: Left Join + UNION + Right Join.
+*/  SELECT e.emp_name, d.dept_name FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id 
+        UNION SELECT e.emp_name, d.dept_name FROM employee e RIGHT JOIN department d ON e.dept_id = d.dept_id;
+    SELECT e.emp_name, d.dept_name FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id 
+        UNION ALL SELECT e.emp_name, d.dept_name FROM employee e RIGHT JOIN department d ON e.dept_id = d.dept_id 
+        where e.dept_id IS NULL;
+  -- SQL:
+    SELECT e.emp_name, d.dept_name FROM employee e FULL OUTER JOIN department d ON e.dept_id = d.dept_id;
+    SELECT e.emp_name, d.dept_name FROM employee e FULL JOIN department d ON e.dept_id = d.dept_id;
 
 -- 5. CROSS JOIN:
     -- returns cartesian project. : Employee->6records, Department->4records = Total 24 records. (each record match each other)
     -- Cross Join don't need "ON"
+    -- Here, no ON check so, employee and department dont have relationships, it each record of employee will match to each record of department.
     SELECT e.emp_name, d.dept_name FROM employee e CROSS JOIN department d; 
-    -- Above, no ON check so, employee and department dont have relationships, it each record of employee will match to each record of department.
+    -- Here, ON Check, so work as INNER JOIN.
+    SELECT e.emp_name, d.dept_name FROM employee e CROSS JOIN department d ON e.dept_id = d.department_id;
+-- -------------
 -- Problem 2: Write a query to fetch the employee name and their corresponding department name.
 -- Also make sure to display the company name and the company location corresponding to each employee.
-    select e.emp_name, d.dept_name, c.company_name, c.location from Employee e LEFT JOIN Department d ON e.dept_id = d.dept_id CROSS JOIN Company c;
-    select e.emp_name, d.dept_name, c.company_name, c.location from Employee e LEFT JOIN Department d ON e.dept_id = d.dept_id CROSS JOIN Company c where c.company_id = "C001";
+    select e.emp_name, d.dept_name, c.company_name, c.location 
+        from Employee e LEFT JOIN Department d ON e.dept_id = d.dept_id 
+        CROSS JOIN Company c;
+    select e.emp_name, d.dept_name, c.company_name, c.location 
+        from Employee e LEFT JOIN Department d ON e.dept_id = d.dept_id 
+        CROSS JOIN Company c where c.company_id = "C001";
 
 -- 6. Natural Joins
     -- Natural Join don't need "ON"
@@ -567,42 +577,82 @@ Note: Below employee structure and data queries are available in "tables-for-joi
     -- control goes to sql to choose the column, where the join should happen. So using natural joins are highly not recommended.
 
 -- 7. self Join:
-  -- there is no keyword as SELF, When we do join table to itself, then this called as self join.
+  -- there is no keyword as SELF.
+  -- When we do join table to itself, then this called as self join.
   -- Problem: Write a query to fetch the child name and their age corresponding to their parent name and parent age.
   select child.name as child_name, child.age as child_age, parent.name as parent_name, parent.age as parent_age 
   from family as child JOIN family as parent 
   ON child.parent_id=parent.member_id;
 
 
-
 /* =============================================
 ============= TCL =============
 5. TCL (Transaction Control Language):
     - used for managing transactions within the database.
-    COMMIT: Saves changes made during a transaction.
-    ROLLBACK: Undoes changes made during a transaction.
-    SAVEPOINT: Sets a point within a transaction to which you can later roll back.
-    SET TRANSACTION: Specifies characteristics for the transaction.
+    1. COMMIT: Saves changes made during a transaction.
+    2. ROLLBACK: Undoes changes made during a transaction.
+    3. SAVEPOINT: Sets a point within a transaction to which you can later roll back.
+    4. SET TRANSACTION: Specifies characteristics for the transaction.
+    5. RELEASE SAVEPOINT: Releases a previously defined savepoint within a transaction.
+    
 */
 -- by default, Session is always in "Auto-Commite Mode".
+    select @@autocommit; -- by default "1"
+-- Practical 1:
     SET AUTOCOMMIT = 0; -- To run into Manual Mode.
 
     SAVEPOINT ONE;
+
 	insert into author values('A011','Vikram','UK','Male'); 
 	UPDATE author set nationality ='Rus'  where authorid = 'A011';
-
 	SAVEPOINT TWO;
-	UPDATE author set nationality ='USA'  where authorid = 'A011';
-		
+
+	UPDATE author set nationality ='USA'  where authorid = 'A011';	
 	SAVEPOINT THREE;
+	
+    UPDATE author set nationality ='IND'  where authorid = 'A011';	
+	SAVEPOINT FOUR;
+
 	UPDATE author set nationality ='India'  where authorid = 'A011';
  	
-	ROLLBACK TO THREE; //UNDO
-	ROLLBACK TO TWO;
-    -- RELEASE SAVEPOINT ONE
+	ROLLBACK TO THREE; -- UNDO query after the SAVEPOINT THREE
+	-- ROLLBACK TO TWO;
+    RELEASE SAVEPOINT TWO; -- Remove savepoint. Not queries.
 	ROLLBACK TO ONE;
-		
 	Commit;  //permanently save all data 
+-- Practical 2:
+    START TRANSACTION;
+    insert into family (member_id) values ("M1");
+    insert into family (member_id) values ("M2");
+    COMMIT; -- commited M1 and M2
+
+    START TRANSACTION;
+    insert into family (member_id) values ("M3");
+    ROLLBACK; -- RollBack M3
+
+    START TRANSACTION;
+    insert into family (member_id) values ("M4");
+    
+    START TRANSACTION; -- auto commited M4
+    insert into family (member_id) values ("M5");
+    ROLLBACK; -- Rollback M5
+    ROLLBACK; -- Nothing to rollback.
+
+/* SET TRANSACTION:
+    - used to specify characteristics for the current transaction. 
+    - However, it's important to note that MySQL does not fully support the SET TRANSACTION statement with a wide range of transaction characteristics as some other database systems do.
+    - MySQL primarily supports setting transaction isolation levels using the SET TRANSACTION statement. 
+    - SET TRANSACTION ISOLATION LEVEL isolation_level;
+    - Where isolation_level can be one of the following:
+      1. READ UNCOMMITTED: Allows dirty reads, meaning a transaction may read data that has been modified by other transactions but not yet committed.
+      2. READ COMMITTED: Prevents dirty reads by allowing a transaction to read only committed data.
+      3. REPEATABLE READ: Ensures that a transaction can repeat the same read operation and retrieve the same data, even if other transactions modify the data in the meantime.
+      4. SERIALIZABLE: Provides the highest level of isolation, ensuring that transactions are executed in a serializable manner, preventing phantom reads, non-repeatable reads, and dirty reads.
+*/
+    SET TRANSACTION ISOLATION LEVEL isolation_level;
+
+
+
 
 /*
 ===============================================
