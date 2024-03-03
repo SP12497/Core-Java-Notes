@@ -62,6 +62,17 @@ ACID Properties.
 These examples illustrate how each ACID property ensures data integrity, consistency, and reliability in database transactions.
 
 ===============
+-------------------------
+Constraints:
+    - rules or conditions applied to the data in a table.
+    - help ensure data integrity and enforce certain conditions on the data being inserted, updated, or deleted in the table.
+    - Some of the Constraints are:
+        - Primary Key
+        - Foreign Key
+        - Unique Constraint
+        - NOT NULL Constraint
+        - Check Constraint
+
 Integrity Constraits:
     - Database integrity refers to the accuracy, consistency, and reliability of data stored in a database. 
     - There are several types of integrity constraints that help maintain data integrity:
@@ -95,7 +106,7 @@ By enforcing these integrity constraints, databases ensure data accuracy, consis
 ===============================
 Literals :
     Literals are fixed values that are directly used in SQL statements. 
-     They can be of various data types such as strings, numbers, dates, or boolean values. 
+    They can be of various data types such as strings, numbers, dates, or boolean values. 
 1. String Literals: Enclosed in single quotes (' ') or double quotes (" ").
     'Hello, World!'
     "MySQL"
@@ -120,8 +131,8 @@ Literals :
 */
 
 -- tables:
-	show tables;	-- only tables
-    show full tables; -- tables , temporary table , views
+	show tables;	-- tables, views
+    show full tables; -- tables, views with Table_type
 	
     describe book;	-- show structure of book table
     desc book;
@@ -136,22 +147,10 @@ Literals :
     show VARIABLES;
     show STATUS;  -- db status
     show PROCESSLIST;
-        show table status LIKE "book"; -- internal details of table;
+    show table status LIKE "book"; -- internal details of table;
 -- explain:
     explain select * from book;
 /*
-
--------------------------
-Constraints:
-    - rules or conditions applied to the data in a table.
-    - help ensure data integrity and enforce certain conditions on the data being inserted, updated, or deleted in the table.
-    - Some of the Constraints are:
-        - Primary Key
-        - Foreign Key
-        - Unique Constraint
-        - NOT NULL Constraint
-        - Check Constraint
-
 Types of SQL Commands:
 - There are 5 types of SQL commands:
 1. DDL (Data Definition Language):
@@ -235,48 +234,36 @@ create table newBook (
 DDL 2. Alter:
     used to change the structure of the table.
     - Clause: 2.1 Add, 2.2 Modify, 2.3 Drop, 2.4 Change, 2.5 Rename To */
-    create Primary Key
-        -- add PK
-        alter table newBook add Primary Key (bookId);
-        alter table newBook modify bookId varchar(10) primary key;
-        alter table newBook2 add bookId int primary key; -- add new column
-        -- remove PK
-        alter table newBook drop primary key;  -- only delete PK on bookId, not deleting the column.
-        alter table book2 drop bookId; -- delete PK and column both
-        -- alter table newBook modify bookId varchar(10) -- this will not remove PK.
-    -- create foreign key.
-        alter table newBook add foreign key (authorId) references author (authorId);
-        alter table newBook add constraint Foreign Key (rackId) references Rack(RackId);
-
     -- Add Column:
+        alter table Rack add rackName varchar(20) after rackId;
         alter table rack add Column rackFloor int(10);
         alter table rack add rackFloor int(10);
-        alter table Rack add rackName varchar(20) after rackId;
+        ALTER TABLE table_name ADD INDEX idx_name (column_name);
+        ALTER TABLE table_name ADD UNIQUE INDEX idx_name (column_name);
     -- Modify Column:
+        alter table Rack Modify Column rackFloor varchar(20) after bookName;
         alter table Rack Modify Column rackFloor varchar(20);
         alter table Rack Modify rackFloor varchar(20);
         alter table Rack Modify rackFloor varchar(22) not null; -- before applying not null, make sure rackFloor must be present in all existing records.
-        alter table Rack Modify rackFloor varchar(20) after bookName;
 
     -- Drop Column:
         alter table rack Drop Column rackFloor;
         alter table rack Drop rackFloor;
+        ALTER TABLE table_name DROP INDEX idx_name;
     
     -- Change: rename column name:
-        alter table rack change rackFloor rackFloorNo int(20);
         alter table rack change column rackFloor rackFloorNo int(20);
+        alter table rack change rackFloor rackFloorNo int(20);
     -- RENAME column
         alter table department RENAME COLUMN dept_id to department_id;
     -- Rename: rename table name:
         alter table book1 Rename To book2;
-
 -- DDL 5. Rename:
         Rename table newBook to newBook1;   -- only one command.
 -- DDL 3. Drop:
     -- used to delete existing database objects such as tables, indexes, views, or databases themselves.
     drop table employee;
     drop table employee, department;
-
     DROP DATABASE database_name;
     DROP TABLE table_name;
     DROP INDEX index_name ON table_name;
@@ -284,15 +271,29 @@ DDL 2. Alter:
     DROP TRIGGER trigger_name;
     DROP FUNCTION function_name;
     DROP PROCEDURE procedure_name;
-
+  -- create Primary Key
+    -- add PK
+    alter table newBook add Primary Key (bookId);
+    alter table newBook2 add bookId int primary key; -- add new column
+    alter table newBook modify bookId varchar(10) primary key;
+    -- remove PK
+    alter table newBook drop primary key;  -- only delete PK on bookId, not deleting the column.
+    alter table book2 drop bookId; -- delete PK and column both
+    -- alter table newBook modify bookId varchar(10) -- this will not remove PK.
+  -- create foreign key.
+    alter table newBook add foreign key (authorId) references author (authorId);
+    alter table newBook add constraint Foreign Key (rackId) references Rack(RackId);
+    -- remove FK:
+    ALTER TABLE table_name DROP FOREIGN KEY fk_constraint_name;
 /* DDL 4. Truncate:
-    use to delete all data but not the structure.
-    Once it delete, we cant rollback.
-    TRUNCATE is faster than DELETE.
-    TRUNCATE does not return the number of rows.
-    Truncate bypasses contraints and triggers.
-    Note on delete mechanism: it will drop the table and create a new structure, so deletion in TRUNCATE is faster than DELETE query.
-*/  TRUNCATE TABLE newbook;
+    - use to delete all data but not the structure.
+    - Once it delete, we cant rollback.
+    - TRUNCATE is faster than DELETE.
+    - TRUNCATE does not return the number of rows.
+    - Truncate bypasses contraints and triggers.
+    - Note on delete mechanism: it will drop the table and create a new structure, so deletion in TRUNCATE is faster than DELETE query.
+*/  
+    TRUNCATE TABLE newbook;
     TRUNCATE TABLE table1, table2, table3;
     -- Rack table PK is foreign key for Book;
         SET FOREIGN_KEY_CHECKS = 0;   -- disable foreign key check.
@@ -332,7 +333,7 @@ DML: 1. Insert ... Into:
     INSERT INTO employees (id, name, salary) VALUES (1, 'John', 50000), (2, 'Jane', 60000);
 -- 3. Inserting Data from Another Table:
     INSERT INTO employees_archive (id, name, salary) SELECT id, name, salary FROM employees WHERE hire_date < '2022-01-01';
-    insert into student_archive (sId, sName) select sId, sName from students where sMarks > 40;
+    insert into student_archive (sId, sName) select sId, sName from students where sMarks > 40; -- AS allows only in create.
     insert into student_archive select sId, sName from students where sMarks > 40;  -- if student_archive table only have 2 columns, ie sId, sName.
 /*
 -------------------
@@ -354,8 +355,8 @@ UPDATE table_name
     UPDATE employees SET salary = salary * 1.1 WHERE department = 'IT';
     UPDATE students SET marks = marks * 1.1, fees = 4000 WHERE class = 8;
 -- 3. Update from Another Table:
+    -- IN is used to match multiple records. = equals sign only match a single recods.
     UPDATE employees SET department = 'HR' WHERE employee_id IN (SELECT employee_id FROM new_hires);
-
 /*
 -------------------
 DML 3: DELETE ... FROM:
@@ -364,7 +365,7 @@ DELETE FROM table_name
     WHERE condition;
 */
 -- 1. Delete All Rows:
-    delete from Students;
+    delete from Students; -- resulting in the loss of all data. So, always use where clause.
 -- 2. Delete Rows Based on a Single Condition:
     delete from students where sId = 1;
     delete from employees where department = "IT";
@@ -414,6 +415,7 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
     SELECT first_name AS "first name", last_name AS lastName FROM employees; -- AS, display column name last_name as lastName
 -- 3. Select Distinct Values from a Column:
     select Distinct departments from employees; -- return unique departments.
+    select Distinct(dept_id) from employees; -- return unique departments.
     select count(distinct(city)) from customers;
 -- 4. Select with WHERE Clause:
     select * from employees where department = "IT";
@@ -445,19 +447,23 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
     -- select department, avg(salary) from employees; -- error: Group by clause required on department.
     select department, avg(salary) from employees GROUP BY department;
     select subject, count(salary) as salaryCount, avg(salary) as "salary Average" from Teacher group by subject;
+    select dept_id, avg(salary) from employee group by dept_id;
     /*
     -> there is small difference between distinct and group by;
     - We can apply DISTINCT to remove the duplicate records
     - Select group by can be used to get data from different columns and group into one or more column. This can also be applied with aggregate function.
+    - WHERE Clause use on top of SELECT FROM/ INSERT INTO/ UPDATE SET and HAVING used on top of GROUP BY.
     */
 
 --# Advanced SELECT Queries:
 -- Select with Having Clause:
-    -- Having we use on top of "Group By", because we can't use 2 where clause. select where groupby having.
+    -- Having we use on top of "Group By", select where groupby having.
+    -- We can not use WHERE clause on top of GROUP BY.
     -- In having, we can use aggregate function, but in where clause, we can not.
     -- used to filter groups of rows returned by a GROUP BY clause.
     -- It allows you to specify conditions on aggregated data, similar to the WHERE clause, but for groups rather than individual rows.
     SELECT department, AVG(salary) FROM employees GROUP BY department HAVING AVG(salary) > 50000;
+    --  select dept_id, avg(salary) from employee group by dept_id where salary > 20000; We can not use WHERE clause on top of GROUP BY.
     select category, avg(bookPrice) from book group by category having avg(bookPrice)>500;
     select authorId, category, avg(bookPrice) from book group by category, authorId having avg(bookPrice)>500;
     select authorId, category, avg(bookPrice) from book where bookPrice>500 group by authorId, category having avg(bookPrice)>1000;
@@ -467,19 +473,27 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
     SELECT AVG(salary), MAX(age), MIN(sales) FROM employees;
     -- we can not use aggregate functions in where clause:
         -- SELECT AVG(salary) from employees WHERE MAX(age) = 20;   ...Wrong
--- Union: Show all different records and show common records only once from 2 tables.
+-- Union: Show all unique records of both table without duplicates means all are unique.
+    -- TABLE LEFT, TABLE RIGHT : ALL LEFT + ALL RIGHT - DUPLICATE(LEFT=RIGHT)
+    -- NOTE: Both table must have same number of columns.
     select bookname from allbooks UNION select bookname from book;  -- show only unique book names of from both table
 -- Union ALL: Show all records from both table no matter its duplicate or not.
+    -- ALL LEFT + ALL RIGHT
     select bookname from allbooks UNION ALL select bookname from book;  -- show only unique book names of from both table
--- INTERSECTION:- (A intersection B)
-    -- only show non-distinct values
+-- INTERSECTION:- (A intersection B) -- 
+    -- only show non-distinct values. 
+    -- only MATCHING records in both table.
+    -- LEFT = RIGHT
     -- Show only the data from allbooks table which is present in Book table.
     select bookname from allbooks where bookname IN (select bookname from book);
 --  Minus :- 	NOT IN :
+    -- only NON MATCHING records in both table.
+    -- LEFT != RIGHT   -- ALL LEFT + ALL RIGHT - REMOVE ALL(LEFT = RIGHT)
     select bookname from allbooks where bookname NOT IN (select bookname from book); 
     SELECT column_list FROM table1  
 		LEFT JOIN table2 ON condition  
 			WHERE table2.column_name IS NULL; 
+
 /*
 -- JOINS --
 There are 6 types of joins:
@@ -490,7 +504,7 @@ There are 6 types of joins:
     2.3 (Not In MYSQL, Its in SQL) Full Join: Full join returns all rows from both tables. Return all matching and non-matching records from both tables.
 3. CROSS JOIN: Cross join returns the Cartesian product of the two tables, i.e., it combines each row of the first table with every row of the second table.
 4. SELF JOIN: Self join is used to join a table to itself. It is helpful when you want to compare rows within the same table.
-Note: Below employee structure queries are available in "tables-for-joins.sql" file.
+Note: Below employee structure and data queries are available in "tables-for-joins.sql" file.
 */
 --1. Join / Inner Join / Perfect Join:
     -- Inner Join = Fetches matching records only.
