@@ -4,6 +4,7 @@ const user = {
     "like this video": true,
 }
 user.name = "Suraj"
+// user."like this video" // error
 console.log("like this video:", user["like this video"]);
 delete user.age;
 delete user["like this video"];
@@ -21,7 +22,7 @@ const funUser = (function (a) {
 
 console.log(funUser);
 
-//---------------
+console.log("__________________________________");
 const property = "firstName";
 const nameValue = "Sagar";
 
@@ -30,6 +31,7 @@ const user1 = {
 }
 console.log("user1:", user1);
 
+console.log("__________________________________");
 // for in loop with object:
 const user2 = {
     name: "Sagar",
@@ -41,6 +43,7 @@ for (key in user2) {
     console.log(key, ":", user2[key]);
 }
 
+console.log("__________________________________");
 //Q1. What's the output?
 const obj = {
     key1: "one",
@@ -49,9 +52,9 @@ const obj = {
 }
 console.log("same key in initialization:", obj);
 
+console.log("__________________________________");
 // Q2. Create a function multiplyByTwo(obj), that multiplies
-// all numeric property values of nums by 2.
-
+// Double all numeric property values of nums object.
 let nums = {
     a: 100,
     b: 200,
@@ -68,6 +71,7 @@ function multiplyByTwo(obj) {
     }
 }
 
+console.log("__________________________________");
 //Q3. output?
 const a = {}
 const b = { key: "b" }
@@ -85,20 +89,22 @@ console.log(a);
     Ans is: 456
 */
 
+console.log("__________________________________");
 // Q4. 
-
-const strUser = JSON.stringify(user)
+const strUser = JSON.stringify(user);
 console.log("strUser:", strUser);
 console.log("parse strUser:", JSON.parse(strUser));
 // localStorage.setItem("strUser", strUser); // it will store string object in chrome local storage
-// localStorage.setItem("user", user); // it will store '[object Object]' in chrome local storage
+// sessionStorage.setItem("user", user); // it will store '[object Object]' in chrome session storage
 
+console.log("__________________________________");
 // Q6. spread operator 
-console.log("INDIA:", [..."INDIA"]); // [ 'I', 'N', 'D', 'I', 'A' ]
+console.log("...INDIA:", [..."INDIA"]); // [ 'I', 'N', 'D', 'I', 'A' ]
 
 const admin = { isAdmin: true, ...user2 };
 console.log(admin);
 
+console.log("__________________________________");
 // Q7.
 const settings = {
     username: "sagar",
@@ -106,8 +112,11 @@ const settings = {
     isValid: true
 }
 
-console.log("settings:", JSON.stringify(settings, ["username", "isValid"])); // ignore password:// output: {"username":"sagar","isValid":true}
+console.log("settings with replaces:", JSON.stringify(settings, ["username", "isValid"])); // ignore password:// output: {"username":"sagar","isValid":true}
+console.log("settings with function:", JSON.stringify(settings, (key, value) => key === "password" ? undefined : value));
+console.log("settings separated by $$:", JSON.stringify(settings, ["username", "isValid"], "$$")); // ignore password:// output: {"username":"sagar","isValid":true}
 
+console.log("__________________________________");
 const shape = {
     radius: 10,
     diameter() {
@@ -120,6 +129,7 @@ console.log(shape.diameter()); // 20
 console.log(shape.perimeter()); // NAN
 console.log(shape.getRadius()); // undefined
 
+console.log("__________________________________");
 let student = {
     name: "Sagar",
     age: 26,
@@ -137,6 +147,7 @@ console.log("age:", age);
 console.log("zip:", zip);
 console.log("address:", address);
 
+console.log("__________________________________");
 // Q. 10 Spread and Rest operator
 // function getItems(fruitList, ...args, favoriteFruits) { //error: rest operator ...args always be last param
 function getItems(fruitList, favoriteFruits, ...args) { // rest operator ...args always be last param
@@ -145,72 +156,83 @@ function getItems(fruitList, favoriteFruits, ...args) { // rest operator ...args
 console.log(getItems(["banana", "apple"], "pear", "orange", "grapes"));
 //ans: [ 'banana', 'apple', 'orange', 'grapes', 'pear' ]
 
+console.log("__________________________________");
 // Q. 11 Object referencing?
 let ca = user;
 user.age = 30;
-console.log(ca.age); // 20
+console.log("age:", ca.age, user.age);   // both object, reference is same.
 
-console.log({ a: 1 } === { a: 1 }); // false
-console.log({ a: 1 } == { a: 1 }); // false
+// console.log("===", { a: 1 } === { a: 1 }); // false
+console.log("==", { a: 1 } == { a: 1 }); // false
 
-let person = {name : "Anshul"}
+let person = { name: "Anshul" }
 const members = [person];  // member[0] 
-person = null // it wont affect the members
 // person.name = null; this will affect the members
+person = null // it wont affect the members
 console.log(members); //[ { name: 'Anshul' } ]
 
 
+console.log("__________________Deep Copy________________");
 // Q14
 let aa = 10;
-let bb = aa; // deep copy
+let bb = aa; // deep copy of variables.
 aa = 20;
-console.log("bb:", bb);
-    //---
-let aObj = {num:10}
-let bObj = aObj;
-aObj.num = 11;
-console.log("aObj:",aObj);// aObj: { num: 11 }
-console.log("bObj:",bObj);// bObj: { num: 11 }
-aObj = {num:15}; // re-assign, it won't change the reference.
-console.log("aObj:",aObj);// aObj: { num: 15 }
-console.log("bObj:",bObj);// bObj: { num: 11 }
-aObj = null;
-console.log("aObj:",aObj);// aObj: null
-console.log("bObj:",bObj);// bObj: { num: 11 }
-aObj = {num:11}
-aObj.num = 22
-console.log("aObj:",aObj);// aObj: { num: 22 }
-console.log("bObj:",bObj);// bObj: { num: 11 }
+console.log("variables aa bb:", aa, bb);
 //---
-cObj = {...aObj} // deepCopy
-aObj.num = 33;
-console.log("aObj:",aObj);// aObj: { num: 33 }
-console.log("cObj:",cObj);// cObj: { num: 22 }
+let aObj = { num: 10 }
+let bObj = aObj;    // Shallow Copy.
+aObj.num = 11;
+console.log("aObj:", aObj);// aObj: { num: 11 }
+console.log("bObj:", bObj);// bObj: { num: 11 }
 
-const value = {number: 10}
-const multi = (x = {...value}) => { //default deep copy value
+aObj = { num: 15 }; // re-assign, it won't change the reference.
+console.log("aObj:", aObj);// aObj: { num: 15 }
+console.log("bObj:", bObj);// bObj: { num: 11 }
+
+aObj = null;
+console.log("aObj:", aObj);// aObj: null
+console.log("bObj:", bObj);// bObj: { num: 11 }
+
+aObj = { num: 11 }
+aObj.num = 22
+console.log("aObj:", aObj);// aObj: { num: 22 }
+console.log("bObj:", bObj);// bObj: { num: 11 }
+
+//---
+cObj = { ...aObj } // deepCopy // Note: deep copy of parent elements (student.name), but shallow copy of child elements like zipcode (student.addess.zipcode),
+aObj.num = 33;
+console.log("aObj:", aObj);// aObj: { num: 33 }
+console.log("cObj:", cObj);// cObj: { num: 22 }
+
+const value = { number: 10 }
+const multi = (x = { ...value }) => { // deep copy via default parameter
     console.log(x.number *= 2);    // modify the value.num
 }
 
 multi(); // no value so, it will take deep copy of default value, so original value wont change
-multi(); 
+multi();
 multi(value); // shollow copy to args, so it will modify original value
 multi(value);
-// ans 20 20 20 40
+multi({ ...value });    // spread object.
+multi({ ...value });
+// ans 20 20 20 40 80 80
 
+console.log("__________________Shallow Deep Copy________________");
 //Q 17: shallow deep copy.
 let user3 = {
     name: "Sagar",
-    age:26,
+    age: 26,
     address: {
-        zip:123
+        zip: 123
     }
 }
-const closeUser1 = Object.assign({}, user); // This will not clone nested objects.
-const closeUser2 = JSON.parse(JSON.stringify(user3));
-const closeUser3 = {...user3}
-user.name = "Patil"
-user.zip = 456
-console.log("closeUser1:", closeUser1);
-console.log("closeUser2:", closeUser2);
-console.log("closeUser3:", closeUser3);
+const cloneUser1 = Object.assign({}, user3); // parent attributes are Deep copy. Shallow copy of nested objects.
+const cloneUser2 = JSON.parse(JSON.stringify(user3));   // Fully Deep copy
+const cloneUser3 = { ...user3 } // parent attributes are Deep copy. Shallow copy of nested objects.
+user3.name = "Name changed"
+user3.address.zip = 999
+console.log("cloneUser1:", cloneUser1);
+console.log("cloneUser2:", cloneUser2);
+console.log("cloneUser3:", cloneUser3);
+
+// TODO: Learn Object class properties.
