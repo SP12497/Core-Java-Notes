@@ -1,0 +1,20 @@
+SQL (MySQL):
+    - RDBMS is a relational database management system and works on relational database.
+    - It stores data in form of entity as table.
+    - It uses SQL to query database.
+
+NoSQL (MongoDB):
+    - Its a non-relational, document-oriented database management system and works 
+      database management system and works on document-bases database.
+    - MongoDB stores data in form of documents.
+    - MongoDB uses BSON to query database.
+
+WHAT IS BSON:
+    - https://www.educba.com/json-vs-bson/
+    - Binary JSON.
+    - Mongo DB store data in BSON format.
+
+Terminologies:
+    - TABLE : Collection (Array of objects.)
+    - ROW   : Document (object)
+    - COLUMN: Field (fields of object)
