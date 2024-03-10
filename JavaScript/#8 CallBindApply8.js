@@ -94,3 +94,49 @@ let user = {
 };
 
 user.g();
+
+console.log("__________________Types of Bindings________________");
+console.log("__________________1. Implicit Bindings________________");
+// If a function is called as a method of an object, this inside the function refers to that object.
+const obj1 = {
+    name: "John",
+    greet() {
+        console.log(`Hello, ${this.name}!`);
+    }
+};
+
+obj1.greet(); // Output: Hello, John!
+
+console.log("__________________2. Explicit Bindings________________");
+// You can explicitly bind a function to a specific context using methods like call(), apply(), or bind().
+
+function greet() {
+    console.log(`Hello, ${this.name}!`);
+}
+
+const obj2 = { name: "Alice" };
+const obj3 = { name: "Bob" };
+
+greet.call(obj2); // Output: Hello, Alice! // this=obj2
+greet.apply(obj3); // Output: Hello, Bob!   // this=obj3
+
+const boundGreet = greet.bind(obj2);    // // this=obj2 and return obj3 binded function.
+boundGreet(); // Output: Hello, Alice!
+
+console.log("__________________3. Global Binding__________________");
+function greet2() {
+    console.log(`Global browser Hello, ${this.name} - ${name}!`);
+}
+const name = "World";
+
+greet2(); // Output: Hello, World - World! (in browsers)    // node: undefined - World!
+
+console.log("__________________4. Arrow Functions__________________");
+const obj4 = {
+    name: "Alice",
+    greet: () => {
+        console.log(`Hello, ${this.name} - ${obj4.name}!`);
+    }
+};
+
+obj4.greet(); // Node: Hello, undefined - Alice! / Browser: Hello, - Alice!
