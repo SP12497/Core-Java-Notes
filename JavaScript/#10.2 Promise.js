@@ -164,6 +164,7 @@ Promise Combinators:
       that allow you to perform common tasks with promises more easily. 
     - Some of the commonly used promise combinators are:
     1. Promise.all():
+        - It will execute in concurrent, not parallely. (JS can't execute code in parallely, it can execute sequentially or concurrently.)
         - Takes an array of promises and returns a single promise that resolves 
           when all of the input promises have resolved, or rejects if any of the promises reject. 
         - It's useful for parallel execution of multiple asynchronous operations.
@@ -301,7 +302,7 @@ function promRecurse(funcPromises) {
         .then((res) => console.log(res))
         .catch((res) => console.log(res))
 
-    promRecurse(funcPromises); 
+    promRecurse(funcPromises);
 }
 
 promRecurse([

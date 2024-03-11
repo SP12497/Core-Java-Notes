@@ -6,12 +6,53 @@
     - In JS, closures are created every time a function is created, at function creation time.
     
 # Lexical Scope:
+    - also known as static scope
     - In JavaScript, lexical scope is the concept of determining the scope of a variable based on its declaration. 
     - This means that the scope of a variable is determined by the block of code in which it is declared, 
       not by the block of code in which it is used.
     - Improved maintainability: Lexical scope makes your code more maintainable by making it easier to change variables without affecting other parts of your code. 
       This is because variables are only visible within their own scope, so changes to a variable in one scope will not affect variables in other scopes.
     - https://cleverzone.medium.com/lexical-scope-in-javascript-929789101dab#:~:text=3%20min%20read,in%20which%20it%20is%20used.
+
+Lexical scope: function y is lexically inside function x.
+    - var a is a lexical scope of function y();
+Closure: A closure is th combination of a function bundled together (enclosed) with references to its surrounding state (the lexical environment).
+    - A closure gives you access to an outer function's scope from an inner function.
+
+Advantages of closure:
+    Encapsulation: 
+        - Closures allow for encapsulation of data within a function scope, preventing it from being accessed by external code. 
+        - This helps in maintaining clean and modular code, reducing the risk of unintended modifications to the enclosed data.
+    Data Privacy: 
+        - Since variables within a closure are not accessible from outside the function scope, 
+          closures provide a way to create private variables and functions. 
+        - This is useful for creating modules or APIs where certain data or functionalities should not be directly exposed to external code.
+    State Retention: 
+        - Closures allow inner functions to retain access to variables and parameters of their outer functions 
+          even after the outer function has finished executing. 
+        - This enables the inner function to maintain state across multiple invocations, facilitating patterns 
+          like memoization and maintaining the state in event handlers.
+    Currying and Partial Application: 
+        - Closures enable functional programming techniques like currying and partial application. 
+        - By capturing the arguments of a function in a closure, you can create new functions with predefined parameters, 
+          which can be useful for creating reusable and composable functions.
+
+Disadvantages:
+    Memory Consumption: 
+        - Closures retain references to their outer scope, including variables and functions. 
+        - If closures are not used carefully, they can lead to memory leaks, 
+          as they prevent garbage collection of the enclosed variables, even if they are no longer needed.
+    Performance Overhead: 
+        - Since closures maintain references to their outer scope, 
+          accessing variables from the outer scope might be slower compared to accessing local variables. 
+        - Additionally, closures may require additional memory and processing overhead compared to regular functions.
+    Complexity and Readability: 
+        - Overuse of closures, especially deeply nested ones, can lead to code that is difficult to understand and maintain. 
+        - Debugging closures can be challenging, especially when they capture variables from different scopes.
+    Potential for Bugs: 
+        - Misuse of closures, such as capturing mutable variables in asynchronous callbacks, can lead to unexpected behavior, 
+          race conditions, or bugs that are hard to diagnose. 
+        - Developers need to be cautious when using closures to ensure they are used appropriately.
 */
 
 //global scope
@@ -31,6 +72,41 @@ function Subscribe() {
     // console.log("innerScope:", innerScope); // this lexical scope not allowed.
 }
 Subscribe();
+console.log("__________________________________");
+
+
+function x() {
+    var a = 10; // closure scope.
+    function y() {
+        console.log(a);
+    }
+    y();
+};
+x();
+
+console.log("____________");
+function x1() {
+    var a = 10; // closure (x1) scope.
+    function y() {
+        console.log(a);
+    }
+    return y;   //  retuns function with closure(lexical scope)
+};
+const x1res = x1();
+x1res();   // it will remember the value of a: 10
+
+console.log("____________");
+function x2() {
+    var a = 10; // closure (x2) scope.
+    function y() {
+        var b = 20; // closure (y) scope.
+        console.log(a);
+        function y() {
+            console.log(a);
+        };
+    }
+    y();   //  retuns function with closure(lexical scope)
+};
 
 console.log("__________________________________");
 // example 2

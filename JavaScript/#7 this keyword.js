@@ -28,11 +28,13 @@ Binding:
 */
 
 // 'this' keyword in JS (Implicit Binding)
+console.log(typeof this === window); // browser: true
 console.log(this); // {}, module scope defult is empty object
 this.a = 5; // node: module scope   // browser: window object
 b = 6;      // node: global scope   // browser: window object
 console.log(this.a);    // node: 5          // browser: 6
 console.log(this.b);    // node: undefined  // browser: 6
+// console.log(window.a); // works on browser
 console.log("window object:", this);
 //---
 console.log("__________________________________");

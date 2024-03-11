@@ -176,3 +176,24 @@ let user = {
 user.arrowFun();
 user.reguarFun();
 
+
+// Constructur function:
+function Counter() {
+    var count = 0;
+    this.incrementCounter = function () {
+        count++;
+        console.log(count);
+    }
+    this.decrementCounter = function () {
+        count--;
+        console.log(count);
+    }
+}
+
+// var counter1 = Counter();   // error: fuction is not returning any value so counter1.incrementCounter() will throw error.
+// counter1.incrementCounter();
+
+var counter2 = new Counter();
+counter2.incrementCounter();
+counter2.incrementCounter();
+counter2.decrementCounter();
