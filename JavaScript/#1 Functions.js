@@ -1,30 +1,63 @@
-// Q1. What is function Declarations?
+// Q1. What is Function Statement (also known as Function Declaration)?
+square(4);  // works // Function Statements are hoisted before start execution of file.
 function square(num) {
     return num * num;
 }
+square(5);  // works
 
-// Q2. What is function expression?
-// const square2 = anonymous function.
+// Q2. What is Function Expression?
+// square2(4); // hoisting: square2 undefined here. // TypeError: square2 is not a function.
 const square2 = function (num) {
     return num * num
 }
 square2(3);
 
+// Q: What is the diffence betwee Function statement and function expression?
+// => Hoisting.
+
+// Q. Anonymous Function:
+// function () {};     // SyntaxError: Function statements require a function name  // here, its showing statements not expression
+
+// Q. Named Function Expression?
+const cube = function numCube(num) {
+    console.log(numCube);
+    return num * num * num;
+}
+// numCube(2); // ReferenceError: numCube is not defined
+cube(3);
+
+// Q: Arrow Function:
+const cube2 = (num) => {
+    return num * num * num;
+}
+const cube3 = num => num * num * num;
+
 /*
-#3 First class function:
+#3 First class function (First Class Citizens):
 https://www.geeksforgeeks.org/what-is-the-first-class-function-in-javascript/
     - A programming language is said to have First-class functions 
       if functions in that language are treated like other variables. 
     - So the functions can be assigned to any other variable or passed as an argument or can be returned by another function. 
       JavaScript treats function as a first-class citizen. 
     - This means that functions are simply a value and are just another type of object.
-    - Usage of First-Class Function
+    - Usage of First-Class Function (Ability to do below things is called first class function.)
         - It can be stored as a value in a variable.
         - It can be returned by another function.
         - It can be passed into another function as a parameter.
         - It can also stored in an array, queue, or stack.
         - Also, It can have its own methods and property.
 */
+var d = function (param1) {     // can be stored as a value in a variable
+    return function xyz() {     // can be returned by another function
+
+    }
+}
+d(square);  // can be passed into another function as a parameter
+
+
+
+
+// ---------
 function displaySquare(fn) {
     console.log("Square is:", fn(5));
 }

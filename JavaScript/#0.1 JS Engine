@@ -1,0 +1,57 @@
+
+
+
+www.astexporer.net
+
+JAVA Code: let a = 5;
+JS Engine:
+- There are lots of JS engines are available.
+- Each browser has there own engine: Google-v8 , Firefox: SpiderMonkey, Edge: Chakra.
+- JS Engine has 3 phases:
+    1. Parsing:
+        - convert into tokens:
+            let
+            a
+            =
+            5
+        - Syntax parser:
+            - convert tokens into AST (Abstract Syntax Tree)
+            - www.astexporer.net (check AST structure of our code.)
+    2. Compilation:
+        There are 2 ways of compilation:
+            - Interpretter: 
+                - Execute code line by line in order and converts into bytecode.
+                - more speed
+                - V8: Ignition Interpretter
+            - Compiler:
+                - Compile whole code before executing and create a new optimized version of code.
+                - more efficiency
+                - v8: Turbo Fan Compiler
+                - Alorithm for optimization:
+                    - Inlining
+                    - Copy elision
+                    - Inline Caching
+        - JIT Compiler (Just In Time):
+            - JS Engine have JIT Compiler.
+            - This will use both Interpretter and Compiler, Its all depends on which enginer we are using.
+            - Each enginer they have there own definations.
+            - Interpretter start converting code to byte code line by line. 
+              During converting, it takes help of compiler to optimize the code.
+    3. Execution
+        - 2 Major components:
+        1. Memory Heap:
+            - all variables and functions are stored here
+            - Garbage Collector uses "Mark and Sweep" algorith to free the memory (v8: orinoco GC)
+        2. Call Stack:
+            - manage scopes
+
+Google v8 Engine:
+
+Javascript Source Code:
+    1 Parser:
+        => Abstract Syntax Tree : GOTO 2.
+    2 Interpreter Ignition:
+        - create Bytecode: GOTO 3.
+        - Compiler TurboFan:
+            => Optimized Machine Code: GOTO 3.
+    3. Bytecode
