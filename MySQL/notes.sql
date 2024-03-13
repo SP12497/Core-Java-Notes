@@ -678,7 +678,7 @@ Basic User Creation:
 -- 2. Create User with No Password:
     CREATE USER 'username'@'hostname' IDENTIFIED BY '';
 -- 3. Create User with SSL Requirements:
-    CREATE USER 'username'@'hostname' REQUIRE SSL;
+    CREATE USER 'username'@'hostname' REQUIRE SSL;  -- Secure Sockets Layer
 -- 4. Create User with SSL and X.509 Certificate Requirements:
     CREATE USER 'username'@'hostname' REQUIRE X509;
 -- 5. Create User with Specific Resource Limits:
