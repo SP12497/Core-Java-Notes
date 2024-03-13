@@ -27,7 +27,7 @@ class ABC extends Object implements Cloneable		//by default all classes are exte
 
 public class Main	
 {
-	public static void main(String[] args) throws CloneNotSupportedException
+	public static void main(String[] args) throws CloneNotSupportedException	// suppress exception
 	{
 		ABC obj1 = new ABC();
 		obj1.i = 5;

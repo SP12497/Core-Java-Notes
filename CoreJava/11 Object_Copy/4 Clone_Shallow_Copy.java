@@ -12,6 +12,7 @@ Thus, shallow cloning is dependent on the original object.
 
 */
 
+// Shallow Copy of ABC:
 class ABC			//Shallow Copy of class ABC
 {													//implements Cloneable : gives permission to class that allows to clone of object(deep copy of obj)
 	int i;
@@ -22,6 +23,23 @@ class ABC			//Shallow Copy of class ABC
 		return "ABC [i=" + i + ", j=" + j + "]";
 	}	
 }
+
+// Deep Copy of ABC:
+// class ABC implements Clonable			//Deep Copy of class ABC
+// {					//implements Cloneable : gives permission to class that allows to clone of object(deep copy of obj)
+// 	int i;
+// 	int j;
+	
+// 	@Override
+// 	public String toString() {
+// 		return "ABC [i=" + i + ", j=" + j + "]";
+// 	}	
+
+// 	@Override
+// 	public Object clone() throws CloneNotSupportedException {
+// 		super.clone();
+// 	}
+// }
 
 class AA implements Cloneable		//Deep copy of Class AA but shallow of ABC
 {

@@ -20,7 +20,7 @@ Inheritance	: - Sharing the Information.
 		- Hybrid				(C:A,B - A:P - B:P)	- Not Support : Hierarchical + Multiple
 */
 
-public class InheritanceIsA {
+public class _8_3_Inheritance_IsA {
 	public static void main(String[] args) {
 		Add obj = new Add();
 		System.out.println(obj.sum());

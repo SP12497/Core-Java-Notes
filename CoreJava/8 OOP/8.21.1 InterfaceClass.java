@@ -34,7 +34,8 @@ When to go for interface and when to Abstract class ?
 	- When we know implentations but not completely, then should go with Abstract.
 	- When we know all the implementations then should go with Concreate class / Normal Class.
 
-
+Why Multiple Inheritance supports in Interface?
+	- Bcoz, interface don't have constructor.
 */
 
 //Types of Interface :
@@ -140,7 +141,7 @@ public class CMain {
 
 		// -------------------
 		System.out.println("Lambda Expression (->)  introduced in JAVA 1.8 : works only with functional interface");
-
+		// Only support for interface, not Class.
 		Inter2 x = () -> System.out.println("	In Inter2 Interface using Lambda Expression created inside main.");
 
 		x.print();

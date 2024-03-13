@@ -17,9 +17,10 @@ abstract class AmolPhone {
 		System.out.println("Amol Calling...");
 	}
 
-	// public abstract void chat() // Error. We can not define abstract method. we can only declare;
+	// public abstract void chat() // Error. We can not define abstract method. we
+	// can only declare;
 	// {
-	// 		System.out.println("Amol chatting...");
+	// System.out.println("Amol chatting...");
 	// }
 
 	public void play() {
@@ -31,13 +32,15 @@ abstract class AmolPhone {
 	abstract void watch();
 }
 
-abstract class BabanPhone extends AmolPhone // Here one more abstract method which is unimplemented or not defined , so mark this class is also abstract.
+abstract class BabanPhone extends AmolPhone // Here one more abstract method which is unimplemented or not defined , so
+											// mark this class is also abstract.
 {
 	public void text() {
 		System.out.println("Baban Texting");
 	}
 
-	// public abstract void watch(); is unimplemnted here. so mark class as abstract.
+	// public abstract void watch(); is unimplemnted here. so mark class as
+	// abstract.
 }
 
 class ChetanPhone extends BabanPhone // Till here all abstract methods are defined.
@@ -59,17 +62,20 @@ class CharliePhone extends BabanPhone // Till here all abstract methods are defi
 }
 
 // main
-public class CMain {
+public class _8_17_AbstractClassMethods {
 	public static void main(String[] args) {
-		// AmolPhone obj = new AmolPhone(); // we cannot create object of abstract class with abstract class constructor.
+		// AmolPhone obj = new AmolPhone(); // we cannot create object of abstract class
+		// with abstract class constructor.
 
 		System.out.println("__________________OBJ1______________________");
-		AmolPhone obj1 = new ChetanPhone(); // we can access only those methods which are completely defines in AmolPhone class.
+		AmolPhone obj1 = new ChetanPhone(); // we can access only those methods which are completely defines in
+											// AmolPhone class.
 		obj1.call();
 		obj1.play();
 		obj1.text();
 		obj1.watch();
-		// obj1.classname(); // we can access only those methods which are defines in AmolPhone class.
+		// obj1.classname(); // we can access only those methods which are defines in
+		// AmolPhone class.
 
 		System.out.println("_____________________OBJ2______________________");
 		ChetanPhone obj2 = new ChetanPhone();
@@ -91,6 +97,16 @@ public class CMain {
 		System.out.println("__________________show(OBJ3)______________________");
 		show(obj3); // CharliePhone
 
+		System.out.println("___________Anonymous Inner Type (Object)________");
+		BabanPhone bb = new BabanPhone() {
+
+			@Override
+			void watch() {
+				System.out.println("anonymous watch");
+
+			}
+		};
+		bb.watch();
 	}
 	/*
 	 * public static void show(ChetanPhone obj) { obj.watch(); }
@@ -98,5 +114,6 @@ public class CMain {
 
 	public static void show(AmolPhone obj) {
 		obj.watch();
-	} // create parameter of parent abstract class, and call Baban or Chetan by passing object of it.
+	} // create parameter of parent abstract class, and call Baban or Chetan by
+		// passing object of it.
 }

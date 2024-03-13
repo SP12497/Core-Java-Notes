@@ -1,5 +1,3 @@
-package BasicCode;
-
 // 454 == 454	-> palindrome
 // 234 != 432	-> not palindrome
 

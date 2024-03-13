@@ -4,7 +4,7 @@
 // NON === NON => Palindrom
 // NOT === TON => Non-Palindrom
 
-public class GFG {
+public class StringPalindrome {
     // Function that returns true if
     // str is a palindrome
     static boolean isPalindrome(String str)

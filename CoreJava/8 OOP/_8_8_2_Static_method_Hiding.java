@@ -1,4 +1,4 @@
-public class Main
+public class _8_8_2_Static_method_Hiding
 {
 	public static void main(String[] args) {
 	    System.out.println(RBI.balance);
@@ -29,6 +29,8 @@ class RBI {
 
 class SBI extends RBI {
     public static int getBalance(int a) { // Method Hiding : RBI: getBalance
+        // super is not available in static method // available in Instance methods
+        // RBI.getBalance(1);
         return 44;
     }
 }

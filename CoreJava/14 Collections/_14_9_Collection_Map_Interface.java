@@ -1,4 +1,5 @@
 /*
+https://www.javatpoint.com/java-map
 	Map Interface :
 		- Array of key value pair
 		- The Map interface present in java.util package represents a mapping between a key and a value. 
@@ -14,7 +15,6 @@
 
 	Map <String,String> map = new HashMap<>();
 		map.put("Name", "Sagar");	//create	//(Key , Value);
-		map.set("Name", "Suraj");	//update
 		map					//toString
 		map.get("key_name")		//value
 		map.values()		//list of values
@@ -40,7 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class Main
+public class _14_9_Collection_Map_Interface
 {
 	public static void main(String[] args) 
 	{ 
@@ -70,7 +70,6 @@ public class Main
 	System.out.println("===================");
 		//We can't repeat the key But we can repeat the values
 		map.put("Name", "Swapnil");	//change Sagar to Swapnil
-		map.set("Hobby","Dancing");	//change Singing to Dancing
 
 
 	System.out.println("----------------------------------");

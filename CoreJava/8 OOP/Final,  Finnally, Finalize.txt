@@ -1,6 +1,6 @@
 1. Final : constant variable / method / class.
 
-2. finally : Exception handling
+2. finally {} : Exception handling
 	- is a block always associated with try catch.
 
 3. finalize() :
@@ -9,5 +9,5 @@
 	  just before destroying an object to perform cleanup activities.
 
 Note : 
-finally meant for cleanup activities related to try block. 
+finally meant for cleanup activities related to try block. Or a code that must be executed.
 where as finalize() meant for cleanup activities related to object.

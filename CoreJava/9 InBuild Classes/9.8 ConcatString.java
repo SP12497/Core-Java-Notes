@@ -5,7 +5,7 @@ public class Main {
 		String s1, s2;
 
 		Scanner sc = new Scanner(System.in);
-
+//----- String Operations
 		System.out.println("Enter 2 Strings here :");
 		s1 = sc.nextLine(); // Hello Students.
 		s2 = sc.nextLine(); // Welcome to String Code.
@@ -23,8 +23,6 @@ public class Main {
 		s1 = s1.toUpperCase();
 
 		System.out.println("String 1 in Upper case is : " + s1);
-
-//------------------
 
 		String s6 = new String("Swapnil");
 		String s7 = new String("Swapnil");

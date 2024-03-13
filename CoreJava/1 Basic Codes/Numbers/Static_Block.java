@@ -1,11 +1,10 @@
-package Numbers;
 //Static Block:
 // first all static block will execute sequencialyy then main static block will execute.
 
 
 import static java.lang.System.out;
 
-public class Main {
+public class Static_Block {
     int a = 5;
     static {
         // static (class level) block
@@ -20,8 +19,8 @@ public class Main {
 
     public static void main(String[] args) {
         out.println("CA main");
-        CB cb;
-        Main m = new Main();
+        CB cb;      // Here, we are not using cb, so it will not load the class
+        Static_Block m = new Static_Block();    // During creation of object, instance block will get called before constructor 
         cb = new CB();
     }    
     

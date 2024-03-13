@@ -1,5 +1,4 @@
-package Numbers;
-//	6 = 1+ 2 + 3
+//	6 = 1 + 2 + 3
 //  28 = 1+ 2 + 4 + 7 + 14  ..all numbers are completly divides 28 and addition is also 28
 
 public class Perfect_Number 

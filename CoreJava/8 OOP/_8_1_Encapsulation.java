@@ -48,7 +48,7 @@ class RunEncap {
 	}
 }
 
-public class EncapsulationMain {
+public class _8_1_Encapsulation {
 
 	public static void main(String[] args) {
 		RunEncap stud = new RunEncap();

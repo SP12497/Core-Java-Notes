@@ -17,15 +17,15 @@ Types :
 		- Same: method name , Parameter 
 		  Different : Class
 		  
-	Method Hiding :
+	Method Hiding:
 		- OverRiding of static method is not possible is java. But we can overload static method.
-		- If we ReDefining the static method of super class into sub class then , this is called as Method Hidding.
-	Data Hiding :
+		- If we ReDefining the static method of super class into sub class then, this is called as Method Hidding.
+	Data Hiding:
 		In Abstraction, the variables of a class will be hidden from other classes, and can be accessed only through
 		the methods of their current class. Therefore, it is also known as DATA HIDING.
 */
 
-public class Main {
+public class _8_8_2_PolyMorphism {
 	public static void main(String[] args) {
 		System.out.println("Method Overloading Polymorphism : ");
 
@@ -44,7 +44,7 @@ public class Main {
 
 		System.out.println("Child Reference : Method OverRiding : ");
 		CA childRef = new CB();
-		childRef.show();
+		childRef.show();	// Show CB
 		// childRef.sayCB(); // error
 	}
 

@@ -11,7 +11,7 @@ class C2 extends C1 {
 }
 
 
-public class Main {
+public class _8_8_1_Method_overloading_and_riding_combine {
 
     public static void main(String[] args) {
         C1 c1 = new C1();

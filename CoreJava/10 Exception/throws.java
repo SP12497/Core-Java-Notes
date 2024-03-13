@@ -8,12 +8,11 @@ class Main {
     }
 }
 
-Output: 
+// Output: 
+// error: unreported exception InterruptedException; must be caught or declared to be thrown
 
-error: unreported exception InterruptedException; must be caught or declared to be thrown
 
-
-================================================
+// ================================================
 
 
 
@@ -25,6 +24,5 @@ class Main {
 	}
 }
 
-Output: 
-
-Hello Geeks
+// Output: 
+// Hello Geeks

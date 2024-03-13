@@ -26,7 +26,11 @@ interface CC
 	void print(int x , int y);
 }
 
-public class CMain 
+abstract class AbClass {
+	public abstract void show();
+}
+
+public class Main 
 {
 	public static void main(String[] args) 
 	{
@@ -38,8 +42,11 @@ public class CMain
 		
 		//Multiline Lambda Expression ()->{};
 		CC obj3 = (a , b) -> {
-			System.out.println("in print :  x = " + a +  "  b = "+  b)
+			System.out.println("in print :  x = " + a +  "  b = "+  b);
 		};
 		obj3.print(10 , 20);
+
+		// ------- Lambda expression wont support for class.
+		// AbClass a = () -> {};	// Syntax error.
 	}
 }

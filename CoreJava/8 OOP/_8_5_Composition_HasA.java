@@ -4,7 +4,7 @@
 //Has a relation : 	- Instance variable.
 //					- Reference to another class 
 
-public class CompositionHasA {
+public class _8_5_Composition_HasA {
 	public static void main(String[] args) {
 		Address addr = new Address("Nandurbar", "Maharashtra", 425412);
 		Employee e = new Employee(1001, "Sagar", 500.10f, addr);

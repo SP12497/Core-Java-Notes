@@ -1,5 +1,3 @@
-package BasicCode;
-
 public class Patterns {
 
 	
