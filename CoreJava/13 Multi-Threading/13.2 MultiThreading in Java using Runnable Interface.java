@@ -10,7 +10,10 @@ What is Multithreading in Java?
 
 https://www.guru99.com/multithreading-java.html#:~:text=MULTITHREADING%20in%20Java%20is%20a,runs%20parallel%20to%20each%20other.
 
+class Thread has start method
+interface Runnable has run abstract method
 */
+
 
 // Thread class or Runnable Interface :
 

@@ -332,6 +332,7 @@ DML: 1. Insert ... Into:
 
     INSERT INTO employees (id, name, salary) VALUES (1, 'John', 50000), (2, 'Jane', 60000);
 -- 3. Inserting Data from Another Table:
+    -- Note: for create table we need 'AS'. but not for inserte
     INSERT INTO employees_archive (id, name, salary) SELECT id, name, salary FROM employees WHERE hire_date < '2022-01-01';
     insert into student_archive (sId, sName) select sId, sName from students where sMarks > 40; -- AS allows only in create.
     insert into student_archive select sId, sName from students where sMarks > 40;  -- if student_archive table only have 2 columns, ie sId, sName.
@@ -365,7 +366,7 @@ DELETE FROM table_name
     WHERE condition;
 */
 -- 1. Delete All Rows:
-    delete from Students; -- resulting in the loss of all data. So, always use where clause.
+    delete from Students; -- It's risky.. resulting in the loss of all data. So, always use where clause.
 -- 2. Delete Rows Based on a Single Condition:
     delete from students where sId = 1;
     delete from employees where department = "IT";
@@ -435,7 +436,8 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
     select * from employees LIMIT 10; -- return first 10 records.
     -- skip first 10 rows, then display next 5 rows(11-15)
     SELECT * FROM employees LIMIT 10, 5;  -- offset:10, Limit: 5
-    -- skip first 5 rows, then display next 10 rows(6-15)
+    -- skip first 10 rows, then display next 5 rows(11-15)
+    SELECT * FROM employees LIMIT 5 OFFSET 10; -- display row 11-15, skip first 10 rows.
     SELECT * FROM employees LIMIT 10 OFFSET 5; -- display row 6-15, skip first 5 rows.
     -- 2nd highest salary:
         select Distinct salary from employee order by salary DESC limit 1,1;
@@ -502,8 +504,9 @@ There are 6 types of joins:
     2.1 LEFT Join: Returns all records from the left table, and the matched records from the right table
     2.2 RIGHT Join: Returns all records from the right table, and the matched records from the left table.
     2.3 (Not In MYSQL, Its in SQL) Full Join: Full join returns all rows from both tables. Return all matching and non-matching records from both tables.
-3. CROSS JOIN: Cross join returns the Cartesian product of the two tables, i.e., it combines each row of the first table with every row of the second table.
-4. SELF JOIN: Self join is used to join a table to itself. It is helpful when you want to compare rows within the same table.
+5. CROSS JOIN: Cross join returns the Cartesian product of the two tables, i.e., it combines each row of the first table with every row of the second table.
+6. Natural Join:
+7. SELF JOIN: Self join is used to join a table to itself. It is helpful when you want to compare rows within the same table.
 Note: Below employee structure and data queries are available in "tables-for-joins.sql" file.
 */
 --1. Join / Inner Join / Perfect Join:
@@ -513,7 +516,7 @@ Note: Below employee structure and data queries are available in "tables-for-joi
         select b.bookName, a.authorName from Book b INNER JOIN Author a ON b.authorId = a.authorId;
         select b.bookName, a.authorName from Book b JOIN Author a ON b.authorId = a.authorId;
         select b.bookName, a.authorName from Book b JOIN Author a where b.authorId = a.authorId;
-        -- JOIN keyword is optional
+        -- For Inner, JOIN keyword is optional
         select b.bookName, a.authorName from book b, author a where a.authorId = b.authorId;
 -- 2. Left OUTER Join:
     -- left join = inner join + any additional records in the left table.
@@ -528,7 +531,7 @@ Note: Below employee structure and data queries are available in "tables-for-joi
         SELECT e.emp_name, d.dept_name FROM employee e RIGHT JOIN department d ON e.dept_id = d.dept_id;
         select b.bookName, a.authorName from Book b RIGHT JOIN Author a ON b.authorId = a.authorId;
 
--- Problem: Fetch details of ALL emp, their manager, their department and the projects they work on.
+-- Question: Fetch details of ALL emp, their manager, their department and the projects they work on.
     select e.emp_name, m.manager_name, d.dept_name, p.project_name 
     from Employee e Join Manager m ON e.manager_id = m.manager_id 
     left Join department d ON e.dept_id = d.dept_id 
@@ -601,7 +604,7 @@ Note: Below employee structure and data queries are available in "tables-for-joi
 -- Practical 1:
     SET AUTOCOMMIT = 0; -- To run into Manual Mode.
 
-    SAVEPOINT ONE;
+    SAVEPOINT ONE; -- if rollback then all commands changes after this line will get vanished/rollback
 
 	insert into author values('A011','Vikram','UK','Male'); 
 	UPDATE author set nationality ='Rus'  where authorid = 'A011';
@@ -774,14 +777,14 @@ Views:
         - provide extra layer of security.  (we can skip password of employee and show employee details to other user's.)
     Disadvantages:
         - Performance decreases.
-        - Dependency on table. (View dont have its own storage. Every time it will query table and show latest data.)
+        - Dependency on table. (View don't have its own storage. Every time it will query table, it will fetch from parent table and show latest data.)
 */
 -- show all view and tables views:
     show tables;
     show full tables;
 -- create view:
     CREATE VIEW vemployee AS select emp_name from employee;
-    CREATE OR REPLACE VIEW vemployee2 AS select emp_id, emp_name from employee;     -- AS is mandatory
+    CREATE OR REPLACE VIEW vemployee2 AS select emp_id, emp_name from employee;     -- for CREATE command, AS is mandatory
     CREATE VIEW `employee department` AS SELECT e.emp_name, d.dept_name FROM employee e JOIN department d ON e.dept_id = d.dept_id;
     select * from `employee names`;
 -- change view:
@@ -1009,7 +1012,7 @@ There are 2 types:
     CREATE FUNCTION getFirstEmp()
     RETURNS varchar(50)
     BEGIN
-        return (select emp_name from employee where emp_id="E1");
+        return (select emp_name from employee where emp_id="E1");  -- retuns single value.
     END $
     DELIMITER ;
 -- ERROR: This function has none of DETERMINISTIC, NO SQL, or READS SQL DATA in its declaration and binary logging is enabled (you *might* want to use the less safe log_bin_trust_function_creators variable)
@@ -1018,7 +1021,7 @@ There are 2 types:
 -- Solutionn 2:
     DELIMITER $
     CREATE FUNCTION getFirstEmp() RETURNS varchar(50)
-    DETERMINISTIC NO SQL READS SQL DATA
+    DETERMINISTIC NO SQL READS SQL DATA     -- here, log_bin_trust_function_creators = 0;
     BEGIN
         return (select emp_name from employee where emp_id="E1");
     END $  
@@ -1086,17 +1089,17 @@ Strored Procedure:
 */
 -- 1. Creating a Stored Procedure:
     DELIMITER //
-    CREATE PROCEDURE GetEmployeesByDepartment(IN department_id varchar(20), INOUT num INT, OUT emp_id INT)
+    CREATE PROCEDURE GetEmployeesByDepartment(IN department_id varchar(20), INOUT myCounter INT, OUT emp_id INT)
     BEGIN
         SELECT * FROM employee WHERE dept_id = department_id;
-        SET num = num + 1;
+        SET myCounter = myCounter + 1;
         SELECT COUNT(*) INTO emp_id FROM employee;
     END //
     DELIMITER ;
 -- 2. Calling the Stored Procedure:
     SET @myCounter = 1;
-    CALL GetEmployeesByDepartment("D1", @myCounter, @myCount);
-    SELECT @myCounter, @myCount;
+    CALL GetEmployeesByDepartment("D1", @myCounter, @empCount);
+    SELECT @myCounter, @empCount;
 -- 3. Dropping a Stored Procedure:
     DROP PROCEDURE IF EXISTS GetEmployeesByDepartment;
 

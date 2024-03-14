@@ -58,7 +58,7 @@ public class Main {
 		};
 		obj4.print();
 
-//	4. Lambda Inner Class 
+//	4. Lambda Inner Class
 		FI obj5 = () -> System.out.println("Lambda Inner Class Print() Method");
 		obj5.print();
 	}

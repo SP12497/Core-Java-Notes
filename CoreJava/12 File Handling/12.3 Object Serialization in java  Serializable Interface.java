@@ -8,7 +8,7 @@ import java.util.Properties;
 
 class Save implements Serializable	// java.io
 {
-	transient int password;	//do not store in file.
+	transient int password;	// do not store in file.
 
 	int i, j;
 }

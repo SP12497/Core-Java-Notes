@@ -5,6 +5,10 @@
 		HashSet			//insertion order not fix	//only one NULL
 		LinkedHashSet  //insertion order fix		//only one NULL
 		TreeSet			//sorted format				//no NULL (throws NullPointerException)
+        - All three are not synchronized.
+        - All three doesn’t allow duplicate elements.
+        - All three are Cloneable and Serializable
+        - Iterator returned by all three is fail-fast in nature. i.e You will get ConcurrentModificationException if they are modified after the creation of Iterator object.
 */
 
 import java.util.*;

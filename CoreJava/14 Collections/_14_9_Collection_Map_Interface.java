@@ -83,7 +83,7 @@ public class _14_9_Collection_Map_Interface
 	}
 
 	// 2 :
-	for(Map.Entry obj : map.entrySet())
+	for(Map.Entry<String,String> obj : map.entrySet())
 	{
 		System.out.println(obj.getKey() + "  "+ obj.getValue());
 	}
