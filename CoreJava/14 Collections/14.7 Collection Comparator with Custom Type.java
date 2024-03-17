@@ -42,11 +42,9 @@ class MyComparator implements Comparator<Integer> {
 	@Override
 	public int compare(Integer o1, Integer o2) {
 		// Sort by last digit
-		if (o1 % 10 > o2 % 10) // sort by Last digit Ascending order
-		{
+		if (o1 % 10 > o2 % 10) // sort by Last digit Ascending order	
 			return 1;
-		}
-
 		return -1;
+		// we can any logic, eg, sort by sum of no: 23=> 5,  17=>8   | 5-8	ASC
 	}
 }

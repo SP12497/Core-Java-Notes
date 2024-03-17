@@ -74,12 +74,13 @@ HTTP Methods :					: CRUD
 	public Alien addAlien(@RequestBody Alien alien)
 	
 --------------------------
-
-@RequestMapping("/alien/{aid}")
-@ResponseBody
-public String getAlien(@PathVariable("aid") int aid )
-{
-	return repo.findById(aid).toString();
+@Controller class mycontroller {
+	@RequestMapping("/alien/{aid}")
+	@ResponseBody
+	public String getAlien(@PathVariable("aid") int aid )
+	{
+		return repo.findById(aid).toString();
+	}
 }
 
 		-----------------------
