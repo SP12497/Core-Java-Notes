@@ -102,6 +102,7 @@ public class _05Set {
 	}
 }
 
+// if we want to use SET on object for unique objects: Override=> hashCode() and equeals() methods
 class BookSet {
 	int id;
 	String name;
@@ -125,7 +126,7 @@ class BookSet {
 	@Override		// Define our own checks for equals
 	public boolean equals(Object o) {
 		if(this == o) return true;
-		if(o ==null || getClass() != o.getClass()) return false;
+		if(o ==null || this.getClass() != o.getClass()) return false;
 		BookSet b = (BookSet) o;
 		return id == b.id;
 	}

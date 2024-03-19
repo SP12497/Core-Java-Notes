@@ -6,7 +6,7 @@ class Student {
         this.rollno = rollNo;
     }
 }
-public class _1CompleteArray {
+public class _51Array {
     public static void main(String[] args) {
     //  Declaration:
         int arr1[] = new int[5]; // using primitive datatypes
@@ -34,6 +34,7 @@ public class _1CompleteArray {
         // way 3:
         Arrays.fill(arr2, 10);
         Arrays.fill(students, new Student(1));
+        
 
     //  update
         numArr[2] = 31; // 33=>31

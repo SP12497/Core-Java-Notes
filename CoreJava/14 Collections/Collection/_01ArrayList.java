@@ -3,11 +3,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 /*
 interface Collection		// add(<E>)
 interface List extends Collection	// List have: get(), add(index, Object), set(), indexOf()
 class ArrayList implements List
+class Vector implements List
 ---------------
 Collection:
     size(): int
@@ -25,6 +27,16 @@ List:
 	get(index) : E
 	set(index, <E> value) : E	// returns 22 // 22 => 33	set(2, 33)
 	indexOf(<E> value) : int
+
+Difference:
+	Vector:
+		- synchronized	/ Threas Safe
+		- lower performance / low speed of execution
+		- Increase the capacity by 100% when size exceeded
+	ArrayList:
+		- non-synchronized	/ Not Thread Safe 
+		- better performance / high speed of execution
+		- Increase the capacity by 50% when size exceeded	/ int newCapacity = (oldCapacity * 3)/2 + 1; 
 	
 Create quick List:
 	List<Integer> ls = Arrays.asList(11,22,33);
@@ -36,6 +48,7 @@ public class _01ArrayList {
 // 1. Declaration
 		Collection<String> cl = new ArrayList();
 		List<String> ls = new ArrayList<>();
+		List<String> vector = new Vector<>();
 		ArrayList anytype = new ArrayList<>(); // we can store any value. // Default constructor without parameterized
 		ArrayList<String> al1 = new ArrayList<>(); // Default constructor
 		ArrayList<String> al2 = new ArrayList<>(size); // parameterized constructor 
