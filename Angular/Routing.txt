@@ -1,0 +1,99 @@
+normal routerLink :
+	- <a routerLink="/followers">
+	- path : followers
+Dynamic routerLink :
+	- <a [routerLink]="['/followers' , follower.id]">
+	- path : followers/1
+	
+-------------------
+routerLinkActive="css_classes"  :
+	- <li routerLinkActive="active bgblue"> <a routerLink="/followers"> Followers </a> 	</li>
+	- <li routerLinkActive="active bgblue"> <a routerLink="/posts"> Posts </a> 			</li>
+	
+ActiveRoute class :
+	
+	constructor(private route : ActiveRoute){}
+	ngOnInit(){
+		this.route.paramMap
+			.subscribe(params =>
+				console.log(params)
+				let id = + params.get('id');
+				console.log(id);
+			)
+	}
+
+---------------------
+Named Router Outlet :
+	AboutComponent :	/about
+			<a [routerLink]="['/about',{
+				outlets: {
+					'map':['location'],
+					'feeds':['feedback']
+				}
+			}]">About</a>
+			
+		LocationComponent :	/location
+			<router-outlet name="map"></router-outlet>
+		FeedbackComponent :	/feedback
+			<router-outlet name="feed"></router-outlet>
+	path : localhost:4200/about/(map:location//feeds:feedback)
+	
+	Routing :
+		{path:'about', component: AboutComponent,
+			children : [
+				{path : 'location' , outlet:'map', component:LocationComponent},
+				{path : 'feedback' , outlet:'feeds', component:FeedbackComponent},
+			]
+		}
+	
+
+----------------------------------
+Route Guards :
+	- Route guards are interfaces which tell the router whether or not it should allow navigation to a requested route.
+	- Guard function can return either a boolean or Observable<boolean> or Promise<boolean> which resolve to a boolean at some point of time in the future.
+
+	- ng g guard guard_name		//then choose option
+	- ng g guard guard_name --implements CanActive
+
+-------------------------------
+Get and Set :
+	we can call function as simple property :
+		- isUserLoggedIn(){ return true }
+			if(	this.isUserLoggedIn()	){}
+		- get isUserLoggedIn(){ return true }
+			if(	this.isUserLoggedIn	){}
+-----------------------
+
+Types of Guards :
+	- CanActive : Checks to see if a user can visit a route.
+	- CanActiveChild : Checks to see if a user can visit a routes children.
+	- CanDeactivate : Checks to see if a user can exit a route.
+	- Resolve : Performs route data retrieval before route activation.	
+	- CanLoad : Checks to see if a user can route to a module that lazy loaded.
+	
+4. Interface Resolve :
+	- Resolve route guard allow us to provide the needed data for a route, before the route is activated.
+	- When to use?
+		- When you want to make sure that data from one or defferent sources is available before the componenet loads.
+		- When the data is critical for the componenet view.
+		
+	eg :
+	- resolve.guard.ts :
+		class ResolveGuard implements Resolve<any>{
+			
+			resolve(){
+				return this.userService.getUsers(//get all users data);
+			}
+		}
+	- Routing File :
+		{path:'users' , componenet:UserComponent,	
+			resolve: {
+				userData:ResolveGuard,
+			}
+		}
+	
+	- UserComponent :
+		constructor(private activateRoute : ActiveRoute{}
+		ngOnInit(){
+			this.users = this.activateRoute.snapshot.data['userData'];
+		}

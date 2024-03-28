@@ -1,0 +1,65 @@
+
+3.11:
+	@ResponceStatus() : on exception class
+3.12 : Customize exception
+	ResponceEntityExceptionHandler
+	@ControllerAdvice
+	@ExceptionHandler
+3.14 
+	@Valid			// @postmapping public void fun(@Valid string name)		// Model student   @size(max=10) string id
+		jar
+			validator api
+			hibernate validator
+3.15
+	HATEOS dependancy : get link of all users and sent into responce
+	
+3.18
+	Internationalization
+	
+		Configuration
+			-LocaleResolver
+				- Default Locale = Locale.US
+			- ResourceBundleMessageSource
+	@RequestHeader
+3.20
+	Content Negotiation
+		- What Consumes ? / produces?
+		- which type off responce we want? xml/json
+		- add jackson xml dependancy
+		
+--------
+Naming Server (Eurekha)
+Ribbon (client side load balancing)
+fiegn
+
+Fault tolerance : Hystrix
+
+new RestTemplate().getEntity()	: used to call another service , (rest call)
+
+---
+Feign : esy way to call another service 
+	- add dependancy
+	- @EnableFiegnClients("package")
+	- create fiegn proxy with @FeignClient(name,uri)
+	
+Ribbon :for load balancing while calling another service
+
+Eureka Naming Server
+	- dependancy : eureka , config client
+	- @EnableEurekaServer
+	- another service :
+		@EnableDiscorverClient
+		dependancy : eureka
+		eureka url in aplication.properties
+		
+------
+31: Zuul API Gateway 
+	- dependancy : zuul, eureka discovery
+	- @EnableZuulProxy  @EnableDiscorverClient
+	
+	- sleuth
+	- sleuth-zipkin
+Zipkin:
+	install rabbitmq
+	download zipkin quickstart
+	

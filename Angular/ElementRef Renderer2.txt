@@ -1,0 +1,31 @@
+ElementRef :
+	- used to access the elements in the DOM.
+	- this.elementRef.nativeElement.style.backgroundColor = 'green';
+	
+Renderer2 :
+	- its a better approach instead of using ElementRef
+	- ElementRef is only for dom in browser, render is available for other services also
+	Eg. :
+		constructor(private elRef:ElementRef, private renderer:Renderer2)
+		this.renderer.setStyle(this.elRef.nativeElement, 'background-color' , 'blue' <, optional(other properties like !important)>)
+		
+HostListner :	
+	- When we have to react on events
+	- when we have to execute some method. for eg. :
+		- @HostListner('mouseenter') mouseover(eventData:Event) {	//eventData : get all the data
+			this.renderer.setStyle(this.elRef.nativeElement, 'background-color' , 'blue' , false , false)
+		}
+		- @HostListner('mouseleave') mouseleave() {
+			this.renderer.setStyle(this.elRef.nativeElement, 'background-color' , 'transparent' , false , false)
+		}
+
+HostBinding :
+	- There is a better way than renderer to change the background-color.
+		- @HostBinding('style.backgroundColor) backgroundColor : String = 'transparent';
+		- @HostListner('mouseenter') mouseover(eventData:Event) {
+			this.backgroundColor = "blue";
+		}
+		- @HostListner('mouseleave') mouseleave() {
+			this.backgroundColor = "transparent";
+		}
+		

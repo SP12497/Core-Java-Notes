@@ -1,2 +1,34 @@
 Java:
     Thread Dump
+
+
+2024 Road Map for software development :
+
+Week 1-4 : Java Basics
+Week 4-8 : Basic Data Structures & Basic Algorithm in Java
+Week 8-12 : HTML & CSS
+Week 12-16 : Javascript, Bootstrap
+Week 16-20 : React & Next js
+Week 20-24 : SpringBoot Basics
+Week 24-26 : MySQL Or PostgreSQL & hibernate
+Week 26-30 : AWS (S3, EC2, Lambda, DynamoDB, SQS, SNS, CDN)
+Week 30-34 : Spring Security
+Week 34-38 : Spring Cloud & Related.
+Week 38-40 : Learn about L7 protocols & create one app on each
+Week 38-40 : Restful Todo App
+Week 40-42 : Restful Todo App with Login
+Week 42-44 : Simple video Player website like YouTube.
+Week 44-46 : Chat App : Websocket protocol
+Week 46-48 : Stock Broker Website : Robinhood : SSE protocol
+Week 48-50 : Computer Network : Create one UDP and TCP server
+Week 50-52 : Operating System
+Week 52-56 : Multithreading & Concurrency (Java)
+Week 56-60 : Reactive Programming (Non-Blocking IO) (Java)
+Week 60-64 : Redis, ElasticSearch, Zookeeper
+Week 64-70 : Understand Architecture of (Redis, ElasticSearch, Zookeeper, DynamoDB, SQS)
+Week 70-74 : AWS CodeCommit, CodeBuild, CodeDeploy & CodePipeline.
+Week 74-78 : Docker & AWS Fargate.
+Week 78-80 : AWS CDK (Java).
+
+Use AI as much as possible.
+Goal is not to remember or mug things but solve as fast as possible.

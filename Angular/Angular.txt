@@ -1,0 +1,16 @@
+@ViewChild('templateRefVarName') : ElementRef;  
+	- data type is ElementRef
+	- you cant render(get) data from ViewChild before 'ngAfterViewInit' hook
+	- with angular 8 , that should be @ViewChild('templateRefVarName', {static:true}) since we'll also use the selected element in ngOnInit.
+	- @ViewChild(componentName)
+	- ViewChild has nativeElement property, with the help of it, we can access dom
+	- eg.
+		@ViewChild('studentName') sName : ElementRef;
+		addStudent(){
+			this.sname = this.sname.nativeElement.value();
+	
+@ContentChild() :
+	- Getting Access to ng-content with the @ContentChild Parameter Decorator
+	- We cant access the value before we reach ngAfterContentInit
+	- With Angular 8 that should be @ContentChild('...',{static:true}) since we'll use the selected element in ngOnInit.
+	

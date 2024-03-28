@@ -1,0 +1,49 @@
+
+1. Explain master - slave architecture of Jenkins:
+->  - Jenkins master pulls the code from the remote GitHub repository every time there is a code commit.
+    - It distributes the workload to all the Jenkins slaves(agents)
+    - On request from Jenkins master, the slaves carry out builds and tests and produce test reports
+
+2. What us Jenkinsfile?
+-> It is a text file that contains the defination of a Jenkins pipeline and is checked into source control repository.
+
+3. Command to run Jenkins from the command line:
+    - java -jar Jenkins.war
+
+4. What concept are key aspects of Jenkins pipeline?
+->  a. Pipeline:
+        - User defined model of a CD pipeline. Pipeline's code defines entire build process, that includes building, testing and delivering an application
+    b. Node:
+        A machine which is part of Jenkins environment capable of executing a pipeline.
+    c. Step:
+        A single task that tells Jenkins what to do a particular point in time.
+    d. Stage:
+        Defines a conceptually distinct subset of tasks performed through the entire pipeline (build, test, deploy stages)
+
+5. Which file is used to define dependenccy in maven?
+    - pom.xml
+
+6. Explain the two types of pipeline in Jenkins along with their syntax:
+    - Scripted Pipeline:
+        node {
+            stage("Build") { step ""}
+            stage("Test") {}
+            stage("deploy") {}
+    - Declarative pipeline:
+        pipeline {
+            agent any
+            stages {
+                stage("Build") { steps {}}
+                stage("Test") {}
+                stage("deploy") {}
+            }
+        }
+7. What are the ways in which build can be scheduled/run in Jenkins?
+    a. By source code management commits
+    b. After completion of other builds
+    c. scheduled to run at specified time
+    d. Manual build requests
+
+8. How to restart jenkins?
+    - (Jenkins_url)/restart   // Forces a restart without waiting or build to complete
+    - (Jenkins_url)/safeRestart   // Allow all the running build to complete before it restarts

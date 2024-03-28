@@ -1,5 +1,3 @@
-package DSA.Linear;
-
 interface CustomList {
 	boolean add(int value);
 	boolean isEmpty();

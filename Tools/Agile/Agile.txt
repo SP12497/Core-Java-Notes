@@ -1,0 +1,103 @@
+Agile Software Development Process Model :
+	
+Function Requirement :
+	contains requirements specified by the customer.
+
+Epic, Story and Task :
+	Epic => Features => Stories => Tasks
+
+Epic :
+	Defines the business nees/large requirements.
+	- epic devides into small parts called features and features divided into stories.	
+
+Story :
+	Small requirements
+	- by reading story, we understand functionality of the application
+	- product owner is responsible for the create this story based upon the features provided by the customer. 	
+	
+Task :
+	- action perform on to the story
+	- Defines the solution
+-----
+Dev/developer task :
+	- review the story
+	- Estimate (time) the story
+	- Design
+	Code 
+	Unit Testing
+	integration etc
+	
+QA 
+----
+	Review the story
+	test cases
+	test scenaris
+	test data
+	Reviews
+	Test Environment
+	Execute test cases
+	Report buts		...etc
+
+Business Analyst :
+	- under waterfall model not in agile
+		
+Product owner :
+	- is responsible for getting the requirements form the customer	
+	- Define the features of the product
+	- Decide on release date and content
+	- Prioritize features according to market value
+	- Adjust features and priority every iteration, as needed.
+	- Accept or reject work results.
+The Scrum Master :
+	- A scrum master is the facilitator for an agaile developement team
+	- Enable close cooperation across all roles and fuctions.
+	- manage agile process and mediate betn dev, test , qa etc
+
+Scrum Team :
+	- Developer and QA
+--------------
+
+DOR : Defination Of Ready
+		- code is ready for test after satisfying all  ready steps.
+DON : Defination Of Done 
+		- Code is Done after satisfying all DON steps.
+
+Product Backlog :
+	- Prepared by product owner, which contains all requirements from customer and stories and epics.
+	- mostly exel sheet document
+	
+Sprint Planning Meeting :
+	- Story Point : 
+		- is an estimation given by Tester and Dev for the specific story.
+		- its a rough time and scaling in Fibonacci sequence : 1 2 3 5 8 13
+		- 1-3 week spints and priorities story for sprint
+		
+Sprint Backlog :
+	- On every story, developer will define their own tasks 
+	- during spring backlog, scrum master will monitor all the status, blockers, progress on stories.
+	
+Scrum Meeting :
+	- Daily 15 min meeting and each indivisual should give their statur.
+	
+Finished Work :
+	- Final Demo to PO/QA/Dev
+	
+After Spring End :
+	Spring Retrospective :
+		1. What went well?
+		2. What went wrong?
+		3. Improvement Areas
+		
+	BurnDown/up charts :
+		- shows sprint or need to be achieved correctly or 
+		-did correct estimation?
+		- less or more time takes of of the spring.
+		
+
+------
+Scrum Board :
+	Stories		TO Do		In Progress			Testing			Done
+	
+-----
+Scrum Master 	--> Scrum Meeting
+Product Owner 	-->	Prepare Product backlog

@@ -1,0 +1,106 @@
+Handle ASynchronous operations : by Observables or Promises
+
+Promises :
+	- native in javascript
+	ngOnInit :
+		const promise = new Promise( resolve => {
+			console.log('Promise call...')
+			setTimeout(() => {
+				resolve('Promise Working1');
+				resolve('Promise Working2');
+				resolve('Promise Working3');
+			},1000)
+		})
+		
+	call :
+		promise.then(result => console.log(result))	//Promise Working1	//return only one
+		
+	-	Promises execute immediately on creation. Promises are eager
+	- Promises emit single values
+	- Promise dont have operators
+	- Promise cant be cancel
+	
+	
+	
+----------------
+Observables :
+	- rsjx feature
+	ngOnInit :
+		const observable = new Observable(sub => {
+			console.log('Observable call....')
+			setTimeout(() =>{
+				sub.next('Observable working1');
+				sub.next('Observable working2');
+				sub.next('Observable working3');
+			},1000)
+		});
+		
+	call :
+		observable.subscribe(result => console.log(result) )	//Observable Working1, ..2, ..3
+	
+	- Observables are declarative; computation does not start until subscription. Its lazy.
+	- Emits multiple values over a period of time.
+	- Observables provides operators like map, filter, reduce, retry that is useful for complex transformation.
+	- Observables can be cancel using unsubscribe method.
+	
+	
+	
+
+Operators in RxJS :
+	
+	- observable.pipe(
+			filter( d => d=== 'Observable working2'),
+		)
+		. subscribe(result => console.log(result) );	//Observable working2
+		
+
+unSubscribe() methon in observable :
+	- observable continues their work, even we navigate the page still it returning the data.
+	
+	- private mySubscription : Subscription;
+	- const observable = new Observable(sub => {
+		console.log('Observable call...');
+		let counter = 0;
+		setInterval(() => {
+			counter = counter + 1;
+			sub.next(counter)
+		},1000)
+	});
+	
+	//call :
+	this.mySubscription = observable.subscribe(result => console.log('Subscriber count : ' + result) )	
+	
+	// It will continues return 1-1 values in every seconds.
+	// output :  count 1, count 2, count 3.....
+	//so we have to stop it manually when we navigating a page.
+	
+	ngOnDestroy(){
+		this.mySubscription.unsubscribe();
+	}
+	
+	
+	
+===================
+Subject :
+	- A subject is like an observable, but can multicase to many Observers.
+	- Subjects are multicast (provide same data to all components / OneToMany) and observable are unicast (provide different data when we subscribe / OneToOne).
+
+eg. Subject as a Data Consumer :
+	const data = ajax('http://jsonplaceholder.typicode.com/users');
+		//ajax returns Observable
+		
+	Observable :
+		- data.subscribe(d => console.log(d));
+		- data.subscribe(d => console.log(d));
+		//here we called url 2 times , check in nw tab
+	
+	Subject :
+		- const subject = new Subject();
+		- const data = ajax('http://jsonplaceholder.typicode.com/users');
+		- subject.subscribe(d => console.log(d));
+		- subject.subscribe(d => console.log(d));
+		
+		Converting unicast to multicast :
+			- const result = data.subscribe(subject);
+			// Here it will calls only once the link
+			// and multiple subscribers

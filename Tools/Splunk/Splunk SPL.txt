@@ -1,0 +1,32 @@
+A SPL Query contains:
+	- Key value pairs
+	- Literal strings
+	- Commands
+	- Functions and options
+	- Logincal Operators (Boolean)
+	- Comparision operators
+	- Clauses
+	- Pipe : Output of the left side of pipe becomes the input to the right side of the pipe
+	
+- index = cdh-cache sourcetype = essoa-generic-lambda-prod "/listing/cancellationduetosoldoff" | timechart count span=1h
+- index=main sourcetype=access_combined_wcookie | stats max(bytes)
+
+Que: Generate a report that shows the biggest, smallest and medium sizes of the response and the total number of requests
+-> index=main sourcetype=access_combined_wcookie | stats max(bytes) AS "Biggest Request", min(bytes) AS "Smallest Request", median(bytes) AS "Median Request", count AS "Total Requests"
+
+- | stats count by categoryId  // show count of each categoryId
+- index=main sourcetype=vendor_sales Code=D OR Code=E | top vendorId limit=5 // shows count of top vendorId.
+	=> it will shows 	|VendorID|count|percentage|
+	- to disable percentage, use 
+		- showperc=f 	// f for false in spql and t for true
+		
+		
+--------------
+- The splunk has more than 140+ commands
+Commands:
+	- Transforming Commands:
+		- The family of commands that convert search results into data tables.
+	- stats, chart, timechart, top, rare
+	- Transforming commands create numerical output that is required for visualization.
+		- Stats:
+			- Cre

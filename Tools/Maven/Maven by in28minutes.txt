@@ -1,0 +1,70 @@
+Maven Commands :
+1. clean : 
+	delete entire target folder
+2. compile : 
+	convert java (app.java) into class (app.class) file. // in target/classes
+3. test-compile : 
+	Compile Source file // target/test-classes // first it will execute compile then test compile
+4. test  : 
+	run the tests // first auto compile then test-compile and then test.	// target/surefire-reports
+5. install : 
+	create jar and install into local repo
+
+6. help:effective-pom :
+		all config things will printed into console.
+	help:effective-pom -Doutput=effective-pom.xml
+		- all config things outout will move into effective-pom.xml
+		effective-pom.xml : super/parent of whole maven pom.xml file.
+		if contains all configs
+
+7. help:effective-settings :
+	help:effective-settings -Doutput=effective-settings.xml
+		contails all the settings of maven repo.
+		like, path of m2/repository, 
+		from where to pick the dependency, from cache/remove repo
+		- How Maven Downloads dependencies - effective-settings
+
+8. maven clean install -DskipTests // run
+9. maven -X clean install -DskipTests // run in debug mode
+
+9. maven -X clean install >> sample.txt // run in debug mode and prints all steps in sample.txt
+
+10. mvn dependency:tree
+11. mvn dependency:sources
+	// download dependency source
+12. mvn help : shows all commands
+13. mvn archetype:generate
+	// shows all archetype to create new proj
+
+--------
+
+
+
+Generate MyMavenProj.jar file :
+1. App.java => app.class
+2. AppTest.java => AppTest.class
+3. Run the Tests
+4. Jar =>
+
+Maven Build Life Cycle :
+	1. Validate
+	2. Compile
+	3. Test
+	4. Package
+	5. Integration Test
+	6. Verify
+	7. Install
+	8. Deploy
+	
+Scope of dependency :
+	<scope> compile/test/runtime/provided </scope>
+	
+range of version of dependency :
+	<dependency> 
+		<version>[min,max]</version>
+	</dependency>
+	
+	- [4.1		= minimum 4.1
+	- (4.1	= more than 4.1
+	- [4.1,4.5]	=	between 4.1 to 4.5 , pick latest
+	- [,4.5)	= lestt that 4.5

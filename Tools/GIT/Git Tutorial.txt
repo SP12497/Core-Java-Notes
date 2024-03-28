@@ -1,0 +1,77 @@
+Workspace (Working directory) -> Staging area -> LocalRepo (GIT) -> RemoteRepo (GITHUB)
+--
+inti 
+status
+add
+commit
+log
+config
+
+------
+git init
+git status
+git add : add files from workspace to staging area 
+	- git add -a : all files
+	- git add . : all files
+	- git add * : all files
+	- git add abc.txt xyz.txt 	: specific file
+	
+3] LocalRepo :
+	befor move files from staging to local, need to provice some configurations
+	-> configuration commands needs only first time
+	- git config --global user.email "Sagar.patil@abc.com"
+	- git config --global user.name "Sagar"
+	then
+	- git commit -m "mandatory comment" 
+
+	----------------------
+	
+git log :
+	show how many commits done.
+	- git log --oneline : show commit id
+	
+If we modify any files, and moves to local repo
+	- Wrong :
+		git add abc.txt xyz.txt  // this files are already added
+		git commit -m "comment"
+		
+	- use :
+		git add . // to add data into staging
+	
+	-For Workspace to LocalRepo :
+		- git commit -a -m "commiting modified files"
+			- a : means moves into staging area
+			- m : means movies into local repo
+			
+=======================
+Part 4 :
+- Git diff :	
+	used to compare file between any 2 area :
+		working dir -> staging -> localRepo -> remoteRepo
+	1. working dir and staging	
+		git diff index.txt
+	2. working dir AND localRepo
+		git diff HEAD index.txt
+	3. staging AND localRepo
+		git diff --staged HEAD index.txt
+		git diff --chached HEAD index.txt
+
+Part 5 :
+- Git rm :
+	ls : see all files in working dir
+	git ls-files : see all files in staging area
+	
+	1. Remove files from both staging and workspace
+		- git rm file1.txt 
+		- git rm -r .		// all files
+	2. Remove files from only from staging 
+		- git rm --cached file1.txt 	//--cached refer to staging area
+	3. Remove files only working dir
+		- rm file1.txt
+---------
+Part 6 :
+git Checkout :
+	- We can use checkout to discard unstaged changes in the tracked files of working dir
+		- git checkout --file1.txt
+	- file is available in staging and local repo, and we did changes in WS , then we can undo it using checkout command.
+	

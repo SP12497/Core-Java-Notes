@@ -1,0 +1,54 @@
+Abstract Factory Design Pattern:
+--------------------------------------
+- Abstract Factory Pattern says that just define an interface or abstract class for creating families of related (or dependent) objects but without specifying their concrete sub-classes.
+
+
+interface Buttton
+	- class MacButton
+		- paint()
+	- class WinButton
+		- paint()
+interface CheckBox
+	- class MacCheckBox
+		- paint()
+	- class WinCheckBox
+		- paint()
+
+interface UIFactory {
+	Buttton createButton();		// generic function
+	CheckBox createCheckBox();
+}
+
+class WinFactory implements UIFactory {
+	Buttton createButton() {return new WinButton()}
+	CheckBox createCheckBox() {return new WinCheckBox()}
+}
+
+class MacFactory implements UIFactory {
+	Buttton createButton() {return new WinButton()}
+	CheckBox createCheckBox() {return new WinCheckBox()}
+}
+
+class Application {
+	private Buttton button;
+	private CheckBox checkBox;
+	
+	Application(UIFactory uiFactory) {
+		button = uiFactory.createButton();
+		checkBox = uiFactory.createCheckBox();
+	}
+	
+	paint() {
+		button.paint();
+		checkBox.paint();
+	}
+}
+
+------------call------------
+Application app = new Application( new WinFactory );
+app.paint
+----------------------------
+
+
+class Application
+	- 

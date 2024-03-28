@@ -46,5 +46,26 @@ public class Main
 		System.out.println("obj : " + obj.hashCode());
 		System.out.println("str2 : " + str2.hashCode());
 //		System.out.println("str1 : " + str1.hashCode());
+
+// ----------------------------------
+		String a = "aa";
+		String b = "aa";
+		String c = new String("aa");
+		String d = new String("aa").intern();
+				
+		System.out.println(a == b);		// true
+		System.out.println(a == c);		// false
+		System.out.println(a == d);		// true
+		System.out.println(c == d);		// false
+		String name = new String("Nilesh").intern();
+		String name2 = new String("Nilesh").intern();
+		System.out.println(name == name2);	// true
+	/*
+	 In this example, a and b both reference the same string instance retrieved from the String Pool, so a == b evaluates to true. 
+	 Similarly, a and d reference the same string instance after interning d, so a == d also evaluates to true.
+
+	However, it's important to note that while string literals are automatically interned, strings created using the new keyword (like String c = new String("aa")) are not interned by default. 
+	You need to explicitly call intern() to add them to the String Pool, as shown in the example.
+	 */
 	}
 }

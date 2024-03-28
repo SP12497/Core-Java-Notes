@@ -44,10 +44,10 @@ Deque:
 	- Insert:
 		addFirst(E element)		|| offerFirst(E element)
 		addLast(E element) :	|| offerLast(e)
+		push()
 	- Remove:
 		removeFirst(): E 	|| 	pollFirst():E
 		removeLast():E		||	pollLast(): E
-		push()
 		pop()
 	- Examine:
 		getFirst(): void	||	peekFirst()		peek() 
@@ -69,23 +69,26 @@ Create quick List:
 */
 public class _02LinkedList {
 	public static void main(String[] args) {
-	LinkedList<Integer> ll = new LinkedList<>();    // Java Collection implements Double LL.
-	List<Integer> ll1 = new LinkedList<>();
-	Collection<Integer> ll2 = new LinkedList<>();
-	Deque<Integer> ll3 = new LinkedList<>();
-	
-	ll.add(11);
-	ll.addFirst(22);
-	ll.offerFirst(33);
-	ll.offerLast(66);
-	System.out.println(ll);
-	
-	ll.removeFirst();	// returns 33
-	ll.pollLast();		// returns 66
-	
-	System.out.println(ll);
-	System.out.println(ll.peek());
-	System.out.println(ll.indexOf(11));	// 1
+		LinkedList<Integer> ll = new LinkedList<>();    // Java Collection implements Double LL.
+		List<Integer> ll1 = new LinkedList<>();
+		Collection<Integer> ll2 = new LinkedList<>();
+		Deque<Integer> ll3 = new LinkedList<>();
+		
+		ll.add(11);
+		ll.addFirst(22);	// void
+		ll.offerFirst(33);	// true
+		ll.offerLast(66);
+		System.out.println(ll);	// [33, 22, 11, 66]
+		
+		ll.removeFirst();	// returns 33
+		ll.pollLast();		// returns 66
+		ll.remove();	// remove first
+		
+		
+		
+		System.out.println(ll);
+		System.out.println(ll.peek());
+		System.out.println(ll.indexOf(11));	// 1
 			
 	}
 	
