@@ -33,7 +33,7 @@
         pipeline {
             agent any
             stages {
-                stage("Build") { steps {}}
+                stage("Build") { steps { }}
                 stage("Test") {}
                 stage("deploy") {}
             }
