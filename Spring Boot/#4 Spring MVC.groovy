@@ -216,7 +216,6 @@ Mapping Request With @RequestMapping:
 # Share data from View To Controller:
   - signUpPage.html
   - Controller:
-
 @Controller
 public class ContactController {
   @RequestMapping("/signup")
@@ -224,8 +223,66 @@ public class ContactController {
     return "signUpPage";
   }
 
+  // @RequestMapping(path="/processform", method=RequestMethod.POST)   // redirected from signUpPage.html
+  // public string processFormByClass(HttpServletRequest request) {
+  //   String email = request.getParameter("email"); // get data from view
+  //   return "";
+  // }
+
+  // @RequestMapping(path="/processform", method=RequestMethod.POST)   // redirected from signUpPage.html
+  // public string processFormByClass(@RequestParam("email") String email,
+  //   @RequestParam(name = "username", required = false) String name,
+  //   @RequestParam("password") String password
+  // ) {
+  //   System.out.println("name");
+  //   return "";  // if you want redirect to another page, then pass page name in redurn. If you want to transfer data, we are use Model class
+  // }
+
+  // @RequestMapping(path="/processform", method=RequestMethod.POST)   // redirected from signUpPage.html
+  // public string redirectFormByClassRedirectToView(@RequestParam("email") String email,
+  //   @RequestParam(name = "username") String name,
+  //   @RequestParam("password") String password,
+  //   Model model
+  // ) {
+  //   User user = new User();
+  //   user.setEmail(email);
+  //   user.setEmail(username);
+  //   user.setEmail(password);
+  //   model.addAttribute("user", user);
+  //   return "successPage";
+  // }
+
+  //@ModelAttribute : performs 3 tasks => 1.@RequestParam 2.user.setEmail(email); 3. model.addAttribute
   @RequestMapping(path="/processform", method=RequestMethod.POST)
-  public string processForm() {
-    return "signUpPage";
+  public String redirectFormByClassModelAttribute(@ModelAttribute User user, Model model) {
+    return "successPage"; // this page will get the data
   }
 }
+
+public class User {
+  String email;     // same as signUpPage.html name field
+  String username; 
+  String password;
+  // add getters/setters
+}
+
+successPage.jsp:  <h1>Welcome ${user.username}</h1>
+
+// --------Custom data for model
+@Controller
+public class ContactController {
+  @ModelAttribute
+  public void commonDataForModel(Model m){  // This function will get call before @RequestMapping methods.
+    m.addAttribute("Header1", "My Header1");
+    m.addAttribute("Header2", "My Header2");
+  }
+
+  @RequestMapping("/signup")
+  public string showForm() {
+    return "signUpPage";  // In this page, will get Header1 and Header2 properties
+  }
+
+  @RequestMapping(path="/processform", method=RequestMethod.POST)
+  public String redirectFormByClassModelAttribute(@ModelAttribute User user, Model model) {
+    return "successPage"; // In this page, will get user, Header1 and Header2 properties
+  }

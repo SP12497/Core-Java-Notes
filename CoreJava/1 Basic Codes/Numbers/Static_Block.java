@@ -2,7 +2,7 @@
 // first all static block will execute sequencialyy then main static block will execute.
 
 
-import static java.lang.System.out;
+x
 
 public class Static_Block {
     int a = 5;
