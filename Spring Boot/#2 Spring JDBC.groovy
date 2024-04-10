@@ -4,7 +4,7 @@ Spring JDBC:
     - JDBC is a API to perform operation with database.
 
 Problem of Java JDBC:
-    -  We need to write a lot of code
+    - We need to write a lot of code
     - Exception handling problem: Checked exception, SQLException
     - Repeating of all these code from one to another database logic is a time consuming task.
 
@@ -15,6 +15,9 @@ Benefits of Spring JDBC:
 JdbcTemplate:
     update()
     execute()
+    queryForObject()
+    query()
+    ...
 
 Project:
     - create maven quick start project
@@ -52,10 +55,11 @@ public class JavaConfig{
     }
 }
 ------------------
+@Autowired
 JdbcTemplate template;
 
 - String query = "insert into student(id, name, city) values(?,?,?)";
-int result = template.update(query, 01, "Sagar", "NDB"); // same use for insert, udpate delete query
+int result = template.update(query, 01, "Sagar", "NDB"); // same use for insert, update delete query
 
 - Selecting data using Spring JDBC:
     for single row: public T queryForObject(String sql, RowMapper<T> rowMapper, Object args)
@@ -77,7 +81,7 @@ Practical:
         public Student getStudent(int studentId) {
             String query = "select * from student where id=?";
             RowMapper<Student> rowMapper = new RowMapperImpl();
-            Student student = this.jdbcTemplate.queryForObject(query, rowMapper, studentId());
+            Student student = this.jdbcTemplate.queryForObject(query, rowMapper, studentId);
             return student;
         }
     }

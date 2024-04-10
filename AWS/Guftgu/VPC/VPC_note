@@ -1,0 +1,166 @@
+VPC (Virtual Private Cloud)
+
+Part 1:
+-------
+Defn: A VPC is a virtual network that closely resemble a traditional networking that you operate in your own data centre, with the benefits of using the scalable infrasture of AWS.
+Defn: VPC is virtual network or DataCentre inside AWS of one client.
+
+- It is logivally isolated from other virtual network in the AWS cloud.
+- In one region, max 5 VPC can be created and 200 subnets in 1 VPC.
+- In account, we can allocate max 5 elastic IP
+- Once we created VPC, DHCP, NACL and Security Group will be authomatically created
+- A VPC is confined to an AWS region and does not extent between regions.
+- Architecture: "VPC Architecture.png"
+    - AWS
+        - Region
+            - Internet Gateway
+            - VPC:  cidr- 10.0.0.0/16   // now we cant use same cidr for other VPC in region. // instances can communicate each other in VPC
+                - Implied Router
+                - Avability Zone-A    cidr- 10.0.0.0/24
+                    - Public subnet // can go on internet if custom routing table has 0.0.0.0/0 cidr.
+                        - NAT Gateway (only in public subnet)
+                        - EC2 Instance
+                - Avability Zone    cidr- 10.0.0.1/24
+                    - Private subnet-B    // local
+                        - EC2 Instance
+- Once the VPC is created, you cannot change its CIDR block range.
+- If you need a different CIDS size, create a new VPC.
+- The different subnets within a VPC cannot overlap
+- You can however expand your VPC CIDS by adding new/extra IP address ranges (Except US GovCloud and AWS China)
+
+
+4 steps to create VPC:
+    - create VPC
+        - create subnet
+            - create Internet Gateway
+                - Create Route table
+
+Components Of VPC:
+    - CIDR and its address subnets
+    - Implied Router and routing
+    - Internet Gateway
+    - Security Groups
+    - Network ACL
+    - Virtual Private Gateway
+    - Peering Connections
+    - Elastic IP
+
+
+Part 2:
+-------
+
+2 Types of VPC:
+    1. Default VPC:
+        - created in each aws region when an aws account is created
+        - Has default CIDR, security group, NACL and route table settings.
+        - Has an Internet gateway by default.
+    2. Custom VPC:
+        - Is a VPC on AWS account owner creates 
+        - AWS user creating the custom VPC can decide the CIDR.
+        - Has its own default security group, Networl ACL and route tables.
+        - Does not have an Internet Gateway by default, One need to be created if needed.
+
+Subnet:
+ Types of Subnets:
+    - Public Subnet:
+        - If a subnet's traffic is routed to an Internet Gateway (outside AWS account), the subnet is known as public subnet.
+        - If you want you instance in a Public subnet to communicate with the internet over IPv4, it must have a public IPv4 address or on Elastic IP address.
+    2. Pirvate Subnet:
+        - If a subnet does not have a route to the Internet Gateway, the subnet is knows as Private Subnet.
+        - (Important) When you create a VPC, you must specify an IPv4 CIDR block for the VPC. The allowed block size is betweed /16 to /28 network.
+        - The first four and last IP addres of subnet cannot be assigned.
+        eg. CIDR: 10.0.0.0/16 => total 65536 - 5 reserved = 655331 Available.
+            - 10.0.0.1 = network addresss
+            - 10.0.0.2 = reserved by AWS for the VPC route.
+            - 10.0.0.3 = reserved for future use.
+            - 10.0.0.255 = Broadcast address (note: AWS do not support broadcast in a VPC but reserve the address)
+
+Part 3: Implied Router, Route Table and Internet Gateway.
+-------
+Implied Router, Route Table:
+    - It is the central routing function
+    - It connects the diferent Availability zones together and connects the VPC to the Internet Gateway.
+    - You can have upto 200 routes table per VPC.
+    - You can have upto 50 routes entries per route table (200 * 50 = 10000)
+    - (IMP) each subnet must be associated with only one route table at any Given time. (1 subnet -> 1 route)
+    - You can associate multiple subnets with the same route table (1 route -> multiple subnets)
+    - If you do not specify a subnet to route table association, the subnet will be associated with the default VPC route table.
+    - You can also edit the Main route table if you need, but you cannot delete Main route table. (By default each VPC have main route table)
+    - However you can make a custom route table manually become the Main route table then you can delete the former main, as it is no longer a main route table.
+
+Internet Gateway:
+- An Internet Gateway is a virtual router that connects a VPC to the internet.
+- Default VPC is already attached with an Internet Gateway.
+- If you create a new VPC (custom VPC) then you must attach the Internet Gateway in order to access the Internet.
+- Ensure that you subnet's route table points to the internet gateway.
+- It perfoms NAT between your private and public IPv4 address.
+- It supports both IPv4 and IPv6.
+
+Part 4:
+NAT Gateway, Security Groups, NACL and VPC Peering
+-------
+NAT Instance: 
+    - In Nat instance we can use public or elastic ip's.
+    - But in NAT Gateway, we can only use elastic ip's.
+
+NAT Gateway: (NAT instance is different service)
+    - convert our private ip to public ip to send over internet or vise versa, request from public ip send to our private gateway
+    - Its in public subnet
+    - You can use a network address translation gateway to enable instances in a private subnets to connect to the internet or other AWS services, but prevent internet from initiating a connection with those instances.
+    eg. db server stored in private subnet and we have to update the DB version, so we have to take from internet.
+    Private Subnet (route table 0.0.0.0./0=public subnet NAT )--> Public Subnet NAT (route table 0.0.0.0./0=logical id ) => Internet Gateway 
+    - You are charged for creating and using a NAT gateway in your account. NAT Gateway hourly usage and datta processing rates apply. Amazon EC2 changes for data tranfer also apply.
+    - To create nat gateway, you must specify the public subnet in which the NAT Gateway should reside.
+    - You must also specify an elastic ip address to associate with nat gateway when you create it.
+    - No need to assign public ip address to your private instance. (public public ip is present, then private subnet can directly communicate over an internet)
+    - After you have created a NAT gateway, you must update the route table associated with one or more of your private subnets to point internet bound traffic to the NAT gateway. This enables instances in your private subnet to communicate with the internet.
+    (update route table of all private subnet 0.0.0.0/0 -> public NAT Gateway)
+    - Deleting a NAT gateway, disassociates its elastic ip address, but does not release the address from your account.
+
+Security Groups: (Security Groups architecture.png)
+    - inside subnets but on top of instances.
+    - It is a virtual firewall works at ENI Level(ENI Dirgram.png : on top of hipervisor)
+    - Upto 5 security groups per EC2 instance interface can be applied.
+    - Can only have allows/permit rules, can't jave deny rules(by default other that allowed are deny)
+    - Stateful (if inbound(request) port is 80 so by default outbound post is also 80. No need to declare separately), return traffic, of allowed inboud traffic is allowed, even if there are no rules to allow it.
+
+NACL:
+    - placed at Router level, Inside VPC
+    - 1 NACL can point multiple subnets  (NACL points to 2 subnet.png)
+      but 1 subnets can not point more the 1 NACL (NACL= 1 subnet ponints to 2 NACL not possible.png)
+    - It is a function perfomed on the implied router
+    - NACL is an optional layer of security for you VPC that acts as a firewall for controlling traffic in and out of one or more subnets.
+    - Your VPC automatically comes with a modifiable default NACL. by default, it allows all inbound and outbound IPv4 traffic and if applicable, IPv6 traffic.
+    - You can create a custom NACL and associate it with a subnet. By default, each custom NACL denies all inbould and outbound traffic until you add rules.
+      Diff: Default NACL: by default allow all traffic | Custom NACL: by default deny all traffic
+    - Each subnet in you VPC must be associated with a NACL. If you dont explicitly associate a subnet with a NACL. the subnet is automatically associated with the default NACL.
+    - You can associate a NACL with multiple subnet, however a subnet can be associated with only one NACL at a time. When you associated a NACL with a subnet the previous association is removed.
+    - A NACL contains a numbered line of rules that we evaluate in order, starting with the lowest numbered ruls.
+     eg. sequest of execution => Rule 1 (port 80 allowed) -> Rule 50 (port 80 deny) -> Rule 77 (here, post 80 call will not come) -> Rule 120
+    - The highest number that you can use for a rune is 32766. Recommended that you start by creating rules with numbers that a multiple of 100, So that you can insert new rule where you need later.
+    - It functions at a Subnet level.
+    - NACL are stateless outbound traffic for an allowed inbound traffic must be explicitly allowed too.
+    - You can have allows/permit and deny rules in NACL. (Security group only have allows rule).
+
+Real Life example:
+    - Main door of house is NACL. (security for all rooms door. Allow and deny rule.)
+    - Each room door inside house in Security Groups (only for 1 room(1 EC2 instance, max 5 Security group) only allow rules ).
+Different Between Security Groups and NACL:
+    - Security Groups:
+        - Operate at instance level.
+        - Support allows rules only.
+        - Stateful, retun traffic is automatically allowed.
+        - Applies to an instance only.
+    - NACL: 
+        - Operate at the subnet level
+        - It permits allow as well as deny rules.
+        - Stateless, return traffic must explicitly allowed by rules.
+        - Applies to all instance in the subnet.
+
+VPC Peering: (VPC Peering.png)
+    - A VPC peering connect is a networking connection between two VPC that enables you to route traffic between them using private IPv4/IPv6 address.
+    - Instance in either VPC can communicate with each other as if they are withing the same network.
+    - You can create a VPC peering connection between your own VPC, or with a VPC in another AWS accound. The VPC can be in different region.
+    - Transitive peering not possible in AWS.
+      eg. VPC A --communicating--> VPC B | VPC B -> VPC C
+        So, it doesn't mean VPC A can communicate VPC C.

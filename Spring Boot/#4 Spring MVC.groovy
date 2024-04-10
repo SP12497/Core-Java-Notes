@@ -21,7 +21,7 @@ MVC Design pattern:
 Problem without MVC design pattern
 
 ---------
-Configura Tomcat and Eclipse:
+Configure Tomcat and Eclipse:
   - download tomcat: eg. tomcat 9
   - Eclipse: Window-> Preferences:
     - Server -> Runtime Environments:
@@ -32,7 +32,7 @@ Configura Tomcat and Eclipse:
 Create Project:
   - New Maven Project: Internal: quickstart 
   - suppose project name is: springmvc
-  - Set Tomcat to this project if project showing red cross:
+  - if project showing Red cross, Set Tomcat to this project:
     - Right click on Project:
       - Build Path: Java Build Path: Libraries:
         - Add Library: Server Runtime: Apache Tomcat 9.0  // Now tomcat dependency added in depedency folder
@@ -40,7 +40,7 @@ Create Project:
   - RUN: localhost:8080/<project-name>
 
 Sprinv MVC application creation steps: (refer: "#4.1 MVC Working.png")
-  1. Configure the dispatcher servler in web.xml
+  1. Configure the Dispatcher Servlet in web.xml
   2. Create Spring configuration file
   3. Configure View Resolver
   4. Create Controller
@@ -107,15 +107,18 @@ Run and Call: localhost:8080/springmvc/home
 # Sending data from Controller to View.
   - When controller is returning the view name, same time we can return the data.
     View Resolver will bind that data to view.
-  - There are 2 ways we can pass the data: (Angular: One way data binding: controller to view)
+  - There are 2 ways we can pass the data: (Angular: One way data binding | same in spring: controller to view)
     1. Model:
       - addAttribute(String key, Object value);
+      // return "viewName"; // controller function
     2. ModelAndView:
       - addObject(String key, Object value);
       - setViewName(String viewName) : void
-  - View: 
+      // return modelAndView; // controller function
+  - View / jsp: 
     // HttpServletRequest request;
     Object obj = request.getAttribute("key")
+    String name = request.getAttribute("name")
 
 ------------------
 Model Practical:
@@ -144,8 +147,9 @@ ModelAndView Practical:
         frnds.add("Nilesh");
         frnds.add("Amol");
         modelAndView.addAttribute("friends", friends);
-        return "index";
+        return modelAndView;
       }
+
 ------------
 jsp view file:
   - index.jsp:
@@ -184,7 +188,7 @@ jsp view file using Expression Language:
     </body>
 
 ---------------
-JSTL language in view:
+JSTL language in view:  (JavaServer Pages Tag Library )
   - pom dependency: jstl
 
   <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -199,7 +203,8 @@ JSTL language in view:
 ----------
 Mapping Request With @RequestMapping:
   - You use the @RequestMapping annotation to map URLs such as /appointments onto an "entire class" or a particular "handler method".
-  - Typically the class-level annotation maps a specific request path (or path pattern) onto a form controller, with additional method-level annotations narrowing the primary mapping
+  - Typically the class-level annotation maps a specific request path (or path pattern) onto a form controller, 
+    with additional method-level annotations narrowing the primary mapping
     for a specific HTTP method request method("GET", "POST",...,etc) or an HTTP parameter condition.
 
   @Controller
@@ -208,7 +213,7 @@ Mapping Request With @RequestMapping:
     @RequestMapping("/all") // GET: localhost:8080/<project_name>/appointments/all
     public void getAllAppointments() {}
 
-    @RequestMapping(path = "/{day}", method = RequestMethod.POST) // POST: localhost:8080/<project_name>/appointments/all
+    @RequestMapping(path = "/{day}", method = RequestMethod.POST) // POST: localhost:8080/<project_name>/appointments/monday
     public void getAppointmentsByDay() {}
   }
 
@@ -246,8 +251,8 @@ public class ContactController {
   // ) {
   //   User user = new User();
   //   user.setEmail(email);
-  //   user.setEmail(username);
-  //   user.setEmail(password);
+  //   user.setUsername(username);
+  //   user.setPassword(password);
   //   model.addAttribute("user", user);
   //   return "successPage";
   // }
@@ -285,4 +290,104 @@ public class ContactController {
   @RequestMapping(path="/processform", method=RequestMethod.POST)
   public String redirectFormByClassModelAttribute(@ModelAttribute User user, Model model) {
     return "successPage"; // In this page, will get user, Header1 and Header2 properties
+  }
+
+
+//------------
+File Uploading in Spring MVC: Using interface MultipartResolver
+  dependency: common-fileupload, commons-io
+  spring-servlet.xml:
+    <bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonMultipartResolver"
+  fileForm.jsp:
+    <form action="uploadimage" method="post" enctype="multipart/form-data" >
+      <input type="file" name="profile" />
+      <button>Submit</button>
+    </form>
+  Controller:
+    @RequestMapping(value="/uploadimage", method = RequestMethod.POST)
+    public String fileUpload(@RequestParam("profile") CommonMultipartResolver file) {
+      syso(file.getSize());
+      file.getContentType(); // getName(), getOriginalFilename(), getStorageDescription, 
+      byte[] data = file.getBytes();
+      String path = s.getServletContext().getRealPath("/")+ "WEB-INF"+ File.separator + "image" + file.separator + file.getOriginalFilename();
+      syso(path);
+      FileOutputStream fos = new FileOutputStream(path);
+      fos.write(data);
+      fos.close();
+      return "fileSuccessStatusPage"
+    }
+  
+----------
+@PathVariable:
+  - this annotation is used to bind method parameter to URI template variable.
+  @RequestMapping("/books/{bookId}/{userName}")
+  public String handler(@PathVariable("bookId") int bookId, @PathVariable("userName") int name) {}  // localhost:8080/project_name/book/33
+
+@ExceptionHandler:
+  There are 2 ways to handle exceptions:
+  1. For single Controller:
+    @Controller class MyController {
+      // ... handler methods
+      
+      @ExceptionHandler public String allExceptionHandlers(Model model) { model.addAttribute("message", "exception occured"); return "error_page"} // Handle all types of exception
+      @ExceptionHandler({NullPointerException.class, NumberFormatException.class}) public String allExceptionHandlers() { return "error_page"} // handler only 2 types of exception.
+      @ExceptionHandler({value=NullPointerException.class}) public String allExceptionHandlers() { return "error_page"} // handler only NullPointerException exception.
+      @ExceptionHandler({value=NumberFormatException.class}) public String allExceptionHandlers() { return "error_page"} // handler only NumberFormatException exception.
+
+      @ResponseStatus(value=HttpStatus.INTERNAL_SERVER_ERROR)
+      @ExceptionHandler(value= Exception.class)
+      public String allExceptionHandlersWithStatus(Model model) { model.addAttribute("message", "exception occured"); return "error_page"} // Handle Exception and all child Exception classes.
+    }
+  2. For all controllers:
+    @ControllerAdvice   // if any error occurs in any Controller, this class will get called automatically
+    class MyGlobalExceptionHandler {
+      @ResponseStatus(value=HttpStatus.INTERNAL_SERVER_ERROR)
+      @ExceptionHandler({value=NullPointerException.class}) public String nullPointerHandler(Model model) { model.addAttribute("message", "Null pointer exception occured"); return "error_page"} // handler only NullPointerException exception.
+
+      @ResponseStatus(value=HttpStatus.INTERNAL_SERVER_ERROR)
+      @ExceptionHandler({value=NumberFormatException.class}) public String numberFormatHandler(Model model) { model.addAttribute("message", "Number format exception occured"); return "error_page"} // handler only NumberFormatException exception.
+
+      @ResponseStatus(value=HttpStatus.INTERNAL_SERVER_ERROR)
+      @ExceptionHandler(value= Exception.class)
+      public String allExceptionsHandler(Model model) { model.addAttribute("message", "exception occured"); return "error_page"} // Handle Exception and all child Exception classes.
+    }
+
+----------
+Interceptors:
+  - Used to pre-processing and post-processing the request.
+  - #4.3.1 MVC Interceptor.png
+  - Structure:
+    interface HandlerInterceptor
+      - boolean preHandler(): before Handler
+        if true: go to handler
+        if false: return the request/ no precessing
+      - void postHandler(): After Handler/Before View
+      - void afterCompletion(): after View
+    class HandlerInterceptorAdaptor implements HandlerInterceptor
+  - Example:
+    - spring-servlet.jsp:
+    <mvc:interceptor>
+      <mvc:mapping path="/welcome" />
+      <bean class="springmvcexample.MyInterceptor" ></bean>
+    </mvc:interceptor>
+  // class MyInterceptor implements HandlerInterceptor { // must implements all 3 interceptor methods.}
+  class MyInterceptor extends HandlerInterceptorAdaptor{
+    @Override
+    public boolean preHandler(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
+      String name = request.getParameter("user");
+      if(name.startWith("d")) {
+        response.setContectType("text/html");
+        response.getWriter().println("<h1>Invalid name.. Name should not start with d.</h1>");
+        return false;
+      }
+      return true;
+    }
+
+    @Override
+    public void postHandler(HttpServletRequest request, HttpServletResponse response, Object handler, 
+      ModelAndView modelAndView) throws Exception { }
+    
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
+      Exception ex) throws Exception { }
   }

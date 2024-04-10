@@ -1,0 +1,43 @@
+Apache Kafka:
+    - Apache Kafka is like a communication system that helps different parts of a computer system exchange data by publishing and subscribing to topics.
+    - Working: Sender(Producer) --Publish--> Apache Kafka ==Subscribe==> Receiver1(Consumer)/Receiver2/Recceiver3 // multiple subscribers/consumers
+    - Official Defn: Apache Kafka is an Open-source distributed event streaming platform used by thousands of companies for high-performance data pipelines,
+      streaming analytics, data integration and mission-critical applications.
+    - Read: https://kafka.apache.org/
+
+Use cases:
+    1. OLA Driver location update
+    2. Zomato live food tracking
+    3. Notification system to huge user
+
+Use case 1. OLA Driver location update:
+    - Update location of delivery boy in DB:
+        -- check "use case 1..1 zomato use case via DB.png"
+        - DB throughput (max request in minimum time) is less
+        - Every seconds, db hits and store location of Delivery Boy and User will hit DB to get the location.
+    - public location of delivery boy in Kafke:
+        -- check "use case 1.2 zomato use case via Kafka.png"
+        - DB throughput is high
+
+
+Why:
+    - High throughput
+    - Fault Tolerance (Replication Technique)
+    - Durable
+    - Scalable
+    - ...
+
+Kafka Architecture:
+    - 2. Kafka Architecture.png
+    - ZooKeeper: Manages broker (kafka servers) states.
+    - Broker: its a Kafka server. Broker's have multiple topics.
+    - Topic: it haves multiple partitions.
+    - Partition: it have multiple Offsets.
+    - Offset: offset (0,1,2,..) is inside partition. Data stores inside Offset.
+
+Installation:
+    -- https://kafka.apache.org/quickstart
+    1. Download Kafka zip file from official website.
+    2. Extract file
+    3. Start Zookeeper
+    4. Start Kafka Server.

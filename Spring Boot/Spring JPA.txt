@@ -16,7 +16,7 @@ JPA : Java Persistance API
 Spring data jpa provides three different approaches for creating custom queries with query methods.
 
 1. Creating Database Queries from Method Names :
-	 List<User> findByEmailAddressAndLastname(String emailAddress, String lastname);
+	List<User> findByEmailAddressAndLastname(String emailAddress, String lastname);
 	 
 2. Creating Database Queries with Named Queries :
 	@NamedQueries(value ={

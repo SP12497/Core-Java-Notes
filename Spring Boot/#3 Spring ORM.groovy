@@ -25,13 +25,13 @@ How to work with Spring ORM:
             - hibernate.dialect = org.hibernate.dialect.MySQL57Dialect
             - hibernate.show_sql = true
             - hibernate.hbm2ddl.auto = update
-        3. Annotation Clas
+        3. Annotation Class
 
 ------------
 pom.xml dependencies:
     - create maven quick start project
-    - dependencies: spring core, spring context and mysql-connector-java, 
-                    spring-orm, hibernate-core
+    - dependencies: spring core, spring context and 
+                    mysql-connector-java, spring-orm, hibernate-core
 
 @Entity
 @Table(name = "student_data") 
@@ -45,6 +45,7 @@ public class Student{
     private String studentCity
 }
 public class StudentDao {
+    @Autowired
     private HibernateTemplate hibernateTemplate;
 
     @Transactional // for insert, update, delete
@@ -57,7 +58,34 @@ public class StudentDao {
 
 CRUD:
 Create:     hibernateTemplate.save(student)
-Read:       Student student = hibernateTemplate.get(Student.class, studentId) , hibernateTemplate.load()
+Read:       Student student = hibernateTemplate.get(Student.class, studentId) / hibernateTemplate.load()
 Read All:   List<Student> students = hibernateTemplate.loadAll(Student.class)
 Delete:     void = hibernateTemplate.delete(student)
 Update:     hibernateTemplate.update(student), saveOrUpdate(Student.class, student)
+
+
+----
+How to redirect in Spring MVC?
+    - Use case: we can use for error validation, eg. If request payload is not valid, will redirect to error page. if valid the update DB.
+1. HttpServletResponse (Feature of Servlet Framework)
+    @RequestMapping("/one")
+    public String first(HttpServletResponse) {  // not recommended in Spring
+        response.sendRedirect("two");
+        return ""; // check redirect keywork and call path
+    }
+2. redirect prefix
+    @RequestMapping("/one")
+    public String first() {
+        return "redirect:/two"; // check redirect keywork and call path
+    }
+    @RequestMapping("/two") 
+    public String second() { return "signUpPage"; }
+3. RedirectView:
+    @RequestMapping("/one")
+    public RedirectView first() {
+        RedirectView redirectView = New RedirectView();
+        redirect.setUrl("two");
+        // redirect.setUrl("https://www.google/com");
+        return redirectView; // check redirect keywork and call path
+    }
+4. In JSP page: <% response.sendRedirect("two"); %>
