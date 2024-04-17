@@ -8,6 +8,7 @@
     use myDb;
     drop database myDb; -- delete DB;
     select database()   -- selected database name.
+    \s          -- Connection details
 
 /* 
 ==============

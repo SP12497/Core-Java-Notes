@@ -3,13 +3,13 @@ VPC (Virtual Private Cloud)
 Part 1:
 -------
 Defn: A VPC is a virtual network that closely resemble a traditional networking that you operate in your own data centre, with the benefits of using the scalable infrasture of AWS.
-Defn: VPC is virtual network or DataCentre inside AWS of one client.
+Defn: VPC is virtual network or DataCenter inside AWS of one client.
 
-- It is logivally isolated from other virtual network in the AWS cloud.
+- It is logically isolated from other virtual network in the AWS cloud.
 - In one region, max 5 VPC can be created and 200 subnets in 1 VPC.
 - In account, we can allocate max 5 elastic IP
 - Once we created VPC, DHCP, NACL and Security Group will be authomatically created
-- A VPC is confined to an AWS region and does not extent between regions.
+- A VPC is contained to an AWS region and does not extent between regions.
 - Architecture: "VPC Architecture.png"
     - AWS
         - Region
@@ -64,15 +64,16 @@ Subnet:
  Types of Subnets:
     - Public Subnet:
         - If a subnet's traffic is routed to an Internet Gateway (outside AWS account), the subnet is known as public subnet.
-        - If you want you instance in a Public subnet to communicate with the internet over IPv4, it must have a public IPv4 address or on Elastic IP address.
-    2. Pirvate Subnet:
+        - If you want your instance in a Public subnet to communicate with the internet over IPv4, it must have a public IPv4 address or on Elastic IP address.
+    2. Private Subnet:
         - If a subnet does not have a route to the Internet Gateway, the subnet is knows as Private Subnet.
         - (Important) When you create a VPC, you must specify an IPv4 CIDR block for the VPC. The allowed block size is betweed /16 to /28 network.
-        - The first four and last IP addres of subnet cannot be assigned.
+        - The first four and last IP address of subnet cannot be assigned.
         eg. CIDR: 10.0.0.0/16 => total 65536 - 5 reserved = 655331 Available.
             - 10.0.0.1 = network addresss
             - 10.0.0.2 = reserved by AWS for the VPC route.
             - 10.0.0.3 = reserved for future use.
+            - 10.0.0.4 = 
             - 10.0.0.255 = Broadcast address (note: AWS do not support broadcast in a VPC but reserve the address)
 
 Part 3: Implied Router, Route Table and Internet Gateway.
@@ -121,7 +122,7 @@ Security Groups: (Security Groups architecture.png)
     - inside subnets but on top of instances.
     - It is a virtual firewall works at ENI Level(ENI Dirgram.png : on top of hipervisor)
     - Upto 5 security groups per EC2 instance interface can be applied.
-    - Can only have allows/permit rules, can't jave deny rules(by default other that allowed are deny)
+    - Can only have allows/permit rules, can't have deny rules(by default other that allowed are deny)
     - Stateful (if inbound(request) port is 80 so by default outbound post is also 80. No need to declare separately), return traffic, of allowed inboud traffic is allowed, even if there are no rules to allow it.
 
 NACL:

@@ -1,0 +1,89 @@
+JPA : Java Persistance API
+
+	public interface Repository<T, ID> {}
+	
+	public interface CrudRepository<T, ID> extends Repository<T, ID> {}
+	
+	public interface PagingAndSortingRepository<T, ID> extends CrudRepository<T, ID> {}
+	
+	public interface JpaRepository<T, ID> extends PagingAndSortingRepository<T, ID>, QueryByExampleExecutor<T> {}
+
+
+	interface StudentRepository extends JPARepository (Student , Integer)
+
+-----------------------------------
+JPA Provides:
+	EntityManagerFactory:
+	EntityManager:
+		Create, Update, Read, Delete
+---
+Dependency:	spring-boot-starter-data-jpa
+------------
+CRUD:
+Create:
+	save()
+Update:
+	save()
+	saveOrUpdate()
+Delete:
+	deleteById()
+	deleteAll
+READ:
+	- CrudRepository:
+		findById
+		findAll
+		findAllById
+	- Custom Methods:
+		List<User> findByName(String name); => introducer (find) + criteria (ByName)
+		- https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html
+		- findByUsernameAndPassword(String username, String password)
+		- findByNameStartingWith(String prefix)
+		- findByNameEndingWith(String suffix)
+		- findByNameContaining(String words)
+
+		- findByAgeLessThan(int age)
+		- findByNameOrderByName(String name)
+		- findByAgeIn(Collection<Integer> ages)
+
+
+----------
+Spring data jpa provides three different approaches for creating custom queries with query methods.
+
+1. Creating Database Queries from Method Names :
+	List<User> findByEmailAddressAndLastname(String emailAddress, String lastname);
+	 
+2. Creating Database Queries with Named Queries :
+	@NamedQueries(value ={
+		@NamedQuery (name="" , query= ""),
+		@NamedQuery (name="" , query= "")
+	})
+	public class Person{}
+	
+	- @NamedQuery annotation : for JPA query language
+	- @NamedNativeQuery annotation : allow you to define the query in native SQL by losing the database platform independent.
+
+3. Creating Database Queries with the @Query Annotation :
+	- for JPQL/HQL query:
+		@Query("SELECT p FROM Person p WHERE LOWER(p.lastname) = LOWER(:lastname) ")
+		public List<Person> find(@Param ("lastname") String lastName);
+		
+		@Query(value="select u from User u where u.emailAddress = ?1")
+		User findByEmailAddress (String emailAddress);	// ?1 -> first param
+
+	- for SQL nativeQuery
+		@Query(value="select * from User u where u.emailAddress = ?1" , nativeQuery= true)
+		User findByEmailAddress (String emailAddress);
+	
+	- Using named parameters	(@Param)
+		@Query("select u from User u where u.firstname = :firstname or u.lastname = :lastname")
+		User findByLastnameOrFirstname(@Param("lastname") String lastname , @Param("firstname") String firstname )
+
+	--------------
+	for update query in @Query then we jave to also add @Modifying query
+	
+	@Transactional 	//for update
+	@Modifying		//when we modifying data
+	@Query("update User u set u.firstname = ?1 where u.lastname = ?2")
+	int setFixedFirstnameFor(String firstname, String lastname);
+
+

@@ -1,0 +1,41 @@
+@SpringBootApplication: Marks the main class of a Spring Boot application, combining @Configuration, @EnableAutoConfiguration, and @ComponentScan.
+
+@RestController: Indicates that a class is a REST controller, combining @Controller and @ResponseBody.
+
+@RequestMapping: Maps web requests to handler methods.
+
+@Autowired: Performs dependency injection on fields, constructors, or methods.
+
+@Component: Indicates that a class is a Spring component, allowing auto-detection and auto-registration. // create object automatically
+@Service: Indicates that a class is a service component.
+@Repository: Indicates that a class is a repository component (typically for data access).
+-  (@Service and @Repository: Similar to @Component, but used for service and repository classes respectively.)
+
+
+@Configuration: Indicates that a class declares one or more @Bean methods.
+@EnableAutoConfiguration: Enables Spring Boot's auto-configuration mechanism.
+@Value: Binds a property value to a field or method parameter.
+
+@Transactional: Marks a method, class, or interface as transactional.
+
+@PathVariable: Binds a method parameter to a placeholder in the request URL.
+@RequestParam: Binds a method parameter to a query parameter in the request URL.
+@ModelAttribute: Binds a method parameter or method return value to a named model attribute. 
+    - used to read data from view to controller, once form is submitted
+@ResponseBody: Indicates that a method return value should be bound to the web response body.
+@RequestBody: Binds the body of a web request to a method parameter.
+@RequestHeader: This annotation is used to bind HTTP headers to method parameters in the controller method.
+
+@ResponseStatus: This annotation is used to specify the HTTP status code to be returned by the controller method.
+@ExceptionHandler: Handles exceptions thrown by controller methods.
+@CrossOrigin: Configures cross-origin resource sharing (CORS) for web controllers.
+
+@Valid: Indicates that a method parameter should be validated.
+@Scheduled: This annotation is used to indicate that a method parameter should be validated. It is commonly used in conjunction with Bean Validation annotations such as @NotNull, @Size, etc.
+
+@Async: Indicates that a method should be executed asynchronously.
+@EnableScheduling: Enables scheduling of @Scheduled methods.
+@EnableAsync: Enables asynchronous method execution.
+
+@Cacheable: Marks a method for caching results.
+@CacheEvict: Marks a method for evicting entries from the cache.
