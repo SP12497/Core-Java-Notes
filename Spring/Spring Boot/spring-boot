@@ -195,5 +195,134 @@ Server side form validation:
 Spring Boot Security:
     - dependency: spring-boot-starter-security:
     - Practical: 3 steps:
-        1. Create: class CustomUserDetails implements UserDetails
-        2. Create: class CustomUserDetailsService implements UserDetailsService
+        1. Provide implementation of "UserDetails":
+            class CustomUserDetails implements UserDetails {}
+        2. Provide implementation of "UserDetailsService":
+            class CustomUserDetailsService implements UserDetailsService {}
+        3. Write security configuration class with all configuration.
+          A simple class extends WebSecurityConfigurationAdaption   // deprecated in Spring security 5.7.0-M2
+
+          @Override 
+          protected void configure(HttpSecurity http) throws Exception {
+            http.authorizeRequests()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/**").permitAll().and().formLogin()
+                .loginPage("/signInPageUrl")
+                .loginProcessingUrl("/dologin") // form submit url
+                .defaultSuccessUrl("/user/index")
+                .failureUrl("/login-fail")  // for wrong credentials
+                .and.csrf().disabled();
+          }
+    - Several methods that we use to configure the behavior of the form login
+        - loginPage() : the custom login page
+        - loginProcessingUrl() : the url to submit the username and password to
+        - defaultSuccessUrl() : the landing page after a successful login
+        - failureUrl() : the landing page after an unsuccessful login.
+    - How to get login details in handlers? ans: using java.security.Principal
+        @RequestMapping("/index")
+        public String dashboard(Model model, Principal principal) {
+            String userName = principal.getName();
+            model.addAttribute("user", user);   // access in view
+            return "dashboardPage";
+        }
+
+----------
+Pagination:
+    - Important interfaces:
+        Pageable: 
+            - org.springframework.data.domain.Pageable
+            - It need 2 fields:
+                1. current page (page no)
+                2. contacts per page (no of records per page)
+        Page:
+            - org.springframework.data.domain.Page
+        class PageRequest:
+            - It is implementation of Pageable.
+            - here, using of(int page, int size) method, we can set current page and no of records per page.
+    - DAO:
+        @Query("from Contact as c where c.user.id =:userId")
+        public Page<Contact> findContactsByUser(@Param("userId") int userId, Pageable pageable);
+    - Controller:
+        public ContactController {
+            @GetMapping("/show-contacts/{page}")
+            public String showContacts(@PathVariable("page") Integer page, Model m, Principal principal) {
+                String userName = principal.getName();
+                User user = this.userRepository.getUserByUserNam(userName);
+
+                Pageable pageable = PageRequest.of(page, 5);
+                Page<Contact> contacts = this.contactRepository.findContactsByUser(user.getId(), pageable);
+
+                m.addAttribute("contacts", contacts);
+                m.addAttribute("currentPage", page);
+                m.addAttribute("totalPages", contacts.getTotalPages() );
+            }
+        }
+
+-----
+search functionality for contacts by loggedIn user:
+    - repo:
+        public List<Contact> findByNameContainingAndUser(String name, User user);
+        // eg. name=> per (eg. searching "personal contact"), User=> user object.
+    Principal principal; principal.getName(); // fetch username logged in by spring security service.
+
+-------------
+IntelliJ spring puglin: Spring Assistant
+-----------
+JWT Authentication Token:
+    - TEST: //https://jwt.io/
+    - dependency: 
+        1. groupId=io.jsonwebtoken, artifactId=jjwt
+        2. if java > v8 : groupId=javax.xml.bind, artifactId=jaxb-api
+    - JSON WEB TOKEN used to authenticate users.
+    - JWT gains popularity because of token not cookies and no session.
+    - When request first time comes to server, then server validates the token and if the validation request fails the request is rejected.
+    - Steps: 
+        - Check the JWT is well formed or not
+        - check signature
+        - validate the standard claims
+        - Check the client permission.
+
+    Authentication:
+        Purpose: Authentication verifies the identity of a user or system.
+        How It Works: It involves checking the credentials provided (such as username and password) against a trusted source or database. If the credentials match, the user is authenticated.
+        Outcome: After successful authentication, the system confirms that the user is who they claim to be.
+        Examples: Passwords, biometrics (fingerprints, facial recognition), and security tokens.
+    Authorization:
+        Purpose: Authorization determines what an authenticated user or system can do or access.
+        How It Works: Once a user is authenticated, the system checks their permissions to decide whether they are allowed to access certain resources or perform specific actions.
+        Outcome: After successful authorization, the system grants or denies access based on the users permissions.
+        Examples: Access control lists (ACLs), role-based access control (RBAC), and policy-based access control (PBAC).
+
+    1. Write security configuration class with all configuration.
+        A simple class extends WebSecurityConfigurationAdaption   // deprecated in Spring security 5.7.0-M2
+        @Override 
+        protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+            .csrf().disabled()
+            .cors().disabled()
+            .authorizeRequests()
+            .antMatchers("/token").permitAll()
+            .anyRequest().authenticated()
+            .sessionManagement().sessionCreationPolicy(sessionCreationPolicy.STATELESS)
+        }
+
+        @Override
+        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+            auth.userDetailsService(customUserDetailsService);
+        }
+
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+            return NoOpPasswordEncoder.getInstance();
+        } 
+    2. Create @Component class jwtUtils {} // https://github.com/koushikkothagal/spring-security-jwt/blob/master/src/main/java/io/javabrains/springsecurityjwt/util/JwtUtil.java
+        
+
+    
+
+----
+
+
+-----------
+JWT :
