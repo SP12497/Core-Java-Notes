@@ -67,7 +67,9 @@ YAML File
     server:
         port: 9090
 -----------
-JPA Repository: Spring JPA.txt
+JPA Repository: 
+    - #1.2.1 Spring JPA.txt
+    - #1.2.2 REST API with JPA practical.txt
 -----------
 Spring Boot DevTools:
     - dependency: spring-boot-devtools
