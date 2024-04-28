@@ -1,19 +1,70 @@
-@SpringBootApplication: Marks the main class of a Spring Boot application, combining @Configuration, @EnableAutoConfiguration, and @ComponentScan.
+@SpringBootApplication: 
+    Marks the main class of a Spring Boot application,
+    combining @Configuration, @EnableAutoConfiguration, and @ComponentScan.
 
-@RestController: Indicates that a class is a REST controller, combining @Controller and @ResponseBody.
+@Bean:
+    - Used in @Configuration class
+    - apply on method to tells that, Object creation by method should manage by Spring Container. 
+    - help to get auto injection.
+
+@Configuration: 
+    Indicates that a class declares one or more @Bean methods.
+    - provide java based bean creation configuration:
+    - ConfigFile:
+        @Configuration
+        @ComponentScan(basePackages = {"myAnotherPackage" , "myAnotherPackage2"})
+        public class MyConfig {
+            @Bean 
+            public Student getStudent() {
+                return new Student();
+            }
+
+            @Bean
+            @Lazy
+            public Student createStudent() {
+                return new Student();
+            }
+        }
+    - Test:
+        @Autowired Student student; //  IOC will give object automatic
+        student.getName();
+
+
+@Autowired: 
+    - Performs dependency injection on fields, constructors, or methods.
+    - Search for object/bean which matching Student type. if found, then inject automatically.
+    - @Autowired @Qualifier("student2") Student student; :
+        - if multiple beans/objects are presents for same type. Then pass bean/object name.
+    - @Lazy: 
+        - create object when required. Do not create at start of application.
+@Component: 
+    - Indicates that a class is a Spring component, allowing auto-detection and auto-registration.
+    - tells spring container to manage object lifecycle.
+    - used to create object automatically.
+    - @Controller:
+        - Presentation Layer
+        - @Component + MVC Controller
+    - @Service:
+        - Service Layer
+        - Indicates that a class is a service component.
+    - @Repository:
+        - DAO Layer (Data Access Object)
+        - Indicates that a class is a repository component (typically for data access).
+
+@ComponentScan:
+    - Scan provided package and its sub packages and check for configuration like @Component
+
+@EnableAutoConfiguration: 
+    Enables Spring Boot's auto-configuration mechanism.
+
+--------------------------
+
+@RestController: 
+    - Indicates that a class is a REST controller, 
+    - combining @Controller and @ResponseBody.
 
 @RequestMapping: Maps web requests to handler methods.
 
-@Autowired: Performs dependency injection on fields, constructors, or methods.
-
-@Component: Indicates that a class is a Spring component, allowing auto-detection and auto-registration. // create object automatically
-@Service: Indicates that a class is a service component.
-@Repository: Indicates that a class is a repository component (typically for data access).
--  (@Service and @Repository: Similar to @Component, but used for service and repository classes respectively.)
-
-
-@Configuration: Indicates that a class declares one or more @Bean methods.
-@EnableAutoConfiguration: Enables Spring Boot's auto-configuration mechanism.
 @Value: Binds a property value to a field or method parameter.
 
 @Transactional: Marks a method, class, or interface as transactional.
@@ -39,3 +90,40 @@
 
 @Cacheable: Marks a method for caching results.
 @CacheEvict: Marks a method for evicting entries from the cache.
+
+=============
+Code:
+======
+
+@Configuration
+@ComponentScan(basePackages = {"myAnotherPackage" , "myAnotherPackage2"})
+public class MyConfig {
+    @Bean 
+    public Student getStudent() {
+        return new Student("Suraj");
+    }
+
+    @Bean
+    @Lazy
+    public Student createStudent() {
+        return new Student("Sagar");
+    }
+}
+
+----
+@Controller
+public class MyController {
+    @Autowired
+    @Qualifier("student2")
+    private Student student;
+
+    @RequestMapping(value="/home/{sId}", method = RequestMethod.POST)
+    @ResponseBody
+    public Student home(@RequestBody Student stud, 
+                        @PathVariable("sId) Integer studId,
+                        @RequestParam("email") String email) {  // <input name="email" />
+        return this.student;    // return student object as json response
+    }
+
+
+}

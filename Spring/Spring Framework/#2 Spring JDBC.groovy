@@ -85,3 +85,73 @@ Practical:
             return student;
         }
     }
+
+-----
+Spring Boot Jdbc : (MySQL)
+    - dependencies: 
+        spring-boot-starter-jdbc
+        mysql-connector-java
+        spring-boot-starter-web
+    - application.properties:
+        spring.datasource.url=jdbc:mysql://localhost:3306/myJdbcDb
+        spring.datasource.username=root
+        spring.datasource.password=root
+    - Repository:
+        @Repository
+        public class UserDao {
+            @Autowired
+            private JdbcTemplate jdbcTemplate;
+
+            public int createTable() {
+                String query ="CREATE TABLE IF NOT EXIST User(id int primary key, name varchar(50))";
+                int affectedRows = this.jdbcTemplate.update(query);
+                return update;
+            }
+
+            public int insertUser(Integer id, String name, Integer age, String city) {
+                String query = "insert into user(id, name, age, city) values(?,?,?,?)";
+                int affectedRows = this.jdbcTemplate.update(query, new Object[] {id, name, age, city});
+            }
+        }
+    - call createTable():
+        public class SpringBootMainApplication implements CommandLineRunner {
+            @Autowired
+            private UserDao userDao;
+            
+            public static void main(String [] args) {
+                SpringApplication.run(BootjdbcexampleApplication.class, args);
+            }
+
+            @Override
+            public void run(String... args) throws Exception {
+                this.userDao.createTable();     // this not static method, cant run in static main class. So implemented CommandLineRunner for non static method to run our code.
+            }
+        }
+
+-----------------
+Spring Boot Jdbc : (PostGres)
+    - dependencies:
+        postgresql
+        spring-boot-starter-jdbc
+        spring-boot-starter-web
+    - application.properties:
+        spring.datasource.url=jdbc:postgresql://localhost:5432/mydb
+        spring.datasource.username=postgres
+        spring.datasource.password=root
+    - Repository:
+        @Repository
+        public class UserDao {
+            @Autowired
+            private JdbcTemplate jdbcTemplate;
+
+            public int createTable() {
+                String query ="CREATE TABLE Student(id SERIAL primary key, name varchar(50) NOT NULL, city VARCHAR(255))";
+                int affectedRows = this.jdbcTemplate.update(query);
+                return update;
+            }
+
+            public int insertUser(Integer id, String name, Integer age, String city) {
+                String query = "insert into student(name, city) values(?,?)";
+                int affectedRows = this.jdbcTemplate.update(query, name, city);
+            }
+        }
