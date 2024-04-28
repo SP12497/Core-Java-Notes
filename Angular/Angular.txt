@@ -14,3 +14,5 @@
 	- We cant access the value before we reach ngAfterContentInit
 	- With Angular 8 that should be @ContentChild('...',{static:true}) since we'll use the selected element in ngOnInit.
 	
+
+location.reload()	// reload page

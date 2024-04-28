@@ -42,7 +42,8 @@ interface Map:
 	isEmpty(): Returns true if the map contains no key-value mappings.
 	clear(): Removes all of the mappings from the map.
 */
-
+// Map.of("msg", "received"); check this method
+// Map<String, Object> user = new HashMap<>(); user.put("city", "NDB");
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;

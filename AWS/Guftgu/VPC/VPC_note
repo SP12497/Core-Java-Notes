@@ -14,7 +14,7 @@ Defn: VPC is virtual network or DataCenter inside AWS of one client.
     - AWS
         - Region
             - Internet Gateway
-            - VPC:  cidr- 10.0.0.0/16   // now we cant use same cidr for other VPC in region. // instances can communicate each other in VPC
+            - VPC:  cidr - 10.0.0.0/16   // now we cant use same cidr for other VPC in region. // instances can communicate each other in VPC
                 - Implied Router
                 - Avability Zone-A    cidr- 10.0.0.0/24
                     - Public subnet // can go on internet if custom routing table has 0.0.0.0/0 cidr.
@@ -101,21 +101,21 @@ Part 4:
 NAT Gateway, Security Groups, NACL and VPC Peering
 -------
 NAT Instance: 
-    - In Nat instance we can use public or elastic ip's.
+    - In Nat instance, we can use public or elastic ip's.
     - But in NAT Gateway, we can only use elastic ip's.
 
-NAT Gateway: (NAT instance is different service)
-    - convert our private ip to public ip to send over internet or vise versa, request from public ip send to our private gateway
+NAT Gateway: (NAT instance is different service) (Lab on VPC NAT GW.png)
     - Its in public subnet
+    - convert our private ip to public ip to send over internet or vise versa, request from public ip send to our private gateway
     - You can use a network address translation gateway to enable instances in a private subnets to connect to the internet or other AWS services, but prevent internet from initiating a connection with those instances.
-    eg. db server stored in private subnet and we have to update the DB version, so we have to take from internet.
-    Private Subnet (route table 0.0.0.0./0=public subnet NAT )--> Public Subnet NAT (route table 0.0.0.0./0=logical id ) => Internet Gateway 
-    - You are charged for creating and using a NAT gateway in your account. NAT Gateway hourly usage and datta processing rates apply. Amazon EC2 changes for data tranfer also apply.
+    eg. db server stored in private subnet and we have to update the DB version, so we have to take update from internet.
+    Private Subnet (route table 0.0.0.0./0=public subnet NAT ) --> Public Subnet NAT (route table 0.0.0.0./0=logical id ) => Internet Gateway 
+    - You are charged for creating and using a NAT gateway in your account. NAT Gateway hourly usage and data processing rates apply. Amazon EC2 changes for data tranfer also apply.
     - To create nat gateway, you must specify the public subnet in which the NAT Gateway should reside.
     - You must also specify an elastic ip address to associate with nat gateway when you create it.
-    - No need to assign public ip address to your private instance. (public public ip is present, then private subnet can directly communicate over an internet)
+    - No need to assign public ip address to your private instance. (if public ip is present in private subnet, then private subnet can directly communicate over an internet).
     - After you have created a NAT gateway, you must update the route table associated with one or more of your private subnets to point internet bound traffic to the NAT gateway. This enables instances in your private subnet to communicate with the internet.
-    (update route table of all private subnet 0.0.0.0/0 -> public NAT Gateway)
+    (update route table of all private subnet 0.0.0.0/0 -> NAT Gateway presents in public subnet).
     - Deleting a NAT gateway, disassociates its elastic ip address, but does not release the address from your account.
 
 Security Groups: (Security Groups architecture.png)
@@ -165,3 +165,152 @@ VPC Peering: (VPC Peering.png)
     - Transitive peering not possible in AWS.
       eg. VPC A --communicating--> VPC B | VPC B -> VPC C
         So, it doesn't mean VPC A can communicate VPC C.
+
+
+----------------------
+Demo 1: :
+
+4 steps to create VPC:
+    1. create VPC:
+        cidr: 10.0.0.0/16
+        tenancy: Default
+    2. create subnet
+        - choose created vpc and availability zone
+        cidr: 10.0.0.0/25       // upto /28
+    3. create Internet Gateway
+        - create Gateway
+        - once created, attach vpc:
+            - select gateway -> attach to VPC
+    4. Create Route table:
+        - select created vpc while creating.
+        - Subnet Associations:
+            - select created subnet and save. 
+        - Route: 
+            - Destination: 0.0.0.0/0
+              Target: Select created IG
+Testing: 
+    Create Ec2 instace:
+        windows t2 micro r2 base:
+        network: "created VPC"
+        Subnet: "created Subnet"
+        Auto-assign public IP: Enable
+        Security Group: RDP -> Source(Anywhere)
+    - Connect to instace:
+        open ec2 cmd:  
+            "ping 8.8.8.8"   // if it returns response then EC2 is connected to Internet Gateway
+
+----------------------
+Demo 2: Lab On VPC NAT Gateway: (Lab on VPC NAT GW.png)
+    1. create VPC:
+        cidr: 10.0.0.0/16
+        tenancy: Default
+    2. create subnet
+        - Public Subnet:
+            - choose created vpc and availability zone
+            cidr: 10.0.0.0/24      // upto /28
+        - Private Subnet:
+                cidr: 10.0.1.0/24      // upto /28
+    3. create Internet Gateway
+        - create Gateway
+        - once created, attach to vpc:
+            - select gateway -> attach to VPC
+    4. Create Route table:
+        - Public Route Table for VPC:
+            - Subnet Associations:
+                - select created Public Subnet and save.
+            - Route: 
+                - Destination: 0.0.0.0/0
+                  Target: Select created IG
+        - Private Route Table for VPC:
+            - Subnet Associations:
+                - select created Private Subnet and save.
+
+Testing: 
+    Create 2 Ec2 instace in Public and Private Subnet:
+        windows t2 micro r2 base:
+        network: "created VPC"
+        Subnet: "Public Subnet" and "Private Subnet"
+        Auto-assign public IP: Enable(for public Subnet) | Disable(Private Subnet)
+        Security Group: RDP -> 
+            Public | Private: RDP | HTTP | HTTPS -> Source(Anywhere)
+    Validation:
+        - We dont have public IP in private Gateway so we cant connect private subnet EC2 instance from our local machine, but we can access by public subnet EC2 instance
+        - Connect to public subnet EC2 instance:
+            cmd: "ping 8.8.8.8"
+            Connect to Private EC2:
+                Search "Remote Desktop Connection"
+                    - insert "Private EC2 Instance priavate IP"
+                    - username: administrator
+                      password: get from generated ec2 key pair file
+                    - cmd: "ping 8.8.8.8 -t"    (Wont go to internet, because NAT Gateway is not present)
+                    
+                    private subnet route table dont have address to go to internet.)
+  How to Access Internet in Private Subnet?
+    - Create NAT Gateway:
+        - subnet: public
+          elastic ip is mandatory for NAT GW: create new EIP
+    - Private created subnet route table:
+        - Routes:
+            - Destination: 0.0.0.0/0
+              Target: select created NAT GW
+    - Validation:
+        - Now you can access Internet from Private Subnet.
+
+---------------
+Demo 3: VPC Peering: (Communicate using private IP)
+    1. create VPC1 (10.0.0.0/16) | Subnet | IG | Route Table
+    2. create VPC22 (192.168.0.0/16) | Subnet | IG | Route Table
+    - Peering Connections:
+        - Select a local VPC to peer with: select "requester/sender"    // eg. VPC1
+        - Select another VPC to peer with: "accepter/receiver"                   // eg. VPC2
+        - Account: are both are in Same AWS Account?
+        - Region: are both are in same AWS region?
+    
+    - Now Issue after peering connection: VPC peering showing, status is pending access
+        -> select and Actions "Accept Request"
+Validation:
+    Create Ec2 instace in each VPC:
+        windows t2 micro r2 base:
+        network: "created VPC"
+        Subnet: created subnet for respective VPC.
+        Auto-assign public IP: Enable
+        Security Group: RDP -> 
+            Public: RDP -> Source(Anywhere)
+
+        - Connect to public subnet EC2 instance:
+            - VPC 1 (requester)
+                - privae IP: 10.0.0.93
+                cmd: "ping 192.168.0.64 -t"     // call VPC 2 Instance
+            - VPC 2 (receiver)
+                - privae IP: 192.168.0.64
+                cmd: "ping 10.0.0.93 -t"        // call VPC 1 Instance
+            - Now here, will not receing the ping yet, to get ping,
+                -> GO to, each EC2 instance security group:
+                    - Type: ALL ICMP IPV4   // ICMP : used to ping another vpc from a vpc.
+                      Source: Anywhere
+                -> Route Table:
+                    Routes:
+                        VPC1:
+                            - Destination: 192.168.0.0/16
+                              Target: VPC Peering
+                        VPC2:
+                            - Destination: 10.0.0.0/16
+                              Target: VPC Peering
+                -> Now, cmd ping will receive ping.
+
+----------
+Demo 4: VPC Peering across Two Region:
+    - https://youtu.be/Evj6DQr6gwM
+    - create VPC and EC2 instance (security group have ICMP) in 2 Regions (reference: Demo 3). eg. Tokyo and Mumbai.
+        - Update Routing table of both VPC: 
+            Destination: set "private IP" of another vpc route
+            Peering: (pcx-*) vpc peering
+    - Go to any region and create peering:
+        - Tokyo Region:
+            Create peering :
+                requester: TokyoVPC
+                accepter:
+                    region: Mumbai
+                    vpc: Mumbai VPC ID
+        - Mumbai Region:
+            - Accept VPC Peering request.
