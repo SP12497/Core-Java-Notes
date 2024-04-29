@@ -1,0 +1,11 @@
+- Dependency:
+    Spring Web
+    Spring Security
+    Lombok
+    JWT: 
+        jjwt-api
+        jjwt-impl
+        jjwt-jackson
+- https://www.youtube.com/watch?v=Jen7e6mX6nU&t=397s
+- Security InBuild Class:
+    public class org.springframework.security.core.userdetails.User implements UserDetails, CredentialsContainer {} // If we want controller for our security, then we can create our custom User class with implementing "UserDetails" to use features of spring boot.

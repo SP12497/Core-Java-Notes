@@ -1,0 +1,110 @@
+@Controller :
+	- On the controller class.
+	- Controller class handle http req res
+	
+
+
+ModelAndView :	
+	Model means data.
+	View means pages
+	
+	@RequestMapping("homemv")				 	
+	//public ModelAndView homemv(String myname)	
+			//http://localhost:8080/homemv?myname=Sagar
+	public ModelAndView homemv(@RequestParam("name") String myname)
+		//http://localhost:8080/homemv?name=Sagar
+	{
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("name", myname);		//set data
+		mv.setViewName("home");				//set name
+		
+		return mv;
+	}
+	
+	
+----------------------------
+Example 3 :
+Repo :
+
+
+-----------------
+@ResponseBody :
+
+	@RequestMapping("/aliens")
+	@ResponseBody
+	public String getAliens()
+	{
+		return repo.findAll().toString();
+	}	
+	
+	- Whenever we are returning a string, spring will consider it as we return view name.
+	- But whenever we are returning data , we use ResponseBody annotation.
+	
+
+---------------------
+HTTP Methods :					: CRUD
+	Get 	: fetching data		: Read
+	POST 	: submiting data	: Create	
+	PUT 	: update data 		: Update
+	DELETE 	: delete data		: Delete
+	
+-----------------------
+@RestController :
+	- on the class
+	- its a replacement of @ResponseBody everytime on the function.
+	- It tells that , all methods of class return only body/data , not a view.
+-----------------------
+@ResponseBody
+	- used when, @Controller annotation on the class, and method returning data not view , then mark @ResponseBody on the method.	
+//-----------------
+@RequestParam :
+	- Accept only single value
+	- used to fetch the value from the client.
+	
+	- public ModelAndView homemv(String myname)	
+	- public ModelAndView homemv(@RequestParam String myname)	
+		//http://localhost:8080/homemv?myname=Sagar
+	
+	- public ModelAndView homemv(@RequestParam("name") String myname)	
+		//http://localhost:8080/homemv?name=Sagar
+-----------------------	
+@RequestBody : inside the  parameter 
+	- when we are getting object.
+	
+	public Alien addAlien(@RequestBody Alien alien)
+	
+--------------------------
+@Controller class mycontroller {
+	@RequestMapping("/alien/{aid}")
+	@ResponseBody
+	public String getAlien(@PathVariable("aid") int aid )
+	{
+		return repo.findById(aid).toString();
+	}
+}
+
+		-----------------------
+@PathVariable :
+	@RequestMapping("/alien/{aid}")
+	public Optional<Alien> getAlien(@PathVariable("aid") int aid)
+	{
+		return repo.findById(aid);	
+	}
+
+----------------------------------
+Produces 	: sending data server to a client. called as server is producing.
+Consuming 	: server accepting data from client
+
+	- @PostMapping(path="/aliens",produces= {"application/xml"})
+
+	- @PostMapping(path="/alien",consumes= {"application/json"})
+
+
+------------------------------------
+Lombok Dependency :
+	Project Lombok is a Java library tool that generates code for minimizing boilerplate code. The library replaces boilerplate code with easy-to-use annotations.
+		var and val
+		@Getter, @Setter
+		@NoArgsConstructor, @AllArgsConstructor
+		@Data
+		@NotNull
