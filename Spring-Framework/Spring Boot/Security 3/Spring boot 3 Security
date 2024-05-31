@@ -9,3 +9,29 @@
 - https://www.youtube.com/watch?v=Jen7e6mX6nU&t=397s
 - Security InBuild Class:
     public class org.springframework.security.core.userdetails.User implements UserDetails, CredentialsContainer {} // If we want controller for our security, then we can create our custom User class with implementing "UserDetails" to use features of spring boot.
+
+
+
+- Generate JWT Token:
+    class JwtService {
+        public String generateToken(UserDetails user) { 
+            retun Jwts.bulder()
+            .setSubject(user.getUsername())
+            .claim("authorities", popolateAuthorities(user.getAuthorities()))       // add a property in JWT token.
+            ...compact();}
+        private Key getSigningKey() {
+
+        }
+    }
+- SecureEndpoints:
+    @Configuration
+    @EnableWebSecurity
+    public class SecurityConfiguration {
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+            return http
+                        .csrf()
+                        ...
+                        .build();
+        }
+    }

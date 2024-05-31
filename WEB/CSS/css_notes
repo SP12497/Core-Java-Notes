@@ -1,0 +1,102 @@
+- https://drive.google.com/drive/folders/1FsUI7ypzBltgqqXoZ0fZlRPLIFSNgZjb
+
+What is CSS?
+    - Cascading Style Sheets
+    - Cascading Style Sheets (CSS) is a stylesheet language used to describe the presentation of a document written in HTML or XML (including XML dialects such as SVG, MathML or XHTML). 
+    - CSS describes how elements should be rendered on screen, on paper, in speech, or on other media.
+    - CSS is among the core languages of the open web and is standardized across Web browsers according to W3C specifications
+    - Previously, the development of various parts of CSS specification was done synchronously, which allowed the versioning of the latest recommendations. You might have heard about CSS1, CSS2.1, or even CSS3. There will never be a CSS3 or a CSS4; rather, everything is now CSS without a version number.
+
+https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics
+
+
+Types of CSS: (#1 types of css.html)
+        1. Inline CSS:
+            <p style="color:blue;">This is Inline CSS </p>
+            - Highest priority
+        2. Internal CSS:
+            <head> 
+                <style>
+                    h1 {
+                        color: orange;
+                        background-color: blue;
+                    }
+                </style> 
+            </head>
+        3. External CSS:
+            <head> 
+                <link rel="stylesheet" href="css/mystyle.css" > // External CSS linking
+                <style>     // here, link tag is before style tag, so link will load first, then style tag. So here, style tag have more priority. because it will override link tag changes.
+                    h1 {
+                        color: orange;
+                        background-color: blue;
+                    }
+                    p { // override Verdana and take cursive as priority.
+                        font-family: "cursive";
+                    }
+                </style> 
+            </head>
+            - html file:
+
+            - fileName: /css/mystyle.css
+                p {
+                    font-family: "Verdana";
+                }
+
+Types of Selectors:
+    - <p id="my-id1" class="myclass1 myclass2">
+    1. Element Selector ():
+        p { font-size: 24px; }
+    2. ID selector (#):
+        #my-id1 { color: red; }
+        - note: <!-- <p id="my-id1 my-id2" : error, id must contain only 1 and unique value -->
+    3. Class Selector (.):
+        .myclass1 { color: blue;}
+        - id and class should not start with number.
+        - HTML element can have more than one class and non unique classes separated by space.
+    4. Universal selector (*):
+        * {
+            font-family: fantasy;
+        }
+        - changes for all html.
+        - It has highest priority.
+    5. Grouping Selectors:
+        .myclass2, #my-id1 {
+            color: white;
+        }
+    6. Nested Selector:
+        <article id="first"> 
+            <p>This paragraph under <span>article</span> </p>
+        </article>
+        #first>p {
+            color: green;
+        }
+        #first>p>span {
+            color: pink;
+        }
+    7. Psuedo Selector:
+        p:hover {
+            font-family: monospace;
+        }
+
+Precedence:
+    - Id vs Id's: (single element will get precedence: blue)
+        #first, #second {
+            color: red;
+        }
+
+        #second {
+            color: blue;
+        }
+    - Id, Element and Class: 
+        - ID have higher precedence. => blue.
+        - ID -> Class -> Element : (ICE)
+        #second {
+            color: blue;
+        }
+        p {
+            color: yellow;
+        }
+        .my-class {
+            color: purple;
+        }

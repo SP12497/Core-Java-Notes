@@ -1,0 +1,39 @@
+What is Docker?
+    - Docker is a platform that helps developers build, share and run application with container.
+    - A docker container has everything about a project like code,runtime, system tools, system libraries and settings with specific version.
+
+Images:
+    - are templates of project
+    - It is king of ready-to-use software read-only templates
+    - Images is made with source code, libraries, external dependencies and tools.
+    - Images can not be updated.
+    - If you want to make change in image, you have to create new image
+    - Images can not run directly.
+    - Image Example:
+        - Application tools and Libraries: (Image can contains:)
+            - Node js setup
+            - React setup
+            - code of application
+            - dependencies
+            - any other supporting tools
+            - docker file too
+            
+Container:
+    - Running Instance of Image
+    - Project Image -> RUN -> Container
+    - The container is a process that runs application with images.
+    - Container is an isolated process.
+    - Means container run independently on computer.
+    - eg. Container 1 contain: node 18, Container 2: Java 17, Container 3: node 16
+
+Docker Hub:
+    - https://hub.docker.com/
+    - There are 2 types of image:
+        1. Base Image:
+            - Created by us
+        2. Parent Image: 
+            - like, node js, JDK, mongo
+            - Sometimes project need another image of programming language or other library.
+Docker Desktop:
+    - Installed on local system
+    - Used to install, run images.

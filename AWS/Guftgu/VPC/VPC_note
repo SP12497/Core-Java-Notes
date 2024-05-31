@@ -20,7 +20,7 @@ Defn: VPC is virtual network or DataCenter inside AWS of one client.
                     - Public subnet // can go on internet if custom routing table has 0.0.0.0/0 cidr.
                         - NAT Gateway (only in public subnet)
                         - EC2 Instance
-                - Avability Zone    cidr- 10.0.0.1/24
+                - Avability Zone-B    cidr- 10.0.0.1/24
                     - Private subnet-B    // local
                         - EC2 Instance
 - Once the VPC is created, you cannot change its CIDR block range.

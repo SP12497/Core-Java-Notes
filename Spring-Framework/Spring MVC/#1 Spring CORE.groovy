@@ -129,7 +129,6 @@ SPRING MODULE :
 		- WebSocket
 	- TEST
 	
-	
 ============================
 IOC container  = Dependency	Injection (inversion of control)
 	- Spring IoC is the mechanism to achieve loose-coupling between Objects dependencies.
@@ -143,44 +142,46 @@ Spring IOC Container : manage object life cycle, dependancy injection, we get re
 Dependency Injection can be done in 2 ways :
 	- Using Setter Injection / Property Injection
 	- Using Constructor Injection
-Configuration files :
+
+Configuration files:
 	- Where we declare beans and its dependancy
 	
 Data Types supported by IOC (Dependencies) :
-		1. Primitive Data Types
-		2. Collection Types :
-			List, Set, Map, and Properties
-		3. Reference Type :
-			Other class Object
+	1. Primitive Data Types
+	2. Collection Types :
+		List, Set, Map, and Properties
+	3. Reference Type :
+		Other class Object
 
 ------------------------			
 create object using xml:
 ------------------------
 - config.xml : using Setter Injection
-<beans>
-	<bean class="com.springcore.Student" name="student">
-		<property name="sId">
-			<value>01</value>
-		</property>
-		<property name="sName">
-			<value>Sagar Patil</value>
-		</property>
-		<property name="sAge" value="26" />
+	<beans>
+		<bean class="com.springcore.Student" name="student">
+			<property name="sId">
+				<value>01</value>
+			</property>
+			<property name="sName">
+				<value>Sagar Patil</value>
+			</property>
+			<property name="sAge" value="26" />
 
-	</bean>
-</beans>
+		</bean>
+	</beans>
 
 - config.xml : using Constructor Injection
-<beans>
-	<bean class="com.springcore.Student" name="student">
-		<constructor-arg>
-			<value>Sagar</value>
-		</constructor-arg>
+	<beans>
+		<bean class="com.springcore.Student" name="student">
+			<constructor-arg>
+				<value>Sagar</value>
+			</constructor-arg>
 
-		or 
-		<constructor-arg value="Sagar" type="String" />		// index="0" means first parameter
-	</bean>
-</beans>
+			or 
+			<constructor-arg value="Sagar" type="String" />		// index="0" means first parameter
+		</bean>
+	</beans>
+
 - Main class:
 	ApplicationContext context = new ClassPathXMLApplicationContext("config.xml");	//  IOC dependancy injection
 		// AbstractApplicationContext context = new ClassPathXMLApplicationContext("config.xml");	//  IOC dependancy injection
@@ -217,14 +218,15 @@ create object using xml:
 			AbstractApplicationContext context = new ClassPathXMLApplicationContext("packagename");
 			Samosa s1 = (Samosa) context.getBean("s1");	// creation of bean
 			context.registerShutdownHook();	// destroy the bean
+	
 	2. Using Interface
-		- interface InitializingBean => public void afterPropertiesSet() throws Exception {}		//for init method
-		- interface DisposableBean	 => public void destroy() throws Exception {} //for destroy method
+		- interface InitializingBean => @Override public void afterPropertiesSet() throws Exception {}		//for init method
+		- interface DisposableBean	 => @Override public void destroy() throws Exception {} //for destroy method
 		eg. public class Pepsi implements InitializingBean, DisposableBean {
 				private double price;
 				public setPrice(double price){ this.price = price;}
-				public void afterPropertiesSet() throws Exception {}
-				public void destroy() throws Exception {}
+				@Override public void afterPropertiesSet() throws Exception {}
+				@Override public void destroy() throws Exception {}
 			}
 			<bean class="com.springcore.Pepsi" name="p1" >
 				<property name="price" value="10" />
@@ -250,7 +252,7 @@ create object using xml:
 #17 : Autowiring :
 	- Feature of spring framework in which spring container inject the dependencies automatically.
 	- It works only with reference only. (works on object only)
-		can't be used to inject primitive and string values.
+		cant be used to inject primitive and string values.
 	- Manual wiring in xml :	<ref bean=""/>
 		Spring container will do automatically wiring using @Autowired  
 		eg. Object A depends on B
@@ -273,11 +275,13 @@ create object using xml:
 				- we can use autowire annotation using 3 types:
 					1. On Property	:	class Employee { @Autowired private Address address; }
 					2. On Setter	: 
-						class Employee { private Address address; 
+						class Employee { 
+							private Address address; 
 							@Autowired public void setAddress(Address address) { this.address = address; }
 						}
 					3. On constructor: 
-						class Employee { private Address address; 
+						class Employee { 
+							private Address address; 
 							@Autowired public Employee(Address address) { this.address = address; }
 						}
 				- It works on byType
@@ -289,7 +293,7 @@ create object using xml:
 		  to remove the confusion by specifying which exact bean will be wired.
 			
 	@Autowired
-	@Qualifier("address2")		//check "byName"	// 
+	@Qualifier("address2")		//check "byName"	// by default "byType"
 	private Address address;
 
 
@@ -297,38 +301,38 @@ create object using xml:
 		- It uses util schema.
 		
 #22 : Stereotype Annotation :	code :package com.springcore.stereotype;
-		@Component : on the class	
-			- same as xml <bean/>
-			- create object automatically.
-			- config.xml :  <context:component-scan base-package="Only_package_name" />
-			  or @ComponentScan()
-			- it by default create object as classRoom class name using camelcase (student)
-			- @Component class Student{}  then object name is : (student) by default
-			  Student s = context.getBean("student", Student.class);
-			- @Component("stud") class Student{}	// obj name is stud.
+	@Component : on the class	
+		- same as xml <bean/>
+		- create object automatically.
+		- config.xml :  <context:component-scan base-package="Only_package_name" />
+			or @ComponentScan()
+		- it by default create object as classRoom class name using camelcase (student)
+		- @Component class Student{}  then object name is : (student) by default
+			Student s = context.getBean("student", Student.class);
+		- @Component("stud") class Student{}	// obj name is stud.
 
-		@Value :
-			- on the property.
-			- Used to set the value into the variable/property
-			@Component("stud") class Student{
-				@Value("Sagar")
-				String name;
-				
-				@Value("#{addressId1}")			
-				private List<String> address;
-			}
+	@Value :
+		- on the property.
+		- Used to set the value into the variable/property
+		@Component("stud") class Student{
+			@Value("Sagar")
+			String name;
+			
+			@Value("#{addressId1}")			
+			private List<String> address;
+		}
 
 
 #24 Beans Scope :
 	@Component						// Scope annotation always use with Component Annotation
 	@Scope("singleton")	class Student{}
-		singleton : only one obj of one class. // by default
-		prototype : one class , many object
-		request	  : HTTP request
-		session
-		globalsession
+	// - Types:
+	// 	- singleton: one class have only one object. // by default
+	// 	- prototype : one class , many object
+	// 	- request	  : HTTP request
+	// 	- session
+	// 	- globalsession
 	xml:	<bean class="" name="" scope="" />
-
 	practical:
 		Student s1 = context.getBean("student", Student.class);
 		Student s2 = context.getBean("student", Student.class);
@@ -342,13 +346,13 @@ create object using xml:
 		- Spring have some parsers classes which will give the expresssion answer
 	- There are 2 ways to resolve the expressions:
 	1. Using @Value annotation:
-		eg.
+		eg:
 			@Value("#{expresssion}")
 			@Value("#{3+5}")
 			@Value("#{8>6?88:66}")
 			@Value("#{}")
 			
-		- Expression can be Classes, Variable,(static /non static) Methods,Constructors and Objects
+		- Expression can be Classes, Variable, (static /non static) Methods, Constructors and Objects
 			and Symbols like char, numerics, operators, keywords, 
 			and special symbols which return a value.
 	
@@ -377,7 +381,7 @@ create object using xml:
 			- It will scann the package and check @Controller and some other annotations and create a object for those.
 	
 	@Bean :
-		- on method which return object;
+		- on method which return new object;
 		
 	We have 3 types to create Dependency Injection :
 		1. XML Config file			:	<bean>
@@ -407,7 +411,7 @@ create object using xml:
 			public class MainRunner {
 				public static void main(String[] args) {
 					ApplicationContext context = new AnnotationConfigApplicationContext(JavaConfig.class);
-					Employee emp = context.getBean("employee", Employee.class);
+					Subject sub = context.getBean("subject", Subject.class);
 					Teacher teacher = context.getBean("getTeacher", Teacher.class);	// "getTeacher", "teacher", "t1", "teacherObj"
 				}
 			}

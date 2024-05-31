@@ -1,5 +1,5 @@
 Spring JDBC:
-    - Spring Jdbc is a powerful mechanis to connect to the database and execute SQL queries.
+    - Spring Jdbc is a powerful mechanism to connect to the database and execute SQL queries.
     - Developed on top of Java JDBC
     - JDBC is a API to perform operation with database.
 
@@ -54,6 +54,7 @@ public class JavaConfig{
         retun jdbcTemplate;
     }
 }
+
 ------------------
 @Autowired
 JdbcTemplate template;

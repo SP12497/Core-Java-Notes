@@ -1,0 +1,107 @@
+Config Server : Central configuration stored in GitHub
+Config Client : in every dependency which want central configuration , except config server
+Load Balancer	:	Used to balance the load on a service
+	- create multiple instance of a service which are running on a different port.
+Feign : used to communicate with another microservices.
+	- its a replacement of RestTemplate.
+	- It uses PROXY interface for communication.
+		- @EnableFiegnProxy : on starer class
+		- @FiegnClient(name="microservice-application-name", url="localhost:8000,<url2,url3...>")
+			- and rest path on proxy interface method.
+			
+Naming Server (Eureka)	:	used for load balancing
+	All microservices are register with service registry.
+	- Steps	:
+		- Service1 ---(ask address of service2 active instances)---> Service Registry
+		- Service1 <---(return address of service2)--- Service Registry
+		- Service1 ---(call address and get responce)---> Service2
+	- @EnableEurekaServer
+	- @EnableEurekaClient	:	(Eureka Discovery Client)
+		- this will automatically register service with Eureka Server.
+		- @FiegnClient(name="microservice-application-name") on proxy interface.
+		- eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
+		
+API Gateway :	(Port:8765)
+	- authentication, authorization for all microservices.
+	- Zuul :
+		- In older versions of spring, Zuul is popular 
+		- Zuul no longer supported by Netfilx
+	- Spring Cloud Gateway :(dependency : SPRING CLOUD ROUTING)
+		- spring cloud use this
+		- Provides a simple, yet effective way to route to APIs and 
+			provide cross cutting concerns to them such as security, monitoring/metrics, and resiliency
+
+Spring Cloud Gateway	:	
+	- spring.cloud.gateway.discovery.locator.enabled=true
+	- localhost:8765/CURRENCY-EXCHANGE/currency-exchange/from/USD/to/INR	//check any service url 
+	- To accept only lower case for the whole url : 
+		- spring.cloud.gateway.discovery.locator.lowerCaseServiceId=true
+		- localhost:8765/currency-exchange/currency-exchange/from/USD/to/INR	//check any service url 
+
+API Gateway :
+-------------
+
+-> Create custom routes :	
+	- create configuration class
+	- RouteLocator : gateway router 
+	- RouteLocatorBuilder : used to create gateway router
+		@Bean 
+		public RouteLocator gatewayRouter(RouteLocatorBuilder builder){
+			return builder.routes().build();	// not customising the route.
+			
+		- Custom filters
+		- Global filters (interface GlobalFilter)
+Spring Cloud Gateway :
+	- Simple, yet effective way to route to APIs
+	- Provide cross cutting concerns : 	
+		- Security
+		- Monitoring/metrics
+	- Built on top of Spring WebFlux (Reactive Approach)
+	- Features :
+		- Match routes on any request attribute
+		- Define Predicates and Filters
+		- Integrates with Spring Cloud Discovery Client (Load Balancing)
+		- Path Rewriting.
+	
+-------
+Circuit Breaker :
+	Microservise1 -> MS2 -> MS3 -> MS4 -> MS5
+	
+	- What if one of the servies is down or is slow?
+		- impacts entire chain!
+	Questions :
+		- Can we return a fallback responce if a service is down? -> if ms4 down then ms3 return default respons
+		- Can we implement a circuit breaker pattern to reduce load? -> if ms4 is down, without hitting, get responce
+		- Can we retry requests in case of temporary failures? -> if ms4 fail for temp time, can we retry hitting few times
+		- Can we implement rate limiting? - allow certain no of calls for specific ms for specifis period of time.
+	- Solution : 
+		- Circuit Breaker Framework- Resilience4j
+
+Resilience4j :
+	- Resilience4j is a lightweight, easy-to-use fault tolerance library inspired by Netfilx Hystrix.
+		but designed for java 8 and functional programming.
+	- resilience4j.readme.io/docs/getting-started-3
+	
+Annotations in Resilience4j :
+	@Retry(name="sample-api")
+		- by default 3 retry of RestController method
+		- resilience4j.retry.instances.sample-api.maxRetryAttempts=5	//5 retry
+		- resilience4j.retry.instances.sample-api.waitDuration=1s	//each try happen after 1 security
+		- resilience4j.retry.instances.sample-api.enableExcponentialBackoff=true	//every retry increases some time 
+			eg. 1st retry -> 1s , 2nd retry -> 1.5 sec ..
+		- For default responce ?
+		@Retry(name="sample-api" , fallbackMethod = "hardcodedResponce")
+		@GetMapping("sample-api")
+		public String sampleapi(){}
+		public String hardcodedResponce(Exception ex){retrun "sample responce";}
+	@CircuitBreaker(name="default" , fallbackMethod = "hardcodedResponce")
+		- https://resilience4j.readme.io/docs/circuitbreaker
+		- it will hit specific url multiple times (in closed state) then wait for minutes (in open state) then again start hitting url (half closed state) 
+			if responce percentage increases of a specific threshold percentage then goes to closed state else goes to open state
+
+	@RateLimiter(name="default") : in 10s => 10000 calls to the sample-api (any specific api)
+		- resilience4j.ratelimiter.instances.default.limitForPeriod=2	// only 2 request calls and it will throw exception for other calls
+		  resilience4j.ratelimiter.instances.default.limitRefreshPeriod=10s // between 10 sec
+	@BulkHead(name="sample-api") :
+		- How many concurrent calls are allowed?
+		- resilience4j.bulthead.instances.default.maxConcurrentCalls=10

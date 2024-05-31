@@ -1,0 +1,10 @@
+p {
+    color: pink;
+    background-color: black !important;  /* This has more priority */
+    height: 30px;
+}
+
+
+#my-id1 {
+    color: aqua;
+}

@@ -1,0 +1,21 @@
+Pipes : https://blog.bitsrc.io/pipes-in-angular-4f979af63dd7
+1 Pure Pipes:
+	A pure pipe is only called when Angular detects a change in the value or the parameters passed to a pipe.
+2 Impure Pipes:
+	An impure pipe is called for every change detection cycle no matter whether the value or parameter(s) changes.
+
+Create a class and apply @ Pipe decorator (without the space between @ and Pipe) to it and pass an object to the decorator which contains two properties:
+- name (name of the pipe)
+- pure (the optional property which determines the type of pipe, by default it is true, we can provide value as false to make pipe impure).
+
+@Pipe({
+	name: "append",
+	pure: false
+})
+
+-------------
+
+https://www.digitalocean.com/community/tutorials/angular-reactive-forms-introduction
+https://www.digitalocean.com/community/tutorials/angular-httpclient-intro
+https://www.smashingmagazine.com/2018/11/a-complete-guide-to-routing-in-angular/
+https://raghuvardhankaranam.medium.com/route-guards-in-angular-c2c01fe6167b
