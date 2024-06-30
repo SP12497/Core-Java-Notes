@@ -1,3 +1,21 @@
+Advantages of single page application:
+	- SPA makes a web application faster and gives the user a reactive experience.
+	- Using JS to change the content of the webpage dynamically is much faster than having to reach out to the server for every page change and for every new piece of data we want to display.
+	- If we do need some data from the server, we can load it in the background without making the webpage unresponsive.
+
+Why use Angular?
+	- Angular gives our application a clean and loosely coupled structure that is easy to understand and maintain.
+	- It brings a lot of utility code which can be re-used in lot of applications. Especially, when dealing with user navigation and browsing history.
+	- Application built with Angular are more testable.
+
+How Angular execute?
+	- main.js: 
+		- starting point of angular application.
+		- it loads/bootstrap AppModule
+		- main.js loads all the modules and components.
+		- once module and components are loaded, It will load index.html file.
+		
+
 @ViewChild('templateRefVarName') : ElementRef;  
 	- data type is ElementRef
 	- you cant render(get) data from ViewChild before 'ngAfterViewInit' hook

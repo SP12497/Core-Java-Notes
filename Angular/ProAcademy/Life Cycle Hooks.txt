@@ -1,0 +1,44 @@
+Constructor: JavaScript feature
+
+1. ngOnChanges: 
+    - execute first time and whenevery any data-bound @input property of the component or directive changes.
+    - its only hook, which takes arguments.
+    - eg. ngOnChanges(change: SimpleChanges) {
+        console.log(change);    // change ==> {value: {currentValue="bbb", firstChange: false, previosValue: "aaa"}}
+    }
+
+2. ngOnInit: 
+	- execute only first time (during first change detection)
+	- Used for initialization logic. also we have access of @Input properties.
+	- Not available: @ViewChild, @ViewChildren, @ContentChild & @ContentChildren
+
+3. ngDoCheck:
+	- every change detection cycle. eg. @Input change or button click on page, any change happend.
+	- use when you want to execute some code on every change detection cycle.
+	
+4. ngAfterContentInit:
+	- This is component only hook.
+	- execute only first time (during first change detection)
+	- called after Component's projected content has been fully initialized.
+	- angular updated @ContentChild and @ContentChildren properties before raising this hook.
+	- hook raised even if there is not projected content.
+	
+5. ngAfterContentChecked: 
+	- This is component only hook. Not applied on directives.
+	- execute in every change detection cycle whenever change detected in projected content (@ContentChild and @ContentChildren).
+	
+6. ngAfterViewInit:
+	- This is component only hook.
+	- execute only first time (during first change detection)
+	- called after the Component's view & all its child views are fully initialized. 
+	- @ViewChild and @ViewChildren properties are updated before raising this hook.
+	
+7. ngAfterViewChecked:
+	- execute every change detection cycle.
+	- angular fires this hook after it checks and updates the component's views and child views.
+	
+8. ngOnDestroy:
+	- If you destroy a component, this hook will raised.
+	- eg. *ngIf="false" : then ngIf will remove the component from the DOM. this hook will raised before component destroy.
+	- used for cleanup work before destroying objects.
+	- correct place to Unsubscribe Observables and detach event handlers to avoid memory leaks.
