@@ -145,7 +145,7 @@ console.log("2" === 2);  // false // values are same but data types are differen
 
 console.log("null > 0: ", null > 0);  // false
 console.log(null == 0);     // false
-console.log(null >= 0);     // true // here, null get converted into 0.
+console.log(null >= 0);     // true // here, null is falsy value get converted into 0.
 console.log(null < 1);     // true // here, null get converted into 0.
 console.log(null === null); // true
 // undefined always false for above 3 scenario's
@@ -232,6 +232,29 @@ console.log(mystr.slice(-4, 4)); // cd
 // -6 -5 -4 -3 -2 -1
 // 0  1  2  3  4  5
 
+// slice vs splice
+console.log("slice vs splice");
+const myarray = new Array(1, 2, 3, 4, 5);
+console.log(myarray);      // [ 1, 2, 3, 4, 5 ]
+console.log(myarray.slice(1, 3));   // [ 2, 3 ] // return slice of data.
+console.log(myarray);  // [ 1, 2, 3, 4, 5 ]
+
+console.log(myarray.splice(1, 3)); // [ 2, 3, 4 ] // return slice of data and delete slice from original data
+console.log(myarray);  // [ 1, 5 ]
+
+console.log("slice vs substring:");
+let str = "Hello, World!";
+console.log(str.substring(7, 12));  // Output: "World"
+console.log(str.substring(12, 7));  // Output: "World" (swapped indices)
+console.log(str.substring(-3, 5));  // Output: "Hello" (negative index treated as 0
+console.log(str.substring(-6, -1)); // Output: ""
+
+console.log(str.slice(7, 12));  // Output: "World"
+console.log(str.slice(12, 7));  // Output: "" If startIndex is greater than endIndex, it returns an empty string.
+console.log(str.slice(-3, 5));  // Output: ""
+console.log(str.slice(-6, -1)); // // Output: "World"
+
+// trim():
 console.log("   abc   ".trim());        // "abc"
 console.log("   abc   ".trimStart());   // "abc   "
 console.log("   abc   ".trimEnd());     // "   abc"
@@ -295,7 +318,7 @@ console.log(Math.floor(4.0));   // 4
 console.log("max:", Math.max(4, 5, 6, 2));  // 6
 console.log("min:", Math.min(4, 5, 6, 2));  // 2
 
-console.log(Math.random()); // 0.00000 00000 00000 to 1
+console.log(Math.random()); // 0.00000 00000 00001 to 0.9999...
 console.log(Math.random() * 10); // 0 to 10
 console.log((Math.floor(Math.random() * 10)) + 1); // 1 to 10
 
@@ -367,15 +390,6 @@ console.log(myarr.indexOf(4)); // 5
 
 console.log(myarr.join());  // "2,0,1,2,3,4,5"
 
-// slice vs splice
-console.log("slice vs splice");
-console.log(myArrObj);      // [ 1, 2, 3, 4, 5 ]
-console.log(myArrObj.slice(1, 3));   // [ 2, 3 ] // return slice of data.
-console.log(myArrObj);  // [ 1, 2, 3, 4, 5 ]
-
-console.log(myArrObj.splice(1, 3)); // [ 2, 3, 4 ] // return slice of data and delete slice from original data
-console.log(myArrObj);  // [ 1, 5 ]
-
 const marvel_heroes = ["thor", "Ironman", "SpiderMan"];
 const dc_heroes = ["Superman", "Batman", "WonderWomen"];
 
@@ -389,9 +403,10 @@ console.log(all_heroes);    // [ 'thor', 'Ironman', 'SpiderMan', 'Superman', 'Ba
 
 all_heroes = [...marvel_heroes, ...dc_heroes];  // using spread operator
 
-var depthArr = [1, 2, 3, [4, 5], 6, [7, 8, [9, 10, [11, 12,]]], 13];
+var depthArr = [1, 2, 3, [4, 5], 6, [7, 8, [9, 10, [11, 12]]], 13];
 console.log("flat(1):", depthArr.flat(1)); // [ 1, 2, 3, 4, 5, 6, 7, 8, [ 9, 10, [ 11, 12 ] ], 13 ]
-console.log("flat(Infinity):", depthArr.flat(Infinity)); // [ 1, 2, 3,  4,  5,  6, 7, 8, 9, 10, 11, 12, 13 ]
+console.log("flat(1):", depthArr.flat(2)); // [ 1, 2, 3, 4, 5, 6, 7, 8, [ 9, 10, 11, 12 ], 13 ]
+console.log("flat(Infinity):", depthArr.flat(Infinity)); // [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]
 
 
 console.log((Array.isArray("Sagar")));  // false: its string

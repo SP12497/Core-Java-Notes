@@ -1,26 +1,29 @@
-// Q1. What is Function Statement (also known as Function Declaration)?
+// Q1. Function Statement (also known as Function Declaration):
 square(4);  // works // Function Statements are hoisted before start execution of file.
 function square(num) {
+    console.log(arguments);
     return num * num;
 }
-square(5);  // works
+square(5);  // works    // [Arguments] { '0': 5 }
 
-// Q2. What is Function Expression?
+// Q2. Function Expression:
 // square2(4); // hoisting: square2 undefined here. // TypeError: square2 is not a function.
 const square2 = function (num) {
+    console.log(arguments);
     return num * num
 }
 square2(3);
 
 // Q: What is the diffence betwee Function statement and function expression?
-// => Hoisting.
+// --> Hoisting.
 
 // Q. Anonymous Function:
 // function () {};     // SyntaxError: Function statements require a function name  // here, its showing statements not expression
 
 // Q. Named Function Expression?
+console.log("Named Function Expression");
 const cube = function numCube(num) {
-    console.log(numCube);
+    console.log(numCube);   // [Function: numCube]
     return num * num * num;
 }
 // numCube(2); // ReferenceError: numCube is not defined
@@ -28,6 +31,7 @@ cube(3);
 
 // Q: Arrow Function:
 const cube2 = (num) => {
+    // console.log(arguments);  // arguments keyword not available for arrow function
     return num * num * num;
 }
 const cube3 = num => num * num * num;
@@ -69,7 +73,7 @@ displaySquare(square);
     console.log("IIFE1:", num * num);
 })(5);
 
-//output based question
+console.log("_____ output based question _____");
 (function (x) {
     return (function (y) {
         console.log("IIFE2:", x);
@@ -91,15 +95,15 @@ displaySquare(square);
 // -------------------------
 // Hoisting based que:
 // # function scope - o/p based question:
-for (let i = 0; i < 5; i++) { // for var, its will give output as 5,5,5,5,5
+for (let i = 0; i < 5; i++) {
     setTimeout(function () {
         console.log("let i:", i); // 0,1,2,3,4
     }, i * 1000);
 }
 
-for (var i = 0; i < 5; i++) { // for var, its will give output as 5,5,5,5,5
+for (var i = 0; i < 5; i++) {
     setTimeout(function () {
-        console.log("var i:", i); // 0,1,2,3,4
+        console.log("var i:", i); // 5,5,5,5,5
     }, i * 1000);
 }
 
@@ -128,6 +132,7 @@ let funB = function () {
     let b = 20;
 };
 funB();
+// console.log("b:", b);   // 21
 
 // -------------------------
 // # Params vs Arguments
@@ -138,7 +143,7 @@ funB();
 Spread vs Rest Operator:
     # fun(...Spread); vs fun(...rest){};
     spread on argument level.
-    rest in on params level. it  always a last parameter
+    rest in on params level. it always a last parameter
 */
 
 function mul1(num1, num2) {
@@ -149,7 +154,7 @@ var arr2 = [2, 3, 4];
 mul1(...arr);   // ...arr is spread operation. 
 mul1(...arr2);  // works, accept first 2 as params: num1=2, num2=3;
 
-function mul2(...nums) {    // ...nums is rest operator
+function mul2(...nums) {    // ...nums is rest operator // rest will capture values in array.
     console.log("mul2:", nums[0] * nums[1]);
 }
 mul2(...arr);
@@ -180,7 +185,7 @@ const addArrowFun1 = (num1, num2) => {
 const addArrowFun2 = (num1, num2) => num1 + num2;
 const square5 = num => num * num; // single param
 
-console.log("square5  no 6:", square5(6));
+console.log("square5 no 6:", square5(6));
 
 /* -------------------------
 Differenct in Arrow and Regular fun
@@ -196,7 +201,7 @@ function fn3() {
 }
 fn3(5, 10, 15);
 
-// 4. "this" keyword:
+console.log(`___ 4. "this" keyword _____`);
 let user = {
     username: "Roadside Coder",
     arrowFun: () => {
@@ -210,7 +215,7 @@ user.arrowFun();
 user.reguarFun();
 
 
-// Constructur function:
+// Constructor function with this keyword:
 function Counter() {
     var count = 0;
     this.incrementCounter = function () {
@@ -226,7 +231,28 @@ function Counter() {
 // var counter1 = Counter();   // error: fuction is not returning any value so counter1.incrementCounter() will throw error.
 // counter1.incrementCounter();
 
-var counter2 = new Counter();
+var counter2 = new Counter();   // using new, we can access this keyword values
 counter2.incrementCounter();
 counter2.incrementCounter();
 counter2.decrementCounter();
+
+function regularCounter() {
+    var count = 0;
+    const incrementCounter = function () {
+        count++;
+        console.log(count);
+    }
+    const decrementCounter = function () {
+        count--;
+        console.log(count);
+    }
+    return {
+        incrementCounter, decrementCounter
+    }
+}
+
+// var regCounter = new regularCounter();
+var regCounter = regularCounter();
+regCounter.incrementCounter();
+regCounter.incrementCounter();
+regCounter.decrementCounter();
