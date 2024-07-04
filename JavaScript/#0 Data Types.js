@@ -1,5 +1,5 @@
 /*
-What is Temporal Dead Zone?
+#1 What is Temporal Dead Zone?
     - refers to the period between the creation of a variable (using let or const) and 
       its declaration being processed by the JavaScript engine.
     -  During this temporal dead zone, accessing the variable results in a ReferenceError.
@@ -9,42 +9,47 @@ What is Temporal Dead Zone?
 
 // console.log(a);  // ReferenceError: Cannot access 'a' before initialization // a is in temporal dead zone
 // let a = 5;
+
 // console.log(x);     // ReferenceError: x is not defined
+
 // console.log(b); // present in global scope with undefined
 // var b = 3; 
 console.log("____________");
 // let c = 5;
 // let c = 4;  // SyntaxError: Identifier 'c' has already been declared
 console.log("____________");
-// const d ;   //SyntaxError: Identifier 'c' has already been declared
+// const d ;   //SyntaxError: 'const' declarations must be initialized.
 const d = 5;
-// d =11;  // TypeError: Assignment to constant variable.
-console.log("____________");
+// d = 11;  // TypeError: Assignment to constant variable.
+
+console.log("______#2 Scopes______");
+// #2 Scopes:
 // What is block scope?
 // Scopes: global scope: { script scope: { block scope: { block scope: {}}}}
 
-let f = 11;     // scipt scope
-let h = 12;     // scipt scope
+let f = 11;     // script scope
+let h = 12;     // script scope
 {
     var e = 10;     // present in global scope
     let f = 20;     // block scope      // shodowing: hides parent 'f' variable.
-    const g = 30;     // block scope
-    // var h = 10; // error: var will create global scope, but h is already present in scipt scope, so scope should not cross the boundry.
+    const g = 30;   // block scope
+    // var h = 10;  // SyntaxError: Identifier 'h' has already been declared // explain: var will create global scope, but h is already present in script scope, so scope should not cross the boundry.
     console.log("this is the block scope");
     {
         const g = 40;
     }
 }
 console.log(e, f); // 10 11
+// console.log(g);  // ReferenceError: g is not defined
 
-console.log("____________________");
+console.log("__________#3 typeof__________");
 
 let score = "33";
-console.log(typeof score);
-console.log(typeof (score));
+console.log(typeof score);      // string
+console.log(typeof (score));    // string
 
 let scoreNum = Number(score);
-console.log("scoreNum", typeof scoreNum);
+console.log("scoreNum", typeof scoreNum);   // number
 
 let scoreInvalid = "33qa";
 // let scoreInvalid = null;
@@ -57,54 +62,72 @@ console.log("isBool", Number(isBool));  // 1 // false: 0
 // "33sr", null, undefined => NAN
 // true => 1, false=> 0
 
+console.log("---------#4 Falsy and Truthy Values---------");
 /*
-What is false values:
-    - false: The boolean value false.
-    - 0: The number zero.
-    - -0: Negative zero, which is treated as falsy (although technically -0 === 0).
-    - 0n: BigInt zero.
-    - "" or '': Empty strings.
-    - null: The absence of any value or object.
-    - undefined: The value assigned to uninitialized variables or non-existent properties.
-    - NaN: The special value representing "Not-a-Number".
-Truthy values are all other values that are not falsy. These include:
-    - Any non-empty string ('hello', '0', 'false', ' ', etc.)
-    - Any non-zero number (positive or negative)
-    - Objects (including arrays and functions) ([], {}, function(){})
-    - The boolean value: true
-
-false == 0; // true
-false == "";// true
-0 == '';   // true
+falsy values:
+    falsy values are those which, when evaluated in a Boolean context, are considered false. These include:
+        false: The boolean value false.
+        0: The number zero.
+        -0: Negative zero, which behaves the same as zero.
+        0n: The BigInt representation of zero.
+        "" or '': Empty strings.
+        null: The absence of any value or object.
+        undefined: A variable that has been declared but not yet assigned a value.
+        NaN: Represents "Not-a-Number," a result of undefined or unrepresentable numerical operations.
+*/
+console.log(Boolean(false));   // false
+console.log(Boolean(0));       // false
+console.log(Boolean(-0));      // false
+console.log(Boolean(0n));      // false
+console.log(Boolean(""));      // false
+console.log(Boolean(null));    // false
+console.log(Boolean(undefined)); // false
+console.log(Boolean(NaN));     // false
+/*
+Truthy values:
+    truthy values are all values that are not falsy. They evaluate to true in a Boolean context. These include:
+        Non-empty strings: Any string with at least one character, including strings that might seem falsy like '0', 'false', ' ', etc.
+        Non-zero numbers: Any number that is not zero, including both positive and negative numbers (e.g., 1, -1, 3.14).
+        Non-zero BigInt: BigInt values that are not 0n (e.g., 1n, -1n).
+        Objects: Any object, including arrays ([]), plain objects ({}), and functions (function(){}).
+        The boolean value true: This is inherently truthy.
 */
 
+console.log(Boolean(true));     // true
+console.log(Boolean("hello"));  // true
+console.log(Boolean("0"));      // true
+console.log(Boolean("false"));  // true
+console.log(Boolean(" "));      // true
+console.log(Boolean(1));        // true
+console.log(Boolean(-1));       // true
+console.log(Boolean(3.14));     // true
+console.log(Boolean({}));       // true
+console.log(Boolean([]));       // true
+console.log(Boolean(function(){})); // true
+console.log(Boolean(1n));       // true
+console.log(Boolean(-1n));      // true
 
-console.log("---------Boolean---------");
-
-let num = "1";
-console.log(Boolean(num));
-console.log(Boolean("abc"));
-console.log(Boolean(0));
-console.log(Boolean(undefined));
 
 
 console.log("________String________");
+let num = 1;
 let strNum = String(num);
-console.log(strNum);
 console.log(typeof (strNum));
-console.log(typeof (String(null)));
-console.log(String(undefined));
+console.log(String(null));              // null
+console.log(typeof (String(null)));     // string
+console.log(String(undefined));         // undefined
 // console.log(Str);
 
 console.log("_____String to Number conversion_____");
-let str1 = "Sagar", str2 = " Patil";
-console.log(str1 + str2);
+let fname = "Sagar", lname = " Patil";
+console.log(fname + lname);
 
 console.log("1" + 2);   // 12
 console.log(1 + "2");   // 12
 console.log("1" + 2 + 2);// 122
 console.log(1 + 2 + "2");//32
-console.log(+"1" + 2 + 2);// 5
+
+console.log(+"1" + 2 + 2);// 5  // + sign used to number conversion
 console.log(true);  // true
 console.log(+true); // 1
 console.log(+""); // 0
@@ -121,10 +144,13 @@ console.log(no1, no2, no3);
 console.log("____Comparison______");
 console.log("2" > 1);   // true
 console.log("02" > 1);  // true
+console.log("2" == 2);  // true
+console.log("2" === 2);  // false // values are same but data types are different
 
-console.log("null: \n", null > 0);  // false
+console.log("null > 0: ", null > 0);  // false
 console.log(null == 0);     // false
 console.log(null >= 0);     // true // here, null get converted into 0.
+console.log(null === null); // true
 // undefined always false for above 3 scenario's
 
 console.log("Strict check:");
@@ -149,9 +175,15 @@ console.log("2" === 2);
     const num:number = 10;
 */
 
+console.log("______Symbol_______");
+/*
+Symbol is a unique and immutable data type that is primarily used to create unique identifiers for objects.
+Even if two Symbol values are created with the same description, they are guaranteed to be unique.
+*/
+
 const id = Symbol('123');
 const anotherId = Symbol('123');
-console.log("id:", id, "anotherId:", anotherId, "===:", id === anotherId);
+console.log("id:", id, "anotherId:", anotherId, "===:", id === anotherId);  // id: Symbol(123) anotherId: Symbol(123) ===: false
 
 const bigNumer = 34256636454556634343434343n;
 console.log(bigNumer);

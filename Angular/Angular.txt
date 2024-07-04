@@ -25,7 +25,7 @@ How Angular execute?
 	- eg.
 		@ViewChild('studentName') sName : ElementRef;
 		addStudent(){
-			this.sname = this.sname.nativeElement.value();
+			this.sname = this.sname.nativeElement.value(); }
 	
 @ContentChild() :
 	- Getting Access to ng-content with the @ContentChild Parameter Decorator

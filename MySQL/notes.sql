@@ -21,7 +21,7 @@ Normalization:
 		- Removes repeating groups from the table.
 		- Create a separate table for each set of related data
 		- Identify each set of related data with a primary key
-		- eg. Student and Address should not be in single row, create seprate table
+		- eg. Student and Address should not be in single row, create separate table
 Normalization Types:
 - 1st Normal form:
 	- Each cell in a row contain single value.
@@ -29,9 +29,9 @@ Normalization Types:
 	- Table (non-prime attribute) should depends on Primary Key (prime attribute), And its should be unique, not null.
 - 3rd Normal form:
 	- There should be no transitive dependency for non-prime attributes.
-	- Student and Address should no be in single row, create a seprate table.
+	- Student and Address should not be in single row, create a separate table.
 	- Transitively dependency?
-		- Suppose, C is depends on B and B is depends on A. Then transitively  C is depends of A.
+		- Suppose, C is depends on B and B is depends on A. Then transitively, C is depends of A.
 	- All non prime attributes(sName, sAge), must be depends on prime attributes (sRollNo)
 
 
@@ -1311,6 +1311,7 @@ TODO:
     2. Repeat
     3. LOOP
     4. Cursor
+    5. With Keyword
 */
 
 

@@ -1,4 +1,4 @@
-- With kafka, we publish messages/events to topics, and they get persisted. Messages are removed when consumers receive them. This supports to replay messages, and more importantly, it allows a multiple consumers to process logic on the same messages/events.
+- With kafka, we publish messages/events to topics, and they get persisted. Messages are removed when consumers receive them. This supports to replay messages and more importantly, it allows a multiple consumers to process logic on the same messages/events.
 - We can add different types of consumers that execute different logic based on the same event/message. Becases Kafka works on publish/subscribe architecture.
 - Kafka helps such scenarios as the messages are retained for longer time and there is facility of consumer groups.
 
