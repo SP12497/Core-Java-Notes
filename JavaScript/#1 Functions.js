@@ -41,7 +41,9 @@ const cube3 = num => num * num * num;
 https://www.geeksforgeeks.org/what-is-the-first-class-function-in-javascript/
     - A programming language is said to have First-class functions 
       if functions in that language are treated like other variables. 
-    - So the functions can be assigned to any other variable or passed as an argument or can be returned by another function. 
+    - So the functions can be assigned to any other variable 
+      or passed as an argument 
+      or can be returned by another function. 
       JavaScript treats function as a first-class citizen. 
     - This means that functions are simply a value and are just another type of object.
     - Usage of First-Class Function (Ability to do below things is called first class function.)
@@ -49,12 +51,13 @@ https://www.geeksforgeeks.org/what-is-the-first-class-function-in-javascript/
         - It can be returned by another function.
         - It can be passed into another function as a parameter.
         - It can also stored in an array, queue, or stack.
-        - Also, It can have its own methods and property.
+        - Also, it can have its own methods and property.
 */
-var d = function (param1) {     // can be stored as a value in a variable
-    return function xyz() {     // can be returned by another function
+const assignFunToVarible = function() {}  // 1. functions can be assigned to any other variabl
 
-    }
+var d = function (cbVar) {          // 2. functions can be passed as an argument
+    cbVar()
+    return function xyz() {}        // 3. functions can be returned by another function
 }
 d(square);  // can be passed into another function as a parameter
 
@@ -242,7 +245,7 @@ function regularCounter() {
         count++;
         console.log(count);
     }
-    const decrementCounter = function () {
+    function decrementCounter () {
         count--;
         console.log(count);
     }

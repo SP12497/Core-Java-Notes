@@ -6,6 +6,7 @@ Node:
     - Has module scope (this.a)
 Chrome/browser:
     - Has window object. (this)
+
 - In Node.js, the this keyword inside a module refers to the module scope, not the global scope. 
   Each module in Node.js has its own scope, and this within that scope refers to the module itself.
 - In a browser environment, the this keyword typically refers to the global object, which is window. 
@@ -17,7 +18,7 @@ Chrome/browser:
     - Each module in Node.js has its own scope, meaning that variables, functions, and other declarations 
       made within a module are scoped to that module and not accessible from other modules unless explicitly exported.
     - Node.js uses the CommonJS module system, where each file is treated as a separate module. 
-      Modules can export functionality using the module.exports or exports object, and 
+    - Modules can export functionality using the module.exports or exports object, and 
       other modules can import this functionality using the require() function.
 Binding:
     Implicit Binding: using dot (.) notation
@@ -27,58 +28,61 @@ Binding:
     Arrow Functions:
 */
 
+console.log("_________________#1_________________");
 // 'this' keyword in JS (Implicit Binding)
-console.log(typeof this === window); // browser: true
-console.log(this); // {}, module scope defult is empty object
-this.a = 5; // node: module scope   // browser: window object
+// console.log(typeof this === window); // browser: true
+console.log(this); // node: {}, module scope defult is empty object
+this.a = 5; // node: module scope   // browser: window object => windows: {a:5, ....other window object properties}
 b = 6;      // node: global scope   // browser: window object
 console.log(this.a);    // node: 5          // browser: 6
+// console.log(a);      // node/browser: ReferenceError: a is not defined
 console.log(this.b);    // node: undefined  // browser: 6
 // console.log(window.a); // works on browser
 console.log("window object:", this);
 //---
-console.log("__________________________________");
-function getParams() {
-    console.log("getParams", this.a); // node: undefined // chrome: 5// still its points to its global obj, ie window obj
+console.log("_________________#2_________________");
+function getParams() {                  // this=> node: globle scope | browser: window object
+    // console.log(a);                  // node: ReferenceError: a is not defined   // browser: 5
+    console.log("getParams", this.a);   // node: undefined // chrome: 5 // still its points to its global obj, ie window obj
 }
 getParams();
 
 const getParams1 = () => {
-    console.log("arrow:", this.a); // still its points to its global obj, ie window obj
+    // console.log(a);                  // node: ReferenceError: a is not defined   // browser: 5
+    console.log("arrow:", this.a);      // node: 5  // browser: still its points to window obj
 }
 getParams1()
 
-console.log("__________________________________");
+console.log("_________________#3_________________");
 // But both arrow and regular have difference
 let user = {
     name: "sagar",
     age: 26,
     getDetails() {
-        console.log("getDetails", this); // here this function variable will points to its immeadiate parent object ie, name, age, getDetails, chileObj.
+        console.log("getDetails", this.name); // here this function variable will points to its immeadiate parent object ie, name, age, getDetails, childObj.
     },
-    chileObj: {
+    childObj: {
         newName: "Patil",
         getInnerDetails() { // regular function
             console.log("inner attribute:", this.newName, ",global attibute:", this.name);
         }
     }
 }
-user.getDetails();
-user.chileObj.getInnerDetails(); //inner attribute: Patil ,global attibute: undefined
+user.getDetails();  // sagar
+user.childObj.getInnerDetails(); // Patil undefined
 
-console.log("__________________________________");
+console.log("_________________#4_________________");
 //Arrow:
 // console.log("Arrow this keyword");
 let userArrow = {
     name: "Sagar",
     age: 26,
     getDetails() {
-        const nestedArrow = () => console.log("getDetails=>", this.name); // name will work
+        const nestedArrow = () => console.log("getDetails=>", this.name);
         nestedArrow(); // => parent normal function // getDetails() parent space => userArrow space.
     },
     arrowDetails: () => {
-        console.log("arrowDetails=>", this); // parent of scope in regular function this
-        // => parent normal function //(no parent function so global space (out of userArrow))
+        console.log("arrowDetails=>", this); // parent of userArrow, because arrow function is inside property. and here, property parent is global scope
     },
     childObj: {
         newName: "Patil",
@@ -89,15 +93,15 @@ let userArrow = {
     }
 }
 // take parent regular function outer value
-userArrow.getDetails()
-userArrow.arrowDetails();
-userArrow.childObj.getInnerDetails();
+userArrow.getDetails()                  // "sagar"
+userArrow.arrowDetails();               // global object
+userArrow.childObj.getInnerDetails();   // undefined sagar userArrow_object
 
-console.log("__________________CLASS________________");
+console.log("_________________#5_________________");
 // Class
 class User {
     age = 30;
-    constructor(name) {
+    constructor(name) {     // typescript: constructor(private name) {}
         this.name = name; // this = parent regular function outer value
     }
     getName() {
@@ -107,7 +111,7 @@ class User {
 const userObj = new User("Sagar");
 userObj.getName();
 
-console.log("__________________Q1________________");
+console.log("__________________#6________________");
 // Q1 Output
 var globalVar = 12345;
 this.myThisVar = "######"
@@ -122,7 +126,7 @@ console.log("makeUser 1:", userMake.ref.myThisVar); // node: undefined // chrome
 console.log("makeUser 1.2:", userMake.ref.globalVar); // node: 12345 // chrome: 12345
 console.log("makeUser 2:", userMake.ref);
 
-console.log("___________________Q2_______________");
+console.log("___________________#7_______________");
 // Q2. How to get name from above function using this
 const makeUser2 = {
     name: "Yogesh",
@@ -135,10 +139,10 @@ const makeUser2 = {
     }
 }
 
-console.log("makeUser2:", makeUser2.getName());
-console.log("makeUser2:", makeUser2.ref().age);
+console.log("makeUser2:", makeUser2.getName()); // Yogesh
+console.log("makeUser2:", makeUser2.ref().age); // 26
 
-console.log("__________________________________");
+console.log("___________________#8_______________");
 const user4 = {
     name: "Rohit",
     logMessage() {
@@ -155,7 +159,7 @@ setTimeout(() => {
     user4.logMessage(); // Rohit // pass a function which will call user4.logMessage, so in this case, setTimeout will not copy logMessage()
 }, 1000);
 
-console.log("__________________Callback 1________________");
+console.log("__________________#9 Callback________________");
 var length = 4; // this should be at the start of the file
 this.c = 11;
 function callback() {
@@ -167,10 +171,10 @@ const object = {
         fn();   //callback: undefined , c: 6
     }
 }
-object.myMethod(callback); // node: undefined 4 undefined / broswer: 4 4 11
+object.myMethod(callback); // node=> callback: undefined , global: 4 , c: undefined / broswer=> 4 4 11
 
 
-console.log("__________________Callback by Arguments________________");
+console.log("__________________#10 Callback by Arguments________________");
 const object2 = {
     length: 6,
     myMethod(fn) {
@@ -178,7 +182,7 @@ const object2 = {
     }
 };
 
-object2.myMethod(callback, 6, 7);
+object2.myMethod(callback, 6, 7);   // 3 4 undefined
 
 console.log("__________________Q6________________");
 // Q6. Implement this code

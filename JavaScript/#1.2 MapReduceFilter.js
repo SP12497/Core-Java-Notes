@@ -4,7 +4,7 @@ Map:
       and returns a new array with the results of applying the callback function to each element.
 Reduce: 
     - The reduce function is used to reduce an array to a single value 
-      (e.g., summing all elements, finding the maximum value, concatenating strings, etc.) 
+      (eg., summing all elements, finding the maximum value, concatenating strings, etc.) 
       by applying a callback function to each element of the array, accumulating a result along the way.
 Filter: 
     - The filter function is used to create a new array with all elements 
@@ -71,6 +71,10 @@ console.log("reduce findMax:", arr.reduce((acc, curr) => {
     return acc;
 }));
 
+console.log("my reduce", arr.reduce((acc, curr) => {
+    return acc < curr ? curr : acc;
+}, 0));
+
 
 // --------Test---------
 console.log("______________________");
@@ -88,12 +92,13 @@ console.log("fullNameArr:", fullNameArr);
 const olderThan30 = users.filter(obj => obj.age > 30);
 console.log("olderThan30:", olderThan30);
 
-const firstNameOlderThan30 = users.filter(obj => obj.age > 30).map(obj => obj.firstName);
-console.log("firstNameOlderThan30:", firstNameOlderThan30);
+const firstNamesOlderThan30 = users.filter(obj => obj.age > 30).map(obj => obj.firstName);
+console.log("firstNamesOlderThan30:", firstNamesOlderThan30);
 
+// Count of same ages
 // acc => {26:1, 46:2, 38:1}
-const countOfAge= users.reduce((acc, curr) => {
-    if(acc[curr.age]) {
+const countOfAge = users.reduce((acc, curr) => {
+    if (acc[curr.age]) {
         acc[curr.age] = ++acc[curr.age];
     } else {
         acc[curr.age] = 1;
@@ -105,8 +110,8 @@ console.log("countOfAge:", countOfAge);
 
 // Q. Get last name of all the users whose age is greater that 20... using Reduce.
 
-const lastNameOlderThan30 = users.reduce((acc, curr)=>{
-    if(curr.age > 30)
+const lastNameOlderThan30 = users.reduce((acc, curr) => {
+    if (curr.age > 30)
         acc.push(curr.lastName);
     return acc;
 }, []);

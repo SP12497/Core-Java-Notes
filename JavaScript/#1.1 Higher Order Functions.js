@@ -30,11 +30,13 @@ console.log("calculateDiameter:", calculateDiameter(radius));
 console.log("_____________________________");
 
 /*
-Above code, issue is code repeatability, and we are not reusing the code.
+In above code, issue is code repeatability, and we are not reusing the code.
 Same thing we can achieve in High Order Function.
 
 High Order Function:
-    - A higher-order function is a function that can take other functions as arguments or return functions as results. 
+    - A higher-order function is a 
+        function that can take other functions as arguments 
+        or return functions as results. 
     - In other words, it either accepts functions as parameters, or it can return a function as its output.
     - in builds are: map reduce filter
 */

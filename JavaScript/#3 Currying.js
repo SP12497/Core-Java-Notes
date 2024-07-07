@@ -65,7 +65,7 @@ console.log("normal currying:" + add(5)(2)());
 function add(a) {
     return function (b) {
         if (b) {
-            // c = a+b; return add(c);
+            // const c = a+b; return add(c);
             return add(a + b);
         }
         return a; // call using ()
@@ -88,6 +88,7 @@ const lambdaInfiniteCurrying = (a) => {
 console.log(lambdaInfiniteCurrying(10)(2)(2)());
 
 console.log("______________________________");
+
 // Q. Difference Currying vs Partial Application
 // currying function: 3 arguments = 3 functions
 // Partial Application:
@@ -121,6 +122,8 @@ console.log("______________________________");
 
 // const updateHeader = updateElementText("heading") // initialize id once
 // updateHeader("Hello Patil"); // and update text again and again
+
+
 console.log("______________________________");
 // Q6: curry() implementation
 // Converts f(a,b,c) into f(a)(b)(c)
