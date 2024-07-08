@@ -1,4 +1,4 @@
-// https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqbHl6ZnNGazNNYVJpUHI3YnJlajZwUHlLWktSd3xBQ3Jtc0tscUM0VVJmYkNXT25XZXFaWDRqbkNnRnNMejZ1Z3VGaUJ6cGNHZ1NOaHpJcmRyN0lJdnlIVG1paHlrcjJlTUpaVDB3ZjlwSjV3dnRNYlkxeVRlTnBtZDhMTDMxSDQ4bmltOGVKTUdhU2NMcDF2WXBvOA&q=https%3A%2F%2Froadsidecoder.hashnode.dev%2Fjavascript-interview-questions-promises-and-its-polyfills&v=HaJdoFp2OEc
+// https://roadsidecoder.hashnode.dev/javascript-interview-questions-promises-and-its-polyfills
 console.log("__________________Synchronous Code________________");
 console.log("start");
 console.log("message1");
