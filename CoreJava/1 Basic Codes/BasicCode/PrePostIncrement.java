@@ -3,10 +3,10 @@ public class PrePostIncrement {
 	
 	public static void main(String [] args)
 	{
-		int a = 10 ;
-		 int b=0;
-		//b = a++;		//b=10 //a=11
-		//b = ++a;		//b=12 //a=12
+		int a = 10;
+		int b = 0;
+		// b = a++; //b=10 //a=11
+		// b = ++a; //b=12 //a=12
 		
 		a = a++;		//a = 10
 		/* This print 10 because System created :

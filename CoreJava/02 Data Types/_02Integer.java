@@ -18,7 +18,7 @@ public class _02Integer {
 		double dd = i;
 
 		int j;
-		// System.out.println(j);	// The local variable j may not have been initialized
+		// System.out.println(j);	// error: The local variable j may not have been initialized
 		
 		Integer n = null;
 		// Integer m = undefined; // Java dont have undefined keyword.

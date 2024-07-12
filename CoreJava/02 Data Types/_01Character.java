@@ -22,7 +22,6 @@ public class _01Character {
 		
 		System.out.println(Character.isDigit(obj2));	// true
 		System.out.println(Character.isLetter(obj));	// true
-
 		System.out.println(Character.isLowerCase(obj));	// true
 		
 		

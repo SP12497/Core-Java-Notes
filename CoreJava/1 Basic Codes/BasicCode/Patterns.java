@@ -26,18 +26,14 @@ System.out.println("2-------------------------");
 					* * 
 					* * * 
 					* * * * 	*/
-		
 
-		for (int i=1; i<=4 ; i++)
-		{
-		for (int j=1; j<=i;	j++)
-		{
-			System.out.print(" * ");
+		for (int i=1; i<=4 ; i++) {
+			for (int j=1; j<=i;	j++) {
+				System.out.print(" * ");
+			}
+			System.out.println();
 		}
-		System.out.println();
-		}
-		
-		
+
 System.out.println("3-------------------------");
 		/*3		i=	1 2 3 4
 		 		j=1	* * * *
@@ -113,55 +109,41 @@ System.out.println("6-------------------------");
 		 		4 1 2 3  	*/
 
 
-		for (int i=1; i<=4 ; i++)
-		{
-			for (int j=1; j<=4;	j++)
-			{
-				int k=j+i-1;
-				
-				if(k>4) 	//when  k= 5 6 7 8
-				{
-					
-					System.out.print(k-4 + " ");	// j+i - 5
-				}
-				else
-				{
+		for (int i = 1; i <= 4; i++) {
+			for (int j = 1; j <= 4; j++) {
+				int k = j + i - 1;
+
+				if (k > 4) { // when k= 5 6 7 8
+					System.out.print(k - 4 + " "); // j+i - 5
+				} else {
 					System.out.print(k + " ");
 				}
 			}
 			System.out.println();
 		}
-		
-		
+
 System.out.println("7-------------------------");
 		
 		/*7		1
 		 		0 1   
 		 		1 0 1
 		 		0 1 0 1
-		 		1 0 1 0 1   	*/
+		 		1 0 1 0 1
+		*/
 
 
-		for (int i=1; i<=5 ; i++)
-		{
-			for (int j=1; j<=i;	j++)
-			{
-				
-				
-				if((i+j)%2==1) 	//when i+j  is even
-				{
-					
+		for (int i = 1; i <= 5; i++) {
+			for (int j = 1; j <= i; j++) {
+
+				if ((i + j) % 2 == 1) { // when i+j is even
 					System.out.print(" 0 ");
-				}
-				else
-				{
+				} else {
 					System.out.print(" 1 ");
 				}
 			}
 			System.out.println();
 		}
-		
-		
+
 System.out.println("8-------------------------");
 		
 		/*8		1
