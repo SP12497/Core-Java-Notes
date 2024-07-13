@@ -1,20 +1,27 @@
-/*There are 3 types of Coping of Object :
-	1] Shallow Copy : copy the obj reference
-	2] Deep Copy	: copy the value of obj	
-	3] Clone()	: by implementing Cloneable Interface : we can create shallow or deep copy.
+/* 
+There are 2 ways of copying an object:
+   1] Shallow Copy: Copies the object reference.
+   2] Deep Copy: Copies the values of the object.
+   3] Clone(): By implementing the Cloneable interface, we can create a shallow or deep copy.
+
+ Shallow Copy:
+ - Copies the values of the references in the class.
+ - The copied object shares the same references as the original.
+ - Changes to the original object's referenced objects will reflect in the shallow copy.
+
+ Deep Copy:
+ - Copies the actual values of the object's fields.
+ - The copied object does not share references with the original.
+ - Changes to the original object's referenced objects will not reflect in the deep copy.
+
+ In summary:
+ - A shallow copy has the same reference (==) as the original.
+ - A deep copy has equivalent content (.equals()) but different references.
+
+ Example:
+ - If a change is made to the value of a shallow copied reference, the copy reflects that change.
+ - If a change is made to the value of a deeply copied reference, the copy does not reflect that change.
 */
-
-/*
- A shallow copy just copies the values of the references in the class. 
- A deep copy copies the values. given:
- 
- In this case the shallow copy has the same reference (==) and 
- the deep copy only has an equivalent reference (.equals()).
-
- If a change is made to the value of a shallow copied reference, then the copy reflects that change because it shares the same reference. 
- If a change is made to the value of a deeply copied reference, then the copy does not reflect that change because it does not share the same reference. 
-*/
-
 
 class CObj
 {
@@ -27,7 +34,7 @@ class CObj
 }
 
 
-public class CMain
+public class _2_ObjectCopy
 {
 	public static void main(String[] args) 
 	{
@@ -38,9 +45,7 @@ System.out.println("------------Shallow Copy------------");
 		obj1.i = 5;
 		obj1.j = 6;
 		
-		//CObj obj2 = Obj1; 
-		
-		CObj obj2 = new CObj();
+		CObj obj2 = new CObj();	// or CObj obj2 = Obj1;
 		obj2 = obj1;	// Here both the reference (obj1 and obj2) pointing to the same object (same memory) is called as shallow copy means another name of obj1 is obj2 //copies reference
 		//CObj obj2 = obj1;
 		

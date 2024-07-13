@@ -8,11 +8,12 @@ Final variables:
 	- It is good practice to represent final variables in all UPPER_CASE, using underscore to separate words.
 */
 
-//Final VARIABLE 		: To create Constant Variable
-//Final Method 			: Prevent Method Overriding  
-//Final Class 			: Prevent Inheritance
+// Final VARIABLE 		: To create Constant Variable
+// Final Method 		: Prevent Method Overriding  
+// Final Class 			: Prevent Inheritance
 
-public class Main {
+
+public class _8_13_FinalKeyword {
 	public static void main(String[] args) {
 		int i = 10; // Local Variable // Primitive Variable
 		i++;
@@ -21,23 +22,24 @@ public class Main {
 		// ------------------------
 		// Final Variable: Once initialize, you can not modified
 		final int k = 10; // initialize at the time of declaration.
-// 		k++; // error: cannot assign a value to final variable k
+		// k++; // error: cannot assign a value to final variable k
 		System.out.println("Final Primitive Variable k =" + k);
 
 		// OR
 
 		final int j;
+		// System.out.println(j);	// error: variable name might not have been initialized
 		j = 10; // Once initialize, you can not modified
 		// j++; // error: cannot assign a value to final variable k
 		System.out.println("Primitive Variable j =" + j);
 
 		// Final Method:
 
-		FinalA obj = new FinalA();
+		FinaleMethodClass obj = new FinaleMethodClass();
 		obj.show();
 		obj.show(100);
-		System.out.println("FinalA obj1 = new InheritB() : ");
-		FinalA obj1 = new InheritB(); // error
+		System.out.println("FinaleMethodClass obj1 = new InheritB() : ");
+		FinaleMethodClass obj1 = new InheritB(); // error
 		obj1.show();
 		obj1.show(11);
 
@@ -47,21 +49,21 @@ public class Main {
 // --------------
 // Final Method :
 // --------------
-class FinalA {
-	int x; // Instance Variable
-	static int y; // Class Variable // Static variable
+class FinaleMethodClass {
+	int x; // Instance Variable: by default 0
+	static int y; // Class Variable // Static variable: by default 0
 
 	final public void show() // Final Method : can't override but can overload
 	{
-		System.out.println("FinalA : Show A");
+		System.out.println("FinaleMethodClass : Show A");
 	}
 
-	public void show(int a) {
-		System.out.println("FinalA : Show A  :" + a);
+	public void show(int a) {	// We can overload the fina method
+		System.out.println("FinaleMethodClass : Show A  :" + a);
 	}
 }
 
-class InheritB extends FinalA {
+class InheritB extends FinaleMethodClass {
 	// once Final , we cant override the final method.
 	// public void show() { System.out.println("Show B"); }
 	

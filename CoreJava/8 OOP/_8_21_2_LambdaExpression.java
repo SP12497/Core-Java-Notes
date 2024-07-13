@@ -30,7 +30,7 @@ abstract class AbClass {
 	public abstract void show();
 }
 
-public class Main 
+public class _8_21_2_LambdaExpression 
 {
 	public static void main(String[] args) 
 	{
@@ -46,7 +46,7 @@ public class Main
 		};
 		obj3.print(10 , 20);
 
-		// ------- Lambda expression wont support for class.
+		// ------- Lambda expression does not support for class for object creation.
 		// AbClass a = () -> {};	// Syntax error.
 	}
 }

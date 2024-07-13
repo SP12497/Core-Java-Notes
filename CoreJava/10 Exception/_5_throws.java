@@ -1,9 +1,9 @@
 // Java program to illustrate error in case
 // of unhandled exception
-class Main {
+class ThrowsException {
     public static void main(String[] args)
     {
-        Thread.sleep(10000);
+        // Thread.sleep(10000);        // Exception
         System.out.println("Hello Geeks");
     }
 }
@@ -17,7 +17,7 @@ class Main {
 
 
 // Java program to illustrate throws
-class Main {
+public class _5_throws {
 	public static void main(String[] args) throws InterruptedException {
 		Thread.sleep(5000); // wait 5 sec, then execute next line
 		System.out.println("Hello Geeks");

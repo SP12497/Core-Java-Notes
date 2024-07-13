@@ -41,7 +41,7 @@ class ABC			//Shallow Copy of class ABC
 // 	}
 // }
 
-class AA implements Cloneable		//Deep copy of Class AA but shallow of ABC
+class AA implements Cloneable		// Deep copy of Class AA but shallow of ABC
 {
 	ABC obj ;
 
@@ -63,7 +63,7 @@ class AA implements Cloneable		//Deep copy of Class AA but shallow of ABC
 }
 
 //Clone_ObjectCopyMain : 
-public class CMain	 
+public class _4_Clonable	 
 {
 	public static void main(String[] args) throws CloneNotSupportedException
 	{

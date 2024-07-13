@@ -1,5 +1,5 @@
 // Anonymous_Object :
-public class Main 
+public class _1_AnonymousObject 
 {
 	public static void main(String[] args) 
 	{
@@ -12,9 +12,7 @@ System.out.println("---------------------");
 		new A().show();
 
 System.out.println("---------------------");
-		
 		new A().show(11);		//Anonymous Object.
-	
 	}
 }
 

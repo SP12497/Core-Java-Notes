@@ -1,4 +1,4 @@
-public class Main {
+public class _Main_Method {
 
     final synchronized strictfp public static void main(String... args) 
 	{

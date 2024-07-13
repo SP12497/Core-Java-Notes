@@ -10,8 +10,7 @@ Access Modifier provides both Access Specifier and Access Modifiers for creating
 	protected : subsiding class (inheritance)
 
 Class:
- class can be default, public or abstract
- can can not be private protected.
+ Outer class class can be default, public or abstract but can not be private and protected.
  but inner class can be private, protected, public or default.
 	eg.
 		class A{}	// default	// default is only inside package

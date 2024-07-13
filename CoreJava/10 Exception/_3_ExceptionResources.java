@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 //ExceptionResources :
-public class CMain 
+public class _3_ExceptionResources 
 {
 	public static void main(String[] args) throws IOException 
 	{
@@ -13,19 +13,14 @@ public class CMain
 // Type 1...  to close resources
 	
 		BufferedReader br = null;
-		try
-		{
+		try {
 			String str = "";	//null
 			br = new BufferedReader(new InputStreamReader(System.in));
 			System.out.println("Enter String : ");
 			str = br.readLine();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			System.out.println(e);
-		}
-		finally 
-		{
+		} finally {
 			br.close();			//after code end , we have to close the resources that we are using.
 			System.out.println("Resource Closed...");
 		}

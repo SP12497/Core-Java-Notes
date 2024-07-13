@@ -2,18 +2,19 @@
 //	used to group related methods with empty bodies:
 
 // - To access the interface methods, the interface must be implemented (kinda like inherited)
-//   by another class with the implements keyword (instead of extends).
-//	The body of the interface method is provided by the "implements" keyword on the class:
+//   by another class with the 'implements' keyword (instead of extends).
+//	The body of the interface method is provided by the 'implements' keyword on the class:
 /*
 
 *  Notes on Interfaces: 
 	 * 		a] Like abstract classes, interfaces cannot be used to
 	 * 		   create objects (in the example above, it is not possible to create an
 	 * 		   "Animal" object in the MyMainClass) 
-	 * 		b] Interface methods do not have a body - the body is provided by the "implements" class
+	 * 		b] Interface methods do not have a body 
+	 * 			- the body is provided by the "implements" class
 	 * 		c] On implementation of an interface, you must override all of its methods or make class as Abstract.
-	 * 		d] Interface methods are by default : public abstract, no need to specity.
-	 * 		e] Interface attributes/variables are by default : public, static and final 
+	 * 		d] Interface methods are by default :'public abstract', no need to specity.
+	 * 		e] Interface attributes/variables are by default : 'public static final' 
 	 * 		e] An interface cannot contain a constructor 
 	 * 		   (as it cannot be used to create objects) 
 	 *   	f] To implement multiple interfaces, separate them with a comma(,):
@@ -49,16 +50,15 @@ interface inter0 {
 
 interface Inter1 // Functional Interface // Single Abstract Method Interface
 {
-	double salary = 10.00; // by default: public static final //and compulsory to assign values at the time
+	double salary = 10.00; // by default: public static final //and mandate to assign values at the time
 							// of declaration.
-	// double balance; // error : compulsory to assign values at the time of
-	// declaration.
+	// double balance; // error : mandate to assign values at the time of declaration.
 
-	void show(); // by default: public abstract , no need to specify.
+	void show(); // by default: public abstract, no need to specify.
 }
 
 interface Inter2 {
-	public static final double salary = 10.00;
+	public static final double salary = 20.00;
 
 	public abstract void print();
 }
@@ -76,8 +76,7 @@ class ClassInter implements Inter1, Inter2 // Class Support Multiple Interface
 }
 // --------------
 
-interface Inter3 extends Inter1, Inter2 {
-} // Interface Support Multiple Inheritance
+interface Inter3 extends Inter1, Inter2 {} // Interface Support Multiple Inheritance
 
 // ------------------
 
@@ -116,13 +115,14 @@ class Class2 extends Class1 implements Inter4 // Both 1st Class and then Interfa
 // class 3 implements Inter4 extends Class1 //Error : 1st Inheritance Class then
 // Interface
 
-public class CMain {
+public class _8_21_1_InterfaceClass {
 	public static void main(String[] args) {
 
-		// Inter1 obj1 = new Inter1(); //Error Interface does not contain any
-		// Constructor.
-		System.out.println("Reference of Inter1 interface using constructor of child class :");
+		// Inter1 obj1 = new Inter1(); // Error Interface does not contain any Constructor.
+
+		System.out.println("Reference of Inter1 interface using constructor of child class:");
 		Inter1 obj1 = new ClassInter();
+		System.out.println(obj1.salary);	// 10.00	// first interface will get priority
 		obj1.show(); // Inter1
 		// obj1.print(); //Inter2 //error : print in not Inter1 type.
 
@@ -158,8 +158,7 @@ public class CMain {
 		// Class have more Priority than Interface.
 
 		Class2 c2 = new Class2();
-		c2.common(); // Class1 common() method will be call bcoz class have more priority than
-						// interface.
+		c2.common(); // Class1 common() method will be call bcoz class have more priority than interface.
 
 		// Static and Default method inside Interface
 		System.out.println("Static Method inside Inter4");

@@ -1,10 +1,8 @@
-package myPractice;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Main {
+public class _2_ExceptionConcept {
 	public static void main(String[] args) {
 		int i, j, k = 0;
 		int a[] = new int[4]; // array of 4
@@ -20,9 +18,7 @@ public class Main {
 			k = i / j; // Error when denominator is j = 0. then it will throw an exception.
 			System.out.println("K = " + k);
 
-			for (int c = 0; c <= 10; c++) // array size is 4 and we are iterating and assign more than 4 values.. ie
-											// Error : ArrayIndexOutOfBoundsException.
-			{
+			for (int c = 0; c <= 10; c++) { // array size is 4 and we are iterating and assign more than 4 values.. ie ArrayIndexOutOfBoundsException
 				a[c] = c + 1;
 			}
 
@@ -40,9 +36,8 @@ public class Main {
 			System.out.println("Exception: Unknown exception" + e);
 		}
 
-		finally { // no matters what output , but this code always execute.
+		finally { // no matters what output, but this code always execute.
 			System.out.println("----Finally Bye----");
 		}
 	}
-
 }

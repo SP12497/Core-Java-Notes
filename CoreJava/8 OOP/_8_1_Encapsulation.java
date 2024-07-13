@@ -27,8 +27,8 @@ What is OOP:
 
 class RunEncap {
 	// private
-	private int rollno; // fields, member variable, attribute, property // it contains/stores data
-	private String name;
+	private int rollno; // fields, member variable, attribute, property, instance variable // it contains/stores data	// by default 0
+	private String name;	// by default String object is "null"
 
 	// public
 	public int getRollno() { // method, function, code block // its a code acting on the data

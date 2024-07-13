@@ -3,17 +3,16 @@
 import java.io.*;
 import java.util.Properties;
 
-// required Serializable Marker Interface to gives permission to 
-// allow saving the State of an Object into a File.
+// The Serializable marker interface allows an object to have its state saved to a file.
 
 class Save implements Serializable	// java.io
 {
-	transient int password;	// do not store in file.
+	transient int password; // This field will not be serialized (i.e., it will not be stored in the file).
 
 	int i, j;
 }
 
-public class Main
+public class _12_3_ObjectSerialization
 {
 	public static void main(String[] args) throws IOException, ClassNotFoundException 
 	{

@@ -1,14 +1,13 @@
-public class _8_8_2_Static_method_Hiding
-{
+public class _8_8_2_Static_method_Hiding{
 	public static void main(String[] args) {
-	    System.out.println(RBI.balance);
-	    System.out.println(SBI.balance);
-		System.out.println(SBI.getBalance(6)); // RBI Method Hiding
-		System.out.println(RBI.getBalance(5));
-		System.out.println(RBI.getBalance(""));
+	    System.out.println("RBI.balance: " +RBI.balance);
+	    System.out.print("SBI.balance: " + SBI.balance);
+		System.out.println("SBI.getBalance(6): " + SBI.getBalance(6)); // RBI Method Hiding
+		System.out.println("RBI.getBalance(5): " + RBI.getBalance(5));
+		System.out.println("RBI.getBalance(''): " + RBI.getBalance(""));
 		
 		RBI rbi = new RBI();
-        System.out.println(rbi.balance);
+        System.out.println("rbi.balance: " + rbi.balance);
 	   // System.out.println(rbi.interest); // Data Hiding
 		/*
          */
@@ -29,7 +28,8 @@ class RBI {
 
 class SBI extends RBI {
     public static int getBalance(int a) { // Method Hiding : RBI: getBalance
-        // super is not available in static method // available in Instance methods
+        // 'super' keyword is not available in static method // available in Instance methods
+        System.out.print(" RBI.getBalance(1): " + RBI.getBalance(1));
         // RBI.getBalance(1);
         return 44;
     }

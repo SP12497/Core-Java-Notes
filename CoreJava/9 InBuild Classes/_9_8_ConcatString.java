@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main {
+public class _9_8_ConcatString {
 	public static void main(String[] args) {
 		String s1, s2;
 
@@ -10,7 +10,7 @@ public class Main {
 		s1 = sc.nextLine(); // Hello Students.
 		s2 = sc.nextLine(); // Welcome to String Code.
 
-		int length1 = s1.length();
+		int length1 = s1.length();	// here, length is method, but in Collection length is property.
 
 		System.out.println("String 1 length is : " + length1);
 
@@ -30,8 +30,7 @@ public class Main {
 //		StringBuffer s3 = new StringBuffer("Swapnil"); 
 //    	StringBuffer s4 = new StringBuffer("Swapnil");
 
-		System.out.println("s6 == s7: " + s6 == s7); // false //logic : s1 and s2 reference (address) in stack are different //
-														// check reference
+		System.out.println("s6 == s7: " + s6 == s7); // false //logic : s1 and s2 reference (address) in stack are different // it checks reference
 		System.out.println("s6.equals(s7): " + s6.equals(s7)); // true //logic : s1 and s2 content same.
 
 		// In general we use == operator for reference comparison

@@ -1,4 +1,4 @@
-1. Final : constant variable / method / class.
+1. final : constant variable / method / class.
 
 2. finally {} : Exception handling
 	- is a block always associated with try catch.

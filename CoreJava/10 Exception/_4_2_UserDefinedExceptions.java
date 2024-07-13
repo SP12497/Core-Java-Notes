@@ -4,7 +4,7 @@ class MyException extends Exception {
 }
 
 //A Class that uses above MyException 
-public class Main {
+public class _4_2_UserDefinedExceptions {
 	// Driver Program
 	public static void main(String args[]) {
 		try {

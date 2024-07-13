@@ -17,10 +17,8 @@ abstract class AmolPhone {
 		System.out.println("Amol Calling...");
 	}
 
-	// public abstract void chat() // Error. We can not define abstract method. we
-	// can only declare;
-	// {
-	// System.out.println("Amol chatting...");
+	// public abstract void chat() {// Error: We can not define abstract method. we can only declare;
+	// 	System.out.println("Amol chatting...");
 	// }
 
 	public void play() {
@@ -39,8 +37,7 @@ abstract class BabanPhone extends AmolPhone // Here one more abstract method whi
 		System.out.println("Baban Texting");
 	}
 
-	// public abstract void watch(); is unimplemnted here. so mark class as
-	// abstract.
+	// public abstract void watch(); is unimplemnted here. so mark class as abstract.
 }
 
 class ChetanPhone extends BabanPhone // Till here all abstract methods are defined.
@@ -64,8 +61,7 @@ class CharliePhone extends BabanPhone // Till here all abstract methods are defi
 // main
 public class _8_17_AbstractClassMethods {
 	public static void main(String[] args) {
-		// AmolPhone obj = new AmolPhone(); // we cannot create object of abstract class
-		// with abstract class constructor.
+		// AmolPhone obj = new AmolPhone(); // we cannot create object of abstract class with abstract class constructor.
 
 		System.out.println("__________________OBJ1______________________");
 		AmolPhone obj1 = new ChetanPhone(); // we can access only those methods which are completely defines in
@@ -74,8 +70,7 @@ public class _8_17_AbstractClassMethods {
 		obj1.play();
 		obj1.text();
 		obj1.watch();
-		// obj1.classname(); // we can access only those methods which are defines in
-		// AmolPhone class.
+		// obj1.classname(); // we can access only those methods which are defines in AmolPhone class.
 
 		System.out.println("_____________________OBJ2______________________");
 		ChetanPhone obj2 = new ChetanPhone();
@@ -98,7 +93,7 @@ public class _8_17_AbstractClassMethods {
 		show(obj3); // CharliePhone
 
 		System.out.println("___________Anonymous Inner Type (Object)________");
-		BabanPhone bb = new BabanPhone() {
+		BabanPhone bb = new BabanPhone() {		// Annonymous Class
 
 			@Override
 			void watch() {

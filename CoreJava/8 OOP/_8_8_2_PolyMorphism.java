@@ -69,7 +69,7 @@ class CA // Method OverLoading
 	}
 }
 
-class CB extends CA // CPP : class CB : public/private/protected CA{}
+class CB extends CA // C++ : class CB : public/private/protected CA{}
 {
 	public void show() {
 		System.out.println(" Show CB ");

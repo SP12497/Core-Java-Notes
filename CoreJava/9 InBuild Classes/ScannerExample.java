@@ -1,11 +1,12 @@
 import java.util.Scanner;
 /*
 In this example:
+    next(): Reads the next token from the input as a string until the next whitespace or delimiter.
 	nextLine(): Reads a line of text as a string.
 	nextInt(): Reads the next token from the input as an integer.
 	nextDouble(): Reads the next token from the input as a double.
 	nextBoolean(): Reads the next token from the input as a boolean.
-	next(): Reads the next token from the input as a string until the next whitespace or delimiter.
+
 Make sure to import java.util.Scanner at the beginning of your Java file. 
 This example covers various scenarios for reading different types of input using the Scanner class in Java.
 */

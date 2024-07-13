@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.Properties;
 
-public class Main
+public class _12_2_Properties
 {
 	public static void main(String[] args) throws IOException 
 	{
@@ -28,7 +28,6 @@ public class Main
 			
 			System.out.println("========List All========");
 			p2.list(System.out);	
-			
 			
 	}
 }

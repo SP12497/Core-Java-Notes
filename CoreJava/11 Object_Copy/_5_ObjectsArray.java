@@ -1,4 +1,4 @@
-class Main {
+class _5_ObjectsArray {
 	public static void main(String args[]) {
 		// create array of employee object
 		Employee[] obj = new Employee[2];

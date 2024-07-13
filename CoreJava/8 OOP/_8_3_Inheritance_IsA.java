@@ -32,7 +32,7 @@ public class _8_3_Inheritance_IsA {
 
 		Add obj2 = new AddSub();
 		System.out.println(obj2.sum()); // parent //call
-		// System.out.println(obj2.sub()); //child //error
+		// System.out.println(obj2.sub()); //child //error: reference is parent type.
 	}
 }
 

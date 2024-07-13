@@ -20,7 +20,7 @@
 
 import java.util.ArrayList;
 
-public class CMain 
+public class _9_6_WrapperClass_and_Boxing 
 {
 	public static void main(String[] args) 
 	{
