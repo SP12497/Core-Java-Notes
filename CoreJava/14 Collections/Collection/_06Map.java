@@ -87,10 +87,10 @@ public class _06Map {
 		System.out.println(map.get("Age")); // 26 // if not present: null
 // 	5. toString
 		System.out.println(map.toString()); // {Game=Cricket, Age=26, Name=Patil}
-		System.out.println(map); // {Game=Cricket, Age=26, Name=Patil}
+		System.out.println(map); 			// {Game=Cricket, Age=26, Name=Patil}
 
 //	6. contains/present key or value:
-		System.out.println(map.containsKey("Name")); // true
+		System.out.println(map.containsKey("Name")); 		// true
 		System.out.println(map.containsValue("Cricket")); // true
 
 		String str = null, gkey = "Game";
@@ -107,9 +107,9 @@ public class _06Map {
 		System.out.println(map.remove("Age")); // null
 
 //	9. entry:
-		System.out.println(map.entrySet()); // [Game=Cricket, Name=Patil]
-		System.out.println(map.keySet()); // [Game, Name]
-		System.out.println(map.values()); // [Cricket, Patil]
+		System.out.println(map.entrySet()); 	// [Game=Cricket, Name=Patil]
+		System.out.println(map.keySet()); 		// [Game, Name]
+		System.out.println(map.values()); 		// [Cricket, Patil]
 
 // 10. Size
 		System.out.println(map.size()); // 2
@@ -117,7 +117,7 @@ public class _06Map {
 
 // 11. Iteration:
 // 11.1 Map.Entry<> 
-		// interface Map{ interface Entry {}}
+		// interface Map{ interface Entry { getKey(); getValue(); }}
 		// Map.Entry<String, String> entry // store only 1 value
 		// map.entrySet() // list of (Entry)
 		Set<Map.Entry<String, String>> set = map.entrySet();
@@ -144,5 +144,4 @@ public class _06Map {
 		Map<Integer, Boolean> um = Collections.unmodifiableMap(mp);
 		um.put(4, true);	// java.lang.UnsupportedOperationException
 	}
-
 }

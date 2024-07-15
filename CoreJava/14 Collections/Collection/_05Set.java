@@ -15,6 +15,7 @@ Set:
 	- it cannot contain duplicate elements. It models the mathematical set abstraction.
 	- Set Interface contains only methods inherited from Collection 
 	- adds the restriction that duplicate elements are prohibited.
+	- not thread-safe by default. If you need a thread-safe set, you can use Collections.synchronizedSet to wrap the set or use ConcurrentSkipListSet from the java.util.concurrent package.
 Set Implementation:
 	- HashSet:
 		- Asynchronous/Not Thread-safe
@@ -31,12 +32,21 @@ Set Implementation:
 		- Slower insertion and removal compared to HashSet, but faster iteration
 	- TreeSet:
 		- Implemented using a red-black tree (self-balancing binary search tree).
-		- synchronous/Not Thread-safe
+		- Asynchronous/Not Thread-safe
 		- Does not allow null elements.
 		- Maintains elements in sorted order, either natural ordering or using a custom Comparator provided at construction time.
 	- EnumSet
 	- CopyOnWriteArraySet
 
+---------------
+SET interface :
+		HashSet			//insertion order not fix	//only one NULL
+		LinkedHashSet   //insertion order fix		//only one NULL
+		TreeSet			//sorted format				//no NULL (throws NullPointerException)
+        - All three are not synchronized.
+        - All three doesn’t allow duplicate elements.
+        - All three are Cloneable and Serializable
+        - Iterator returned by all three is fail-fast in nature. i.e You will get ConcurrentModificationException if they are modified after the creation of Iterator object.
 ---------------
 Collection:
 	size(): int
@@ -49,6 +59,7 @@ Collection:
 	iterator() : Iterator<E>  //  it.hasNext() : boolean, it.next() : E
 	contains(<E> value) : boolean
 	al4.toArray(new Integer[al4.size()]) : Integer[] 
+	
 */
 
 import java.util.Set;

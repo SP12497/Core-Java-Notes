@@ -1,9 +1,9 @@
 
 /* Inner Class ($): A$B
-1. Member / Non-Static Inner Class
-2. Static / Nested Inner Class
-3. Anonymous Inner Class
-4. Lambda Inner Class
+	1. Member / Non-Static Inner Class
+	2. Static / Nested Inner Class
+	3. Anonymous Inner Class
+	4. Lambda Inner Class
 */
 //outer class is only be public, abstract, default or final, never static.
 
@@ -11,11 +11,11 @@ class ParentClass // default
 {
 	int i;
 
-	public void print() {		System.out.println("Class A print() Method");
+	public void print() {
+		System.out.println("ParentClass print() Method");
 	}
 
-	class memberClass // Member / Non-Static Inner Class
-	{
+	class MemberClass {		// Member / Non-Static Inner Class
 		public void show() {
 			System.out.println("Member / Non-Static InnerClass B Show() Method " + i);
 		}
@@ -35,18 +35,17 @@ interface FI {
 	public void print();
 }
 
-public class Main {
+public class _2_1_InnerClass {
 	public static void main(String[] args) {
 		ParentClass pObj = new ParentClass();
 		pObj.i = 10;
 
 //	1. Member / Non-Static Inner Class
-		ParentClass.memberClass instanceObj1 = pObj.new memberClass();
+		ParentClass.MemberClass instanceObj1 = pObj.new MemberClass();
 		instanceObj1.show();
-		ParentClass.memberClass instanceObj2 = new ParentClass().new memberClass();
+		ParentClass.MemberClass instanceObj2 = new ParentClass().new MemberClass();
 
 //	2. Static / Nested Inner Class
-
 		ParentClass.StaticClass obj3 = new ParentClass.StaticClass(); // same as C obj = new C();
 		obj3.show();
 

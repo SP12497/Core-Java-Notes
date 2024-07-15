@@ -3,7 +3,7 @@ import java.util.*;
 // Interface : Collection and List
 // Class : ArrayList , Collections
 
-class CMain {
+class _ComparatorInterface {
 	public static void main(String[] args) {
 
 		List<Integer> c = new ArrayList<>();

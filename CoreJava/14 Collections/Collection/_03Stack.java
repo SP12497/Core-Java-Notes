@@ -42,6 +42,7 @@ Stack:
 	pop(): E
 	peek(): E
 	empty(): boolean
+	isEmpty()
 	search():int // returns index start from 1
 	
 */

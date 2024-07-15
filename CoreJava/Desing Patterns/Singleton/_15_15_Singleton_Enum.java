@@ -1,8 +1,7 @@
 //Singleton Design Pattern : Enum Initialization 
 
-enum Abc	//special type of class
-{
-	INSTANCE;	//OBJECT
+enum Abc {	// special type of class
+	INSTANCE;	// OBJECT
 	
 	int i;
 	public void show()
@@ -11,7 +10,7 @@ enum Abc	//special type of class
 	}
 }
 
-public class SingletonClass
+public class _15_15_Singleton_Enum
 {
 	public static void main(String[] args) 
 	{

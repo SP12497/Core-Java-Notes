@@ -16,7 +16,7 @@ class ABC
 }
 
 
-public class SingletonClass
+public class _15_11_Singleton_EagerInitialization
 {
 	public static void main(String[] args) 
 	{

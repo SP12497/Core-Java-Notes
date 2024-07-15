@@ -1,12 +1,10 @@
-package MyPackage;
-
 //first create Bundle.properties file and  add
 // wish = Happy Birthday
 
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class LocaleDemo 
+public class Localization_and_Internationalization_using_SwingJFrame 
 {	
 	public static void main(String[] args)
 	{

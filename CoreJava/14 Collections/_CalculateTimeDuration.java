@@ -1,11 +1,6 @@
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Set;
 
-class CMain
+class _CalculateTimeDuration
 {
 	public static void main(String[] args) 
 	{

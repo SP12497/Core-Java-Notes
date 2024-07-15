@@ -11,7 +11,7 @@ public class _52_2D_Array {
 	}
 	
 	public static void main(String[] args) {
-		int [] arr[] = new int[][] { { 11, 13, 12 }, { 31, 33, 32 }, { 24, 22, 22, 24 } };	// Jagged Array N*M
+		int [] arr[] = new int[][] { { 11, 13, 12 }, { 31, 33, 32 }, { 24, 22, 22, 24 } };	// Jagged Array N*M // inner array length not fixed
 		int[][] arr2 = new int[5][3];	// Rectangular array
 		int arr3 [][] = new int[5][3];
 		// int arr4 [][] = new int[][];	// Error: Variable must provide either dimension expressions or an array initializer
@@ -22,7 +22,7 @@ public class _52_2D_Array {
 		System.out.println(arr[2].length);	// 4
 		System.out.println(arr[1].length);	// 3
 		
-// toString:
+// toString/deepToString:
 		System.out.println(Arrays.toString(arr));	// [[I@2a139a55, [I@15db9742, [I@6d06d69c]
 		System.out.println(Arrays.deepToString(arr));	// [[11, 13, 12], [31, 33, 32], [24, 22, 22, 24]]
 // sorting
@@ -34,7 +34,7 @@ public class _52_2D_Array {
 		
 		// sort based of count of inner elements:
 		
-		Arrays.sort(arr, (int [] o1, int [] o2) -> sumOfArray(o1)- sumOfArray(o2) );
+		Arrays.sort(arr, (int [] o1, int [] o2) -> sumOfArray(o1) - sumOfArray(o2) );
 		System.out.println("sort by sumOfArray: " + Arrays.deepToString(arr));	// [[11, 12, 13], [22, 22, 24, 24], [31, 32, 33]]
 		
 
@@ -51,6 +51,7 @@ public class _52_2D_Array {
 		
 		int [][] arr4 = Arrays.copyOf(arr, arr.length);	// outer is deep, but inner is shallow copy
 		arr4[1][0] = 00;	// modified arr obj as well
+
 		for(int[] innerArr : arr) {
 			for(int value: innerArr)
 				System.out.print(value + " ");

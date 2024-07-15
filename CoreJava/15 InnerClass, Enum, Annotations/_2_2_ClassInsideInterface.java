@@ -6,9 +6,10 @@
 
 interface Library {
    void issueBook(Book b);
+
    void retrieveBook(Book b);
 
-   public class Book {			//Liabrary.Book
+   public class Book { // Liabrary.Book
       int bookId = 1;
       String bookName = "myBook";
       int issueDate;
@@ -16,14 +17,14 @@ interface Library {
    }
 }
 
-public class Sample implements Library {
+class Sample implements Library {
 
    public void issueBook(Book b) {
-      System.out.println("Book Issued: ", b.bookId);
+      System.out.println("Book Issued: " + b.bookId);
    }
 
    public void retrieveBook(Book b) {
-      System.out.println("Book Retrieved: ", , b.bookName);
+      System.out.println("Book Retrieved: " + b.bookName);
    }
 
    public static void main(String args[]) {
@@ -33,31 +34,33 @@ public class Sample implements Library {
    }
 }
 
-//Output :
-//Book Issued
-//Book retrieveBook
+// Output :
+// Book Issued
+// Book retrieveBook
 
-//--------------------------------------
-//If we need to provide a default implementation of the interface, we will define a class inside an interface as:
+// --------------------------------------
+// If we need to provide a default implementation of the interface, we will
+// define a class inside an interface as:
 
 // Example 2
-interface Library {
-   
+interface Library2 {
+
    void issueBook(Book b);
+
    void sampleBook();
+
    void retrieveBook(Book b);
-   
-   public class Book implements Library {
+
+   public class Book implements Library2 {
       int bookId;
       String bookName;
       int issueDate;
       int returnDate;
-	  
-	  void sampleBook()
-	  {
-		System.out.println("book Sample");
-	  }
-	  
+
+      public void sampleBook() {
+         System.out.println("book Sample");
+      }
+
       public void issueBook(Book b) {
          System.out.println("book issued");
       }
@@ -67,12 +70,13 @@ interface Library {
       }
    }
 }
-public class Sample {
+
+class _2_2_ClassInsideInterface {
    public static void main(String args[]) {
-	  
-	   Library l = new Library.Book();
+
+      Library2 l = new Library2.Book();
       l.sampleBook();
-	   l.issueBook(new Library.Book());
-	  
+      l.issueBook(new Library2.Book());
+
    }
 }

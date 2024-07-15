@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Vector;
 
 /*
+class Collections {}
 interface Collection		// add(<E>)
 interface List extends Collection	// List have: get(), add(index, Object), set(), indexOf()
 class ArrayList implements List
@@ -22,7 +23,7 @@ Collection:
 	forEach(Consumer obj) : void
 	iterator() : Iterator<E>  //  it.hasNext() : boolean, it.next() : E
 	contains(<E> value) : boolean
-	al4.toArray(new Integer[al4.size()]) : Integer[] 
+	list.toArray(new Integer[list.size()]) : Integer[] 
 List:
 	get(index) : E
 	set(index, <E> value) : E	// returns 22 // 22 => 33	set(2, 33)
@@ -42,6 +43,7 @@ Create quick List:
 	List<Integer> ls = Arrays.asList(11,22,33);
 	
 */
+
 public class _01ArrayList {
 	public static void main(String[] args) {
 		int size = 5;
@@ -54,8 +56,9 @@ public class _01ArrayList {
 		ArrayList<String> al2 = new ArrayList<>(size); // parameterized constructor 
 
 //	2. Declaration + Initialization :
-		List<Integer> ls1 = Arrays.asList(new Integer[] { 11, 22, 33 }); // int not support
-		List<Integer> ls2 = Arrays.asList(11, 22, 33); // int not support
+		List<Integer> ls1 = Arrays.asList(new Integer[] { 11, 22, 33 }); // primitive datatypes (int) not support
+		List<Integer> ls2 = Arrays.asList(11, 22, 33);
+		
 		ArrayList<Integer> al3 = new ArrayList<>(ls1);
 		ArrayList<Integer> al4 = new ArrayList<>(Arrays.asList(11, 22, 33)); // parameterized constructor by List
 
@@ -70,10 +73,10 @@ public class _01ArrayList {
 //	3. Insertion:
 		// Collection
 		cl.add("SAGAR");
-		cl.add("Patil"); // add end of the list
-		cl.add("Tejas"); // add at first index
+		cl.add("Patil");
+		cl.add("Tejas");
 		cl.add("SAGAR"); // duplicates are allowed
-		cl.addAll(Arrays.asList("AA", "CC", "BB"));			// copy
+		cl.addAll(Arrays.asList("AA", "CC", "BB"));			// copy list
 		// ls1.add(2, 30); // Collection don't have this method.
 		
 
@@ -98,6 +101,7 @@ public class _01ArrayList {
 //  5. Update:
 		// cl.set(1, "Hi");		// Collection don't have set()
 		System.out.println("set: " + ls1.set(1, 888)); // Output> set: 22 // 22=>888
+		ls1.set(2, 123);
 		// ls1.set(50, 123);	// List: java.lang.ArrayIndexOutOfBoundsException
 
 //  6. Printing:
@@ -108,7 +112,7 @@ public class _01ArrayList {
 		}
 		// stream api:
 		System.out.println("cl.forEach()");
-		cl.forEach(System.out::println);
+		cl.forEach(System.out::print);	// ::println
 		
 		// Iterator:
 		System.out.println("Iterator:");
@@ -120,6 +124,7 @@ public class _01ArrayList {
 		//List<Integer> ls5 = Arrays.asList(al4);	// Type mismatch: cannot convert from List<ArrayList<Integer>> to List<Integer>
 		List<Integer> ls5 = new ArrayList<>(ls2);	// Deep Copy: way 1
 		ls5.addAll(ls2);	// Deep Copy: way 2
+
 		ls5.add(5);
 		ls5.set(2, 66);
 		System.out.println("removeAll"+ ls5.removeAll(ls2)); // Remove all occurrence of list elements from ls5;
@@ -143,9 +148,9 @@ public class _01ArrayList {
 		// al4.get(50);	// java.lang.IndexOutOfBoundsException // List have java.lang.ArrayIndexOutOfBoundsException if we got out of array.
 
 // 10. get index by value:
-		System.out.println("indexOf 11: "+ls1.indexOf(11));	// 0
+		System.out.println("indexOf 11: "+ls1.indexOf(11));		// 0
 		System.out.println("indexOf 33: "+ls1.indexOf(33));		// 2
-		System.out.println("indexOf invalid"+ls1.indexOf(2222));// -1
+		System.out.println("indexOf invalid"+ls1.indexOf(2222));	// -1
 		
 // 11. check value:
 		System.out.println("contains: " + cl.contains("AA"));		// true
@@ -153,12 +158,11 @@ public class _01ArrayList {
 
 
 //  12. Iterate:
-		for(int i=0; i<ls1.size(); i++) {
+		for(int i = 0; i < ls1.size(); i++) {
 			System.out.print(ls1.get(i) + " ");
 		}
 		
 //  13. Covert ArrayList => array:
-		
 		Integer num [] = al4.toArray(new Integer[al4.size()]);
 
 // 14. Clear array:

@@ -1,5 +1,6 @@
 //Singleton Design Pattern : Double-Checked Locking Singletons -> This will reduce the resources
-//multiple thread runs same time so it happens that multiple getInstance method calls same time so multiple obj is created.  So overcome this problem we use synchronized function. Thats why it is called as Double-Checked Locking Singletons.
+//multiple thread runs same time so it happens that multiple getInstance method calls same time so multiple obj is created.
+// So overcome this problem we use synchronized function. Thats why it is called as Double-Checked Locking Singletons.
 
 class ABC {
 	static ABC obj;// Declaration only
@@ -28,7 +29,7 @@ class ABC {
 	}
 }
 
-public class SingletonClass {
+public class _15_14_Singleton_DoubleCheckedLocking {
 	public static void main(String[] args) {
 		// ABC obj = new ABC(); //Constructor is private so not allowed
 

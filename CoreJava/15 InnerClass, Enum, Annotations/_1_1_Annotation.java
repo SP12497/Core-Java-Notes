@@ -4,7 +4,8 @@
 	2. @SuppressWarnings :
 		is used to suppress warnings issued by the compiler.
 	3. @Deprecated :
-		@Deprecated annoation marks that this method is deprecated so compiler prints warning. It informs user that it may be removed in the future versions. So, it is better not to use such methods.
+		@Deprecated annoation marks that this method is deprecated so compiler prints warning. 
+		It informs user that it may be removed in the future versions. So, it is better not to use such methods.
 	4. @FunctionalInterface  
 	
 	https://www.javatpoint.com/java-annotation
@@ -42,8 +43,7 @@ class CB extends CA
 	}
 }
 
-public class Main
-{
+public class _1_1_Annotation {
 	public static void main(String[] args) 
 	{
 		

@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 
 
 
-public class CMain 
+public class _01_2ArrayList_Printing 
 {
 	public static void main(String[] args) throws Exception
 	{
@@ -61,6 +61,5 @@ public class CMain
 		{
 			System.out.println(i);
 		}
-
 	}
 }

@@ -26,7 +26,7 @@ class ABC
 
 }
 
-public class SingletonClass
+public class _15_13_Singleton_ThreadSafe_Synchronized
 {
 	public static void main(String[] args) 
 	{

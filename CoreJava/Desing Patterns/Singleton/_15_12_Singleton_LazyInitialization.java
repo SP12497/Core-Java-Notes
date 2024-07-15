@@ -21,7 +21,7 @@ class ABC
 	}
 }
 
-public class SingletonClass
+public class _15_12_Singleton_LazyInitialization
 {
 	public static void main(String[] args) 
 	{

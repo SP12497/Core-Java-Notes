@@ -50,7 +50,7 @@ class RealMe
 	}	
 }
 
-public class CMain
+public class _1_2_CustomAnnotations
 {
 	public static void main(String[] args) 
 	{

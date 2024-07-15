@@ -1,4 +1,3 @@
-package Collection;
 
 /*
 Map

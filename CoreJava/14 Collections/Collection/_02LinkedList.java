@@ -30,7 +30,7 @@ Collection:
 	forEach(Consumer obj) : void
 	iterator() : Iterator<E>  //  it.hasNext() : boolean, it.next() : E
 	contains(<E> value) : boolean
-	al4.toArray(new Integer[al4.size()]) : Integer[] 
+	toArray(new Integer[size]) : Integer[] 
 List:
 	get(index) : E
 	set(index, <E> value) : E	// returns 22 // 22 => 33	set(2, 33)
@@ -42,16 +42,17 @@ Deque:
 		- Special Value: either true, null or false, for smoother control flow without exceptions.
 	-> Throws Exception || Special Value
 	- Insert:
-		addFirst(E element)		|| offerFirst(E element)
-		addLast(E element) :	|| offerLast(e)
-		push()
+		|	Exception					|| Boolean						|
+		|push()	add()					|| offer()						|
+		|void addFirst(E element)		|| boolean offerFirst(E element)|
+		|addLast(E element) : Exception	|| offerLast(e)					|
 	- Remove:
+		pop()				||	poll()
 		removeFirst(): E 	|| 	pollFirst():E
 		removeLast():E		||	pollLast(): E
-		pop()
 	- Examine:
 		getFirst(): void	||	peekFirst()		peek() 
-		getLast()	||	peekLast()
+		getLast()			||	peekLast()
 		peek()	// head element // peekFirst() return head or null if list is empty
 		size()
 	- Fetch and Remove:
@@ -69,20 +70,20 @@ Create quick List:
 */
 public class _02LinkedList {
 	public static void main(String[] args) {
-		LinkedList<Integer> ll = new LinkedList<>();    // Java Collection implements Double LL.
-		List<Integer> ll1 = new LinkedList<>();
 		Collection<Integer> ll2 = new LinkedList<>();
+		List<Integer> ll1 = new LinkedList<>();
 		Deque<Integer> ll3 = new LinkedList<>();
-		
+		LinkedList<Integer> ll = new LinkedList<>();    // Java Collection implements Double LL.
+
 		ll.add(11);
-		ll.addFirst(22);	// void
+		ll.addFirst(22);		// void
 		ll.offerFirst(33);	// true
 		ll.offerLast(66);
 		System.out.println(ll);	// [33, 22, 11, 66]
 		
-		ll.removeFirst();	// returns 33
-		ll.pollLast();		// returns 66
-		ll.remove();	// remove first
+		ll.removeFirst();		// returns 33
+		ll.pollLast();			// returns 66
+		ll.remove();			// remove first
 		
 		
 		

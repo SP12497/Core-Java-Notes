@@ -6,12 +6,13 @@ class Student {
         this.rollno = rollNo;
     }
 }
+
 public class _51Array {
     public static void main(String[] args) {
     //  Declaration:
         int arr1[] = new int[5]; // using primitive datatypes
         Integer arr2[] = new Integer[5]; // Wrapper classes
-        // int [] arr2 = new int[5] {11,22,33,44,55}; // error: Cannot define dimension expressions when an array initializer is provided means, while declaration if we are initalizing, then passing array size not allowed.
+        // int [] arr2 = new int[5] {11,22,33,44,55}; // no need to define size // error: Cannot define dimension expressions when an array initializer is provided means, while declaration if we are initalizing, then passing array size not allowed.
         int[] numArr = new int[] { 55, 11, 33, 44, 22 };
         String[] strArr = { "Sagar", "Suraj", "Nilesh", "Yogesh", "Kenny", "Sagar" };
         Boolean[] boolArr = {};
@@ -87,9 +88,8 @@ public class _51Array {
 
         System.out.println("---array search---");
         System.out.println(Arrays.binarySearch(numArr, 44)); // 3
-        System.out.println(Arrays.binarySearch(numArr, 45)); // -5, not present, returns negative value of index we can
-                                                             // insert in sorted form:
-        // 45 will be after 44: -(index(44) starts from 1 + 1) => -(4 + 1) => -5
+        System.out.println(Arrays.binarySearch(numArr, 45)); // -5 // 45 should be available at index 5, but not present so returns -5
+        // 45 will be after 44: (index(44) starts from 1 => -(4 + 1) => -5  
         // numArr[4] = 45; // insert in sorted for // -5+1
 
         System.out.println("---Array Shallow copy---");
@@ -100,9 +100,9 @@ public class _51Array {
 
         System.out.println("---Array Deep copy---");
 
-        String strArr2[] = Arrays.copyOf(strArr, strArr.length);
-        System.out.println("strArr: " + Arrays.toString(strArr));
+        String strArr2[] = Arrays.copyOf(strArr, strArr.length);    // copyOf(T[] original, int newLength)
         strArr2[0] = "Chetan";
+        System.out.println("strArr: " + Arrays.toString(strArr));
         System.out.println("strArr2: " + Arrays.toString(strArr2));
 
         // Array Resizing:
@@ -152,7 +152,7 @@ public class _51Array {
     static void reverseArrayRecursive(int[] arr, int ascIndex, int descIndex) {
         if (ascIndex >= descIndex)
             return;
-        // swap:
+        // swap: using X-OR
         arr[ascIndex] = arr[ascIndex] ^ arr[descIndex];
         arr[descIndex] = arr[ascIndex] ^ arr[descIndex];
         arr[ascIndex] = arr[ascIndex] ^ arr[descIndex];

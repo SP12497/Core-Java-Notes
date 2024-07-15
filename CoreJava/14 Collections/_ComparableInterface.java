@@ -3,7 +3,7 @@
 
 import java.util.*;
 
-class Main {
+class _ComparableInterface {
 	public static void main(String[] args) {
 
 		System.out.println("---Collections.sort()---");

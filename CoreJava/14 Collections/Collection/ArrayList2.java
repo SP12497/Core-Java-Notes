@@ -1,4 +1,3 @@
-package Collection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -14,7 +13,7 @@ public class ArrayList2
 	ArrayList<Person> al = new ArrayList<>();
 	
 	
-	addPersonObject(al);
+	// addPersonObject(al);
 	dispPersonObject(al);
 
 	removeObject(al);
@@ -160,4 +159,30 @@ class Sortbyid implements Comparator<Person>
 			return -1;
 	}
 	
+}
+
+class Person extends Object
+{
+
+	  int id;
+	  String name;
+	  
+	  
+	   
+	public Person(int id, String name) {
+		
+		this.id = id;
+		this.name = name;
+	}
+
+
+  
+	void disp()
+	{
+		System.out.println("	"+id + " "+name);		
+	}
+	
+	public String toString() {
+		return "	Person [id=" + id + ", name=" + name + "]";
+	}
 }
