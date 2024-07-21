@@ -877,6 +877,60 @@ Views:
     Drop view vbook;
 
 /* ==================================================================
+-- Index:
+1. What is Indexing?
+    - Indexing is a database optimization technique used to speed up the retrieval of rows 
+      by using a data structure (usually a B-tree or hash) that allows quick access to rows based on column values.
+2. Types of Indexes:
+    Primary Index: Automatically created on the primary key column(s). Ensures unique values and fast access.
+    Unique Index: Ensures all values in the indexed column(s) are unique. Useful for columns that must have unique values.
+    Regular Index: General index used to improve query performance on columns that are frequently searched.
+    Full-Text Index: Specialized index for full-text searches. Useful for searching large amounts of text.
+    Spatial Index: Used for spatial data types, such as geometric and geographic data.
+*/
+    SHOW INDEX FROM employee;
+    DROP INDEX idx_salary ON employee;
+-- 2.1 Regular Index:
+    -- Create an index on salary in the employee table to speed up queries filtering by salary
+    CREATE INDEX idx_salary ON employee(salary);
+-- 2.2 nique Index:
+    -- If you want to ensure that emp_name values are unique (if applicable), you can create a unique index.
+    CREATE UNIQUE INDEX idx_unique_emp_name ON employee(emp_name);
+-- 2.3 Composite Index:
+    -- Create a composite index on doj (date of joining) and dept_id in the employee table to optimize queries filtering by both columns.
+    CREATE INDEX idx_doj_dept ON employee(doj, dept_id);
+-- 2.4 Full-Text Index:
+    -- Although not particularly useful for employee or department in this scenario, a full-text index could be created for text-based searches if necessary.
+    CREATE FULLTEXT INDEX idx_fulltext_emp_name ON employee(emp_name);
+-- 4. Using Indexes in Queries:
+    -- The idx_salary index helps optimize this query:
+    SELECT * FROM employee WHERE salary > 50000;
+    -- Query Filtering by doj and dept_id:
+    -- The idx_doj_dept index helps optimize this query:
+    SELECT * FROM employee WHERE doj >= '2023-01-01' AND dept_id = 'D01';
+
+/*
+4. Benefits of Indexing:
+    - Faster Query Execution: Reduces the amount of data the database needs to scan.
+    - Efficient Data Retrieval: Improves performance for SELECT queries.
+    - Faster Sorting and Filtering: Enhances operations involving ORDER BY and WHERE clauses.
+
+5. Trade-offs:
+    - Increased Storage: Indexes consume additional disk space.
+    - Slower DML Operations: Insert, update, and delete operations can be slower because the index needs to be updated.
+
+8. Index Optimization Tips:
+    - Use Indexes Wisely: Index columns that are frequently used in WHERE clauses, JOINs, and ORDER BY.
+    - Avoid Over-Indexing: Too many indexes can degrade performance, especially during data modifications.
+    - Analyze and Optimize: Use EXPLAIN to analyze query execution plans and adjust indexes accordingly.
+
+10. Best Practices:
+    - Choose Indexes Wisely: Use indexes on columns that are frequently used in WHERE clauses, JOIN conditions, and ORDER BY.
+    - Avoid Over-Indexing: Too many indexes can slow down INSERT, UPDATE, and DELETE operations.
+    - Monitor and Optimize: Regularly use EXPLAIN to analyze query performance and adjust indexes as needed.
+
+
+/* ==================================================================
 -- Temporary Table:
     - A special type of table that allows you to store a temporary result set.
 	   which you can reuse several times in a SINGLE SESSION.
