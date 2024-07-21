@@ -1,15 +1,19 @@
 -- Login:
 	-- mysql -u root -p
 -- clear command line history :   \! cls
+-- Logout current use:
+    quit; -- or \q
 
 -- Databases:
 	show databases;
     create database myDb;
     use myDb;
     drop database myDb; -- delete DB;
-    select database()   -- selected database name.
-    \s          -- Connection details
-
+    select database()   -- show currently selected database name.
+    -- \s          -- Show Connection details   -- \s
+    -- \q          -- Quit  -- \q
+    -- \p          -- Print current command -- select * from employee \p;
+    -- \h          -- Help  -- \h   -- \h select
 /* 
 ==============
 Normalization:
@@ -77,29 +81,29 @@ Constraints:
 Integrity Constraits:
     - Database integrity refers to the accuracy, consistency, and reliability of data stored in a database. 
     - There are several types of integrity constraints that help maintain data integrity:
-- 1. Entity Integrity:
+ 1. Entity Integrity:
     - In short, it states that primary key value can't be null.
     - Entity integrity ensures that each row (or record) in a table is uniquely identifiable. 
     - It is typically enforced by primary key constraints, which prevent duplicate or null values in the primary key column(s).
-2. Referential Integrity:
+ 2. Referential Integrity:
     - In short, Foreign key value can be either available in reference table or must be null.
     - Referential integrity ensures the consistency of relationships between tables. 
     - It is enforced by foreign key constraints, which ensure that values in a foreign key column must match values in the corresponding primary key column of another table (or be NULL).
-3. Domain Integrity:
+ 3. Domain Integrity:
     - Domain constraints can be defined as the definition of a valid set of values for an attribute.
     - Domain integrity ensures that values in a database adhere to defined data types, formats, and ranges. 
     - It is enforced by data type constraints, check constraints, and domain constraints.
     - eg. salary should be int or decimal and greater the 0.
-4. User-Defined Integrity:
+ 4. User-Defined Integrity:
     - User-defined integrity constraints are custom rules specified by the database administrator or application developer 
       to ensure data consistency according to specific business rules.
     - These constraints are enforced through triggers, stored procedures, or application logic.
-5. Semantic Integrity:
+ 5. Semantic Integrity:
     - Semantic integrity ensures that the data stored in the database accurately represents real-world entities and relationships. 
     - It is maintained through proper database design, normalization, and business logic enforcement.
 
 1. Domain Constraits	: on Attribute Condition/checks
-2. Entity Integrity Constraits	: primary key null not allowed
+2. Entity Integrity Constraits	: primary key null not allowed, 
 3. Referential Integrity Constraits	: FK should be PK of other table or null
 4. Key Constraits	: choose entity/column as Primary key which is unique and not null
 
@@ -148,7 +152,7 @@ Literals :
     show VARIABLES;
     show STATUS;  -- db status
     show PROCESSLIST;
-    show table status LIKE "book"; -- internal details of table;
+    show table status LIKE "boo%"; -- internal details of table;
 -- explain:
     explain select * from book;
 /*
@@ -163,9 +167,9 @@ Types of SQL Commands:
         RENAME: Renames a database object.
 2. DML (Data Manipulation Language):
     - Used for managing data within database objects.
-        INSERT: Adds new rows of data into a table.
-        UPDATE: Modifies existing data in a table.
-        DELETE: Removes existing rows from a table.
+        INSERT INTO: Adds new rows of data into a table.
+        UPDATE... SET: Modifies existing data in a table.
+        DELETE FROM: Removes existing rows from a table.
 3. DQL (Data Query Language)
     - querying and retrieving data from a database.
         SELECT: Retrieves data from one or more tables.
@@ -227,9 +231,12 @@ create table newBook (
     bookLastIssueTime time
 );
 
--- How to create table from data of another table?
-    create table Books As select * from book;
+-- How to create table with data of another table?
+    create table Book As select * from book;
     create table employee_backup as select emp_id, emp_name from employee;
+-- How to create table withot data of another table?
+    create table emp LIKE employee;
+    create table emp AS select emp_id, emp_name from employee where 1=0;
 /*
 -----------------------
 DDL 2. Alter:
@@ -252,21 +259,19 @@ DDL 2. Alter:
         alter table rack Drop rackFloor;
         ALTER TABLE table_name DROP INDEX idx_name;
     
-    -- Change: rename column name:
-        alter table rack change column rackFloor rackFloorNo int(20);
+    -- Change:
+        alter table rack change column rackFloor rackFloorNo int(20);   -- rename column name
         alter table rack change rackFloor rackFloorNo int(20);
-    -- RENAME column
-        alter table department RENAME COLUMN dept_id to department_id;
-    -- Rename: rename table name:
-        alter table book1 Rename To book2;
+    -- RENAME TO:
+        alter table department RENAME COLUMN dept_id to department_id;  -- rename column
+        alter table book1 Rename To book2;  -- rename table name
 -- DDL 5. Rename:
-        Rename table newBook to newBook1;   -- only one command.
+        Rename table newBook to newBook1;   -- rename table name
 -- DDL 3. Drop:
     -- used to delete existing database objects such as tables, indexes, views, or databases themselves.
     drop table employee;
     drop table employee, department;
     DROP DATABASE database_name;
-    DROP TABLE table_name;
     DROP INDEX index_name ON table_name;
     DROP VIEW view_name;
     DROP TRIGGER trigger_name;
@@ -274,8 +279,10 @@ DDL 2. Alter:
     DROP PROCEDURE procedure_name;
   -- create Primary Key
     -- add PK
+    alter table newBook add constraint Primary Key (bookId);
     alter table newBook add Primary Key (bookId);
     alter table newBook2 add bookId int primary key; -- add new column
+    alter table newBook2 add column bookId int primary key; -- add new column
     alter table newBook modify bookId varchar(10) primary key;
     -- remove PK
     alter table newBook drop primary key;  -- only delete PK on bookId, not deleting the column.
@@ -288,19 +295,25 @@ DDL 2. Alter:
     ALTER TABLE table_name DROP FOREIGN KEY fk_constraint_name;
 /* DDL 4. Truncate:
     - use to delete all data but not the structure.
-    - Once it delete, we cant rollback.
+    - Once it delete, we can't rollback.
     - TRUNCATE is faster than DELETE.
     - TRUNCATE does not return the number of rows.
     - Truncate bypasses contraints and triggers.
     - Note on delete mechanism: it will drop the table and create a new structure, so deletion in TRUNCATE is faster than DELETE query.
+      where, delete all will delete row one by one.
 */  
     TRUNCATE TABLE newbook;
     TRUNCATE TABLE table1, table2, table3;
-    -- Rack table PK is foreign key for Book;
-        SET FOREIGN_KEY_CHECKS = 0;   -- disable foreign key check.
-        TRUNCATE TABLE table_name1;
-        TRUNCATE TABLE table_name2;
-        SET FOREIGN_KEY_CHECKS = 1;
+    -- How to truncate the table if it has foreign key constraint?
+    -- Suppose, we have 2 tables, Book and Rack. Book has a foreign key constraint on Rack table.
+    -- If we want to truncate the Book table, we need to disable the foreign key check, truncate the table, and then re-enable the foreign key check.
+    -- This is because TRUNCATE TABLE does not work if the table has foreign key constraints.
+    -- Here is how you can truncate the Book table with a foreign key constraint on the Rack table:
+    -- Solution: Rack table PK is foreign key for Book;
+        SET FOREIGN_KEY_CHECKS = 0;     -- Disable foreign key check
+        TRUNCATE TABLE book;            -- Truncate tables
+        TRUNCATE TABLE rack;
+        SET FOREIGN_KEY_CHECKS = 1;     -- Enable foreign key check
     -- truncate query also used inside stored procedure.
 
 /*
@@ -318,14 +331,13 @@ DML: 1. Insert ... Into:
 */  
 -- 2. Inserting Multiple Rows in a Single Statement:
     insert into rack values('r1', 14), ("r2", 55), ("r3", 65), ("r4", 77);
-     insert into author (authorId) values ("a3"), ("a4");
+    insert into author (authorId, authorName) values ("a1", "Sagar"),("a2", "Tejas");
+    insert into author (authorId) values ("a3"), ("a4");
 -- 1. Inserting Single Rows:
-    insert into author (authorId, authorName) values ("a2",'Robert');
-    insert into books (bookId, bookName, bookCode, authorId, rackId, category, bookPrice, noOfPages, bookStatus, bookLastIssueDate, bookLastIssueTime) values ('b1', "Rich Dada Poor Dad", "a2h3", 'a2', 'r1', 'sci-fi', 434.4, 200, 'A', "2024/02/19", "10:08:55");
+    insert into book (bookId, bookName, bookCode, authorId, rackId, category, bookPrice, noOfPages, bookStatus, bookLastIssueDate, bookLastIssueTime) values ('b1', "Rich Dada Poor Dad", "a2h3", 'a2', 'r1', 'sci-fi', 434.4, 200, 'A', "2024/02/19", "10:08:55");
     INSERT INTO book 
         (bookId, bookName, bookCode, authorId, rackId, category, bookPrice, noOfPages, bookStatus, bookLastIssueDate, bookLastIssueTime) 
         VALUES 
-        ('b1', "Rich Dada Poor Dad", "a2h3", 'a2', 'r1', 'sci-fi', 434.4, 200, 'A', "2024/02/19", "10:08:55"),
         ('b2', 'The secrets', 'nc32', 'a1', 'r4', 'adventure', 555, 400, 'NA', '2024-02-12', '01:08:55'),
         ('b3', 'MySQL', 'cd23', 'a2', 'r3', 'adventure', 1200, 100, 'A', '2023-02-19', '10:08:55'),
         ('b4', 'Java', 'df3d', 'a2', 'r2', 'adventure', 1200, 100, 'A', '2023-02-19', '10:08:55'),
@@ -333,14 +345,16 @@ DML: 1. Insert ... Into:
 
     INSERT INTO employees (id, name, salary) VALUES (1, 'John', 50000), (2, 'Jane', 60000);
 -- 3. Inserting Data from Another Table:
-    -- Note: for create table we need 'AS'. but not for inserte
+    -- Note: for creation of table, we need 'AS' keyword. For insert, we don't need 'AS' keyword.
+    insert into student_archive select * from students where sMarks > 40;           -- if student_archive table has the same columns as students table.
+    insert into student_archive select sId, sName from students where sMarks > 40;  -- if student_archive table only have 2 columns, ie sId, sName.
     INSERT INTO employees_archive (id, name, salary) SELECT id, name, salary FROM employees WHERE hire_date < '2022-01-01';
     insert into student_archive (sId, sName) select sId, sName from students where sMarks > 40; -- AS allows only in create.
-    insert into student_archive select sId, sName from students where sMarks > 40;  -- if student_archive table only have 2 columns, ie sId, sName.
+
 /*
 -------------------
 DML 2: Update ... SET:
-    -  modify existing data in a table. 
+    - modify existing data in a table. 
     - It is commonly used to change the values of one or more columns in existing rows based on specified conditions.
 UPDATE table_name
     SET column1 = value1, column2 = value2, ...
@@ -361,24 +375,27 @@ UPDATE table_name
     UPDATE employees SET department = 'HR' WHERE employee_id IN (SELECT employee_id FROM new_hires);
 /*
 -------------------
-DML 3: DELETE ... FROM:
+DML 3: DELETE FROM:
     - used to remove rows from a table based on specified conditions.
 DELETE FROM table_name
     WHERE condition;
 */
--- 1. Delete All Rows:
-    delete from Students; -- It's risky.. resulting in the loss of all data. So, always use where clause.
+-- Delete all rows from the Students table.
+    DELETE FROM Students;
+    -- WARNING: This operation will result in the loss of all data.
+    -- Always use a WHERE clause to specify the condition for deletion.
 -- 2. Delete Rows Based on a Single Condition:
     delete from students where sId = 1;
     delete from employees where department = "IT";
 -- 3. Delete Rows Based on Multiple Conditions:
     delete from employees where department="IT" and hire_date < '2020-01-01';
-
 -- 4. Delete Rows Using Subqueries:
-    delete from rack where rackId NOT IN (select rackId from book);
     delete from rack where rackId IN (select rackId from rackBackup);
+    delete from rack where rackId NOT IN (select rackId from book);
 -- 5. Delete Rows Based on NULL Values:
+    -- Delete rows from the author table where authorName is NULL.
     delete from author where authorName IS NULL;
+    -- delete from author where authorName == NULL;     -- error: comparison operator should be IS instead of ==
 
 /* =============================================
 ============= DQL =============
@@ -399,12 +416,13 @@ GROUP BY: Optional clause that groups rows with the same values into summary row
 HAVING: Optional clause that filters groups based on specified conditions.
 ORDER BY: Optional clause that sorts the result set based on specified column(s) in ascending (ASC) or descending (DESC) order.
 LIMIT: Optional clause that limits the number of rows returned by the query.
-OFFSET: Optional clause that specifies the number of rows to skip before starting to return rows from the query, its used on top of LIMIT.
+OFFSET: Optional clause that specifies the number of rows to skip before starting to return rows from the query. It is used in conjunction with the LIMIT clause.
 */
+-- employees with the 6th to 15th highest salaries in the table, ordered from highest to lowest salary:
     SELECT first_name, last_name, salary
         FROM employees
         ORDER BY salary DESC
-        LIMIT 10 OFFSET 5;
+        LIMIT 10 OFFSET 5;          --
 
     SELECT * FROM employees WHERE employee_id NOT IN (101, 102, 103);
 
@@ -421,18 +439,43 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
     select count(distinct(city)) from customers;
 -- 4. Select with WHERE Clause:
     select * from employees where department = "IT";
-    -- select bookName from book where count(noOfPages) >200;  -- error: we can't use aggregate funcition in where clause.
--- Other:
-    select * from member where sex = 'Male' AND status = 'Active' ;
-    select * from member where sex = 'Male' OR status='Active';
-    select * from Book where cost <= 200;  -- >=  == 	!=
-    select * from Book where cost between 100 and 200;
-    
+        -- select bookName from book where count(noOfPages) >200;  -- error: we can't use aggregate funcition in where clause.
+    -- Other conditions:
+        select * from member where sex = 'Male' AND status = 'Active' ;
+        select * from member where sex = 'Male' OR status='Active';
+        select * from Book where cost <= 200;  -- >=  == 	!=
+        
+        select * from employees where hire_date > '2022-01-01';
+        select * from employees where salary >= 50000;
+        select * from employees where hire_date > '2022-01-01' AND hire_date < '2022-12-31';
+        select * from employees where hire_date > '2022-01-01' OR hire_date < '2022-12-31';
+        select * from employees where salary > 50000 AND (department = 'IT' OR department = 'HR');
+
+        select * from Book where cost between 100 and 200;
+
+        select * from employees where department IN ('IT', 'HR');
+        select * from employees where department NOT IN ('Finance', 'Marketing');
+
+        select * from employees where first_name LIKE 'J%'; -- Matches any string that starts with 'J'
+        select * from employees where last_name LIKE '%son'; -- Matches any string that ends with 'son'
+        select * from employees where first_name LIKE 'J___'; -- Matches any string that starts with 'J' and has exactly 3 characters
+        select * from employees where last_name LIKE '%son%'; -- Matches any string that contains 'son'
+        
+        select * from employees where first_name IS NULL;
+        select * from employees where first_name IS NOT NULL;
+        select * from employees where salary IS NULL;
+        select * from employees where salary IS NOT NULL;
+
+        select * from employees where hire_date BETWEEN '2022-01-01' AND '2022-12-31';
+        select * from employees where hire_date NOT BETWEEN '2022-01-01' AND '2022-12-31';
+
 -- # Intermediate SELECT Queries:
 -- Select with Order By Clause:
     select * from students Order By sname;  -- by default ascending
     select * from students Order By sname ASC;
-    select * from students Order By sname DESC;
+    -- select * from students Order By sname DESCENDING;    -- error: DESCENDING is not valid. use DESC.
+    select * from students Order By sname, age DESC; -- order by sname in ascending order and then by age in descending order
+    select * from students Order By sname ASC, age DESC; -- order by sname in ascending order and then by age in descending order
 -- Select with Limit Clause:
     select * from employees LIMIT 10; -- return first 10 records.
     -- skip first 10 rows, then display next 5 rows(11-15)
@@ -441,33 +484,49 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
     SELECT * FROM employees LIMIT 5 OFFSET 10; -- display row 11-15, skip first 10 rows.
     SELECT * FROM employees LIMIT 10 OFFSET 5; -- display row 6-15, skip first 5 rows.
     -- 2nd highest salary:
-        select Distinct salary from employee order by salary DESC limit 1,1;
+        -- Method 1: Using LIMIT and OFFSET
+        select Distinct salary from employee order by salary DESC limit 1,1;    -- Limit <offset>, <limit>: skip 1st record and display 1 record ie. 2nd highest salary.        SELECT DISTINCT salary FROM employee ORDER BY salary DESC LIMIT 1 OFFSET 1;
         select Distinct salary from employee order by salary DESC limit 1 offset 1;
+        -- Method 2: Using Subquery
+        SELECT DISTINCT salary FROM employee WHERE salary < (SELECT MAX(salary) FROM employee) ORDER BY salary DESC LIMIT 1;
+        -- Method 3: Using MAX and NOT IN
+        SELECT DISTINCT salary FROM employee WHERE salary < (SELECT MAX(salary) FROM employee) AND salary NOT IN (SELECT MAX(salary) FROM employee) ORDER BY salary DESC LIMIT 1;
+    -- 5th highest salary:
+        SELECT DISTINCT salary FROM employee ORDER BY salary DESC LIMIT 1 OFFSET 4;
+        SELECT DISTINCT salary FROM employee WHERE salary < (SELECT MAX(salary) FROM employee) ORDER BY salary DESC LIMIT 1 OFFSET 4;
+        SELECT DISTINCT salary FROM employee WHERE salary < (SELECT MAX(salary) FROM employee WHERE salary < (SELECT MAX(salary) FROM employee WHERE salary < (SELECT MAX(salary) FROM employee))) ORDER BY salary DESC LIMIT 1;
+
 -- Select with Group By Clause:
     -- Group by statement is used to group the rows that have the same value. 
-    -- The Group by clause is used in conjunction with the SELECT statement and Aggregate function to group rows together by commonn column values.
+    -- The Group by clause is used in conjunction with the SELECT statement and Aggregate function to group rows together by common column values.
     select avg(salary) from employees;  -- return average salary count.
-    -- select department, avg(salary) from employees; -- error: Group by clause required on department.
-    select department, avg(salary) from employees GROUP BY department;
+    -- select department, avg(salary) from employees; -- error: avg function is combining multiple rows into one row, so we need to group by department.
+    select department, avg(salary) from employees GROUP BY department;  -- return average salary count of each department.
     select subject, count(salary) as salaryCount, avg(salary) as "salary Average" from Teacher group by subject;
     select dept_id, avg(salary) from employee group by dept_id;
     /*
-    -> there is small difference between distinct and group by;
-    - We can apply DISTINCT to remove the duplicate records
-    - Select group by can be used to get data from different columns and group into one or more column. This can also be applied with aggregate function.
-    - WHERE Clause use on top of SELECT FROM/ INSERT INTO/ UPDATE SET and HAVING used on top of GROUP BY.
+    -- There is a small difference between DISTINCT and GROUP BY:
+    - DISTINCT is used to remove duplicate records.
+    - GROUP BY is used to group data from different columns into one or more columns. It can also be used with aggregate functions.
+    - WHERE clause is used on top of SELECT, FROM, INSERT INTO, and UPDATE SET statements.
+    - HAVING clause is used on top of GROUP BY statements.
     */
+    -- Group by as a distinct:
+    select distinct manager_id from employee;
+    select manager_id from employee group by manager_id;
 
 --# Advanced SELECT Queries:
 -- Select with Having Clause:
-    -- Having we use on top of "Group By", select where groupby having.
-    -- We can not use WHERE clause on top of GROUP BY.
-    -- In having, we can use aggregate function, but in where clause, we can not.
-    -- used to filter groups of rows returned by a GROUP BY clause.
+    -- The HAVING clause is used to filter groups of rows returned by a GROUP BY clause.
     -- It allows you to specify conditions on aggregated data, similar to the WHERE clause, but for groups rather than individual rows.
+    -- The HAVING clause is used on top of the GROUP BY clause.
+    -- In the HAVING clause, you can use aggregate functions (HAVING AVG(salary) > 50000), but in the WHERE clause, you cannot.
+    -- The HAVING clause is used to filter groups based on specified conditions.
+
     SELECT department, AVG(salary) FROM employees GROUP BY department HAVING AVG(salary) > 50000;
     --  select dept_id, avg(salary) from employee group by dept_id where salary > 20000; We can not use WHERE clause on top of GROUP BY.
     select category, avg(bookPrice) from book group by category having avg(bookPrice)>500;
+    -- select authorId, category, avg(bookPrice) from book group by authorId having avg(bookPrice)>500;    -- error: category is missing in group by.
     select authorId, category, avg(bookPrice) from book group by category, authorId having avg(bookPrice)>500;
     select authorId, category, avg(bookPrice) from book where bookPrice>500 group by authorId, category having avg(bookPrice)>1000;
 -- Select with Subquery:
@@ -477,56 +536,59 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
     -- we can not use aggregate functions in where clause:
         -- SELECT AVG(salary) from employees WHERE MAX(age) = 20;   ...Wrong
 -- Union: Show all unique records of both table without duplicates means all are unique.
-    -- TABLE LEFT, TABLE RIGHT : ALL LEFT + ALL RIGHT - DUPLICATE(LEFT=RIGHT)
-    -- NOTE: Both table must have same number of columns.
-    select bookname from allbooks UNION select bookname from book;  -- show only unique book names of from both table
--- Union ALL: Show all records from both table no matter its duplicate or not.
+    -- UNION: Show all unique records from both tables without duplicates.
+    -- NOTE: Both tables must have the same number of columns.
+    -- ALL LEFT + Non-Duplicate RIGHT
+    SELECT bookname FROM allbooks UNION SELECT bookname FROM book;  -- Show only unique book names from both tables
+-- Union ALL:
     -- ALL LEFT + ALL RIGHT
-    select bookname from allbooks UNION ALL select bookname from book;  -- show only unique book names of from both table
+    SELECT bookname FROM allbooks UNION ALL SELECT bookname FROM book; -- Show all records from both tables, including duplicates.
 -- INTERSECTION:- (A intersection B) -- same as INNER JOIN
     -- only show non-distinct values. 
     -- only MATCHING records from both table.
-    -- LEFT = RIGHT
-    -- Show only the data from allbooks table which is present in Book table.
-    select bookname from allbooks where bookname IN (select bookname from book);
+    -- LEFT == RIGHT
+    select bookname from allbooks where bookname IN (select bookname from book);    -- Show only the data from allbooks table which is present in Book table.
 --  Minus :- 	NOT IN :
     -- only NON MATCHING records from both table.
-    -- LEFT != RIGHT   -- ALL LEFT + ALL RIGHT - REMOVE ALL(LEFT = RIGHT)
+    -- LEFT <> RIGHT   -- ALL LEFT + ALL RIGHT - REMOVE ALL(LEFT == RIGHT)
     select bookname from allbooks where bookname NOT IN (select bookname from book); 
-    SELECT column_list FROM table1  
-		LEFT JOIN table2 ON condition  
-			WHERE table2.column_name IS NULL; 
+    SELECT column_list FROM table1 LEFT JOIN table2 
+        ON condition WHERE table2.column_name IS NULL; 
 
 /*
 -- JOINS --
 There are 6 types of joins:
-1. Join / Inner Join: Returns records that have matching values in both tables
+1. Join / Inner Join / Perfect Join: Returns records that have matching values in both tables.
 2. Outer Join:
-    2.1 LEFT Join: Returns all records from the left table, and the matched records from the right table
+    2.1 LEFT Join: Returns all records from the left table, and the matched records from the right table.
     2.2 RIGHT Join: Returns all records from the right table, and the matched records from the left table.
-    2.3 (Not In MYSQL, Its in SQL) Full Join: Full join returns all rows from both tables. Return all matching and non-matching records from both tables.
-5. CROSS JOIN: Cross join returns the Cartesian product of the two tables, i.e., it combines each row of the first table with every row of the second table.
-6. Natural Join:
-7. SELF JOIN: Self join is used to join a table to itself. It is helpful when you want to compare rows within the same table.
-Note: Below employee structure and data queries are available in "tables-for-joins.sql" file.
+    2.3 Full Join: Returns all rows from both tables. Returns all matching and non-matching records from both tables. (Not available in MySQL)
+3. CROSS JOIN: Returns the Cartesian product of the two tables. Combines each row of the first table with every row of the second table.
+4. Natural Join: Returns records that have matching values in both tables based on the same column names.
+5. SELF JOIN: Joins a table to itself. Useful for comparing rows within the same table.
+
+Note: The employee structure and data queries are available in the "tables-for-joins.sql" file.
 */
 --1. Join / Inner Join / Perfect Join:
     -- Inner Join = Fetches matching records only.
+        select employee.emp_id, department.dept_id from employee Join Department ON employee.dept_id = department.dept_id;
         SELECT e.emp_name, d.dept_name FROM employee e JOIN department d ON e.dept_id = d.dept_id;
     -- below queries are same:
         select b.bookName, a.authorName from Book b INNER JOIN Author a ON b.authorId = a.authorId;
+        select b.bookName, a.authorName from Book AS b JOIN Author AS a ON b.authorId = a.authorId; -- AS is optional.
         select b.bookName, a.authorName from Book b JOIN Author a ON b.authorId = a.authorId;
-        select b.bookName, a.authorName from Book b JOIN Author a where b.authorId = a.authorId;
-        -- For Inner, JOIN keyword is optional
+        select b.bookName, a.authorName from Book b JOIN Author a where b.authorId = a.authorId;    -- where clause only works for inner join.
+    -- For Inner Join, JOIN keyword is optional
         select b.bookName, a.authorName from book b, author a where a.authorId = b.authorId;
 -- 2. Left OUTER Join:
-    -- left join = inner join + any additional records in the left table.
+    -- left join = ALL Left + Matching Right
         -- if on condition will fail, then right table columns will show null.
         SELECT e.emp_name, d.dept_name FROM employee e LEFT OUTER JOIN department d ON e.dept_id = d.dept_id;
-        SELECT e.emp_name, d.dept_name FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id;
+        SELECT e.emp_name, d.dept_name FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id; -- OUTER is optional.
         select b.bookName, a.authorName from Book b LEFT JOIN Author a ON b.authorId = a.authorId;
+        -- select b.bookName, a.authorName from Book b LEFT JOIN Author a where b.authorId = a.authorId;   -- error: where clause only works for inner join.
 -- 3. Right OUTER Join:
-    -- right join = inner join + any additional records in the right table (left table columns will be null).
+    -- right join = Matching Left + ALL Right
         -- if on condition will fail, then left table columns will show null .
         SELECT e.emp_name, d.dept_name FROM employee e RIGHT OUTER JOIN department d ON e.dept_id = d.dept_id;
         SELECT e.emp_name, d.dept_name FROM employee e RIGHT JOIN department d ON e.dept_id = d.dept_id;
@@ -555,10 +617,10 @@ Note: Below employee structure and data queries are available in "tables-for-joi
 -- 5. CROSS JOIN:
     -- returns cartesian project. : Employee->6records, Department->4records = Total 24 records. (each record match each other)
     -- Cross Join don't need "ON"
-    -- Here, no ON check so, employee and department dont have relationships, it each record of employee will match to each record of department.
+    -- Here, no ON check so, employee and department don't have relationships, it each record of employee will match to each record of department.
     SELECT e.emp_name, d.dept_name FROM employee e CROSS JOIN department d; 
     -- Here, ON Check, so work as INNER JOIN.
-    SELECT e.emp_name, d.dept_name FROM employee e CROSS JOIN department d ON e.dept_id = d.department_id;
+    SELECT e.emp_name, d.dept_name FROM employee e CROSS JOIN department d ON e.dept_id = d.dept_id;
 -- -------------
 -- Problem 2: Write a query to fetch the employee name and their corresponding department name.
 -- Also make sure to display the company name and the company location corresponding to each employee.
@@ -570,15 +632,15 @@ Note: Below employee structure and data queries are available in "tables-for-joi
         CROSS JOIN Company c where c.company_id = "C001";
 
 -- 6. Natural Joins
-    -- Natural Join don't need "ON"
-    -- If 2 tables, sharing the same column name -> then it will do INNER JOIN.
-        -- eg. Employee: dept_id, Department: dept_id
-        SELECT e.emp_name, d.dept_name FROM employee e NATURAL JOIN department d;
-    -- If 2 tables, sharing the different column name -> then it will do CROSS JOIN.
-        -- eg. Employee: dept_id, Department: department_id
-        alter table department rename column dept_id to department_id;
-        SELECT e.emp_name, d.dept_name FROM employee e NATURAL JOIN department d;
-    -- control goes to sql to choose the column, where the join should happen. So using natural joins are highly not recommended.
+     -- Natural Join don't need "ON" clause.
+        -- If two tables share the same column name, it will perform an INNER JOIN.
+            -- For example, if Employee has 'dept_id' and Department has 'dept_id':
+            SELECT e.emp_name, d.dept_name FROM employee e NATURAL JOIN department d;
+        -- If two tables have different column names, it will perform a CROSS JOIN as cartisian JOIN.
+            -- For example, if Employee has 'dept_id' and Department has 'department_id':
+            alter table department rename column dept_id to department_id;
+            SELECT e.emp_name, d.dept_name FROM employee e NATURAL JOIN department d;
+        -- It is generally not recommended to use natural joins as it relies on the database to choose the columns for the join, which can lead to unexpected results.
 
 -- 7. self Join:
   -- there is no keyword as SELF.
@@ -603,28 +665,36 @@ Note: Below employee structure and data queries are available in "tables-for-joi
 -- by default, Session is always in "Auto-Commite Mode".
     select @@autocommit; -- by default "1"
 -- Practical 1:
-    SET AUTOCOMMIT = 0; -- To run into Manual Mode.
+    select @@autocommit; -- by default "1"
+    SET AUTOCOMMIT = 0; -- To run into Manual Commit Mode.
 
     SAVEPOINT ONE; -- if rollback then all commands changes after this line will get vanished/rollback
 
-	insert into author values('A011','Vikram','UK','Male'); 
-	UPDATE author set nationality ='Rus'  where authorid = 'A011';
-	SAVEPOINT TWO;
+	insert into author values('A011','Khushal','UK','Male'); 
+	UPDATE author set nationality ='Rus' where authorid = 'A011';
+	SAVEPOINT TWO;  -- saves the current state of the transaction.
 
-	UPDATE author set nationality ='USA'  where authorid = 'A011';	
+	UPDATE author set nationality ='USA' where authorid = 'A011';
 	SAVEPOINT THREE;
 	
-    UPDATE author set nationality ='IND'  where authorid = 'A011';	
+    UPDATE author set nationality ='IND' where authorid = 'A011';
 	SAVEPOINT FOUR;
 
-	UPDATE author set nationality ='India'  where authorid = 'A011';
+	UPDATE author set nationality ='Iran' where authorid = 'A011';
+
+    select * from author;   -- shows nationality ='Iran'.
  	
-	ROLLBACK TO THREE; -- UNDO query after the SAVEPOINT THREE
+	ROLLBACK TO THREE; -- Rollback to savepoint three.
+    select * from author;   -- shows nationality = '
+
 	-- ROLLBACK TO TWO;
-    RELEASE SAVEPOINT TWO; -- Remove savepoint. Not queries.
+    RELEASE SAVEPOINT TWO;  -- Remove savepoint. Not queries.
 	ROLLBACK TO ONE;
-	Commit;  //permanently save all data 
+	Commit;                 -- Commit all changes and release all savepoints.
+    select * from author;   -- reflect all changes of savepoint ONE.
+
 -- Practical 2:
+    set @@autocommit = 1; -- by default "1"
     START TRANSACTION;
     insert into family (member_id) values ("M1");
     insert into family (member_id) values ("M2");
@@ -656,8 +726,6 @@ Note: Below employee structure and data queries are available in "tables-for-joi
     SET TRANSACTION ISOLATION LEVEL isolation_level;
 
 
-
-
 /*
 ===============================================
 -- How to Create a User?
@@ -671,15 +739,17 @@ Basic User Creation:
     - This command creates a user named 'myuser' who can connect only from the local machine ('localhost') with the password 'mypassword'.
     -- After creating the user, you may need to grant privileges to the user to allow them to perform specific actions on databases and tables. This is typically done using the GRANT statement.
 */
+-- Logout current use:
+    quit;
 -- Show current user:
     select user();
     select current_user();
 -- Show all list of users:
     select user, host from mysql.user;
 -- 1. Basic User Creation:
-    create user 'user3'@'localhost';
     CREATE USER 'myuser'@'localhost' IDENTIFIED BY 'mypassword';
 -- 2. Create User with No Password:
+    create user 'user3'@'localhost';    -- user3 is created with no password.
     CREATE USER 'username'@'hostname' IDENTIFIED BY '';
 -- 3. Create User with SSL Requirements:
     CREATE USER 'username'@'hostname' REQUIRE SSL;  -- Secure Sockets Layer
@@ -715,8 +785,8 @@ Basic User Creation:
     SHOW GRANTS FOR 'username'@'hostname';
 -- 9. SHOW GRANTS FOR CURRENT_USER(): Displays the privileges granted to the currently authenticated user.
     SHOW GRANTS FOR CURRENT_USER();
-/*
-===============================================
+
+/*===============================================
 DCL (Data Control Language):
     - privilege: privilege is a permission given by DBA.
     - Privilege can be divided into 2 parts:
@@ -734,9 +804,9 @@ What are the privileges are granted in GRANT ALL ?
     UPDATE: Permission to modify existing rows in tables.
     DELETE: Permission to delete rows from tables.
     CREATE: Permission to create new databases and tables.
-    DROP: Permission to drop (delete) existing databases and tables.
-    ALTER: Permission to alter the structure of existing tables (e.g., add or drop columns).
-    INDEX: Permission to create and drop indexes on tables.
+    DROP:   Permission to drop (delete) existing databases and tables.
+    ALTER:  Permission to alter the structure of existing tables (e.g., add or drop columns).
+    INDEX:  Permission to create and drop indexes on tables.
     CREATE TEMPORARY TABLES: Permission to create temporary tables.
     CREATE VIEW: Permission to create views based on queries.
     SHOW VIEW: Permission to show the CREATE VIEW statement for views.
@@ -745,13 +815,14 @@ What are the privileges are granted in GRANT ALL ?
     EXECUTE: Permission to execute stored procedures and functions.
     CREATE USER, RELOAD, PROCESS, REFERENCES: These are administrative privileges and are typically only granted to administrative users for managing the MySQL server and user accounts.
 */
+
 -- GRANTS: (ON, TO)
     USE database_name; GRANT SELECT ON table_name TO 'username'@'hostname';
-    GRANT ALL PRIVILEGES ON database_name.* TO 'username'@'hostname';
+    GRANT ALL PRIVILEGES ON database_name.* TO 'username'@'hostname';   -- Privileges keyword is optional.
     GRANT ALL ON database_name.* TO 'username'@'hostname';
     GRANT SELECT, INSERT, UPDATE, DELETE ON database_name.* TO 'username'@'hostname';
-    grant select, update(name,salary) ON mydb.emp TO 'u1'@'localhost';
-        --  update emp set emp_name = "sagar", salary=333333., dept_id="D3" where emp_id = 1;
+    grant select, update(emp_name, salary) ON mydb.employee TO 'u1'@'localhost';
+        --  update employee set emp_name = "sagar", salary=333333., dept_id="D3" where emp_id = 1;
     GRANT EXECUTE ON PROCEDURE procedure_name TO 'username'@'hostname';
     GRANT CREATE, DROP ON database_name.* TO 'username'@'hostname';
     GRANT ALTER, CREATE VIEW ON database_name.* TO 'username'@'hostname';
@@ -772,10 +843,11 @@ What are the privileges are granted in GRANT ALL ?
 /* ===================================================================
 Views:
     - In SQL, a view is a virtual table based on the result-set of an SQL statement.
-    - A view contains rows and columns, just like a real table. The fields in a view are fields from one or more real tables in the database.
+    - A view contains rows and columns, just like a real table.
+      The fields in a view are fields from one or more real tables in the database.
     Advantages:
         - simplify complex query. (create view from joins and show all necessary data in single table.)
-        - provide extra layer of security.  (we can skip password of employee and show employee details to other user's.)
+        - provide extra layer of security. (we can skip password of employee and show employee details to other user's.)
     Disadvantages:
         - Performance decreases.
         - Dependency on table. (View don't have its own storage. Every time it will query table, it will fetch from parent table and show latest data.)
@@ -784,8 +856,9 @@ Views:
     show tables;
     show full tables;
 -- create view:
+    -- CREATE VIEW vemployee (emp_name varchar(20));   -- error: cannot define column name here. column name will be defined in select query.
     CREATE VIEW vemployee AS select emp_name from employee;
-    CREATE OR REPLACE VIEW vemployee2 AS select emp_id, emp_name from employee;     -- for CREATE command, AS is mandatory
+    CREATE OR REPLACE VIEW vemployee2 AS select emp_id as id, emp_name from employee;     -- for CREATE command, AS is mandatory
     CREATE VIEW `employee department` AS SELECT e.emp_name, d.dept_name FROM employee e JOIN department d ON e.dept_id = d.dept_id;
     select * from `employee names`;
 -- change view:
@@ -797,7 +870,7 @@ Views:
     drop view vemployee3;
     drop view vemployee2, vemp;
 -- Practical:
-    insert into vemployee values ("E7","Yogesh");
+    insert into vemployee2 values ("E7","Yogesh");   -- commit to employee table;
     insert into employee (emp_id, emp_name, salary, dept_id, manager_id) values ("E8","Nilesh", 12345, "D2", "M2");
     -- Note: both E7 and E8 record will reflect in employee table and view vemployee table.
     -- Its proves that, Vies is just a representation, its dont have own storage, every time it will query its parent tables.
@@ -807,9 +880,9 @@ Views:
 -- Temporary Table:
     - A special type of table that allows you to store a temporary result set.
 	   which you can reuse several times in a SINGLE SESSION.
-    - These tables will get automatcally removed when the session ends.
+    - These tables will get automatcally removed when the session ends. (quit;)
     - Temporary table has its own storage.
-    - If changes made in Temporary Table, it only reflect to Temporary table, wont reflect on Base table like view.
+    - If changes made in Temporary Table, it only reflect to Temporary table, won't reflect on Base table like view.
 */
 -- Creating a Local Temporary Table:
     CREATE TEMPORARY TABLE temp_table_name (
@@ -817,19 +890,20 @@ Views:
         column2 datatype2,
         INDEX tIndex (column1)
     );
--- Create only structure, not data from other table:
+-- Create only structure withot data from other table:
     CREATE TEMPORARY TABLE tEmployee LIKE employee; 
+    create TEMPORARY table emp AS select emp_id, emp_name from employee where 1=0;
     desc tEmployee;
 -- Create only structure and data from other table:
     CREATE TEMPORARY TABLE tEmployee2 AS select emp_id, emp_name from employee; -- AS is not mandatory
     CREATE TEMPORARY TABLE tEmployee select emp_id, emp_name from employee;
     select * from tEmployee;
 -- DROP:
-    DROP TEMPORARY TABLE tEmployee; -- This is safe to use, if wont delete Table or view. 
+    DROP TEMPORARY TABLE tEmployee; -- This is safe to use, if won't delete Table or view. 
     DROP TEMPORARY TABLE IF EXISTS tEmployee2;  -- No error, if present then delete
     DROP TABLE tEmployee2;
--- we cant see the table using (show full tables;)  
-    SELECT * FROM INFORMATION_SCHEMA.INNODB_TEMP_TABLE_INFO\G
+-- we can't see the temporary table using (show full tables;)  
+    SELECT * FROM INFORMATION_SCHEMA.INNODB_TEMP_TABLE_INFO
 -- Practical:
     -- Session 1
     CREATE TEMPORARY TABLE local_temp_table (
@@ -842,41 +916,65 @@ Views:
     -- End of Session 1
     -- The local_temp_table is automatically dropped
 
-/*
-__________
+/* 
 Variable :
 ---------- 
-    -  Variables are used to store data temporarily during the execution of SQL statements or stored procedures. 
-    - Type of Variables:
-        1. User-Defined Variables:
+    - Variables are used to store data temporarily during the execution of SQL statements or stored procedures. 
+    - There are different types of variables in MySQL:
+        1. User-Defined Variables: (@)
             - User-defined variables in MySQL start with the '@' symbol.
             - They are local to the session in which they are created.
-        2. Local Variable:
-            - The local variable is a strongly typed variable.
-            - The scope of the local variable is in a stored program block in which it is declared.
-            - MySQL uses the DECLARE keyword to specify the local variable. The DECLARE statement also combines a DEFAULT clause to provide a default value to a variable. 
-            - initial value is NULL. 
-            - It is mainly used in the stored procedure program.
-            - eg:
+            - Example:
+                SET @num := 10;
+                SELECT @num * 5;
+        2. Local Variables: (DECLARE)
+            - Local variables are mainly used in stored procedure programs.
+            - They are strongly typed variables.
+            - The scope of a local variable is limited to the stored program block in which it is declared.
+            - MySQL uses the DECLARE keyword to specify a local variable.
+            - The DECLARE statement can also include a DEFAULT clause to provide a default value to the variable.
+            - The initial value of a local variable is NULL.
+            - Example:
+                DECLARE variable_name datatype DEFAULT value;
         3. System Variables:
-            - System variables are predefined by MySQL and control various aspects of the MySQL server's behavior. 
+            - System variables are predefined by MySQL and control various aspects of the MySQL server's behavior.
             - They are accessed using the @@ symbol.
+            - Example:
+                SELECT @@thread_cache_size;
+                SHOW VARIABLES LIKE '%thread%';
         4. Function Variables:
-            declare Joindate date;
-            declare name varchar(50)
-	Types of variables :
-		- @Session Variable
-		- Local variable :
-			DECLARE variable_name datatype.
-		- Input Variable	:
-			IN variable_name datatype
-		- Output Variable	: 
-			OUT variable_name datatype
+            - Function variables are used to store the result of a function.
+            - Example:
+                SELECT MAX(salary) INTO @sal FROM employee; -- store the maximum salary in the @sal variable.
+                SELECT @sal:=MAX(salary) FROM employee; -- store the maximum salary in the @sal variable.
+            - Example with DECLARE:
+                DECLARE Joindate DATE; 
+                SELECT join_date INTO Joindate FROM employee WHERE emp_id = 'E002';
+                DECLARE name VARCHAR(50);
+
+Types of variables:
+    - @Session Variable / User-Defined Variable:
+        SET @num := 10;
+        SELECT @num * 5;
+    - Local variable:
+        DECLARE variable_name datatype.
+    - Input Variable:
+        IN variable_name datatype
+    - Output Variable:
+        OUT variable_name datatype
+    - INOUT Variable:
+        INOUT variable_name datatype
+    - System Variable:
+        @@variable_name
+    - Function Variable:
+        SELECT MAX(salary) INTO @sal FROM employee;
+        SELECT @sal:=MAX(salary) FROM employee;
+        
 INTO :
 ------
 	- The SELECT INTO statement copies data from one table into a new table or variable
 	- select authorname INTO @ANAME from author where authorid ='A002';
-	- SELECT * INTO CustomersBackupTable FROM CustomersTable;
+	- SELECT * INTO CustomersBackupTable FROM CustomersTable;   -- copy all data from CustomersTable to CustomersBackupTable.
 	- INSERT INTO Customers (CustomerName, City, Country) SELECT SupplierName, City, Country FROM Suppliers;
 */
 -- 1. User-Defined Variables:
@@ -893,7 +991,7 @@ INTO :
         DECLARE B INT;  
         DECLARE C INT;  
         DECLARE D INT;  
-        DECLARE E INT;          -- NULLL
+        DECLARE E INT;          -- NULL
         DECLARE F VARCHAR(20);  -- NULL
         SET B = 90;  
         SET C = 45;  
@@ -903,14 +1001,19 @@ INTO :
     DELIMITER ;
     CALL Test();
     DROP PROCEDURE Test;
+    -- +------+------+------+------+------+------+
+    -- | A    | B    | C    | D    | E    | F    |
+    -- +------+------+------+------+------+------+
+    -- |  100 |   90 |   45 |  145 | NULL | NULL |
+    -- +------+------+------+------+------+------+
 -- 3. System Variables:
-    SHOW VARIABLES; -- check all the list of system variables pressent in database;
-    show variables LIKE '%thread%';
-    select @@thread_cache_size;
+    SHOW VARIABLES;                 -- check all the list of system variables pressent in database;
+    show variables LIKE '%thread%'; -- check all the list of system variables pressent in database;
+    select @@thread_cache_size;     -- check the value of specific system variable.
 
 /* ===================================
-FUNCTION :
-- Function retun only one column of only one row. ie function returns only 1 value.
+FUNCTION:
+-- A function returns a single value, such as only one column value of only one row.
 MySQL has many built-in functions.
 There are 2 types:
 1. Single Row Functions
@@ -919,11 +1022,9 @@ There are 2 types:
 2. Multiple Row (Aggregate) functions:
 	- Work on multiple rows together and return a summary result for a group of rows.
 	- For eg: sum(), avg(), count(), min()
-
-	-> Function retun only one column value of a row.
-	-> When to use...
-		-> When multiple client applications are written in different language or
-		   work on different platforms, but need to perform the same database operations.
+-> When to use...
+    -> When multiple client applications are written in different language or
+        work on different platforms, but need to perform the same database operations.
 */
 -- 1. Single Row Functions:
 -- 1.1 String functions.
@@ -944,7 +1045,7 @@ There are 2 types:
     select ucase(name) from student;
 -- substr(data, startIndex, stringLength):
     select substr('computer', 4,3);  -- put
-    select substr(name, 4,3) from student;  -- put
+    select substr(name, 4, 3) from student;  -- computer => put
 -- trim: 
     select trim('   spaces   '); -- 'spaces'
     select ltrim('   spaces   '); -- 'spaces   '
@@ -955,10 +1056,10 @@ There are 2 types:
 -- length
     select length("Sagar"); -- 5
 -- left/right
-    select left("Sagar"); -- Sa
-    select right("Sagar"); -- ar
+    select left("Sagar", 2); -- Sa
+    select right("Sagar", 2); -- ar
 -- mid
-    select mid("Computer", 4,3); -- put
+    select mid("Computer", 4, 3); -- put
 
 -- 1.2 Numeric functions:
     select mod(5,3);    -- modules => reminder 2
@@ -1024,7 +1125,7 @@ There are 2 types:
     CREATE FUNCTION getFirstEmp() RETURNS varchar(50)
     DETERMINISTIC NO SQL READS SQL DATA     -- here, log_bin_trust_function_creators = 0;
     BEGIN
-        return (select emp_name from employee where emp_id="E1");
+        return (select emp_name from employee where emp_id="E1");       -- Note: select should not returns more than one value.
     END $  
     DELIMITER ;
 
@@ -1047,7 +1148,8 @@ There are 2 types:
 
 -- parameterized function:
     DELIMITER #
-    CREATE FUNCTION getEmpName(empId varchar(20)) RETURNS varchar(50)
+    CREATE FUNCTION getEmpName(empId varchar(20))
+    RETURNS varchar(50)
     BEGIN
         return (select emp_name from employee where emp_id= empId);
     END #
@@ -1067,7 +1169,7 @@ Strored Procedure:
         -> CALL Keyword
         -> Triggers
         -> Other stored procedure
-        -> Applications such as Java , Python , PHP
+        -> Applications such as Java , Python , Node, PHP
     - when a query triggered then it goes to 
 			->Front end ->Back End -> Server -> Server resolve it -> Back end ->Front End.
             - above process will repeate in each query. In procedure, will gather all the queries and send to the server and reduces the time.
@@ -1075,30 +1177,41 @@ Strored Procedure:
     - Stored Procedure did not retun any parameters. We can take the output in the form of parameters
     - Parameters are variables that allow you to pass values into the procedure when it is called
     - There are three types of parameters commonly used in stored procedures:
-    1. IN Parameters: 
-        - IN parameters are used to pass values into the stored procedure. 
-        - They are read-only within the procedure, meaning their values cannot be modified by the procedure. 
-        - IN parameters are typically used to provide input to the procedure.
-    2. OUT Parameters: 
-        - OUT parameters are used to return values from the stored procedure to the caller. 
-        - They are declared in the parameter list with the OUT keyword. 
-        - Inside the procedure, you can assign values to OUT parameters, which can then be accessed after the procedure call.
-    3. INOUT Parameters: 
-        - INOUT parameters are a combination of IN and OUT parameters. 
-        - They allow passing values into the procedure and returning modified values back to the caller. 
-        - INOUT parameters are specified with the INOUT keyword.
+        1. IN Parameters: 
+            - IN parameters are used to pass values into the stored procedure. 
+            - They are read-only within the procedure, meaning their values cannot be modified by the procedure. 
+            - IN parameters are typically used to provide input to the procedure.
+        2. OUT Parameters: 
+            - OUT parameters are used to return values from the stored procedure to the caller. 
+            - They are declared in the parameter list with the OUT keyword. 
+            - Inside the procedure, you can assign values to OUT parameters, which can then be accessed after the procedure call.
+        3. INOUT Parameters: 
+            - INOUT parameters are a combination of IN and OUT parameters. 
+            - They allow passing values into the procedure and returning modified values back to the caller. 
+            - INOUT parameters are specified with the INOUT keyword.
+-- Steps:
+    -- 1. Creating a Stored Procedure:
+        DELIMITER //
+        CREATE PROCEDURE procedure_name()
+        BEGIN
+            -- SQL statements
+        END //
+        DELIMITER ;
+    -- 2. Calling the Stored Procedure:
+        CALL procedure_name();
+    -- 3. Dropping a Stored Procedure:
+        DROP PROCEDURE IF EXISTS procedure_name;
 */
 -- 1. Creating a Stored Procedure:
     DELIMITER //
-    CREATE PROCEDURE GetEmployeesByDepartment(IN department_id varchar(20), INOUT myCounter INT, OUT emp_id INT)
+    CREATE PROCEDURE GetEmployeesByDepartment(IN department_id varchar(20), INOUT myCounter INT, OUT emp_count INT)
     BEGIN
-        SELECT * FROM employee WHERE dept_id = department_id;
         SET myCounter = myCounter + 1;
-        SELECT COUNT(*) INTO emp_id FROM employee;
+        SELECT COUNT(*) INTO emp_count FROM employee WHERE dept_id = department_id;
     END //
     DELIMITER ;
 -- 2. Calling the Stored Procedure:
-    SET @myCounter = 1;
+    SET @myCounter = 0;
     CALL GetEmployeesByDepartment("D1", @myCounter, @empCount);
     SELECT @myCounter, @empCount;
 -- 3. Dropping a Stored Procedure:
@@ -1154,29 +1267,24 @@ Strored Procedure:
 
 /* =========================================================
 TRIGGERS:
+    /*
     - Triggers implement Domain Integrity.
     - Triggers are database objects in MySQL that are associated with a table and 
-      automatically perform an action when a certain event occurs on the table.
-    - These events can be INSERT, UPDATE, or DELETE operations.
-    - Its a Special Stored Procedure. Special because it can not called directly like a normal stored procedure.
+        automatically perform an action when a certain event occurs on the table.
+    - These events can be INSERT, UPDATE or DELETE operations.
+    - Its a Special Stored Procedure. Special because it can not be called directly like a normal stored procedure.
     - It is called automatically when a data modification event is made against a table.
-    - It called automatically when me fire insert/update/delete query.
-    - We have 2 Keywords :
-			1. OLD : OLD object for old table.
-			2. NEW : NEW object for NEW table.
+    - It is called automatically when we fire an insert/update/delete query.
+    */
+    - Trigger event have 2 special Keywords :
+			1. OLD : refer to the old value of a column before an update or delete operation. Not available for insert operation.
+			2. NEW : refer to the new value of a column after an insert or update operation. Not available for delete operation.
     - And we have 6 operations :
 			- Before INSERT		- After INSERT
 			- Before UPDATE		- After UPDATE
 			- Before DELETE		- After DELETE
-    - Trigger event have 2 special keywords.
-        1. NEW:
-            -  Refers to the new values of columns being affected by an INSERT or UPDATE operation.
-            - INSERT / UPDATE
-        2. OLD:
-            - Refers to the old values of columns being affected by an UPDATE or DELETE operation.
-            - DELETE / UPDATE
     - MySQL ERRORS:
-        SIGNAL SQLSTATE 'Error_Message_No' SET MESSAGE_TEXT = 'Error Message';
+        - SIGNAL SQLSTATE 'Error_Message_No' SET MESSAGE_TEXT = 'Error Message';
         - SQLSTATE is error code. Index number 45000 to 45010 are kept for user access.
 Syntax:
     CREATE TRIGGER trigger_name
@@ -1195,14 +1303,14 @@ Syntax:
     SELECT Trigger_NAME, EVENT_OBJECT_TABLE FROM INFORMATION_SCHEMA.triggers where INFORMATION_SCHEMA.triggers.TRIGGER_SCHEMA LIKE '%classroom%' ;
 
 -- RETURN ERROR Message.
-CREATE TRIGGER prevent_duplicate_emails
-BEFORE INSERT ON users
-FOR EACH ROW
-BEGIN
-    IF EXISTS (SELECT * FROM users WHERE email = NEW.email) THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Email must be unique';
-    END IF;
-END;
+    CREATE TRIGGER prevent_duplicate_emails
+    BEFORE INSERT ON users
+    FOR EACH ROW
+    BEGIN
+        IF EXISTS (SELECT * FROM users WHERE email = NEW.email) THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Email must be unique';
+        END IF;
+    END;
 
 ---------- Practice on each type: ----------
 -- Q. If someone date of join of employee out of year 1990-2020. Give proper error messages.
@@ -1223,7 +1331,7 @@ END;
         DECLARE greaterMsg varchar(100);
         SET greaterMsg = concat("Sorry.. Year can't be greater than: ", now() );
         if year(new.doj) > year(now()) then
-            SIGNAL SQLSTATE '45001'	SET MESSAGE_TEXT = greaterMsg;
+            SIGNAL SQLSTATE '45001'	SET MESSAGE_TEXT = greaterMsg;  -- returns error with status code.
 
         Elseif year(new.doj) < 1990 then
             SIGNAL SQLSTATE '45002' SET MESSAGE_TEXT = "Sorry.. Year can't be less than 1900";				
@@ -1241,25 +1349,25 @@ END;
     FOR EACH ROW
     BEGIN
         IF NEW.num > 100 THEN 
-            SET NEW.num = 100;
+            SET NEW.num = 100;      -- instead of 120, num 100 will be stored.
         ELSEIF NEW.num < 0 THEN
-            SET NEW.Num = 0;
+            SET NEW.Num = 0;        -- instead of -20, num 0 will be stored.
         END IF;
     END $
     DELIMITER ;
 -- TEST:
-    INSERT INTO Numbers values(120);	//100
-	INSERT INTO Numbers values(-20);	//0
+    INSERT INTO Numbers values(120);	-- 100
+	INSERT INTO Numbers values(-20);	-- 0
 
 -- A2. BEFORE Delete:
 -- Create a backup, if record is going to delete.
     DELIMITER //
     CREATE TRIGGER backupUpdatedData
-    BEFORE DELETE
+    BEFORE DELETE       -- BEFORE UPDATE
     ON Numbers
     FOR EACH ROW
     BEGIN 
-        insert into NumbersBackup values (OLD.num);
+        insert into NumbersBackup values (OLD.num);     -- store the deleted record in backup table.
     END //
     DELIMITER ;
 -- TEST:
@@ -1295,7 +1403,7 @@ END;
         end if;
     end /
 
-    Create trigger checkYrInsert 
+    Create trigger checkYrInsert
     before insert 
     on Employee for each row
     Begin
@@ -1304,15 +1412,177 @@ END;
 
     delimiter ;
 
+/*
+1. While DO     -- while loop in JAVA
+2. Repeat       -- do-while loop in JAVA
+3. LOOP         -- infinite loop in JAVA       -- for (;;) {} -- while (true) {}   -- do {} while (true);
+4. Cursor       -- for each loop in JAVA
+5. With Keyword -- CTE in JAVA -- filter the data and show the data. -- filter in Javastream API.   -- data.filter(condition).map(transform);
+
+1. While DO:
+    - The WHILE statement is used to execute a set of SQL statements repeatedly as long as a certain condition is true.
+    - It is a looping construct in MySQL.
+    - The condition is checked before each iteration of the loop.
+    - If the condition is true, the loop body is executed.
+    - If the condition is false, the loop is terminated and the program control continues with the next statement after the loop.
+    - Syntax:
+        WHILE condition DO
+            statements;
+        END WHILE;
+    - Java/Javastream API:
+        while (condition) {
+            // statements
+        }
+*/
+    DELIMITER //
+    CREATE PROCEDURE countLoop()
+    BEGIN
+        DECLARE counter INT DEFAULT 0;
+        WHILE counter < 10 DO
+            SET counter = counter + 1;
+            SELECT counter;
+        END WHILE;
+    END //
+    DELIMITER ;
+
+    CALL countLoop();   -- 1,2,3,4,5,6,7,8,9,10
 
 /*
-TODO:
-    1. While DO
-    2. Repeat
-    3. LOOP
-    4. Cursor
-    5. With Keyword
+-- 2. Repeat (Same as Do-While Loop):
+    - The REPEAT statement is used to execute a set of SQL statements repeatedly until a certain condition is true.
+    - It is a looping construct in MySQL.
+    - The condition is checked after each iteration of the loop.
+    - If the condition is true, the loop is terminated and the program control continues with the next statement after the loop.
+    - If the condition is false, the loop body is executed again.
+    - Syntax:
+        REPEAT
+            statements;
+        UNTIL condition;
+        END REPEAT;
+    - Java/Javastream API: 
+        do {
+            // statements
+        } while (condition);
 */
+    DELIMITER //
+    CREATE PROCEDURE repeatLoop()
+    BEGIN
+        DECLARE counter INT DEFAULT 0;
+        REPEAT
+            SET counter = counter + 1;
+            SELECT counter;
+        UNTIL counter = 10  -- semicolon will throw error.
+        END REPEAT;
+    END //
+    DELIMITER ;
 
+    CALL repeatLoop();  -- 1,2,3,4,5,6,7,8,9,10
 
+/*
+3. LOOP:
+- The LOOP statement is used to execute a set of SQL statements repeatedly.
+- It is an infinite loop construct in MySQL.
+- The loop body is executed continuously until a LEAVE statement is encountered.- Syntax:
+    LOOP
+        statements;
+        IF condition THEN
+            LEAVE;
+        END IF;
+    END LOOP;
+- Java/Javastream API:
+    for (;;) {
+        // statements
+        if (condition) {
+            break;
+        }
+    }
+    while (true) {
+        // infinite loop
+        if (condition) break;
+    }
+*/
+-- Example: 1
+    DELIMITER //
+    CREATE PROCEDURE infiniteLoop()
+    BEGIN
+        DECLARE counter INT DEFAULT 0;
+        loop_label: LOOP      
+            SET counter = counter + 1;
+            SELECT counter;
+            IF counter = 10 THEN
+                LEAVE loop_label;       
+            END IF;
+        END LOOP loop_label;
+    END //
+    DELIMITER ;
+
+    CALL infiniteLoop();  -- 1,2,3,4,5,6,7,8,9,10
+-- Example: 2
+    DELIMITER //
+    CREATE PROCEDURE infiniteLoop2()
+    BEGIN
+        DECLARE counter INT DEFAULT 0;
+        LOOP
+            SET counter = counter + 1;
+            SELECT counter;
+            IF counter = 10 THEN
+                LEAVE;          -- exit from loop
+            END IF;
+        END LOOP;
+    END //
+    DELIMITER ;
+    CALL infiniteLoop2();  -- 1,2,3,4,5,6,7,8,9,10
+
+/*
+4. Cursor:
+- A cursor is a database object that allows you to retrieve and manipulate rows from a result set.
+- It provides a way to fetch and process rows one by one from the result set.
+- Cursors are commonly used in stored procedures, functions, and triggers.
+- Syntax:
+    DECLARE cursor_name CURSOR FOR select_statement;
+    OPEN cursor_name;
+    FETCH cursor_name INTO variables;
+    CLOSE cursor_name;
+-- for each loop in JAVA/Javastream API
+    db.query('SELECT ...', (err, results) => {
+        results.forEach(row => {
+            // process row
+        });
+    });
+*/
+    DECLARE emp_cursor CURSOR FOR SELECT emp_id, emp_name FROM employee;
+    DECLARE emp_id INT;
+    DECLARE emp_name VARCHAR(255);
+    OPEN emp_cursor;
+    FETCH emp_cursor INTO emp_id, emp_name;
+    WHILE @@FETCH_STATUS = 0 DO
+        SELECT emp_id, emp_name;
+        FETCH emp_cursor INTO emp_id, emp_name;
+    END WHILE;
+    CLOSE emp_cursor;
+
+/*
+5. WITH Keyword:
+- The WITH keyword is used to create a temporary named result set, also known as a common table expression (CTE).
+- It allows you to define a query that can be referenced multiple times within the same SQL statement.
+- It improves the readability and maintainability of complex queries.
+- Syntax:
+    WITH cte_name AS (
+        SELECT column1, column2, ...
+        FROM table_name
+        WHERE condition
+    )
+    SELECT *
+    FROM cte_name;
+- Java/Javastream API:
+    data.filter(condition).map(transform);
+*/
+    -- Q. Get the total salary of each department.
+    WITH department_salary AS (
+        SELECT department_id, SUM(salary) AS total_salary
+        FROM employee
+        GROUP BY department_id
+    )
+    SELECT department_id, total_salary
+    FROM department_salary;
 -- ================ END ==========

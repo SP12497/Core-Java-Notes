@@ -1,3 +1,14 @@
+
+/*
+List of tables:
+    1. employee
+    2. department
+    3. manager
+    4. projects
+    5. company
+    6. family
+*/
+
 create table employee (
     emp_id varchar(20) primary key,
     emp_name varchar(50),

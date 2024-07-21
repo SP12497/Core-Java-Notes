@@ -1,6 +1,6 @@
-public class Book 
+```java
+class Book 
 {
-
 	int bid;
 	String bname;
 	float price;
@@ -25,9 +25,5 @@ public class Book
 	{
 		System.out.println(bid+bname+price);
 	}
-	
-	
-	
-	
-	
 }
+```
