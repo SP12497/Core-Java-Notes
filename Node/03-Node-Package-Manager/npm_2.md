@@ -3,12 +3,6 @@ https://snyk.io/test/docker/node%3A20.11.1-alpine3.19
 nvm -v 
 node -v
 
-nvm list
-
-nvm use 16.20.2
-
-nvm install 20.11.1
-
 npm --version
 npm -v
 npm help

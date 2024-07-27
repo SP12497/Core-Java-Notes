@@ -89,3 +89,49 @@ Dead Letter Queue:
     - A DLQ lets you set aside and isolate messages that can't be processed correctly to determine, why their processing didn't succeed.
     - Don't use a DLQ with a FIFO Queue, if you dont want to break the exact order of message or operations.
     - DLQ must be of the same type as the source queue (Standard or FIFO).
+
+
+
+Important interview question and short answer related to SQS:
+    1. What is SQS?
+    SQS stands for Simple Queue Service. It is a fast, reliable, and fully managed message queue service provided by AWS. 
+    It allows decoupling of application components by providing a reliable and scalable hosted queue for storing messages between servers.
+
+    2. What are the types of queues in SQS?
+    There are two types of queues in SQS:
+    - Standard Queue: It offers high throughput, at least once delivery, best effort ordering, and the possibility of message duplication.
+    - FIFO Queue: It provides limited throughput, exactly once processing, strict ordering, and no message duplication.
+
+    3. How does SQS pricing work?
+    SQS pricing is based on the number of requests made, the size of the payload, and any interactions with Amazon S3 or AWS KMS. 
+    The first 1 million monthly requests are free, and after that, pricing varies by region and queue type.
+
+    4. What is polling in SQS?
+    Polling is the process of checking a queue for new messages. There are two types of polling in SQS:
+    - Short Polling: It returns immediately, even if the queue is empty, and queries a subset of available servers for messages.
+    - Long Polling: It waits for a message to become available in the queue before returning a response, reducing the number of empty responses and the cost of requests.
+
+    5. What is the visibility timeout in SQS?
+    The visibility timeout is the duration for which a message is locked for reading by other servers. 
+    It allows a server to process a message without the risk of other servers processing it simultaneously. 
+    The default visibility timeout is 30 seconds, with a maximum of 12 hours.
+
+    6. What is a dead letter queue in SQS?
+    A dead letter queue (DLQ) is used to handle message failures. 
+    It allows you to isolate and analyze messages that couldn't be processed correctly. 
+    It is recommended to use a DLQ with standard queues, but not with FIFO queues to maintain the exact order of messages.
+
+    7. How long can messages remain in an SQS queue?
+    Messages can remain in an SQS queue for up to 14 days, which is the retention period. The default retention period is 4 days, but it can be configured to a minimum of 1 minute.
+
+    8. How can SQS be used in distributed applications?
+    SQS can be used with various AWS services like DynamoDB, EC2, ECS, RedShift, RDS, Lambda, and S3 to build distributed and decoupled applications. 
+    Messages can be sent to the queue from one service and processed by another service asynchronously.
+
+    9. What are the benefits of using SQS?
+    Some benefits of using SQS include:
+    - Decoupling of application components
+    - Reliable and scalable message storage
+    - Automatic scaling with Auto Scaling
+    - Elimination of the need for a highly available message cluster
+    - Integration with other AWS services for building distributed applications.
