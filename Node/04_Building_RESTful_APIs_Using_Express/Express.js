@@ -1,3 +1,4 @@
+/*
 Express: 
     - Express is a fast, unopinionated, and minimalist web framework for Node.js. 
     - It provides a simple and flexible way to build web applications and APIs.
@@ -6,7 +7,7 @@ Here are some important methods and functionalities in Express:
 1. `express()` 
     - Creates an Express application.
     - This function returns an instance of the Express application that can be used to configure routes and middleware.
-    - For example, `const app = express()` creates a new Express application.
+    - For example, `const express = require('express'); const app = express()` creates a new Express application.
     - `app` is an instance of the Express application that can be used to define routes and middleware.
 
 2. `app.use()` 
@@ -45,14 +46,35 @@ Here are some important methods and functionalities in Express:
 10. `res.send(data)` 
     - Sends the specified data as the response to the client.
     - For example, `res.send('Hello World')` sends the string 'Hello World' as the response.
+    - `res.status(200).send('<h4>Hello...</h4>')`
+    - send method by default response in text/html format. We cant use to send JSON.
+    -  `res.status(200).json({ key: "value"})`
+
+10.2. `res.json()`:
+    - `res.status(200).json({ key: "value"})`
+    - used to send json data as response.
+
+11. `res.end([data])`
+    - Ends the response process and sends the response to the client.
+    - The optional `data` parameter can be used to send the last chunk of data to the client.
+    - This method is typically used to end the response when no more data needs to be sent.
+    - For example, `res.end('Hello World')` can be used to end a response after sending the string 'Hello World'.
+
+    - The main difference between `res.send()` and `res.end()` is that `res.send()` is used to send data as the response to the client, while `res.end()` is used to end the response process and send the response to the client. 
+    - When using `res.send()`, you can pass any type of data as an argument, such as strings, objects, or arrays, and it will be automatically converted to the appropriate format (e.g., JSON). 
+    - On the other hand, `res.end()` is typically used when you want to manually control the response and send the data in chunks. You can optionally pass data as an argument to `res.end()` to send the last chunk of data to the client. 
+    - It's important to note that once `res.end()` is called, no further data can be sent in the response.
 
 11. `res.status(code)` 
     - Sets the HTTP status code of the response.
     - For example, `res.status(404)` sets the status code to 404 (Not Found).
 
-12. `Joi` 
-    - A powerful schema description language and data validator for JavaScript.
-    - It is commonly used for input validation in Express applications.
+12. `res.writeHead(statusCode, headers)` 
+    - Sets the status code and headers for the response.
+    - The `statusCode` parameter is a number representing the HTTP status code.
+    - The `headers` parameter is an object containing the response headers.
+    - This method is commonly used to set the status code and headers before sending the response body.
+    - For example, `res.writeHead(200, { 'Content-Type': 'text/html' })` sets the status code to 200 (OK) and the 'Content-Type' header to 'text/html'.
 
 13. `res.render(viewName, paramsObject)`
     - Renders a view template specified by `viewName` and sends the rendered HTML to the client.
@@ -63,6 +85,11 @@ Here are some important methods and functionalities in Express:
         app.get('/template/pub', (req, res) => {
             res.render('index', { title: "Pug Express App", message: "Hi.. This is Sagar!" })
         });
+
+14. `Joi` 
+    - A powerful schema description language and data validator for JavaScript.
+    - It is commonly used for input validation in Express applications.
+
 
 These are just a few examples of the methods and functionalities provided by Express. 
 Express is a versatile framework with many more features and options for building web applications and APIs.
@@ -82,3 +109,30 @@ Request Process pipeline:
         - Middeleware : 1: express.json(), 2: route()
             - Response
 Go To: 04_Building_RESTful_APIs_Using_Express\express-demo\advance\058_custom_middleware.js
+
+
+- app.use() : 
+    - add middleware function to the request processing pipeline.
+    - app.use(express.json());  
+        - internally it will attach incoming request data to req.body and do parsing like JSON.parse(req.body);
+        - middleware to parse JSON object.
+        - without this, req.body will be undefined.  eg. console.log(req.body); // undefined
+*/
+
+/*
+Route Handlers:
+    app.get('/api/v1/movies', getAllMovies); // function getAllMovies(req, res) { res.send(movies); }
+    app.get('/api/v1/movies/:id', getMovie);
+    app.post('/api/v1/movies', createMovie);
+    app.patch('/api/v1/movies/:id', updateMovie);
+    app.delete('/api/v1/movies/:id', deleteMovie);
+
+    - Transforming the above code into app.route():
+    app.route('/api/v1/movies')
+        .get(getAllMovies)
+        .post(createMovie);
+    app.route('/api/v1/movies/:id')
+        .get(getMovie)
+        .patch(updateMovie)
+        .delete(deleteMovie);
+*/

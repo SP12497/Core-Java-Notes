@@ -21,7 +21,7 @@ app.get('/api/courses', (req, res) => {
 })
 
 // app.listen(3000, () => console.log("Listing on port 3000..."));
-
+app.listen(3000, '127.0.0.1', () => console.log("Listing on port 3000..."));    // '127.0.0.1' : localhost
 // 046: Environment Variables:
 //cmd :  set PORT=5000
 const port = process.env.PORT || 3000;

@@ -1,5 +1,4 @@
 const express = require('express')
-const Joi = require('joi');
 const { logger } = require('./middleware/logger');
 
 const app = express();
@@ -77,6 +76,8 @@ console.log('Application Name:', config.get('name'));
 console.log('Application Name:', config.get('mail.host'));
 /*
 - don't store passwords in configuration
+
+---------
 - better option to store passwords in environment variables.
 - set app_password=1234
 - custom-environment-variables.json: mappkng of configuration settings to an environment variables

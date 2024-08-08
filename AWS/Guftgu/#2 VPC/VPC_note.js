@@ -1,3 +1,4 @@
+/*
 VPC (Virtual Private Cloud)
 
 Part 1: What is VPC?
@@ -8,7 +9,7 @@ Defn: VPC is virtual network or DataCenter inside AWS of one client.
 - https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html
 - It is logically isolated from other virtual network in the AWS cloud.
 - In one region, max 5 VPC can be created and 200 subnets in 1 VPC.
-- In account, we can allocate max 5 elastic IP
+- Elastic IP addresses per Region: 5 and adjustable
 - Once we created VPC, DHCP, NACL and Security Group will be authomatically created
 - A VPC is contained to an AWS region and does not extent between regions.
 - Architecture: "#1 VPC Architecture.png"
@@ -46,6 +47,31 @@ Components Of VPC:
     - Peering Connections
     - Elastic IP
 
+Real Life Example:
+1. AWS Account:
+    Your real estate company.
+2. Society (AWS Region):
+    Each society is located in a different city. For example, one society is in New York, another in San Francisco, etc.
+3. Apartment Building (VPC):
+    Each society (city) has multiple apartment buildings. Each apartment building is a Virtual Private Cloud (VPC). For instance, Building A and Building B in the New York society.
+4. Floor (Availability Zone):
+    Each apartment building has several floors. Each floor represents an Availability Zone within the VPC. For example, Floor 1, Floor 2, and Floor 3 in Building A.
+5. Flat (Subnet):
+    Each floor has multiple flats (apartments). Each flat represents a subnet. For instance, Flat 101, Flat 102, etc., on Floor 1.
+6. Room within a Flat (EC2 Instance):
+    Each flat (subnet) contains several rooms. Each room represents an EC2 instance. For example, the bedroom, living room, and kitchen in Flat 101.
+7. Electricity System for Flat (Network ACLs):
+    Each flat has an overarching electricity system that ensures the proper flow of electricity to the entire flat. This represents Network ACLs, which control traffic at the subnet level.
+8.  Individual Room's Electrical Outlets (Security Groups):
+    Each room has its own electrical outlets and breakers that control the flow of electricity to that particular room. This represents Security Groups, which control traffic at the EC2 instance level.
+9.  Main Entrance of the Apartment Building VPC (Internet Gateway):
+    The main entrance to the apartment building, allowing external visitors (internet traffic) to enter and exit. This represents the Internet Gateway, allowing VPC resources to communicate with the internet.
+10. Apartment Building's Internal Mail System (Router and Route Table):
+    The apartment building has an internal mail system (router) with a detailed list of addresses (route table) to ensure that mail (network traffic) gets to the correct flat (subnet) or room (EC2 instance). The router directs internal traffic based on the route table.
+11. Security Booth at the Main Entrance (NAT Gateway):
+    A security booth at the main entrance that allows residents to send mail to the outside world while blocking unsolicited external mail from entering directly. This represents the NAT Gateway, allowing instances in a private subnet to connect to the internet while preventing the internet from initiating connections.
+12. Secure Tunnel to Another Society (Virtual Private Gateway):
+    A secure tunnel connecting the apartment building to another society, allowing residents to communicate privately and securely with another location. This represents the Virtual Private Gateway, which connects the VPC to an on-premises network or another VPC.
 
 Part 2: VPC And Subnets
 -------
@@ -61,7 +87,15 @@ Part 2: VPC And Subnets
         - Has its own default security group, NACL and route tables.
         - Does not have an Internet Gateway by default, One need to be created if needed.
 
+Name	                        Default	        Adjustable
+- VPCs per Region	                5	            Yes
+- Subnets per VPC	                200	            Yes
+- IPv4 CIDR blocks per VPC	        5	            Yes (up to 50)
+- IPv6 CIDR blocks per VPC	        5	            Yes (up to 50)
+
+
 Subnet:
+    - For example, House is VPC and Rooms in house are Subnets.
  Types of Subnets:
     - Public Subnet:
         - If a subnet's traffic is routed to an Internet Gateway (outside AWS account), the subnet is known as public subnet.
@@ -74,7 +108,7 @@ Subnet:
             - 10.0.0.1 = network addresss
             - 10.0.0.2 = reserved by AWS for the VPC route.
             - 10.0.0.3 = reserved for future use.
-            - 10.0.0.4 = 
+            - 10.0.0.4 = reserved by AWS for DNS.
             - 10.0.0.255 = Broadcast address (note: AWS do not support broadcast in a VPC but reserve the address)
 
 Part 3: Implied Router, Route Table and Internet Gateway. 
@@ -93,9 +127,9 @@ Implied Router, Route Table:
 
 Internet Gateway:
     - An Internet Gateway is a virtual router that connects a VPC to the internet.
-    - Default VPC is already attached with an Internet Gateway.
+    - Default VPC is already attached with an Default Internet Gateway.
     - If you create a new VPC (custom VPC) then you must attach the Internet Gateway in order to access the Internet.
-    - Ensure that you subnet's route table points to the internet gateway.
+    - Ensure that your subnet's route table points to the internet gateway.
     - It perfoms NAT between your private and public IPv4 address.
     - It supports both IPv4 and IPv6.
 
@@ -121,36 +155,40 @@ NAT Gateway: (NAT instance is different service) (#2 Lab on VPC NAT GW.png)
     - No need to assign public ip address to your private instance. (if public ip is present in private subnet, then private subnet can directly communicate over an internet and it becomes public subnet).
     - After you have created a NAT gateway, you must update the route table associated with one or more of your private subnets to point internet bound traffic to the NAT gateway. This enables instances in your private subnet to communicate with the internet.
     (update route table of all private subnet 0.0.0.0/0 -> NAT Gateway presents in public subnet).
-    - Deleting a NAT gateway, disassociates its elastic ip address, but does not release the address from your account.
+    - Deleting a NAT gateway, disassociates its elastic ip address, but does not release the address from your account. You are charged for the elastic ip address as long as it is allocated to your account.
 
 Security Groups: (#3 Security Groups architecture.png)
-    - inside subnets but on top of instances.
+    - inside subnets but on top of instances. EC2 instance level.
     - It is a virtual firewall works at ENI Level(#4 ENI Dirgram.png : on top of hipervisor)
+    - What is ENI Level? -> ENI is Elastic Network Interface, it is a virtual network card that you can attach to an instance in a VPC. It can have one or more private IP address, one primary private IP address that is used as the instance's source/destination in the network.
+    - ENI Level: means, it is a firewall that works at the network interface level.
     - Upto 5 security groups per EC2 instance interface can be applied.
     - Can only have allows/permit rules, can't have deny rules(by default other that allowed are deny)
     - Stateful (if inbound(request) port is 80 so by default outbound post is also 80. No need to declare separately), return traffic, of allowed inboud traffic is allowed, even if there are no rules to allow it.
+    - NACL are stateless outbound traffic for an allowed inbound traffic must be explicitly allowed too.
 
-NACL:
-    - placed at Router level, Inside VPC
-    - 1 NACL can point multiple subnets  (#5 NACL points to 2 subnet.png)
+NACL:   (https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html) (#5 NACL points to 2 subnet.png | #6 NACL= 1 subnet ponints to 2 NACL not possible.png)
+    - placed at Router level, Inside VPC, its on all Subnet level, not bound/tied to specific availability zone.
+    - 1 NACL can point multiple subnets in any availability zones within VPC  (#5 NACL points to 2 subnet.png)
       but 1 subnets can not point more than 1 NACL (#6 NACL= 1 subnet ponints to 2 NACL not possible.png)
+    - You can associate a NACL with multiple subnet, however a subnet can be associated with only one NACL at a time. When you associated a NACL with a subnet the previous association is removed.
     - It is a function perfomed on the implied router
-    - NACL is an optional layer of security for you VPC that acts as a firewall for controlling traffic in and out of one or more subnets.
+    - NACL is an optional layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more subnets.
     - Your VPC automatically comes with a modifiable default NACL. by default, it allows all inbound and outbound IPv4 traffic and if applicable, IPv6 traffic.
     - You can create a custom NACL and associate it with a subnet. By default, each custom NACL denies all inbould and outbound traffic until you add rules.
       IMP Diff: Default NACL: by default allow all traffic | Custom NACL: by default deny all traffic
-    - Each subnet in your VPC must be associated with a NACL. If you dont explicitly associate a subnet with a NACL. the subnet is automatically associated with the default NACL.
-    - You can associate a NACL with multiple subnet, however a subnet can be associated with only one NACL at a time. When you associated a NACL with a subnet the previous association is removed.
+    - Each subnet in your VPC must be associated with a NACL. If you don't explicitly associate a subnet with a NACL, the subnet is automatically associated with the default NACL.
     - A NACL contains a numbered line of rules that we evaluate in order, starting with the lowest numbered rule.
      eg. sequence of execution => Rule 1 (port 80 allowed) -> Rule 50 (port 80 deny) -> Rule 77 (here, post 80 call will not come) -> Rule 120
     - The highest number that you can use for a rule is 32766. Recommended that you start by creating rules with numbers that a multiple of 100, So that you can insert new rule where you need later.
     - It functions at a Subnet level.
     - NACL are stateless outbound traffic for an allowed inbound traffic must be explicitly allowed too.
-    - You can have allows/permit and deny rules in NACL. (Security group only have allows rule).
+    - You can have allows/permit and deny rules in NACL. (But in Security group, only have allows rules).
 
 Real Life example:
+    - For example, House is VPC and Room in house is Subnet.
     - Main door of house is NACL. (security for all rooms door. Allow and deny rule.)
-    - Each room door inside house in Security Groups (only for 1 room(1 EC2 instance, max 5 Security group) only allow rules ).
+    - Each room door inside house in Security Groups (only for 1 room(1 or more EC2 instance, max 5 Security group) only allow rules ).
 Different Between Security Groups and NACL:
     - Security Groups:
         - Operate at instance level.
@@ -221,13 +259,13 @@ Demo 2: Lab On VPC NAT Gateway: (#2 Lab on VPC NAT GW.png)
         - once created, attach to vpc:
             - select gateway -> attach to VPC
     4. Create 2 Route table:
-        - Route table 1: Public Route Table for VPC:
+        - Route table 1: Public Route Table for Public Subnet:
             - Subnet Associations:
-                - select created Public Subnet and save.
+                - select created Public Subnet and save.    // Public subnet can go over internet
             - Route: 
                 - Destination: 0.0.0.0/0
                   Target: Select created IG
-        - Route table 2: Private Route Table for VPC:
+        - Route table 2: Private Route Table for Private Subnet::
             - Subnet Associations:
                 - select created Private Subnet and save.
 
@@ -240,7 +278,8 @@ Testing:
         Security Group: RDP -> 
             Public | Private: RDP | HTTP | HTTPS -> Source(Anywhere)
     Validation:
-        - We dont have public IP in private Gateway so we cant connect private subnet EC2 instance from our local machine, but we can access by public subnet EC2 instance
+        - We don't have public IP in private Gateway, so we cant connect private subnet EC2 instance from our local machine,
+          but we can access by public subnet EC2 instance
         - Connect to public subnet EC2 instance:
             cmd: "ping 8.8.8.8"
             Connect to Private EC2:
@@ -255,20 +294,20 @@ Testing:
     - Create NAT Gateway:
         - subnet: public
             Elastic ip is mandatory for NAT GW: create new Elastic IP
-    - Private created subnet route table:
+    - Update route table of Private subnet:
         - Routes:
             - Destination: 0.0.0.0/0
               Target: select created NAT GW
     - Validation:
         - Now you can access Internet from Private Subnet.
 
-Demo 3: VPC Peering: (Communicate using private IP)
+Demo 3: VPC Peering: 2 VPC within same region (Communicate using private IP)
 -------
     1. create VPC1 (10.0.0.0/16) | Subnet | IG | Route Table
     2. create VPC2 (192.168.0.0/16) | Subnet | IG | Route Table
     - Peering Connections:
         - Select a local VPC to peer with: select "requester/sender"    // eg. VPC1
-        - Select another VPC to peer with: "accepter/receiver"                   // eg. VPC2
+        - Select another VPC to peer with: "accepter/receiver"          // eg. VPC2
         - Account: are both are in Same AWS Account?
         - Region: are both are in same AWS region?
     
@@ -286,27 +325,27 @@ Demo 3: VPC Peering: (Communicate using private IP)
 
         - Connect to public subnet EC2 instance:
             - VPC 1 (requester)
-                - privae IP: 10.0.0.93
+                - private IP: 10.0.0.93
                 cmd: "ping 192.168.0.64 -t"     // call VPC 2 Instance (Find the IP in EC2 Instance details)
             - VPC 2 (receiver)
                 - privae IP: 192.168.0.64
                 cmd: "ping 10.0.0.93 -t"        // call VPC 1 Instance
             - Now here, will not receing the ping yet, to get ping,
-                -> GO to, each EC2 instance security group:
-                    - Type: ALL ICMP IPV4   // ICMP : used to ping another vpc from a vpc.
-                    Source: Anywhere
-                -> Route Table:
+                -> Update Security Group of each EC2 instance:
+                    - Type: ALL ICMP IPV4   // ICMP : used to ping another vpc from a vpc. // ICMP: Internet Control Message Protocol: used by network devices to send error messages and operational information indicating, for example, that a requested service is not available or that a host or router could not be reached.
+                      Source: Anywhere
+                -> Update Route Table:
                     Routes:
                         VPC1:
                             - Destination: 192.168.0.0/16
-                            Target: VPC Peering
+                              Target: VPC Peering
                         VPC2:
                             - Destination: 10.0.0.0/16
-                            Target: VPC Peering
+                              Target: VPC Peering
                 -> Now, cmd ping will receive ping.
 
 ----------
-Demo 4: VPC Peering across Two Region:
+Demo 4: VPC Peering across Two Region: (Communicate using private IP)
     - https://youtu.be/Evj6DQr6gwM
     - create VPC and EC2 instance (security group have ICMP) in 2 Regions (reference: Demo 3). eg. Tokyo and Mumbai.
         - Update Routing table of both VPC: 
@@ -321,3 +360,123 @@ Demo 4: VPC Peering across Two Region:
                     vpc: Mumbai VPC ID
         - Mumbai Region:
             - Accept VPC Peering request.
+            
+----------
+Demo 5: Lab on "Network ACL's inside my VPC" (https://youtu.be/5pI8IcBTM2s?si=A-CnsDXTcVTMzMXq)
+    (#6.2 NACL Practical.png)
+    - create VPC, Subnet, Route Table, Internet Gateway and EC2 Instance (Demo 1)
+    - Create NACL:
+        - VPC Page -> Security Section -> Network ACLs: Create NACL
+        - Create NACL:
+            Name: CustomNacl
+            VPC:  select created VPC 
+            click on CREATE button.
+        - Subnet Association to NACL: 
+            - select created NACL -> Subnet Association -> Edit subnet associations -> Select subnet -> edit button -> done
+        - Apply Inbound and Outboud rule:
+            Demo 1:
+                - Inbound rule:
+                    - Rule # : 100
+                      Type: RDP (3389)
+                      Protocol : TCP
+                      Port Range: 3389
+                      Source: 0.0.0.0/0
+                      Allow/Deny: ALLOW
+                - Outbound rule:
+                    - Rule #: 100
+                      Type: HTTP (80)
+                      other configurations are default
+                    - Rule #: 200
+                      Type: HTTPS (443)
+                Conclusion: 
+                    Since NACL are stateless, Only Inbout RDP is allowed, So RDP outbound is by default disable.
+                    Now, we are not able to connect to EC2 instance by "Remote Desktop Connection".
+            Demo 2: (allow RDP for inbound and outbound)
+                - Edit NACL outboud rule and add below rule to enable all ports:
+                - Outbound rule:
+                    - Rule # : 250
+                      Type: Custom TCP Rule
+                      Protocol : TCP (6)
+                      Port Range: 1024-65535        // Allow all ports
+                      Source: 0.0.0.0/0
+                      Allow/Deny: ALLOW
+                - Conclusion:
+                    - Able to connect EC2 instance by "Remote Desktop Protocol"
+                    - Issue: now we are not able to access internet in EC2 enternet exploral browser.
+                      This is because, we allows HTTP and HTTPS traffic in outbound to go towards internet. But we did not allowed incoming traffic in Inbound rule.
+
+            Demo 3: Enable HTTPS and HTTP inbound traffic:
+                - Inbound rule:
+                    - Rule # : 200
+                      Type: Custom TCP Rule
+                      Protocol : TCP (6)
+                      Port Range: 1024-65535        // Allow all ports. (or 80, 443)
+                      Source: 0.0.0.0/0
+                      Allow/Deny: ALLOW
+                - Conclusion:
+                    Now, internet is working in EC2 browser.
+
+
+---------
+VPC Endpoint: (#8 VPC Endpoint.png) : https://youtu.be/ab036IW3ASw?si=oZQXI9zbgCnmwd8u
+    - If we want to access AWS services privately without NAT Gateway, then we can use VPC Endpoint.
+    - A VPC Endpoint enables you to privately connect your VPC to supported AWS services instances in your VPC,
+      do not require public IP address to communicate with resources in the service.
+    - Private subnet route table:
+        - Destination: AWS Service
+          Target: VPC Endpoint
+        - Destination: S3 enpoint   // Private subnet can access S3 bucket without going to internet. 
+          Target: VPC-ID
+    - VPC Endpoint Types:
+        - Gateway Endpoint: S3, DynamoDB, Glacier, SSM, KMS, CloudWatch, CloudTrail, and Config.
+        - Interface Endpoint: Rest of the AWS services. like EC2, RDS, S3, etc.
+    - VPC Endpoint is not a single point of failure, it is highly available and scalable.
+    - VPC Endpoint does not require an internet gateway, NAT device, VPN connection, or AWS Direct Connect connection.
+    - VPC Endpoint does not impose availability risks or bandwidth constraints on your network traffic.
+    - Practical: (#8 VPC Endpoint.png)
+        - Create VPC, 2 Subnet, 2 EC2 instance, 2 Route Table, 1 IG for Public subnet and 1 S3 bucket. (like Demo 2, without NAT GW)
+        - Create VPC Endpoint:
+            - VPC: select created VPC
+            - Service Name: select S3   // com.amazonaws.ap-south-1.s3
+            - Route Table: select private subnet route table
+            - Policy: Full Access
+            - Create Endpoint
+        - Testing:
+            - Login to Public EC2 instance:
+                - Login to Private EC2 instance from Public EC2 instance.
+                    - cmd: "aws s3 ls"    // list all S3 bucket
+                    - cmd: "aws s3 cp s3://bucket-name/file-name ."     
+        - Conclusion:
+            - We are able to access S3 bucket from private EC2 instance without going to internet and without NAT GW.
+
+
+---------
+Access VPC Instance through VPN:
+    - https://youtu.be/WxBiGioCBDk?si=Q3Y0O_v08djr4i43
+    - Create VPC, 2 Subnet, 2 EC2 instance, 2 Route Table, 1 IG for Public subnet and 1 S3 bucket. (like Demo 2, without NAT GW)
+    - Create Public EC2 Instance for VPN:
+        -> Launch Instance:
+        -> Choose AMI: AWS Marketplace -> search "OpenVPN Access Server" -> select and continue
+        -> Choose Public Subnet for VPN
+    - Create Private EC2 Instance:
+        -> windows t2 micro r2 base:
+            network: "created VPC"
+            Subnet: "created Subnet"
+            Auto-assign public IP: Disable
+            Security Group: RDP -> Source(Anywhere)
+    - Testing:
+        - Connect to Public VPN EC2 instance By PuttyGen:
+            - once login, will get VPN IP address:
+                - Admin UI: https://VPN-IP:943/admin
+                  Client UI: https://VPN-IP:943
+            - Create password for OpenVPN: "sudo passwd openvpn"
+            - OpenVPN Admin UI: https://VPN-IP:943/admin
+            - Brower: https://VPN-IP:943
+                - Login with "openvpn" as username and password
+                - Download OpenVPN Connect
+                    - We created Private EC2 windows instance, so choose download "Windows" OpenVPN Connect
+                - Download Configuration file
+                - Open OpenVPN Connect and import configuration file
+                - Connect to VPN
+        - Now, we can access Private EC2 instance by private IP address Using RDP connection.
+*/

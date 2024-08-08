@@ -20,6 +20,8 @@ Use Case:
 
 Example:
 */
+const express = require('express')
+const app = express();
 
 // Middleware to log incoming requests
 app.use((req, res, next) => {
@@ -37,7 +39,8 @@ const authenticate = (req, res, next) => {
 };
 
 // Route handler that requires authentication
-app.get('/protected', authenticate, (req, res) => {
+// get(path, ...handlers) 
+app.get('/protected', authenticate, (req, res) => { // Middleware 'authenticate' is called before the route handler
   res.send('Welcome to the protected route');
 });
 
@@ -103,5 +106,3 @@ const middleware = (req, res, next) => {
 app.get('/route', middleware, (req, res) => { // All Middlewares is called before the route handler
   res.send('Response from route handler');  // Response from route handler
 });
-
-// ```
