@@ -1,0 +1,48 @@
+- show databases
+- use database_name
+- show collections
+
+Collection => 	db.createCollection("first")
+db.first.find()
+
+document=>  	db.first.insert({Name:"Shital",Dept:"HR"})
+
+Collection -> document ->key value pair
+
+//Single Insert :
+	db.first.insert({empid:"E001" , name="Suraj", salary:27000})
+
+db.first.find().pretty()
+
+
+//Multiple Insert (multiple document insert) :
+	- db.first.insert({Sex:"Male"},{Name:"Sagar"})    //Error
+	- db.first.insert([{Empid:"E005",Name:"Gita"},{Name:"Shyam",Dept:""}])			//Working
+	db.first.bulk.insert({Empid:"E002",Name:"Sita"},{Name:"Ram",Dept:"Quality"})		//error bcoz some reason
+
+
+//drop collection :
+	db.second.drop()
+
+
+//Where clause :
+	db.customers.find({city:"London"}).pretty()
+	db.customers.find({Country:"India",City:"Mumbai"})
+
+//Operator :
+	$or :
+		db.suppliers.find({$or:[{Country:"USA"},{Country:"UK"}]})
+	$lt :  / $gt / %lte (<=) / $gte(>=)
+		db.products.find({UnitPrice:{$gt:100}}).pretty()
+		//	db.products.find({UnitPrice:{$gt:50}},UnitPrice:{$lt:100}).pretty()	//Error
+		
+	
+//To show only Country field :
+	db.suppliers.find({},{Country:1}).pretty()
+	db.suppliers.find({},{Country:1,City:1}).pretty()
+	//Hide Primary key id :
+		db.suppliers.find({},{_id:0, Country:1}).pretty()
+
+	{} => close all / supress all the fields.
+	_id = : 0 =>hide;
+	_id = : 1 =>Show;

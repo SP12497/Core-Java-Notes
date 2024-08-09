@@ -1,0 +1,153 @@
+Language used by MongoDB for querying - JSON - Java Script Object Notation
+NOSql : Not Only Structured Query Language
+
+Features : 
+	- No join Supports 
+	- No Constraint Supports
+	- No Complex Transection Supports(like joins) 
+	- No use of SQL
+	- data scheme : dynamic
+
+Run MongoDB :	Go to 'cmd' and type 'mongo' then enter. Or use mongo cmd.
+
+		Day 1:
+		======
+
+1) To see databses
+	-> show databases
+
+2) To use database
+	use <Database Name> -> Even if database not created, it will create the database, and directly use it
+
+	Note: Till the time, atleast one collection is not createed in that database, it won't show in the list of databases when you use 'show databases' command
+
+3) To drop database
+	use <database_name>
+	db.dropDatabase()
+
+4)To create collection	(Table)
+	->db.createCollection("author")			//case sensitive
+
+5)-> db.author.insert({name:"Chetan Bhagat"})
+	In above case, a collection with 'author' will be created and a document will be inserted in it (even if collection author is not created previously)
+
+6)To see collections
+	-> show collections
+
+7) To drop collection
+	-> db.author.drop()
+
+8)To insert the records in collection
+
+	db.author.insert({eName:'Amit'}) <-- Will insert One Key Value Pair
+
+	//minor error
+	db.author.insert({Dept:'Accounts'},{Location:'Bangalore'}) <-- Wrong : Will insert one keyValue pair, ignore second one
+
+	//use [] for multiple fields (column)
+	db.author.insert([{Dept:'Accounts'},{Location:'Bangalore'}]) <- Will insert two documents in one document (row) by one command.
+
+9)To list the documents (rows) in collection 
+
+	--> db.author.find()
+	--> db.author.find().pretty()
+			
+	Syntax :
+		db.author.find({ WhereCondition1 , condition2} , {which column to show : 1 means show , 0 means : do not show});
+		db.author.find({condition1 , condition2} , {column1:1 , column2:1 , column3:0});
+
+9A) To list few documents
+		//select Sex , Location from Employee;
+	-->db.Employees.find({},{'Sex':1,'Location':1}) ==> Will show only sex and location keys with values (and along with default ObjectId)
+
+	-->db.Employees.find({},{_id:0,'Sex':1,'Location':1}) ==> Will show only sex and location keys (minimizes default ObjectId)
+
+
+
+10) To list the documents in collection based on single condition (something similar to where) 
+
+	Use Northwind
+
+	-->db.customers.find({Country:'Mexico'}).pretty()
+	-->db.customers.find({ContactTitle:'Sales Agent'}).pretty()
+	-->db.customers.find({Region:{$ne:null}}).pretty() <--not equal to null
+
+11) Use of AND condition
+	-->db.customers.find( {Country:'UK' , City:'London'} ).pretty()
+
+
+12) Use of or condition
+
+	-->db.customers.find({$or:[{Region:'Barcelona'} , {Region:'Madrid'}]}).pretty()
+
+13) Use of > , < , = , >= , <=
+
+	db.Employees.find({Salary:{$gt:25000}}).pretty()
+
+
+					======
+					Day 2:
+					======
+14) Sorting the result
+
+	db.shippers.find().sort({ShipperID:-1}).pretty()
+		Will sort the collection on the basis of ShipperID in DESC order
+			1--> ASC
+			-1 --> DESC
+
+15)Use of aggregation (means group_by) -- grouping the data
+
+	db.Employees.aggregate([{$group:{_id:"$Dept",DeptCount:{$sum:1}}}])
+	It will group the documents on the basis of Department and Count the occurance of each Department and display.
+
+	db.Employees.aggregate([{$group:{_id:"$Location",cityCount:{$sum:1}}}])
+	It will group the documents on the basis of Location and Count the occurance of each City and display.
+
+
+	db.Employees.aggregate([{$group : {_id : null, Salary_maximum : {$max : "$Salary"}}}])
+	It will show max salary 
+
+	db.Employees.aggregate([{$group : {_id : null, Salary_minimum : {$min : "$Salary"}}}])
+	It will show min salary
+
+16) Creating Index
+
+	db.suppliers.ensureIndex({Country:1})
+		- Will create Index on Country field in suppliers collection
+
+17) Use of Update :
+	- update will update the document (row) value if key is available , if key will not available then key and value will be inserted.
+	
+	- //	update( {condition} , {$set :{column:value}} )
+
+	db.Employee.update({Employeeid:1},{$set:{EmployeeName:"Sunil"}})
+		Will update name of the employee from old name to 'Sunil' whose EmployeeID is 1 ---> ONLY first Instance
+
+
+	db.Employee.updateMany({Employeeid:1},{$set:{EmployeeName:"Sunil"}})
+		Will update name of ALL the employee(s) from old name to 'Sunil' whose EmployeeID is 1 ---> ALL THE Instances
+
+	db.suppliers.update({Country:"Germany",City:"Frankfurt"},{$set:{HomePage:"google.com"}})
+		Will update HomePage URL of supplier from Germany AND Frnakfurt
+		(use of AND condition while updating a value of key)
+
+	db.Employee.update({},{$set:{EmployeeLocation:"Mumbai"}})
+		Will add another key-value pair called EmployeeLocation:Mumbai , which was orignally not there in document, and update into mumbai where it is present.
+
+	db.Employee.update({Employeeid:2},{$set:{EmployeeSalary:25000}})
+		Will add another key-value pair in SPECIFIC DOCUMENT (as per condition given) called EmployeeSalary:25000 , which was orignally not there in document
+
+	db.Employee.update({EmployeeSalary:30000},{$unset:{EmployeeLocation:"Pune"}})
+		update so Will remove first key-value pair in SPECIFIC DOCUMENT (as per condition given) called EmployeeSalary:30000 
+		// remove only EmployeeLocation key value for first column EmployeeSalary :30000
+
+	db.Employee.update({},{$unset:{EmployeeLocation:""}})
+		Will remove ALL the key-value pair in ALL DOCUMENTS with a key called 'EmployeeLocation'
+
+18) Use of Remove :
+
+	db.Employee.remove({Employeeid:3})
+		Will remove(delete) the document (row) with employeeid = 3
+
+	db.Employee.remove({})
+		Will remove all the documents within the collection Employee
