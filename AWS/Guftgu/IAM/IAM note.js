@@ -6,7 +6,7 @@ IAM:
     - it is a web service that helps you securely control access to AWS resources. 
       You can use IAM to control who is authenticated (signed in) and authorized (has permissions) to use resources.
     
-    - When you first create an AWS account, you begin with a single sign-in identity that has complete access to all AWS services and resources in the account.
+    - When you first create an AWS account, you begin with a single sign-in identity (admin acoount) that has complete access to all AWS services and resources in the account.
     - This identity is called the AWS account root user and is accessed by signing in with the email address and password that you used to create the account.
     - We strongly recommend that you do not use the root user for your everyday tasks, even the administrative ones.
     - Instead, adhere to the best practice of using the root user only to create your first IAM user.
@@ -17,23 +17,26 @@ IAM Limits:
         - 300 groups per AWS account. (Each group can contain up to 300 users.) (HR Group, Developer Group)
         - 1000 IAM roles per AWS account. (Each role can be used by multiple users, groups, and services.)
         - Policy: Default limit of managed policies attached to an IAM role and user is 10.
-        - IAM user can be a member of 10 groups (max). 
-        - We can assign maximum two access keys to an IAM user.
+        - IAM user can be a member of 10 groups (max).
+        - We can assign maximum two access keys to an IAM user. (Access key ID and Secret access key for programmatic access)
 
 IAM Features:
     - Shared access to your AWS account.
         - You can grant other people permission to administer and use resources in your AWS account without having to share your password or access key.
     - Granular permissions.
-        - You can grant different permissions to different people for different resources. For example, you might want someone to be able to create new users but not to delete users.
+        - You can grant different permissions to different people for different resources. 
+        - For example, you might want someone to be able to create new users but not to delete users.
     - Secure access to AWS resources for applications that run on Amazon EC2.
     - Multi-factor authentication (MFA).
         - You can add two-factor authentication to your account and to individual users for extra security.
     - Identity federation.
-        - You can allow users who already have passwords elsewhere to use those credentials to access AWS. (eg. login pubG using facebook, pubG is trusting on facebook)
+        - You can allow users who already have passwords (account) elsewhere to use those credentials to access AWS. 
+        - (eg. login pubG using facebook, pubG is trusting on facebook)
     - Identity information for assurance.
         - You can add details about the identity of your users such as a phone number or alternate email address.
     - PCI DSS Compliance.
         - You can request a report that lists all the AWS services that you are using and in scope for PCI DSS compliance.
+        - (Payment Card Industry Data Security Standard (PCI DSS) is a set of security standards designed to ensure that all companies that accept, process, store or transmit credit card information maintain a secure environment.)
     - Eventually Consistent.
         - IAM is eventually consistent. Changes made to policies can take time to propagate.
 
@@ -42,21 +45,68 @@ Free to Use:
     
 
 An IAM policy has a specific structure that includes the following elements:
-    "Principal" 
-        - (Optional) Identifies the user, group, or role that the policy applies to.
-        - A person or application that using AWS services.
     "Version" 
         - The version of the policy language being used.
+        - The current version is 2012-10-17. Other versions are: 2008-10-17, 2004-10-21.
     "Statement" 
         - An array of individual statements that define the permissions for the policy. Each statement has the following fields:
-    "Effect" 
-        - Specifies whether the statement allows or denies access.
-    "Action" 
-        - Specifies the actions that are allowed or denied.
-    "Resource" 
-        - Specifies the resources that the actions apply to.
-    "Condition" 
-        - (Optional) Specifies any additional conditions under which the statement applies.
+        - Each statement has the following fields:
+            - "Effect" : Specifies whether the statement allows or denies access.
+            - "Action" : Specifies the actions that are allowed or denied.
+            - "Resource" : Specifies the resources that the actions apply to.
+            - "Sid" : (Optional) A statement ID that you can use to refer to the statement later.
+            - "Principal" 
+                - (Optional) Identifies the user, group, or role that the policy applies to.
+                - A person or application that uses an AWS service is known as a principal.
+                - Used for resource-based policies. appling a policy to a resource.
+                - if we don't specify the principal, the policy applies to all principals (users, groups, and roles).
+                - "Principal": "*"  => allows any user (public access) for the first statement.
+            - "Condition" : (Optional) Specifies any additional conditions under which the statement applies.
+
+Example:
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ListAllBuckets",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::123456789012:user/ExampleUser"
+      },
+      "Action": [
+        "s3:ListAllMyBuckets",
+        "s3:GetBucketLocation"
+      ],
+      "Resource": "arn:aws:s3:::*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::BUCKET-NAME",
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": [
+            "",
+            "home/",
+            "home/${aws:username}/"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "FullAccessToHomeFolder",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::123456789012:user/ExampleUser"
+      },
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::BUCKET-NAME/home/${aws:username}",
+        "arn:aws:s3:::BUCKET-NAME/home/${aws:username}/*"
+      ]
+    }
+  ]
+}
 */
 
 /*
