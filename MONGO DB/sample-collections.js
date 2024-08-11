@@ -14,71 +14,91 @@ db.books.insertMany(
         { title: "Express", price: 525, isFramework: true },
         { title: "Mongoose", price: 350, isFramework: true },
         { title: "MERN", price: 1000, isFramework: true },
-        { title: "MEAN", price: 700, isFramework: true },
+        { title: "MEAN", price: 400, isFramework: true },
     ]
 );
 
 db.students.insertMany(
     [
         {
+            name: "Bharati",
+            age: 30,
+            grade: "A+",
+            Gender: "Female",
+            bio: "I am a student of Computer Science",
+            subjects: ["Node", "Angular", "MongoDB"]
+        },
+        {
             name: "Sagar",
             age: 20,
-            grade: "A+",
-            subjects: ["Math", "Physics", "Computer Science"]
-        },
-        {
-            name: "Suraj",
-            age: 21,
             grade: "A",
-            subjects: ["English", "Physics", "Computer Science"]
+            Gender: "Male",
+            bio: "I am a student of Computer Engineering",
+            subjects: ["MEAN", "Django", "Node"]
         },
         {
-            name: "Rohit",
+            name: "Mayur",
             age: 22,
             grade: "B",
-            subjects: ["Data Structure"]
+            Gender: "Male",
+            bio: "I am a student of Mechanical Engineering",
+            subjects: ["Java"]
         },
         {
             name: "Rohan",
-            age: 23,
+            age: 21,
             grade: "B+",
-            subjects: ["Account", "Geography", "Hindi"]
+            Gender: "Male",
+            bio: "I am a student of Civil Engineering",
+            subjects: ["MEAN", "JavaScript", "Django"]
         },
         {
-            name: "Raj",
+            name: "Diya",
             age: 24,
             grade: "C",
-            subjects: ["Physics", "Computer Science"]
+            Gender: "Female",
+            bio: "I am a student of Electrical Engineering",
+            subjects: ["MEAN", "Java"]
         },
         {
             name: "Nilesh",
             age: 25,
+            Gender: "Male",
             grade: "C+",
-            subjects: ["Hindi", "", "Geography"]
+            bio: "I am a student of Electronics Engineering",
+            subjects: ["Angular", "", "Mongoose"]
         },
         {
-            name: "Rajesh",
-            age: 26,
+            name: "Kamlesh",
+            age: 22,
             grade: "D",
-            subjects: ["Geometry", "Physics", "Account"]
+            Gender: "Male",
+            bio: "I am a student of Chemical Engineering",
+            subjects: ["Spring", "JavaScript", "Django"]
         },
         {
-            name: "Yogesh",
-            age: 27,
+            name: "Yogita",
+            age: 48,
             grade: "D+",
-            subjects: ["Math", "Hindi"]
+            Gender: "Female",
+            bio: "I am a student of Civil Engineering",
+            subjects: ["MERN", "Express"]
         },
         {
-            name: "Rahul",
-            age: 28,
+            name: "Sagar",
+            age: 68,
             grade: "E",
-            subjects: ["Account", "Physics", "Computer Science"]
+            Gender: "Male",
+            bio: "I am a student of Software Engineering",
+            subjects: ["MEAN", "Spring", "Express"]
         },
         {
-            name: "Rahul",
-            age: 29,
+            name: "Gopal",
+            age: 35,
             grade: "E+",
-            subjects: ["Geography", "Geometry", "Account"]
+            Gender: "Male",
+            bio: "I am a student of Mechatronics Engineering",
+            subjects: ["Mongoose", "Express", "MERN"]
         }
     ]
 );
@@ -113,6 +133,49 @@ db.products.insertMany(
                 { name: "Laptop", quantity: 25 },
                 { name: "Mobile", quantity: 35 },
                 { name: "Tablet", quantity: 45 }
+            ]
+        }
+    ]
+);
+
+db.employees.insertMany( 
+    [
+        {
+            name: "Sagar",
+            Hobbies: ["Cricket", "Football", "Chess"],
+            Address: { city: "Pune", state: "MH" },
+            Experience: [
+                { company: "Google", duration: 1 },
+                { company: "Microsoft", duration: 3.6 },
+                { company: "Amazon", duration: 1.5 }
+            ]
+        },
+        {
+            name: "Suraj",
+            Hobbies: ["Handball", "Football", "Badminton"],
+            Address: { city: "Mumbai", state: "MH" },
+            Experience: [
+                { company: "Tavant", duration: 1.5 },
+                { company: "Infosys", duration: 2.6 }
+            ]
+        },
+        {
+            name: "Nilesh",
+            Hobbies: ["Cricket", "Football", "Chess"],
+            Address: { city: "Nandurbar", state: "MH" },
+            Experience: [
+                { company: "Tata", duration: 1.5 },
+                { company: "Wipro", duration: 2.6 },
+                { company: "HCL", duration: 1.9 }
+            ]
+        },
+        {
+            name: "Ravi",
+            Hobbies: ["Kabaddi", "Table Tennis", "Swimming"],
+            Address: { city: "Jalgaon", state: "MH" },
+            Experience: [
+                { company: "TCS", duration: 2.5 },
+                { company: "Accenture", duration: 3.6 }
             ]
         }
     ]
