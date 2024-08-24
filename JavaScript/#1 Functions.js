@@ -14,7 +14,7 @@ const square2 = function (num) {
 }
 square2(3);
 
-// Q: What is the diffence betwee Function statement and function expression?
+// Q: What is the diffence between Function statement and function expression?
 // --> Hoisting.
 
 // Q. Anonymous Function:
@@ -210,12 +210,12 @@ let user = {
     arrowFun: () => {
         console.log("arrowFun Subscribe to ", this.username); // undefined, this points to global scope // this = parent of parent
     },
-    reguarFun() {
+    regularFun() {
         console.log("regularFun Subscribe to ", this.username); // "Roadside Coder" // this = parent
     }
 }
 user.arrowFun();
-user.reguarFun();
+user.regularFun();
 
 
 // Constructor function with this keyword:

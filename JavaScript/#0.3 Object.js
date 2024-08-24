@@ -30,6 +30,7 @@ console.log("mySym:", jsUser.mySym);    // undefined
 jsUser.greeting = function () {
     console.log("Hello JS User");
 }
+
 jsUser.greetingName = function () {
     console.log(`Hello ${this.name}`);
 }

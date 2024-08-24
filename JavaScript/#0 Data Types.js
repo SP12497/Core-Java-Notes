@@ -52,7 +52,10 @@ let score = "33";
 console.log(typeof score);      // string
 console.log(typeof (score));    // string
 
-let scoreNum = Number(score);
+// Number() -- // convert into number
+// Number.parseInt(score); // convert into number
+
+let scoreNum = Number(score);   // 33
 console.log("scoreNum", typeof scoreNum);   // number
 
 let scoreInvalid = "33qa";
@@ -118,7 +121,7 @@ let fname = "Sagar", lname = " Patil";
 console.log(fname + lname);
 
 console.log("1" + 2);   // 12
-console.log(1 + "2");   // 12
+console.log(1 + "2");   // 12   // number get converted into string
 console.log("1" + 2 + 2);// 122
 console.log(1 + 2 + "2");//32
 
@@ -244,6 +247,9 @@ console.log(myarray);  // [ 1, 5 ]
 
 console.log("slice vs substring:");
 let str = "Hello, World!";
+// substring(startIndex, endIndex): endIndex is optional
+// slice(startIndex, endIndex): endIndex is optional
+// split(startIndex, length): length is optional
 console.log(str.substring(7, 12));  // Output: "World"
 console.log(str.substring(12, 7));  // Output: "World" (swapped indices)
 console.log(str.substring(-3, 5));  // Output: "Hello" (negative index treated as 0
@@ -287,7 +293,7 @@ console.log(otherNumber.toPrecision(2)); // 1.2e+2
 
 var no = 1000000;
 console.log(no.toLocaleString());    // us standart: 1,000,000
-console.log(no.toLocaleString('en-IN'));    // Indian standart: 10,00,000
+console.log(no.toLocaleString('en-IN'));    // Indian standard: 10,00,000
 
 console.log(Number.MAX_VALUE);  // 1.7976931348623157e+308
 console.log(Number.MIN_VALUE);  // 5e-324
@@ -312,7 +318,7 @@ console.log(Math.ceil(4.1));   // 5
 console.log(Math.ceil(4.0));   // 4
 
 console.log("floor:", Math.floor(3.9));   // 3
-console.log(Math.floor(4.1));   // 4
+console.log(Math.floor(4.9));   // 4
 console.log(Math.floor(4.0));   // 4
 
 console.log("max:", Math.max(4, 5, 6, 2));  // 6
@@ -352,7 +358,7 @@ console.log(newDate2);  // 2024-01-25T00:00:00.000Z
 let newDate3 = new Date("01-14-2024");  // MM-DD-YYYY // 2024-01-13T18:30:00.000Z
 console.log(newDate3);
 
-let myTimeStamp = Date.now();
+let myTimeStamp = Date.now();   // current time in mili sec.    // 1720120400329
 console.log("myTimeStamp:", myTimeStamp);   // 1720120400329 ans in mili sec.
 console.log(date.getTime());   // ans in mili sec.  // 1720120400313  
 console.log(myTimeStamp - date.getTime()); // 6, ans in mili sec, time difference
@@ -378,7 +384,7 @@ console.log(typeof myarr, typeof myArrObj); // object object
 
 myarr.push(5);
 myarr.push(6);
-myarr.pop();
+myarr.pop();    // Removes the last element from an array and returns it. || undefined if the array is empty.
 console.log(myarr.unshift(9));  // 7 (returns length of array)   // add at start
 // myarr.unshift(99,88,77);   // add at start
 console.log(myarr); // [ 9, 0, 1, 2, 3, 4, 5 ]
@@ -426,6 +432,8 @@ val1 = null ?? 10;  // 10
 val1 = undefined ?? null ?? 15 ?? 10;   // 15
 console.log(val1);
 val1 = undefined || null || 15 || 10;   // 15 // same we can do using OR operator
+// null ?? undefined ?? null  => null
+// null ?? undefined => undefined
 
 console.log("Difference between OR(||) and Nullish Coalescing Operator (??)");
 // Note: "||" ignore falsy values and "??" ignore null and undefined.

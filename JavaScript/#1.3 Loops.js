@@ -53,6 +53,7 @@ map.set("IN", "India");
 
 for (const entry of map) {
     // console.log(entry);
+    // entry[0] , entry[1]
 }
 
 for (const [key, value] of map) {
@@ -76,7 +77,7 @@ for (const key in student) {
 // array:
 const programmings = ["js", "java", "py"];  // array keys start from 0
 for (const key in programmings) {            // works
-    // console.log(key, ":-", programmings[key]);
+    // console.log(key, ":-", programmings[key]);   // 0 :- js, 1 :- java, 2 :- py
 }
 
 // map:

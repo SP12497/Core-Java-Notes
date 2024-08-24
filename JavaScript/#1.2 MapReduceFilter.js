@@ -28,12 +28,12 @@ function isOdd(x) {
     return x % 2 === 1;
 }
 console.log("odd array:", arr.filter(isOdd));
-console.log("even array:", arr.filter(x => x > 3));
+console.log("greater than 3 array:", arr.filter(x => x > 3));
 
 
 console.log("----------Reduce----------");
 
-// reduce works same likt this function:
+// reduce works same like this function:
 function findSum(arr) {
     let sum = 0;    // sum = acc (accumulator), 0=> initial value
     for (let i = 0; i < arr.length; i++) {
@@ -64,7 +64,7 @@ function findMax(arr) {
 console.log("findMax:", findMax(arr));
 
 console.log("reduce findMax:", arr.reduce((acc, curr) => {
-    console.log(acc, curr);
+    // console.log(acc, curr);
     if (curr > acc) {
         acc = curr;
     }

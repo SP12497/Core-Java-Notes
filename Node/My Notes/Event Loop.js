@@ -39,7 +39,6 @@ Event Loop Phases by Procademy Youtube Channel:
     - Phase 4: Closed callbacks
     - Phase 5: Microtasks Queue (High Priority)
     - Phase 6: Next Tick Queue  (High Priority)
-
 */
 
 
