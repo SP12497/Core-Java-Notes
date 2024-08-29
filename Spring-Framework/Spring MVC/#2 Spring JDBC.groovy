@@ -6,7 +6,7 @@ Spring JDBC:
 Problem of Java JDBC:
     - We need to write a lot of code
     - Exception handling problem: Checked exception, SQLException
-    - Repeating of all these code from one to another database logic is a time consuming task.
+    - (Imp: Switching from MySql to Oracle) Repeating of all these code from one to another database logic is a time consuming task. 
 
 Benefits of Spring JDBC:
     - Solution of JDBC problems are provided.
@@ -17,11 +17,13 @@ JdbcTemplate:
     execute()
     queryForObject()
     query()
-    ...
+    ... and many more
 
 Project:
     - create maven quick start project
-    - add dependencies: spring core, spring context, spring-jdbc 5.2.3. RELEASE version and mysql-connector-java.
+    - add dependencies: spring core, spring context, 
+        - spring-jdbc 5.2.3.RELEASE version
+        - mysql-connector-java.
 
 ===============================
 interface DataSource {}
@@ -35,7 +37,7 @@ class org.springframework.jdbc.datasource.DriverManagerDataSource
     - password = root
 
 @Configuration
-public class JavaConfig{
+public class JavaConfig {
     @Bean
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -43,7 +45,6 @@ public class JavaConfig{
         dataSource.setUrl("jdbc:mysql://localhost:3306/springjdbc");
         dataSource.setUsername("root");
         dataSource.setPassword("root");
-
         return dataSource;
     }
 
@@ -57,7 +58,7 @@ public class JavaConfig{
 
 ------------------
 @Autowired
-JdbcTemplate template;
+JdbcTemplate template;  // it will automatically inject the JdbcTemplate object.
 
 - String query = "insert into student(id, name, city) values(?,?,?)";
 int result = template.update(query, 01, "Sagar", "NDB"); // same use for insert, update delete query
@@ -69,18 +70,18 @@ int result = template.update(query, 01, "Sagar", "NDB"); // same use for insert,
 
 Practical:
     public class RowMapperImpl implements RowMapper<Student> {
-        public Student mapRow(ResultSet rs, int rowNum) throws SQLException {   // RowMapper {T mapRow(...); }
+        public Student mapRow(ResultSet rs, int rowNum) throws SQLException {           // interface RowMapper {T mapRow(...);}
             Student student = new Student();
-            student.setId(rs.getInt(1));
-            student.setName(rs.getString(2));
-            student.setCity(rs.getString(3));
+            student.setId(rs.getInt(1));        // first column: id
+            student.setName(rs.getString(2));   // second column: name
+            student.setCity(rs.getString(3));   // third column: city
             return student;
         }
     }
 
-    public class StudentDaoImpl {
+    public class StudentDaoImpl {                   // Service class
         public Student getStudent(int studentId) {
-            String query = "select * from student where id=?";
+            String query = "select * from student where id=?";  // "select id, name, city from student where id=?"
             RowMapper<Student> rowMapper = new RowMapperImpl();
             Student student = this.jdbcTemplate.queryForObject(query, rowMapper, studentId);
             return student;
@@ -88,7 +89,7 @@ Practical:
     }
 
 -----
-Spring Boot Jdbc : (MySQL)
+Spring Boot Jdbc : (MySQL DB)
     - dependencies: 
         spring-boot-starter-jdbc
         mysql-connector-java
@@ -104,7 +105,7 @@ Spring Boot Jdbc : (MySQL)
             private JdbcTemplate jdbcTemplate;
 
             public int createTable() {
-                String query ="CREATE TABLE IF NOT EXIST User(id int primary key, name varchar(50))";
+                String query ="CREATE TABLE IF NOT EXIST User(id int primary key, name varchar(50), age int, city varchar(50))";
                 int affectedRows = this.jdbcTemplate.update(query);
                 return update;
             }
@@ -115,6 +116,7 @@ Spring Boot Jdbc : (MySQL)
             }
         }
     - call createTable():
+        // CommandLineRunner: It will run the code after the application context is loaded.
         public class SpringBootMainApplication implements CommandLineRunner {
             @Autowired
             private UserDao userDao;
@@ -125,12 +127,12 @@ Spring Boot Jdbc : (MySQL)
 
             @Override
             public void run(String... args) throws Exception {
-                this.userDao.createTable();     // this not static method, cant run in static main class. So implemented CommandLineRunner for non static method to run our code.
+                this.userDao.createTable();     // this not static method, can't run in static main class. So implemented CommandLineRunner for non static method to run our code.
             }
         }
 
 -----------------
-Spring Boot Jdbc : (PostGres)
+Spring Boot Jdbc : (PostGres DB)
     - dependencies:
         postgresql
         spring-boot-starter-jdbc

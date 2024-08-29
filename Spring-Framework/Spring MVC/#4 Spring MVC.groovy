@@ -1,5 +1,5 @@
 What is Spring MVC: (Model-View-Controller)
-    - A spring mvc is a sub framework of Spring framework which is used to build a web application.
+    - A spring MVC is a sub framework of Spring framework which is used to build a web application.
     - It is build on the top of Servlet API
     - It follows the MVC design pattern
     - It implements all the basic features of a core spring framework
@@ -14,11 +14,11 @@ Why Spring MVC:
 
 MVC Design pattern:
     - Model : Data
-      View: Presents data to user
-      Controller: Interface b/w model and view
+      View: Presents data to user (html, jsp, etc)
+      Controller: Interface b/w model and view. (Servlet, etc)
     - Way to organize the code in our application.
 
-Problem without MVC design pattern
+Problem without MVC design pattern:
 
 ---------
 Configure Tomcat and Eclipse:
@@ -46,7 +46,7 @@ Sprinv MVC application creation steps: (refer: "#4.1 MVC Working.png")
   4. Create Controller
   5. Create a View to show (page)
 
-Step 1: Configure the dispatcher servler in web.xml
+Step 1: Configure the dispatcher servler in web.xml : 
   - src/main/java/webapp/WEB.xml:
     <web-app> 
         <!-- Configure dispatcher Servler-->
@@ -56,7 +56,7 @@ Step 1: Configure the dispatcher servler in web.xml
         </servlet>
         <servlet-mapping>
             <servlet-name>spring</servlet-name> <!-- Dispatcher servlet name -->
-            <url-pattern>/</url-pattern>    <!-- / means all, /student means only start with student path related-->
+            <url-pattern>/</url-pattern>    <!-- '/' means all, '/student' means only start with student path related-->
         </servlet-mapping>
     </web-app>
 
@@ -88,7 +88,7 @@ Step 4. Create Controller:
   public class HomeController {
     @RequestMapping("/home")
     public String home() {
-      return "index";  // views/index.jsp // 
+      return "index";  // /WEB-INF/views/index.jsp // 
       // String "index" will go to FrontController ie dispatcher servlet
       // then, dispatcher servlet will send to View Resolver and View Resolver will retun the View ie index.jsp page.
       // then, FrontController will return the index.jsp as response.
@@ -97,7 +97,7 @@ Step 4. Create Controller:
   }
 
 Step 5. Create a View to show (page):
-  - WEB-INF/views/index.jsp
+  - /WEB-INF/views/index.jsp
     - Write some jsp/html code
 
 Run and Call: localhost:8080/springmvc/home
@@ -240,7 +240,7 @@ public class ContactController {
   //   @RequestParam("password") String password
   // ) {
   //   System.out.println("name");
-  //   return "";  // if you want redirect to another page, then pass page name in redurn. If you want to transfer data, we are use Model class
+  //   return "";  // if you want redirect to another page, then pass page name in redurn. If you want to transfer data, we are use Model/ModelAndView class
   // }
 
   // @RequestMapping(path="/processform", method=RequestMethod.POST)   // redirected from signUpPage.html
@@ -258,6 +258,10 @@ public class ContactController {
   // }
 
   //@ModelAttribute : performs 3 tasks => 1.@RequestParam 2.user.setEmail(email); 3. model.addAttribute
+  // @ModelAttribute User user :  // helps to remove the boilerplate code of creating User object and setting the data in it.
+      // 1. Take data from request and bind to User object 
+      // 2. Add User object to Model object
+      // 3. Return User object to view as Model.
   @RequestMapping(path="/processform", method=RequestMethod.POST)
   public String redirectFormByClassModelAttribute(@ModelAttribute User user, Model model) {
     return "successPage"; // this page will get the data
@@ -265,19 +269,19 @@ public class ContactController {
 }
 
 public class User {
-  String email;     // same as signUpPage.html name field
+  String email;     // keyname must be same as signUpPage.html name field name to use @ModelAttribute
   String username; 
   String password;
   // add getters/setters
 }
-
-successPage.jsp:  <h1>Welcome ${user.username}</h1>
+// Display:
+  successPage.jsp:  <h1>Welcome ${user.username}</h1>
 
 // --------Custom data for model
 @Controller
 public class ContactController {
-  @ModelAttribute
-  public void commonDataForModel(Model m){  // This function will get call before @RequestMapping methods.
+  @ModelAttribute   // share Model data with all RequestMapping methods in this ContactController class
+  public void commonDataForModel(Model m){  // This function will get call before @RequestMapping methods and will add data to Model object.
     m.addAttribute("Header1", "My Header1");
     m.addAttribute("Header2", "My Header2");
   }
@@ -291,19 +295,45 @@ public class ContactController {
   public String redirectFormByClassModelAttribute(@ModelAttribute User user, Model model) {
     return "successPage"; // In this page, will get user, Header1 and Header2 properties
   }
+}
 
+// ------
+How to redirect in Spring MVC?
+    - Use case: we can use for error validation, eg. If request payload is not valid, will redirect to error page. if valid then update DB.
+1. HttpServletResponse (Feature of Servlet Framework)
+    @RequestMapping("/one")
+    public String first(HttpServletResponse response) {  // not recommended in Spring
+        response.sendRedirect("two");       // redirect to "/two"
+        return "";
+    }
+2. redirect prefix
+    @RequestMapping("/one")
+    public String first() {
+        return "redirect:/two"; // check redirect keywork and call path /two
+    }
+    @RequestMapping("/two") 
+    public String second() { return "signUpPage"; }
+3. RedirectView:
+    @RequestMapping("/one")
+    public RedirectView first() {
+        RedirectView redirectView = New RedirectView();
+        redirectView.setUrl("two");
+        // redirect.setUrl("https://www.google/com");
+        return redirectView; // check redirect keywork and call path
+    }
+4. In JSP page: <% response.sendRedirect("two"); %>
 
 //------------
 File Uploading in Spring MVC: Using interface MultipartResolver
   dependency: common-fileupload, commons-io
-  spring-servlet.xml:
+  - spring-servlet.xml:
     <bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonMultipartResolver"
-  fileForm.jsp:
+  - fileForm.jsp:
     <form action="uploadimage" method="post" enctype="multipart/form-data" >
       <input type="file" name="profile" />
       <button>Submit</button>
     </form>
-  Controller:
+  - Controller:
     @RequestMapping(value="/uploadimage", method = RequestMethod.POST)
     public String fileUpload(@RequestParam("profile") CommonMultipartResolver file) {
       syso(file.getSize());
@@ -355,6 +385,7 @@ File Uploading in Spring MVC: Using interface MultipartResolver
 ----------
 Interceptors:
   - Used to pre-processing and post-processing the request.
+  - Interceptor is used to perform operations before and after the request is processed.
   - #4.3.1 MVC Interceptor.png
   - Structure:
     interface HandlerInterceptor
@@ -371,7 +402,7 @@ Interceptors:
       <bean class="springmvcexample.MyInterceptor" ></bean>
     </mvc:interceptor>
   // class MyInterceptor implements HandlerInterceptor { // must implements all 3 interceptor methods.}
-  class MyInterceptor extends HandlerInterceptorAdaptor{
+  class MyInterceptor extends HandlerInterceptorAdaptor {
     @Override
     public boolean preHandler(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
       String name = request.getParameter("user");
@@ -385,9 +416,12 @@ Interceptors:
 
     @Override
     public void postHandler(HttpServletRequest request, HttpServletResponse response, Object handler, 
-      ModelAndView modelAndView) throws Exception { }
+      ModelAndView modelAndView) throws Exception {
+        modelAndView.addObject("name", "Sagar");
+      }
     
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
-      Exception ex) throws Exception { }
+      Exception ex) throws Exception {
+      }
   }

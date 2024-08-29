@@ -1,4 +1,6 @@
 Spring with ORM Framework:
+    - Spring ORM is a module that provides integration layers for popular object-relational mapping APIs, including JPA, JDO, Hibernate, and iBatis.
+    - #3.1 ORM implementation.png
 
 Advantages:
     - Less coding is required
@@ -22,9 +24,9 @@ How to work with Spring ORM:
     LocalSessionFactoryBean Object needs:
         1. DataSource properties (url, username, password)
         2. Hibernate Properties (Dialect, format sql ...)
-            - hibernate.dialect = org.hibernate.dialect.MySQL57Dialect
+            - hibernate.dialect = org.hibernate.dialect.MySQL8Dialect
             - hibernate.show_sql = true
-            - hibernate.hbm2ddl.auto = update
+            - hibernate.hbm2ddl.auto = update   // create, update, validate, create-drop
         3. Annotation Class
 
 ------------
@@ -57,35 +59,8 @@ public class StudentDao {
 
 
 CRUD:
-Create:     hibernateTemplate.save(student)
-Read:       Student student = hibernateTemplate.get(Student.class, studentId) / hibernateTemplate.load()
-Read All:   List<Student> students = hibernateTemplate.loadAll(Student.class)
-Delete:     void = hibernateTemplate.delete(student)
-Update:     hibernateTemplate.update(student), saveOrUpdate(Student.class, student)
-
-
-----
-How to redirect in Spring MVC?
-    - Use case: we can use for error validation, eg. If request payload is not valid, will redirect to error page. if valid the update DB.
-1. HttpServletResponse (Feature of Servlet Framework)
-    @RequestMapping("/one")
-    public String first(HttpServletResponse) {  // not recommended in Spring
-        response.sendRedirect("two");
-        return ""; // check redirect keywork and call path
-    }
-2. redirect prefix
-    @RequestMapping("/one")
-    public String first() {
-        return "redirect:/two"; // check redirect keywork and call path
-    }
-    @RequestMapping("/two") 
-    public String second() { return "signUpPage"; }
-3. RedirectView:
-    @RequestMapping("/one")
-    public RedirectView first() {
-        RedirectView redirectView = New RedirectView();
-        redirect.setUrl("two");
-        // redirect.setUrl("https://www.google/com");
-        return redirectView; // check redirect keywork and call path
-    }
-4. In JSP page: <% response.sendRedirect("two"); %>
+    Create:     hibernateTemplate.save(student)
+    Read:       Student student = hibernateTemplate.get(Student.class, studentId) / hibernateTemplate.load()
+    Read All:   List<Student> students = hibernateTemplate.loadAll(Student.class)
+    Delete:     void = hibernateTemplate.delete(student)
+    Update:     hibernateTemplate.update(student), saveOrUpdate(Student.class, student)

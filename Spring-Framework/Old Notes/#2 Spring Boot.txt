@@ -7,7 +7,7 @@ Spring Boot :
 @Component 
 class Car {}
 	- on the class
-	- here default object name is "car".
+	- here default object name is "car" in smallcase.
 	- automatically create the object of the class
 
 ---------------------------
@@ -29,7 +29,9 @@ class Car {}
 
 ---------------------------
 @RestController :
-	means class always return Response  ie @ResponseBody
+	- It is a combination of @Controller and @ResponseBody
+	- It is used to create REST API
+	- means class always return Response  ie @ResponseBody, not view ie only @Controller
 
 ---------------------------
 

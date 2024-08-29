@@ -3,19 +3,21 @@
     combining @Configuration, @EnableAutoConfiguration, and @ComponentScan.
 
 @Bean:
-    - Used in @Configuration class
-    - apply on method to tells that, Object creation by method should manage by Spring Container. 
+    - Indicates that a method produces a bean to be managed by the Spring container.
+    - Used inside @Configuration class
+    - apply on method to tells that, Object creation by method should manage by Spring IOC Container. 
     - help to get auto injection.
 
 @Configuration: 
-    Indicates that a class declares one or more @Bean methods.
+    - Indicates that a class provides bean definitions.
+    - Indicates that a class declares one or more @Bean methods.
     - provide java based bean creation configuration:
     - ConfigFile:
         @Configuration
-        @ComponentScan(basePackages = {"myAnotherPackage" , "myAnotherPackage2"})
+        @ComponentScan(basePackages = {"myAnotherPackage" , "myAnotherPackage2"})   // Optinal: if you want to scan multiple packages
         public class MyConfig {
             @Bean 
-            public Student getStudent() {
+            public Student getStudent() {   // Bean will be created by method name
                 return new Student();
             }
 
@@ -26,9 +28,10 @@
             }
         }
     - Test:
-        @Autowired Student student; //  IOC will give object automatic
+        @Autowired 
+        @Qualifier("getStudent")
+        Student student; //  IOC will give object automatic
         student.getName();
-
 
 @Autowired: 
     - Performs dependency injection on fields, constructors, or methods.
@@ -36,7 +39,9 @@
     - @Autowired @Qualifier("student2") Student student; :
         - if multiple beans/objects are presents for same type. Then pass bean/object name.
     - @Lazy: 
-        - create object when required. Do not create at start of application.
+        - Lazy initialization:
+            - create object when required. Do not create at start of application.
+
 @Component: 
     - Indicates that a class is a Spring component, allowing auto-detection and auto-registration.
     - tells spring container to manage object lifecycle.
@@ -47,27 +52,41 @@
     - @Service:
         - Service Layer
         - Indicates that a class is a service component.
+        - @Component + Business Logic
     - @Repository:
         - DAO Layer (Data Access Object)
         - Indicates that a class is a repository component (typically for data access).
+        - @Component + Data Access Logic
 
 @ComponentScan:
     - Scan provided package and its sub packages and check for configuration like @Component
 
 @EnableAutoConfiguration: 
-    Enables Spring Boot's auto-configuration mechanism.
+    - Enables Spring Boot's auto-configuration mechanism.
+    - Automatically configure your Spring application based on the JAR dependencies you added in the project.
+    - It is generally placed on the main class of the application.
+    - It tells Spring Boot to start adding beans based on classpath settings, other beans, and various property settings.
+    - For example, if spring-webmvc is on the classpath, this annotation flags the application as a web application and activates key behaviors, such as setting up a DispatcherServlet.
 
 --------------------------
-
 @RestController: 
-    - Indicates that a class is a REST controller, 
+    - Indicates that a class is a REST controller,
     - combining @Controller and @ResponseBody.
+    - used to create REST API
+    - means class always return Response  ie @ResponseBody, not view ie only @Controller
 
 @RequestMapping: Maps web requests to handler methods.
 
 @Value: Binds a property value to a field or method parameter.
 
 @Transactional: Marks a method, class, or interface as transactional.
+    - used to manage transaction in spring boot application.
+    - @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false)
+    - @Transactional(rollbackFor = Exception.class)
+    - @Transactional(noRollbackFor = Exception.class)
+    - @Transactional(timeout = 10)
+    - @Transactional(value = "transactionManager")
+    - @Transactional(rollbackFor = Exception.class, noRollbackFor = ArithmeticException.class)
 
 @PathVariable: Binds a method parameter to a placeholder in the request URL.
 @RequestParam: Binds a method parameter to a query parameter in the request URL.

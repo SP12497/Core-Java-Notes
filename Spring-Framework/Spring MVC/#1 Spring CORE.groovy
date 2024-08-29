@@ -1,4 +1,4 @@
-What is Spring :
+What is Spring Framework?
 	Spring is a Dependency Injection framework to make java application loosely coupled.
 
 MVC = Web Framework / Servlet JSP/ UI LAYER
@@ -59,8 +59,8 @@ Steps to create project :
 				<artifactId>spring-context</artifactId>
 				<version>5.2.5.RELEASE</version>
 			</dependency>
-	3. Creating beans-java pojo :
-	 Plain Old Java Object :
+	3. Creating beans-java pojo:
+	  Plain Old Java Object POJO:
 		- It is an ordinary Java object, not bound by any special restriction other than those forced by the Java Language Specification and not requiring any classpath. 
 	4. Creating configuration file => config.xml
 			<beans	 	xmlns="http://www.springframework.org/schema/beans"
@@ -101,7 +101,7 @@ SPRING MODULE :
 		- spEL
 		SPRING CORE:
 			- Introduction
-			- ioc using Dependency Injection (DI)
+			- IOC using Dependency Injection (DI)
 			- Spring Container
 			- Types of Container
 			- Bean and Bean Lifecyle
@@ -118,7 +118,7 @@ SPRING MODULE :
 	- Instrumentation
 	- Messaging
 	- Data Access / Integration :
-		- JDBC
+		- JDBC: Java Database Connectivity
 		- ORM : Object Relational Mapping
 		- JMS : Java Messaging Service
 		- OXM : Object XML Mapping
@@ -195,8 +195,10 @@ create object using xml:
 	- Spring provide two important methods to every bean:
 		- public void init()	:
 			- Initialization code, loading config, connection db, webservice etc
+			- eg. public void init() { System.out.println("Init method"); }
 		- public void destroy()	:
 			- clean up code
+			- eg. public void destroy() { System.out.println("Destroy method"); }
 	
  -> Spring Bean life cycle Working:
 	- START: 
@@ -204,11 +206,11 @@ create object using xml:
 		- Initialization happen eg. Student name = "Sagar"...
 		-> init() do initialization or configuration
 		- perform operation (Then we Read and use the bean)
-		-> destroy()	clean up code once bean operation is completed
+		-> destroy() clean up code once bean operation is completed
 	- END
 
  - We can implement using following 3 types:
-	1. Using XML
+	1. Using XML:
 		- create init and destroy method in Samosa pojo class. we can you any function name instead of init and destroy
 		<bean class="com.springcore.Samosa" name="s1" 
 			init-method="init" destroy-method="destroy">
@@ -239,7 +241,7 @@ create object using xml:
 			we have to add an additional dependancy to use.
 			dependancy: artifactId= javax.annotation-api
 	eg.
-	public class Pepsi implements InitializingBean, DisposableBean {
+	public class Pepsi {
 		private double price;
 		public setPrice(double price){ this.price = price;}
 		@PostConstruct public void start() {}
@@ -249,14 +251,14 @@ create object using xml:
 		<context:annotation-config />
 
 =====================================
-#17 : Autowiring :
+#17 : Autowiring:
 	- Feature of spring framework in which spring container inject the dependencies automatically.
 	- It works only with reference only. (works on object only)
 		cant be used to inject primitive and string values.
 	- Manual wiring in xml :	<ref bean=""/>
 		Spring container will do automatically wiring using @Autowired  
 		eg. Object A depends on B
-		spring container will inject Object B into A (A -----wiring----- B )
+		spring container will inject Object B into Object A (A -----wiring----- B )
 
 	There are 2 Types :
 		1. XML :	code: package com.springcore.auto.wire;
@@ -273,7 +275,7 @@ create object using xml:
 		2. Annotations		: code: package com.springcore.auto.wire.annotations;	
 			- @Autowired : 
 				- we can use autowire annotation using 3 types:
-					1. On Property	:	class Employee { @Autowired private Address address; }
+					1. On Property	:	class Employee { @Autowired private Address address; }	// Injects the Address bean byType
 					2. On Setter	: 
 						class Employee { 
 							private Address address; 
@@ -286,21 +288,21 @@ create object using xml:
 						}
 				- It works on byType
 					
-#20 : @Qualifier	: code: package com.springcore.auto.wire.annotations;
+#20 : @Qualifier: code: package com.springcore.auto.wire.annotations;
 		- There may be a situation, when you create more than one bean of the same type 
-		  and want to wire only one of them with a property. 
+		  and want to wire only one of them with a property.
 		  In such cases, you can use the @Qualifier annotation along with @Autowired 
 		  to remove the confusion by specifying which exact bean will be wired.
 			
 	@Autowired
-	@Qualifier("address2")		//check "byName"	// by default "byType"
+	@Qualifier("address2")		// check "byName"	// by default "byType"
 	private Address address;
 
 
 #21 : Spring Standalone Collections[List,Map,Properties] 
 		- It uses util schema.
 		
-#22 : Stereotype Annotation :	code :package com.springcore.stereotype;
+#22 : Stereotype Annotation :	my-code :package com.springcore.stereotype;
 	@Component : on the class	
 		- same as xml <bean/>
 		- create object automatically.
@@ -314,11 +316,11 @@ create object using xml:
 	@Value :
 		- on the property.
 		- Used to set the value into the variable/property
-		@Component("stud") class Student{
+		@Component("stud") class Student {
 			@Value("Sagar")
 			String name;
 			
-			@Value("#{addressId1}")			
+			@Value("#{addressId1}")		// SpEL
 			private List<String> address;
 		}
 
@@ -330,7 +332,7 @@ create object using xml:
 	// 	- singleton: one class have only one object. // by default
 	// 	- prototype : one class , many object
 	// 	- request	  : HTTP request
-	// 	- session
+	// 	- session:
 	// 	- globalsession
 	xml:	<bean class="" name="" scope="" />
 	practical:
@@ -367,7 +369,7 @@ create object using xml:
 		ExpressionParser parser = new SpelExpressionParser();  
 		Expression exp = parser.parseExpression("'Welcome SPEL'.concat('!')");  
 		String message = (String) exp.getValue();  
-		System.out.println(message);
+		System.out.println(message);		// Welcome SPEL!
 		
 
 #28 Removing complex XML for Spring Configuration	:
@@ -378,7 +380,7 @@ create object using xml:
 	@ComponentScan	:
 		- set Package (which package to scan?)
 		- eg :  @ComponentScan(basePackages = "com.springcore.javaconfig")
-			- It will scann the package and check @Controller and some other annotations and create a object for those.
+			- It will scan the package and check @Controller, @Service, @JapRepository and some other annotations and create a object for those.
 	
 	@Bean :
 		- on method which return new object;
@@ -389,9 +391,9 @@ create object using xml:
 		3. @Bean Annotation			:	
 		
 		Practical:
-			@Component class Student{}
-			class Teacher{ Subject subject;  public Teacher(Subject subject){ this.subject = subject} }
-			class Subject{}
+			@Component class Student {}	// package com.springcore.annotationconfig
+			class Subject {}
+			class Teacher { Subject subject;  public Teacher(Subject subject){ this.subject = subject} }
 
 			@Configuration 	// mandate
 			@ComponentScan(basePackages = "com.springcore.annotationconfig")		// create object for Student

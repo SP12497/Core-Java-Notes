@@ -41,6 +41,7 @@ interface Map:
 	size(): Returns the number of key-value mappings in the map.
 	isEmpty(): Returns true if the map contains no key-value mappings.
 	clear(): Removes all of the mappings from the map.
+	getOrDefault(5 , -1);: 
 */
 // Map.of("msg", "received"); check this method
 // Map<String, Object> user = new HashMap<>(); user.put("city", "NDB");
@@ -60,6 +61,8 @@ public class _06Map {
 		Map<String, String> map = new LinkedHashMap<>();
 
 		HashMap<String, String> concreteMap = new HashMap<>();
+		// SortedMap<Character, Integer> smap = new TreeMap<>();	// SortedMap only allows TreeMap
+
 
 		// var map = new HashMap<String, String>(); // JAVA 10
 
@@ -143,5 +146,7 @@ public class _06Map {
 		// make Map as constant
 		Map<Integer, Boolean> um = Collections.unmodifiableMap(mp);
 		um.put(4, true);	// java.lang.UnsupportedOperationException
+// 13. // Compare 2 maps
+		boolean areEqual = mp.equals(um);
 	}
 }

@@ -22,4 +22,5 @@ AWS Autoscaling Components:
                 - Number of Instances: 5
         - Target Value: The value that the metric should maintain.
 
+
 */

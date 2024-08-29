@@ -17,7 +17,8 @@ Advantages of Spring Boot:
 
 How Spring Boot magic works?
     - Starter POM:
-        - spring-boot-starter-web (tomcat-embed-core, jackson-datatype-jsr (JAVA - JSON converter), spring-boot-autoconfigure (contains configuration of aop, jpa, redis, rest, cache, web, servlet, jdbc) ,... )
+        - spring-boot-starter-web (tomcat-embed-core, jackson-datatype-jsr (JAVA - JSON converter), 
+        - spring-boot-autoconfigure (contains configuration of aop, jpa, redis, rest, cache, web, servlet, jdbc) ,... )
         - spring-boot-starter-data-jpa (contains, spring-orm, hibernate-core,...)
     - When we add starter jars, then it pull all the jars
         - JAR contains "META-INF/spring.factories"
@@ -35,11 +36,9 @@ How to start with Spring Boot:
     3. Use IDE like STS
     4. Spring Boot command line interface (CLI).
 
-
 @SpringBootApplication
     - Spring application start from this class.
-    - Contains: @ComponentScan, @Configuration, @EnableAutoConfiguration
-
+    - @SpringBootApplication is Combination of: @ComponentScan, @Configuration, @EnableAutoConfiguration
 
 View Practical In Boot:
     - Dependency: tomcat-embed-jasper
@@ -58,14 +57,16 @@ application.properties:
         server.port = 8081  // by default 8080 //  java –jar <JARFILE> --server.port=8080
         spring.application.name = demoservice
 
-YAML File
- - Spring Boot supports YAML based properties configurations to run the application. Instead of application.properties, we can use application.yml file. This YAML file also should be kept inside the classpath. The sample application.yml file is given below
-- application.yml file:
-    spring:
-        application:
-            name: demoservice
-    server:
-        port: 9090
+application.yml:
+    - Spring Boot also supports YAML based properties configurations to run the application.
+      Instead of application.properties, we can use application.yml file. 
+      This YAML file also should be kept inside the classpath. The sample application.yml file is given below
+    - application.yml file:
+        spring:
+            application:
+                name: demoservice
+        server:
+            port: 9090
 -----------
 JPA Repository: 
     - #1.2.1 Spring JPA.txt
@@ -548,7 +549,7 @@ Unit Testing: (Junit 5 + Assertj Core)
 ----------
 MongoDB Connections:
     - dependency:
-        Spring Data MongoDB
+        - spring-data-mongodb
     - application.properties:
         spring.data.mongo.host=localhost
         spring.data.mongo.port=27017
