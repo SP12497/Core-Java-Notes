@@ -32,7 +32,7 @@ jsUser.greeting = function () {
 }
 
 jsUser.greetingName = function () {
-    console.log(`Hello ${this.name}`);
+    console.log(`Hello ${this.name}`);      // Hello Sagar
 }
 
 console.log(jsUser.greeting());         // Hello JS User
@@ -57,14 +57,17 @@ console.log(regularUser.address.zipcode);
 console.log(regularUser["address"].zipcode);
 
 console.log(regularUser?.["address"]?.zipcode);// Optional chaining (?.)
-console.log(regularUser["address"]["zipcode"]);
+const zipKey = "zipcode";
+console.log(regularUser["address"][zipKey]);    // 123
 
 const obj1 = { 0: "a", 1: "b" };
 const obj2 = { 2: "a", 3: "c" };
 
 console.log({ obj1, obj2 });    // { obj1: { '0': 'a', '1': 'b' }, obj2: { '2': 'a', '3': 'c' } }
 
-console.log("_____Object.assing(target, source)_____");
+console.log("_____Object.assign(target, source)_____");
+// Deep Shallow copy: Only parent object will get copied (Deep copy), nested object will get referenced (shallow copy)
+// Object.assign(target, source)    // target will get updated with source
 console.log(Object.assign(obj1, obj2)); // { '0': 'a', '1': 'b', '2': 'a', '3': 'c' }
 console.log({ ...obj1, ...obj2 });  // { '0': 'a', '1': 'b', '2': 'a', '3': 'c' } // same as Object.assign()
 console.log(Object.assign({}, obj1, obj2)); // try to make target as {}, to identify target // { '0': 'a', '1': 'b', '2': 'a', '3': 'c' }

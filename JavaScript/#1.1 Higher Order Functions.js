@@ -3,7 +3,7 @@ const radius = [2, 1, 3, 5];
 const calculateArea = function (radius) {
     const output = [];
     for (let index = 0; index < radius.length; index++) {
-        output.push(Math.PI * radius[index] * radius[index]);
+        output.push(Math.PI * radius[index] * radius[index]);       // Pi * r^2
     }
     return output;
 }
@@ -11,7 +11,7 @@ const calculateArea = function (radius) {
 const calculateCircumference = function (radius) {
     const output = [];
     for (let index = 0; index < radius.length; index++) {
-        output.push(2 * Math.PI * radius[index]);
+        output.push(2 * Math.PI * radius[index]);   // 2 * Pi * r
     }
     return output;
 }
@@ -19,7 +19,7 @@ const calculateCircumference = function (radius) {
 const calculateDiameter = function (radius) {
     const output = [];
     for (let index = 0; index < radius.length; index++) {
-        output.push(2 * radius[index]);
+        output.push(2 * radius[index]);     // 2 * r
     }
     return output;
 }

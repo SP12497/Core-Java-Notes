@@ -37,7 +37,7 @@ console.log("----------Reduce----------");
 function findSum(arr) {
     let sum = 0;    // sum = acc (accumulator), 0=> initial value
     for (let i = 0; i < arr.length; i++) {
-        sum += arr[i];  // arr[i] => current value (curr)
+        sum = sum + arr[i];  // arr[i] => current value (curr)
     }
     return sum; // return final value of accumulator.
 }
@@ -87,13 +87,13 @@ const users = [
 ]
 
 const fullNameArr = users.map(obj => obj.firstName + " " + obj.lastName);
-console.log("fullNameArr:", fullNameArr);
+console.log("fullNameArr:", fullNameArr);   // [ 'Sagar Patil', 'John Cena', 'Roman Reigns', 'Brock Lesnar' ]
 
 const olderThan30 = users.filter(obj => obj.age > 30);
-console.log("olderThan30:", olderThan30);
+console.log("olderThan30:", olderThan30);   // [ { firstName: 'John', lastName: 'Cena', age: 46 }, { firstName: 'Roman', lastName:
 
-const firstNamesOlderThan30 = users.filter(obj => obj.age > 30).map(obj => obj.firstName);
-console.log("firstNamesOlderThan30:", firstNamesOlderThan30);
+const firstNamesOlderThan30 = users.filter(obj => obj.age > 30).map(obj => obj.firstName);  // Chaining of map and filter
+console.log("firstNamesOlderThan30:", firstNamesOlderThan30);   // [ 'John', 'Roman', 'Brock' ]
 
 // Count of same ages
 // acc => {26:1, 46:2, 38:1}

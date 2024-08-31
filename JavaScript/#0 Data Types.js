@@ -3,8 +3,9 @@
     - refers to the period between the creation of a variable (using let or const) and 
       its declaration being processed by the JavaScript engine.
     -  During this temporal dead zone, accessing the variable results in a ReferenceError.
-        console.log(a); // This is in temporal dead zone. // a is present in scripts scope.
-        let a = 1;  // Temporal DZ ended.
+        ->
+            console.log(a); // accessing a before declaration // This is in temporal dead zone. // a is present in scripts scope.
+            let a = 1;  // Temporal DZ ended.
 */
 
 // console.log(a);  // ReferenceError: Cannot access 'a' before initialization // a is in temporal dead zone
@@ -52,22 +53,34 @@ let score = "33";
 console.log(typeof score);      // string
 console.log(typeof (score));    // string
 
+// ---------------------
 // Number() -- // convert into number
 // Number.parseInt(score); // convert into number
+// Number.parseFloat(score); // convert into number
 
-let scoreNum = Number(score);   // 33
-console.log("scoreNum", typeof scoreNum);   // number
+Number("123");  // 123
+Number("123.45");  // 123.45
+Number("123.45.67");  // NAN
+Number("a123b");  // NAN
+Number("0x123");  // 291    // Hexadecimal
+Number("0b101");  // 5      // Binary
+Number("0o123");  // 83     // Octal
+Number(null);  // 0
+Number(undefined);  // NAN
+Number(true);  // 1
+Number(false);  // 0
 
-let scoreInvalid = "33qa";
-// let scoreInvalid = null;
-// let scoreInvalid = undefined;
-console.log("scoreInvalid:", Number(scoreInvalid)); // NAN
-let isBool = true;
-console.log("isBool", Number(isBool));  // 1 // false: 0
 
-// "33" => 33
-// "33sr", null, undefined => NAN
-// true => 1, false=> 0
+Number.parseInt("123");  // 123
+Number.parseInt("123.45");  // 123
+Number.parseInt("123.45.67");  // 123
+Number.parseInt("a123b");  // NAN
+Number.parseInt("123b");  // 123
+Number.parseInt(null);  // NAN
+Number.parseInt(undefined);  // NAN
+Number.parseInt(true);  // NAN
+Number.parseInt(false);  // NAN
+
 
 console.log("---------#4 Falsy and Truthy Values---------");
 /*
@@ -82,14 +95,14 @@ falsy values:
         undefined: A variable that has been declared but not yet assigned a value.
         NaN: Represents "Not-a-Number," a result of undefined or unrepresentable numerical operations.
 */
-console.log(Boolean(false));   // false
-console.log(Boolean(0));       // false
-console.log(Boolean(-0));      // false
-console.log(Boolean(0n));      // false
-console.log(Boolean(""));      // false
-console.log(Boolean(null));    // false
-console.log(Boolean(undefined)); // false
-console.log(Boolean(NaN));     // false
+Boolean(false);   // false
+Boolean(0);       // false
+Boolean(-0);      // false
+Boolean(0n);      // false // 0n: BigInt
+Boolean("");      // false
+Boolean(null);    // false
+Boolean(undefined); // false
+Boolean(NaN);     // false
 /*
 Truthy values:
     truthy values are all values that are not falsy. They evaluate to true in a Boolean context. These include:
@@ -100,19 +113,19 @@ Truthy values:
         The boolean value true: This is inherently truthy.
 */
 
-console.log(Boolean(true));     // true
-console.log(Boolean("hello"));  // true
-console.log(Boolean("0"));      // true
-console.log(Boolean("false"));  // true
-console.log(Boolean(" "));      // true
-console.log(Boolean(1));        // true
-console.log(Boolean(-1));       // true
-console.log(Boolean(3.14));     // true
-console.log(Boolean({}));       // true
-console.log(Boolean([]));       // true
-console.log(Boolean(function(){})); // true
-console.log(Boolean(1n));       // true
-console.log(Boolean(-1n));      // true
+Boolean(true);     // true
+Boolean("hello");  // true
+Boolean("0");      // true
+Boolean("false");  // true
+Boolean(" ");      // true
+Boolean(1);        // true
+Boolean(-1);       // true
+Boolean(3.14);     // true
+Boolean({});       // true
+Boolean([]);       // true
+Boolean(function () { }); // true
+Boolean(1n);       // true
+Boolean(-1n);      // true
 
 
 console.log("\n\n---------------------")
@@ -130,6 +143,7 @@ console.log(true);  // true
 console.log(+true); // 1
 console.log(+""); // 0
 
+console.log(+null); // 0
 console.log(3 + null);  // 3
 console.log(3 + undefined);  // NaN
 console.log(+ undefined);  // NaN
@@ -153,9 +167,18 @@ console.log(null < 1);     // true // here, null get converted into 0.
 console.log(null === null); // true
 // undefined always false for above 3 scenario's
 
+/*
+null == undefined // true
+null > 0 // false
+null < 0 // false
+null == 0 // false
+null >= 0 // true
+null !== 0 // true
+*/
+
 console.log("Strict check:");
-console.log("2" == 2);
-console.log("2" === 2);
+console.log("2" == 2);  // true
+console.log("2" === 2); // false
 
 // ----------------------------------------
 /* Data Types:
@@ -187,7 +210,7 @@ Even if two Symbol values are created with the same description, they are guaran
 const id = Symbol('123');
 const anotherId = Symbol('123');
 console.log("id:", id, "anotherId:", anotherId, "===:", id === anotherId);  // id: Symbol(123) anotherId: Symbol(123) ===: false
-const student = {name: "sagar", age: 11}
+const student = { name: "sagar", age: 11 }
 console.log(student === student);   // true
 console.log(student == Symbol(student));   // false
 console.log(student != Symbol(student));   // true
@@ -202,11 +225,11 @@ console.log("\n\n---------------------")
 console.log("________String________");
 let num = 1;
 let strNum = String(num);
-console.log(typeof (strNum));
-console.log(String(null));              // null
+console.log(typeof (strNum));           // string
+console.log(String(null));              // 'null'
 console.log(typeof (String(null)));     // string
-console.log(String(undefined));         // undefined
-console.log(String(true));              // true
+console.log(String(undefined));         // 'undefined'
+console.log(String(true));              // 'true'
 
 
 const myname = "sagar";
@@ -237,6 +260,9 @@ console.log(mystr.slice(-4, 4)); // cd
 
 // slice vs splice
 console.log("slice vs splice");
+// Syntax: 
+// array.slice(startIndex, endIndex) // endIndex is optional // return slice of data.   // returns empty array if startIndex > endIndex
+// array.splice(startIndex, deleteCount, item1, item2, item3, ...) // deleteCount is optional // return deleted items
 const myarray = new Array(1, 2, 3, 4, 5);
 console.log(myarray);      // [ 1, 2, 3, 4, 5 ]
 console.log(myarray.slice(1, 3));   // [ 2, 3 ] // return slice of data.
@@ -256,7 +282,7 @@ console.log(str.substring(-3, 5));  // Output: "Hello" (negative index treated a
 console.log(str.substring(-6, -1)); // Output: ""
 
 console.log(str.slice(7, 12));  // Output: "World"
-console.log(str.slice(12, 7));  // Output: "" If startIndex is greater than endIndex, it returns an empty string.
+console.log(str.slice(12, 7));  // Output: "" returns empty array if startIndex > endIndex
 console.log(str.slice(-3, 5));  // Output: ""
 console.log(str.slice(-6, -1)); // // Output: "World"
 
@@ -271,7 +297,8 @@ console.log("sagar.patil".includes(".p"));  // true
 
 console.log("sagar.b.patil".split("."));    // [ 'sagar', 'b', 'patil' ]
 console.log("sagar.b.patil".split(".", 2)); // [ 'sagar', 'b' ]
-
+"sagar.b.patil".split("");      // [ 's', 'a', 'g', 'a', 'r', '.', 'b', '.', 'p', 'a', 't', 'i', 'l' ]
+"sagar.b.patil".split("", 5);   // [ 's', 'a', 'g', 'a', 'r' ]
 
 console.log("\n\n---------------------")
 console.log("____Numbers____");
@@ -347,7 +374,7 @@ console.log(date.toISOString());    // 2024-07-04T19:06:59.324Z
 console.log(date.toISOString() > new Date("2023-07-04T19:06:59.324Z").toISOString());    // true
 
 console.log(new Date("3/12/2024, 3:41:49 AM"));   // Tue Mar 12 2024 03:41:49 GMT+0530 (India Standard Time)
-console.log(new Date("") );   // Invalid Date
+console.log(new Date(""));   // Invalid Date
 let newDate = new Date("2024", 0, 26);  // month starts from 0 = January
 let newDateTime = new Date(2024, "0", "26", "14", 55, "45");  // month starts from 0 = January
 console.log("newDate:", newDate.toLocaleString());          // 1/26/2024, 12:00:00 AM
@@ -418,14 +445,14 @@ console.log("flat(Infinity):", depthArr.flat(Infinity)); // [ 1, 2, 3, 4, 5, 6, 
 console.log((Array.isArray("Sagar")));  // false: its string
 console.log((Array.from("Sagar")));     // [ 'S', 'a', 'g', 'a', 'r' ] // convert into array
 
-console.log(Array.from({name:"sagar"})); // [] // array of what? key or value?
+console.log(Array.from({ name: "sagar" })); // [] // array of what? key or value?
 
 var mark1 = 100;
 var mark2 = 80;
 var mark3 = 30;
 console.log(Array.of(mark1, mark2, mark3)); // [ 100, 80, 30 ]
 
-console.log("Nullish Coalescing Operator (??): ignore null undefined");
+console.log("Nullish Coalescing Operator (??): ignore=> null, undefined");
 
 let val1 = 5 ?? 10; // 5
 val1 = null ?? 10;  // 10
@@ -445,7 +472,7 @@ console.log(val1);
 
 // multiline
 var isPresent = true
-if(isPresent) console.log("log1"), console.log("log2"), isPresent = false, console.log(isPresent);  
+if (isPresent) console.log("log1"), console.log("log2"), isPresent = false, console.log(isPresent);
 // log1
 // log2
 // false

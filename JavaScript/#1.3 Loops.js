@@ -11,6 +11,9 @@
 3 for in :
     - Purpose: Iterates over enumerable properties of an object.
     - Returns the keys (property names) of the object.
+    - for (const key in obj)
+        { key1: "value1", key2: "value2" }
+
 4 forEach:
     - Purpose: Executes a provided function once for each array element.
     - Applied to arrays and does not directly return values or keys.
@@ -124,11 +127,11 @@ const myCoding = [
 ]
 
 myCoding.forEach((item) => {
-    // console.log(item.languageName);
+    // console.log(item.languageName);      // Java, Python, JavaScript
 })
 
 var value = myCoding.forEach((item) => {
-    return item;
+    return item;        // forEach does not return any value.
 })
 console.log(value); // undefined
 

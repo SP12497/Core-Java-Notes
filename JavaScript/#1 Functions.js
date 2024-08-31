@@ -53,11 +53,11 @@ https://www.geeksforgeeks.org/what-is-the-first-class-function-in-javascript/
         - It can also stored in an array, queue, or stack.
         - Also, it can have its own methods and property.
 */
-const assignFunToVarible = function() {}  // 1. functions can be assigned to any other variabl
+const assignFunToVarible = function() {}    // 1. functions can be assigned to any other variable
 
-var d = function (cbVar) {          // 2. functions can be passed as an argument
+var d = function (cbVar) {                  // 2. functions can be passed as an argument
     cbVar()
-    return function xyz() {}        // 3. functions can be returned by another function
+    return function xyz() {}                // 3. functions can be returned by another function
 }
 d(square);  // can be passed into another function as a parameter
 
@@ -196,7 +196,7 @@ Differenct in Arrow and Regular fun
 2. Implicit "return" keyword:
     // return optional for arrow based on the which syntax are we using, () => num
 3. arguments: 
-    - we dont have arguments keyword in arrow function
+    - arguments keyword not present in arrow function
 */
 function fn3() {
     console.log("arguments:", arguments); // [Arguments] { '0': 5, '1': 10, '2': 15 }
