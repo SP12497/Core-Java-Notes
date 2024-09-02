@@ -75,3 +75,19 @@ git Checkout :
 		- git checkout --file1.txt
 	- file is available in staging and local repo, and we did changes in WS , then we can undo it using checkout command.
 	
+
+----
+1. git init: This command is used to start a new repository.
+2. git clone <git-repo-url>: This command is used to obtain a repository from an existing URL.
+3. git add <file1, file2,...>  / git add .: This command adds a file to the staging area.
+4. git commit -m "message": This command records the changes made to the files to a local repository.
+5. git status: This command lists all the files that have to be committed.
+6. git push <remote> <branch-name>: This command sends the committed changes of master branch to your remote repository.
+7. git pull <remote> <branch-name>: This command fetches and merges changes on the remote server to your working directory.
+8. git reset: This command resets your index and working directory to the state of your last commit.
+10. git checkout <branch-name>: This command is used to switch from one branch to another.
+11. git checkout -b <new-branch-name>: This command creates -b <new-branch-name>: This command creates a new branch and also switches to it.
+12. git merge <branch-name>: This command merges the specified branch’s history into the current branch.
+9. git branch: This command lists all the local branches in the current repository.
+- git branch -d <branch-name>: This command deletes the specified branch.
+- git branch -D <branch-name>: This command forces delete the specified branch.

@@ -1,4 +1,6 @@
-FrontController / DispatcherServler : 
+POM: Project Object Model
+
+FrontController / DispatcherServler :
     - Single point of entry for all requests
     - Centralizes request handling
 Controller:
@@ -11,6 +13,29 @@ ViewResolver:
 ViewTemplate:
     - Renders the view
     - Returns the response
+
+Generate correilationId:
+    String correlationId = UUID.randomUUID().toString();
+
+Builder Pattern:
+    - Builder pattern is used to create complex objects with multiple attributes.
+    - Example:
+        @Getter
+        @Setter
+        @Builder        // Lombok annotation: Generates a builder class for the User class
+        class User {
+            private String name;
+            private int age;
+            private String email;
+            private String country;
+            // Getters and setters
+        }
+
+        User user = User.builder()
+            .name("Sagar")
+            .age(30)
+            .email("a@b.com");
+
 
 RequestMapping:
     - @RequestMapping("/home")
@@ -151,6 +176,33 @@ RequestMapping:
                 }
             }    
 
+ResponseEntity:
+    - ResponseEntity represents the entire HTTP response, including the status code, headers, and body.
+    - ResponseEntity<String> responseEntity = new ResponseEntity<>("Hello, World!", HttpStatus.OK);
+    - ResponseEntity<User> responseEntity = new ResponseEntity<>(user, HttpStatus.OK);
+    - ResponseEntity<Void> responseEntity = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+    - ResponseEntity.ok(): Returns a ResponseEntity with the given body and status code OK (200).
+    - ResponseEntity.created(): Returns a ResponseEntity with the given body and status code CREATED (201).
+    - ResponseEntity.noContent(): Returns a ResponseEntity with no body and status code NO_CONTENT (204).
+    - ResponseEntity.notFound(): Returns a ResponseEntity with no body and status code NOT_FOUND (404).
+    - ResponseEntity.badRequest(): Returns a ResponseEntity with no body and status code BAD_REQUEST (400).
+    - ResponseEntity.status(HttpStatus.ACCEPTED): Returns a ResponseEntity with the given status code ACCEPTED (202).
+
+    - ResponseEntity<User> responseEntity = ResponseEntity.ok(user);    // Returns a ResponseEntity with the given body and status code OK (200).
+    - ResponseEntity<User> responseEntity = ResponseEntity.created(location).body(user);    // Returns a ResponseEntity with the given body and status code CREATED (201).
+    - ResponseEntity<Void> responseEntity = ResponseEntity.noContent().build();    // Returns a ResponseEntity with no body and status code NO_CONTENT (204).
+
+    - ResponseEntity<User> responseEntity = new ResponseEntity<>(user, HttpStatus.OK);    // Returns a ResponseEntity with the given body and status code OK (200).
+    - ResponseEntity<User> responseEntity = new ResponseEntity<>(user, HttpStatus.CREATED);    // Returns a ResponseEntity with the given body and status code CREATED (201).
+
+    - ResponseEntity<User> responseEntity = new ResponseEntity.status(HttpStatus.CREATED).body(user);    // Returns a ResponseEntity with the given body and status code CREATED (201).
+    
+
+    @RequestMapping("/home")
+    public ResponseEntity<String> home() {
+        return ResponseEntity.ok("Hello, World!");      // Returns a ResponseEntity with the given body and status code OK (200).
+    }
 ---
 Pass data from Controller to View:
         - Model:
@@ -266,6 +318,22 @@ interface MultipartResolver:
     }
 
 ---
+- @RestControllerAdvice:
+    - This annotation is used to define global exception handlers for RESTful web services (@RestController).
+    - @RestControllerAdvice
+      public class GlobalExceptionHandler {
+
+        @ExceptionHandler(ResourceNotFoundException.class)
+        @ResponseStatus(HttpStatus.NOT_FOUND)
+        public String handleResourceNotFoundException(ResourceNotFoundException ex) {
+          return ex.getMessage();
+        }
+
+        @ExceptionHandler(Exception.class)
+        public ResponseEntity<String> handleException(Exception e) {
+          return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+      }
 - Exception Handling:
     - 3 Important Annotations:
         - @ExceptionHandler
