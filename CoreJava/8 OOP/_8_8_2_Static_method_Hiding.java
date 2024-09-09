@@ -1,16 +1,14 @@
 public class _8_8_2_Static_method_Hiding{
 	public static void main(String[] args) {
 	    System.out.println("RBI.balance: " +RBI.balance);
-	    System.out.print("SBI.balance: " + SBI.balance);
+	    System.out.println("SBI.balance: " + SBI.balance);
 		System.out.println("SBI.getBalance(6): " + SBI.getBalance(6)); // RBI Method Hiding
 		System.out.println("RBI.getBalance(5): " + RBI.getBalance(5));
-		System.out.println("RBI.getBalance(''): " + RBI.getBalance(""));
+		System.out.println("SBI.getBalance(''): " + RBI.getBalance(""));
 		
 		RBI rbi = new RBI();
         System.out.println("rbi.balance: " + rbi.balance);
 	   // System.out.println(rbi.interest); // Data Hiding
-		/*
-         */
 	}
 }
 
@@ -34,3 +32,17 @@ class SBI extends RBI {
         return 44;
     }
 }
+
+
+/*
+Output:
+    RBI.balance: 100
+    SBI.balance: 100
+
+    RBI.getBalance(1): 100    
+    SBI.getBalance(6): 44
+
+    RBI.getBalance(5): 100
+    SBI.getBalance(''): 777
+    rbi.balance: 100
+*/

@@ -15,10 +15,10 @@ public class _01Character {
 		System.out.println(Character.isWhitespace(ws));	// true
 		
 		System.out.println(Character.toUpperCase(c));	// A	
-		// System.out.println(obj.toUpperCase());	// Error: The method toUpperCase(char) in the type Character is not applicable for the arguments ()
-		System.out.println(obj.toUpperCase(obj));	// A		// static method
+		// System.out.println(obj.toUpperCase());		// Error: The method toUpperCase(char) in the type Character is not applicable for the arguments ()
+		System.out.println(obj.toUpperCase(obj));		// A		// toUpperCase is a static method. So, we can call it using class name or object name.
 		System.out.println(Character.toUpperCase(obj));	// A
-		System.out.println(Character.toUpperCase(obj2));	// 1
+		System.out.println(Character.toUpperCase(obj2));// 1
 		
 		System.out.println(Character.isDigit(obj2));	// true
 		System.out.println(Character.isLetter(obj));	// true
@@ -26,9 +26,9 @@ public class _01Character {
 		
 		
 		char arr[] = {'a', 'b', 'c'};
-		System.out.println(Arrays.toString(arr));	// [a, b, c]
+		System.out.println(Arrays.toString(arr));	// "[a, b, c]"
 		arr = "Sagar".toCharArray();
-		System.out.println(Arrays.toString(arr));
+		System.out.println(Arrays.toString(arr));	// "[S, a, g, a, r]"
 		
 		
 		

@@ -9,7 +9,7 @@ Encapsulation:
 		the methods of their current class. Therefore, it is also known as DATA HIDING.
 	Method Hiding:
 		- OverRiding of static method is not possible is java. But we can overload static method.
-		- If we ReDefining the static method of super class into sub class then , this is called as Method Hidding.
+		- If we ReDefining the static method of super class into sub class then, this is called as Method Hidding.
 
 To achieve Data Hiding in Java −
 	- Declare the variables of a class as private.

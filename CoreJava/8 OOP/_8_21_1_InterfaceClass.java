@@ -163,7 +163,7 @@ public class _8_21_1_InterfaceClass {
 		// Static and Default method inside Interface
 		System.out.println("Static Method inside Inter4");
 		Inter4.staticMethod(); // Static Method access by Interface/Class name
-		// Inter4.defaultMethod(); //Default Method access by Object
+		// Inter4.defaultMethod(); // Default Method access by Object
 
 		Inter4 i4 = new Inter4() {}; // anonymous object
 		i4.defaultMethod();

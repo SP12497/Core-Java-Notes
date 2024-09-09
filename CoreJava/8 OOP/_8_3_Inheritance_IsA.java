@@ -13,7 +13,7 @@ Inheritance	: - Sharing the Information.
 	Composition : Has-A Relationship.
 	
 	Types of Inheritance:
-		- Single Inheritance	(B:A)
+		- Single Inheritance	(B:A)			// class B extends A {}
 		- Multi-Level			(C:B:A)
 		- Hierarchical			(B:A  -  C:A)
 		- Multiple Inherinca: 	(C:A,B)				Not support in java, bcoz of Diamond Problem.

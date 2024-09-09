@@ -6,7 +6,7 @@ public class _02Integer {
 
 		// parsing:
 		String numStr = "123";
-		// int num= (int) numStr; // Cannot cast from String to int
+		// int num = (int) numStr; // Cannot cast from String to int
 		int num = Integer.parseInt(numStr);
 
 		// class Integer

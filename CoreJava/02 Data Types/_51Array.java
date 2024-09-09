@@ -70,7 +70,7 @@ public class _51Array {
         System.out.println(arr1[0] == arr2[0]); // true
 
         System.out.println("--- String value Comparision---");
-        System.out.println(strArr[0] + "  " + strArr[5]); // Sagar Sagar
+        System.out.println(strArr[0] + "  " + strArr[5]); // "Sagar Sagar"
         System.out.println(strArr[0] == strArr[5]); // true
         System.out.println(strArr[0].equals(strArr[5])); // true
 
@@ -79,6 +79,8 @@ public class _51Array {
         int temp2[] = { 1, 2, 3 };
         System.out.println(temp1 == temp2); // false
         System.out.println(Arrays.equals(temp1, temp2)); // true
+        int temp3[] = { 1, 3, 2 };
+        System.out.println(Arrays.equals(temp1, temp3)); // false
 
         System.out.println("---array sort---");
         Arrays.sort(numArr);
@@ -105,10 +107,11 @@ public class _51Array {
         System.out.println("strArr: " + Arrays.toString(strArr));
         System.out.println("strArr2: " + Arrays.toString(strArr2));
 
-        // Array Resizing:
-        // Java arrays are fixed-size, so resizing directly isn't possible.
-        // Instead, you create a new array of the desired size and copy the elements
-        // from the old array to the new one.
+        /* Array Resizing:
+            Java arrays are fixed-size, so resizing directly isn't possible.
+             Instead, you create a new array of the desired size and copy the elements
+             from the old array to the new one.
+        */
 
         System.out.println("---Reverse Array---");
         reverseArrayByReference(numArr2);
@@ -125,6 +128,7 @@ public class _51Array {
         int i = 0;
         int j = arr.length - 1;
         while (i < j) {
+            // swap:
             int temp = arr[i];
             arr[i] = arr[j];
             arr[j] = temp;
@@ -137,9 +141,11 @@ public class _51Array {
         int size = num.length;
         int arr[] = new int[size];
         // way 1:
-        // for (int i = 0, j = num.length - 1; i < arr.length; i++, j--) {
-        // arr[i] = num[j];
-        // }
+        /*
+        for (int i = 0, j = num.length - 1; i < arr.length; i++, j--) {
+            arr[i] = num[j];
+        }
+        */
 
         // way 2:
         for (int i = 0; i < size; i++) {

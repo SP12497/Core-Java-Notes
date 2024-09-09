@@ -8,12 +8,13 @@ public class SameElementsCount {
         Integer arr1[] = new Integer[] { 1, 2, 3, 4, 2, 4 };
         Integer arr2[] = { 4, 2, 6, 7, 4, 8 }; // 2,4 count: 2
 
+        // Arrays.asList(arr) convert array to List
         Set<Integer> set = new HashSet<>(Arrays.asList(arr1));  // way 1 to insert array into set.
 
         // Set<Integer> set = new HashSet<>()
         // set.addAll(Arrays.asList(arr1));     // way 2 to insert array into set
         // for (int no : arr1) {                // way 3
-        // set.add(no); // arr1 unique elements
+        //    set.add(no); // arr1 unique elements
         // }
         int count = 0;
         for (int no : arr2) {

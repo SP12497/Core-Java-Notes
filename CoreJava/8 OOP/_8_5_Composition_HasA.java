@@ -1,9 +1,10 @@
-//Employee Has A Address class	
-// Used in Class A having reference of another class B
+/*
+	Employee Has A Address class	
+	 Used in Class A having reference of another class B
 
-//Has a relation : 	- Instance variable.
-//					- Reference to another class 
-
+	 Has a relation : 	- Instance variable.
+						- Reference to another class 
+*/
 public class _8_5_Composition_HasA {
 	public static void main(String[] args) {
 		Address addr = new Address("Nandurbar", "Maharashtra", 425412);

@@ -11,7 +11,7 @@ public class StringPalindrome {
     {
         // Pointers pointing to the beginning
         // and the end of the string
-        int i = 0, j = str.length() - 1; // array starts from 0 so, length should be -1.
+        int i = 0, j = str.length() - 1; // array starts from 0 so, length -1.
 		
  
         // While there are characters to compare

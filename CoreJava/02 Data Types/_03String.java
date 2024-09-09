@@ -2,18 +2,18 @@ import java.util.Arrays;
 
 public class _03String {
 	public static void main(String[] args) {
-		int [] intarr = {72, 101, 108, 108, 111};	// Unicode code points for 'H', 'e', 'l', 'l', 'o'
+		int [] intarr = { 72, 101, 108, 108, 111 };	// Unicode code points for 'H', 'e', 'l', 'l', 'o'
 		String s1 = "Sagar";	// added in the string pool then create memory in heap and added into it. //Here 2 obj are created.
 		String str = new String("Sagar");	// The string literal "Sagar" is in the pool, but new String("Sagar") creates a new String object in the heap that is not automatically added to the String pool. Therefore, c is a new String instance with the same value as the literal but a different reference.
 		String s2 = str;
 		String str3 = new String("Sagar".toCharArray(), 0, 2); // Sa // accept only characher array
-		String str4 = new String(intarr, 0, intarr.length);
+		String str4 = new String(intarr, 0, intarr.length);	// Hello
 		String s3intern = new String("Sagar").intern();	// new String("Sagar") creates a new String object in the heap, and .intern() ensures that the resulting reference points to the string in the String pool. If "Sagar" is already in the pool, d will refer to the same pooled instance.
 
 		System.out.println(str3);									// Sa
 		System.out.println(str4);									// Hello
-		System.out.println("str==s1: " + str == s1);				// false
-		System.out.println("str.equals(s1): " + str.equals(s1));	// true
+		System.out.println("str==s1: " + str == s1);				// false	// comparing based on reference ie. stack address
+		System.out.println("str.equals(s1): " + str.equals(s1));	// true		// comparing based on value ie. heap address
 		System.out.println("str.compareTo(s1): " + str.compareTo(s1)); // true
 		System.out.println("str==s1: " + s1 == s3intern);			// true
 		System.out.println("str==s1: " + str == s3intern);			// false
@@ -75,7 +75,7 @@ public class _03String {
 		Returns 3 values:
 			-ve:	first obj is smaller
 			0:		both are same
-			+ve:	second object is smaller
+			+ve:	first obj is bigger ie second object is smaller
 			
 			abc = 	97 98 99
 			abe = - 97 98 101	=> 97-97 = 0 | 98-98=0 | 99-101 = -2

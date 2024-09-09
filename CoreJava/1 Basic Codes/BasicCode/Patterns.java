@@ -81,27 +81,8 @@ System.out.println("4-------------------------");
 			System.out.println();
 		}
 		
-		
+
 System.out.println("5-------------------------");
-		
-		/*5		1 2 3 4
-		 		1 2 3 4 
-		 		1 2 3 4 
-		 		1 2 3 4 	*/
-
-
-		for (int i=1; i<=4 ; i++)
-		{
-			for (int j=1; j<=4;	j++)
-			{
-				System.out.print(j + " ");
-				
-			}
-			System.out.println();
-		}
-		
-		
-System.out.println("6-------------------------");
 		
 		/*6		1 2 3 4
 		 		2 3 4 1 
@@ -122,7 +103,7 @@ System.out.println("6-------------------------");
 			System.out.println();
 		}
 
-System.out.println("7-------------------------");
+System.out.println("6-------------------------");
 		
 		/*7		1
 		 		0 1   
@@ -144,7 +125,7 @@ System.out.println("7-------------------------");
 			System.out.println();
 		}
 
-System.out.println("8-------------------------");
+System.out.println("7-------------------------");
 		
 		/*8		1
 		 		2 2
@@ -165,7 +146,7 @@ System.out.println("8-------------------------");
 			System.out.println();
 		}
 		
-System.out.println("9-------------------------");
+System.out.println("8-------------------------");
 		
 		/*
 			1
@@ -179,8 +160,8 @@ System.out.println("9-------------------------");
 		
 		int rows = 3;
 			
-		//i= 1 2 3
-		for (int i = 1; i <= rows; i++) 
+		
+		for (int i = 1; i <= rows; i++) 	// i= 1 2 3
 		{
 			for (int j = 1; j <= i; j++)	 //j= 1 2 3
 			{	
@@ -191,8 +172,8 @@ System.out.println("9-------------------------");
 			}
 			System.out.println("");
 		}
-				//i= 2 1
-		for (int i = rows-1; i >=1; i--)
+				
+		for (int i = rows-1; i >=1; i--)	//i= 2 1
 		{
 			for (int j = 1; j <= i; j++) 	// j= 1 2
 			{	

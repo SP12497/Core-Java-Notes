@@ -35,7 +35,7 @@ let f = 11;     // script scope
 let h = 12;     // script scope
 {
     var e = 10;     // present in global scope
-    let f = 20;     // block scope      // shodowing: hides parent 'f' variable.
+    let f = 20;     // block scope      // shadowing: hides parent 'f' variable.
     const g = 30;   // block scope
     // var h = 10;  // SyntaxError: Identifier 'h' has already been declared // explain: var will create global scope, but h is already present in script scope, so scope should not cross the boundry.
     console.log("this is the block scope");
@@ -50,8 +50,8 @@ console.log("\n\n---------------------")
 console.log("__________#3 typeof__________");
 
 let score = "33";
-console.log(typeof score);      // string
-console.log(typeof (score));    // string
+console.log(typeof score);      // 'string'
+console.log(typeof (score));    // 'string'
 
 // ---------------------
 // Number() -- // convert into number
@@ -62,9 +62,9 @@ Number("123");  // 123
 Number("123.45");  // 123.45
 Number("123.45.67");  // NAN
 Number("a123b");  // NAN
-Number("0x123");  // 291    // Hexadecimal
-Number("0b101");  // 5      // Binary
-Number("0o123");  // 83     // Octal
+Number("0x123");  // 291    // Hexadecimal to Decimal
+Number("0b101");  // 5      // Binary to Decimal
+Number("0o123");  // 83     // Octal to Decimal
 Number(null);  // 0
 Number(undefined);  // NAN
 Number(true);  // 1
@@ -123,7 +123,7 @@ Boolean(-1);       // true
 Boolean(3.14);     // true
 Boolean({});       // true
 Boolean([]);       // true
-Boolean(function () { }); // true
+Boolean(function () {}); // true
 Boolean(1n);       // true
 Boolean(-1n);      // true
 
@@ -131,12 +131,13 @@ Boolean(-1n);      // true
 console.log("\n\n---------------------")
 console.log("_____conversion/typecasting_____");
 let fname = "Sagar", lname = " Patil";
-console.log(fname + lname);
+console.log(fname + lname);     // Sagar Patil
 
 console.log("1" + 2);   // 12
 console.log(1 + "2");   // 12   // number get converted into string
 console.log("1" + 2 + 2);// 122
 console.log(1 + 2 + "2");//32
+console.log(1 + 2 + + "2");//5
 
 console.log(+"1" + 2 + 2);// 5  // + sign used to number conversion
 console.log(true);  // true
@@ -149,7 +150,7 @@ console.log(3 + undefined);  // NaN
 console.log(+ undefined);  // NaN
 
 let no1, no2, no3;
-no1 = no2 = no3 = 2 + 2;
+no1 = no2 = no3 = 2 + 2;    // assignment from right to left // 4
 console.log(no1, no2, no3);
 
 
@@ -173,6 +174,7 @@ null > 0 // false
 null < 0 // false
 null == 0 // false
 null >= 0 // true
+null <= 0 // true
 null !== 0 // true
 */
 
@@ -248,6 +250,7 @@ console.log(mystr.charAt(3));   // d
 console.log(mystr.indexOf("d")); // 3
 console.log(mystr.indexOf("t")); // -1  // not present
 
+// String.substring(start: number, end?: number): string
 console.log(mystr.substring(0, 4)); // abcd
 console.log(mystr.substring(2, 4)); // cd
 console.log(mystr.substring(-2, 4)); // abcd
@@ -258,16 +261,15 @@ console.log(mystr.slice(-4, 4)); // cd
 // -6 -5 -4 -3 -2 -1
 // 0  1  2  3  4  5
 
-// slice vs splice
 console.log("slice vs splice");
-// Syntax: 
+
 // array.slice(startIndex, endIndex) // endIndex is optional // return slice of data.   // returns empty array if startIndex > endIndex
-// array.splice(startIndex, deleteCount, item1, item2, item3, ...) // deleteCount is optional // return deleted items
 const myarray = new Array(1, 2, 3, 4, 5);
 console.log(myarray);      // [ 1, 2, 3, 4, 5 ]
-console.log(myarray.slice(1, 3));   // [ 2, 3 ] // return slice of data.
+console.log(myarray.slice(1, 3));   // [ 2, 3 ] // return slice of data. does not delete from original data.
 console.log(myarray);  // [ 1, 2, 3, 4, 5 ]
 
+// array.splice(startIndex, deleteCount, item1, item2, item3, ...) // deleteCount is optional // return deleted items
 console.log(myarray.splice(1, 3)); // [ 2, 3, 4 ] // return slice of data and delete slice from original data
 console.log(myarray);  // [ 1, 5 ]
 
@@ -295,6 +297,7 @@ console.log("   abc   ".trimEnd());     // "   abc"
 console.log("sagar.patil".replace(".", " "));   /// sagar patil
 console.log("sagar.patil".includes(".p"));  // true
 
+// split(separator: string | RegExp, limit?: number): string[]
 console.log("sagar.b.patil".split("."));    // [ 'sagar', 'b', 'patil' ]
 console.log("sagar.b.patil".split(".", 2)); // [ 'sagar', 'b' ]
 "sagar.b.patil".split("");      // [ 's', 'a', 'g', 'a', 'r', '.', 'b', '.', 'p', 'a', 't', 'i', 'l' ]
@@ -305,7 +308,7 @@ console.log("____Numbers____");
 const score1 = 400;
 const balance = new Number(100);
 const otherNumber = 123.4567;
-console.log(score1);    // 200
+console.log(score1);    // 400
 console.log(balance);   // [Number: 100]
 
 console.log(balance === 100);   // false
@@ -422,6 +425,7 @@ console.log(myarr.includes(4)); // true
 console.log(myarr.indexOf(4)); // 5
 
 console.log(myarr.join());  // "2,0,1,2,3,4,5"
+console.log(myarr.join(""));  // "2012345"
 
 const marvel_heroes = ["thor", "Ironman", "SpiderMan"];
 const dc_heroes = ["Superman", "Batman", "WonderWomen"];
@@ -431,8 +435,14 @@ console.log(marvel_heroes[0]);          // thor
 // console.log(marvel_heroes[3][1]);    // Java: ArrayIndexOutOfBound   // TypeError: Cannot read properties of undefined (reading '1')
 console.log(marvel_heroes[0][1]);       // h
 
+// marvel_heroes.push("Hulk");
+// marvel_heroes.push("Hulk", "BlackPanther");
+// marvel_heroes.push("Hulk", "BlackPanther", "Hulk");
 var all_heroes = marvel_heroes.concat(dc_heroes);
+var all_heroes2 = marvel_heroes.concat("Superman", "Batman", "WonderWomen"); // same as above
 console.log(all_heroes);    // [ 'thor', 'Ironman', 'SpiderMan', 'Superman', 'Batman', 'WonderWomen' ]
+console.log(all_heroes2);    // [ 'thor', 'Ironman', 'SpiderMan', 'Superman', 'Batman', 'WonderWomen' ]
+
 
 all_heroes = [...marvel_heroes, ...dc_heroes];  // using spread operator
 

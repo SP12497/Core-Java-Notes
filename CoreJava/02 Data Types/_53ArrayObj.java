@@ -11,7 +11,7 @@ public class _53ArrayObj {
         
         System.out.println(Arrays.toString(books));	// [Book [id=1, name=Java], Book [id=1, name=C++], Book [id=1, name=JavaScript], null]
         
-        Arrays.sort(books, (o1, o2)-> o1.price - o2.price ); // ASC order	// Comparator : compare()
+        Arrays.sort(books, (o1, o2) -> o1.price - o2.price ); // ASC order	// Comparator : compare()
         System.out.println(Arrays.toString(books));
     }
 }

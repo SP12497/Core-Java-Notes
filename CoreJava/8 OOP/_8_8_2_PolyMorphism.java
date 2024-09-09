@@ -8,11 +8,11 @@ Polymorphism means "many forms", and it occurs when we have
  Polymorphism uses those methods to perform different tasks.
 
 Types :
-	1 Method Overloading.  	: Early Binding,  Static Binding,	Compile Time Polymorphism. 
+	1. Method Overloading.  	: Early Binding,  Static Binding,	Compile Time Polymorphism. 
 		- Instance Method name is same but signature(parameters) should be different in same class.
 		- Same: method name, Class
 		  Different : Parameter
-	2 Method OverRiding. 	: Late Binding ,  Dynamic Binding, 	Run Time Polymorphism.
+	2. Method OverRiding. 	: Late Binding ,  Dynamic Binding, 	Run Time Polymorphism.
 		- Instance Method name and signature(parameters) are same but during Inheritance (different class).
 		- Same: method name , Parameter 
 		  Different : Class
