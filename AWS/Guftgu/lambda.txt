@@ -8,7 +8,7 @@ AWS Lambda manages all the administration it manages:
     2. Server and OS maintainance.
     3. High availability and auto scaling
     4. Applying security patches
-    .5 Deploying your code.
+    5. Deploying your code.
     6. Monitoring and logging your lambda functions.
     7. AWS lambda runs your code on high-availability compute infrastructure.
 
@@ -79,17 +79,17 @@ AWS Lambda function configurations:
   - Lambda provides an API for you to update some of the configuration data.
 
 Lambda function configuration information includes the following key elements:
-  - Compute resource that you need, you only specify the amout of memory you want to allocate from your lambda function.
+  - Compute resource that you need, you only specify the amount of memory you want to allocate from your lambda function.
   - AWS lambda allocates, CPU power proportional to the memory by using the same ration as a general purpose amazon EC2 instance type, suce as an M3 type.
   - You can update the configuration and 
     request additional memory in 64MB increments from 128MB to 3008MB
-  - Functions larger than 1536 are allocate Multiple CPU threads.
+  - Functions larger than 1536MB are allocate Multiple CPU threads.
 
 Maximum Execution Timeout:
   - You pay for the AWS resources that are used to run your lambda function.
   - To prevent your lambda function from running indefinitely, you specify a timeout.
   - When the specified timeout is reached, AWS lambda terminates your lambda function.
-  - Default is 3 seconds and maximum is 900(15minutes).
+  - Default is 3 seconds, minimum is 1sec and  maximum is 900(15minutes).
 
 IAM Role:
   - This is the role that AWS lambda assume when it executes the lambda function on your behalf.
@@ -137,3 +137,42 @@ Different ways to Invoke lambda function:
       - Amazon SQS
       - Amazon DynamoDB Streams
     - eg: Amazon DynamoDB --> Kinesis <--lambda sense changes--> Lambda1 <----> lambda2
+
+
+------
+Decomposing a Function Execution:
+  1. Code Download
+  2. Start Execution Environment (Environment Variables, Resource Access)
+  3. Execute Init Code
+    - Initialize the function code like static block in java, imports in node. This is done only once.
+  4. Execute Handler Code
+
+1. Full Cold Start:
+  - When you invoke a lambda function for the first time, it is called a cold start.
+  - The cold start includes the following steps:
+    1. Code download
+    2. Start execution environment
+    3. Execute init code
+    4. Execute handler code
+  - The cold start can take a few seconds to complete.
+  - Subsequent invocations of the same function are called warm starts.
+  - Warm starts are faster than cold starts because the execution environment is already running.
+  - Mainly, cold start = Code download + Start execution environment.  (1st time)
+2. Partial Cold Start:
+  - When you update the code of a lambda function, it is called a partial cold start.
+  - In a partial cold start, the code download and start execution environment steps are already completed. 
+    Pending: Step 3 and 4. ie Execute init code and Execute handler code.
+  - Partial cold start = Execute init code + Execute handler code.
+3. Warm Start:
+  - When you invoke a lambda function that is already running, it is called a warm start.
+  - Warm starts are faster than cold starts because the execution environment is already running.
+  - Warm start is ideal scenario for lambda function, where the execution environment is already present. Just execute the handler code.
+  - Warm start = Execute handler code. 
+
+Note: Cold start also occurs while scaling up.
+
+Strategies to minimize code start:
+  - Minimize number of library dependencies.
+  - only import what you need
+  - Raise memory configuration
+  - Utilize Provisioned Concurrency : Keep the function warm.
