@@ -34,3 +34,19 @@ How Angular execute?
 	
 
 location.reload()	// reload page
+
+ng cache:
+	- https://angular.dev/cli/cache
+	- Angular CLI has a feature called ng cache that allows you to cache the node_modules folder in a shared location.
+	- This can be useful when you have multiple projects that use the same dependencies.
+	- set env:
+		ng config cli.cache.environment all		// all, dev, prod, local
+	-ng cache[options] [command]
+		- ng cache clean
+			- delete the stored cache
+		- ng cache info
+			- show the stored cache. size, location, etc.
+		- ng cache disable
+			- disable the cache
+		- ng cache enable
+			- enable the cache

@@ -63,6 +63,13 @@ console.log("IIFE getAge.bind()", person2.getAge.bind(person2)());  // 20
 console.log("______________#3______________");
 const arr1 = ['a', 'b', 'c'];
 const numsArr = [1, 2, 3];
+
+/*
+result.push.apply(arr1, numsArr);
+console.log(result);                // undefined
+console.log(arr1);                  // [ 'a', 'b', 'c', 1, 2, 3 ]
+console.log(numsArr);               // [ 1, 2, 3 ]
+*/
 arr1.push.apply(arr1, numsArr);
 console.log(arr1);              // [ 'a', 'b', 'c', 1, 2, 3 ]
 console.log(numsArr);              // [ 1, 2, 3 ]
