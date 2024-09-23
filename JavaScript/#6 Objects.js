@@ -109,8 +109,8 @@ console.log(a);
 // to store object as keys:
 const oo = {}
 oo[JSON.stringify(b)] = 123;
-oo[JSON.stringify(c)] = 123;
-console.log(oo);            // { '{"key":"b"}': 123, '{"key":"c"}': 123 }
+oo[JSON.stringify(c)] = 456;
+console.log(oo);            // { '{"key":"b"}': 123, '{"key":"c"}': 456 }
 
 
 console.log("__________________#7________________");
@@ -258,7 +258,7 @@ let user3 = {
         zip: 123
     }
 }
-const fullyDeepCloned = structuredClone(user3); // Introduced in JS 17
+const fullyDeepCloned = structuredClone(user3); // Introduced in JS v17
 const cloneUser2 = JSON.parse(JSON.stringify(user3));   // Fully Deep copy
 const cloneUser1 = Object.assign({}, user3); // parent attributes are Deep copy. Shallow copy of nested objects (zip).
 const cloneUser3 = { ...user3 } // parent attributes are Deep copy. Shallow copy of nested objects.

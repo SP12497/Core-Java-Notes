@@ -1,4 +1,4 @@
-Config Server : Central configuration stored in GitHub
+lConfig Server : Central configuration stored in GitHub
 Config Client : in every dependency which want central configuration , except config server
 Load Balancer	:	Used to balance the load on a service
 	- create multiple instance of a service which are running on a different port.

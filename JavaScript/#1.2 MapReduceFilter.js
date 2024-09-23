@@ -66,7 +66,7 @@ console.log("findMax:", findMax(arr));
 console.log("reduce findMax:", arr.reduce((acc, curr) => {
     // console.log(acc, curr);
     if (curr > acc) {
-        acc = curr;
+        acc = curr;     // return curr;
     }
     return acc;
 }));

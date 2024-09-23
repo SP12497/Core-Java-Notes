@@ -6,7 +6,7 @@
     - for (const val of arr)
         ["", "", ""]
         [{}, {}, {}]
-        "iterate me"
+        "Hello"
         Map
 3 for in :
     - Purpose: Iterates over enumerable properties of an object.
@@ -85,7 +85,7 @@ for (const key in programmings) {            // works
 
 // map:
 console.log("---MAP---");
-for (const key in map) {     // Wont work: map is not iterable. and it wont throw error as well.
+for (const key in map) {     // Wont work: map is not iterable. and it won't throw error as well.
     console.log(key);
 }
 

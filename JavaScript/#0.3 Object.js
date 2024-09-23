@@ -1,9 +1,10 @@
 // Object Literals"
 
 const mySym = Symbol("key1")
+typeof mySym;  // 'symbol'
 const workingDaysKey = "workingDays";
 var jsUser = {
-    name: "Sagar", 
+    name: "Sagar",
     age: 26,
     [workingDaysKey]: ["Monday", "Tuesday"],
     "full name": "Sagar Patil",
@@ -24,7 +25,7 @@ console.log("mySym:", jsUser.mySym);    // undefined
 
 
 // Object.freeze(jsuser);
-// jsuser.age = 50;    // wont update the age. also it wont throw error.
+// jsuser.age = 50;    // won't update the age. also it won't throw error.
 // console.log(jsuser.age); // 26
 
 jsUser.greeting = function () {
@@ -56,14 +57,14 @@ const regularUser = {
 console.log(regularUser.address.zipcode);
 console.log(regularUser["address"].zipcode);
 
-console.log(regularUser?.["address"]?.zipcode);// Optional chaining (?.)
+console.log(regularUser?.["address"]?.zipcode); // Optional chaining (?.)
 const zipKey = "zipcode";
 console.log(regularUser["address"][zipKey]);    // 123
 
 const obj1 = { 0: "a", 1: "b" };
 const obj2 = { 2: "a", 3: "c" };
 
-console.log({ obj1, obj2 });    // { obj1: { '0': 'a', '1': 'b' }, obj2: { '2': 'a', '3': 'c' } }
+console.log({ obj1, obj2 });    // { obj1: { 0: 'a', 1: 'b' }, obj2: { 2: 'a', 3: 'c' } }
 
 console.log("_____Object.assign(target, source)_____");
 // Deep Shallow copy: Only parent object will get copied (Deep copy), nested object will get referenced (shallow copy)
@@ -94,7 +95,7 @@ const { city, name, workingDays, ...restObj } = jsUser;
 console.log(restObj);   // gives new object by omitting city, name, workingDays
 
 
-if(Object.keys({jsuser: jsUser}).length = 0) {  // false
+if (Object.keys({ jsuser: jsUser }).length = 0) {  // false
     console.log("object is empty.");
 } else {
     console.log("object is non empty.");

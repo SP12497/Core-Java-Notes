@@ -62,8 +62,6 @@ var d = function (cbVar) {                  // 2. functions can be passed as an 
 d(square);  // can be passed into another function as a parameter
 
 
-
-
 // ---------
 function displaySquare(fn) {
     console.log("Square is:", fn(5));
@@ -98,21 +96,21 @@ console.log("_____ output based question _____");
 // -------------------------
 // Hoisting based que:
 // # function scope - o/p based question:
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 5; i++) {       // let is block scope, so each iteration will have its own i
     setTimeout(function () {
         console.log("let i:", i); // 0,1,2,3,4
     }, i * 1000);
 }
 
-for (var i = 0; i < 5; i++) {
+for (var i = 0; i < 5; i++) {       // var is global scope, so each iteration will have same i
     setTimeout(function () {
         console.log("var i:", i); // 5,5,5,5,5
     }, i * 1000);
 }
 
 // -------------------------
-//# function hoisting:
-hoistedFun();   //work
+// # function hoisting:
+hoistedFun();   // work
 function hoistedFun() {
     console.log("hoisted function called.");
 }
@@ -179,14 +177,15 @@ document.addEventListener("click", function (params) { console.log("This is call
 Javascript new name is Ecma script.
 # Arrow Function: introduce in ES6: 2015
 */
-const addRegularFun = function (params) {
+const addRegularFun = function (params) {       // regular function // function statement
     return params;
 }
-const addArrowFun1 = (num1, num2) => {
+const addArrowFun1 = (num1, num2) => {          // arrow function
     return num1 + num2;
 }
 const addArrowFun2 = (num1, num2) => num1 + num2;
 const square5 = num => num * num; // single param
+const sayHi = () => console.log("Hi");
 
 console.log("square5 no 6:", square5(6));
 
@@ -208,14 +207,14 @@ console.log(`___ 4. "this" keyword _____`);
 let user = {
     username: "Roadside Coder",
     arrowFun: () => {
-        console.log("arrowFun Subscribe to ", this.username); // undefined, this points to global scope // this = parent of parent
+        console.log("arrowFun Subscribe to ", this.username); // undefined, this points to global/script scope // this = parent of parent
     },
     regularFun() {
         console.log("regularFun Subscribe to ", this.username); // "Roadside Coder" // this = parent
     }
 }
-user.arrowFun();
-user.regularFun();
+user.arrowFun();    // undefined
+user.regularFun();  // Roadside Coder
 
 
 // Constructor function with this keyword:

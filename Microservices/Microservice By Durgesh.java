@@ -7,8 +7,8 @@ Total 3 Services:
     - Service 3: Hotel Service
 
     API Gateway -> User Service:
-                        -> Rating Service
-                        -> Hotel Service
+                    -> Rating Service
+                    -> Hotel Service
 */
 /*
 Project:
@@ -81,11 +81,11 @@ Project:
         - Dependencies:
             - Eureka Server (Spring Cloud Discovery)  (spring-cloud-starter-netflix-eureka-server)
             - Cloud Bootstrap (Spring Cloud)
-            
         - application.properties:
             - server.port: 8761
-            - eureka.client.register-with-eureka: false // don't register itself            // by default true
-            - eureka.client.fetch-registry: false       // don't fetch registry information from eureka server // by default true
+            - eureka.instance.hostname: localhost
+            - eureka.client.register-with-eureka: false // don't register itself                                // by default true
+            - eureka.client.fetch-registry: false       // don't fetch registry information from eureka server  // by default true
         - Main class:
             @SpringBootApplication
             @EnableEurekaServer
@@ -94,7 +94,7 @@ Project:
                     SpringApplication.run(ServiceRegistryApplication.class, args);
                 }
             }
-    - Service Discovery Client:
+    - Service Discovery Client Setup:
         - UserService: (Same for HotelService and RatingService)
             - Dependencies:
                 - Eureka Discovery Client (spring-cloud-starter-netflix-eureka-client)
@@ -112,13 +112,13 @@ Project:
                 </dependencies>
                 <dependencyManagement>
                     <dependencies>
-                    <dependency>
-                        <groupId>org.springframework.cloud</groupId>
-                        <artifactId>spring-cloud-dependencies</artifactId>
-                        <version>${spring-cloud.version}</version>
-                        <type>pom</type>
-                        <scope>import</scope>
-                    </dependency>
+                        <dependency>
+                            <groupId>org.springframework.cloud</groupId>
+                            <artifactId>spring-cloud-dependencies</artifactId>
+                            <version>${spring-cloud.version}</version>
+                            <type>pom</type>
+                            <scope>import</scope>
+                        </dependency>
                     </dependencies>
                 </dependencyManagement>
             - Main class:

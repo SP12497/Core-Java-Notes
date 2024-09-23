@@ -59,8 +59,8 @@ function add(a) {
         }
     }
 }
-
 console.log("normal currying:" + add(5)(2)());
+
 // Infinite currying:
 function add(a) {
     return function (b) {

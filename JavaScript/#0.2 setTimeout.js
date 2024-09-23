@@ -20,14 +20,14 @@ function cb() {
 };
 setTimeout(cb, 0); // This will defer the code. 
 // means It wont execute immediatly. Once Global Execution is completed then this will get executed.
-// Use case: When we have to execute some code but its not priority (dont want to block the thread), then we can use.
+// Use case: When we have to execute some code but its not priority (if we don't wan't to block the main thread, then we can use).
 
 console.log("End");
 /* Output:
-Start
-after 10 sec wait.
-While Expired.
-End
-Callback
-cb fun
+    Start
+    after 10 sec wait.
+    While Expired.
+    End
+    Callback
+    cb fun
 */

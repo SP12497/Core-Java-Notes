@@ -33,17 +33,19 @@ console.log("______#2 Scopes______");
 
 let f = 11;     // script scope
 let h = 12;     // script scope
+var aa = 10;    // script scope
 {
     var e = 10;     // present in global scope
     let f = 20;     // block scope      // shadowing: hides parent 'f' variable.
     const g = 30;   // block scope
     // var h = 10;  // SyntaxError: Identifier 'h' has already been declared // explain: var will create global scope, but h is already present in script scope, so scope should not cross the boundry.
+    var aa = 20;    // script scope
     console.log("this is the block scope");
     {
         const g = 40;
     }
 }
-console.log(e, f); // 10 11
+console.log(e, f, aa); // 10 11 20
 // console.log(g);  // ReferenceError: g is not defined
 
 console.log("\n\n---------------------")
