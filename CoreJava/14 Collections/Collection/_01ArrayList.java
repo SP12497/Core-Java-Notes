@@ -35,7 +35,7 @@ Difference:
 		- lower performance / low speed of execution
 		- Increase the capacity by 100% when size exceeded
 	ArrayList:
-		- non-synchronized	/ Not Thread Safe 
+		- Asynchronized	/ Not Thread Safe 
 		- better performance / high speed of execution
 		- Increase the capacity by 50% when size exceeded	/ int newCapacity = (oldCapacity * 3)/2 + 1; 
 	
@@ -49,14 +49,14 @@ public class _01ArrayList {
 		int size = 5;
 // 1. Declaration
 		Collection<String> cl = new ArrayList();
-		List<String> ls = new ArrayList<>();
+		List<String> ls = new ArrayList<String>();
 		List<String> vector = new Vector<>();
 		ArrayList anytype = new ArrayList<>(); // we can store any value. // Default constructor without parameterized
 		ArrayList<String> al1 = new ArrayList<>(); // Default constructor
 		ArrayList<String> al2 = new ArrayList<>(size); // parameterized constructor 
 
 //	2. Declaration + Initialization :
-		List<Integer> ls1 = Arrays.asList(new Integer[] { 11, 22, 33 }); // primitive datatypes (int) not support
+		List<Integer> ls1 = Arrays.asList(new Integer[] { 11, 22, 33 }); // Only wrapper classes, primitive datatypes (int) not support
 		List<Integer> ls2 = Arrays.asList(11, 22, 33);
 		
 		ArrayList<Integer> al3 = new ArrayList<>(ls1);

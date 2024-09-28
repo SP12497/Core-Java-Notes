@@ -94,7 +94,6 @@ public class _8_17_AbstractClassMethods {
 
 		System.out.println("___________Anonymous Inner Type (Object)________");
 		BabanPhone bb = new BabanPhone() {		// Annonymous Class
-
 			@Override
 			void watch() {
 				System.out.println("anonymous watch");

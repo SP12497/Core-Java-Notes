@@ -1,22 +1,31 @@
 import java.util.Arrays;
 
+/*
+.trim(),		 	.concat(),			.substring(),		 
+.replace(), 		.replaceAll(),		.startsWith(),			.endsWith(),		 
+.indexOf(),		 	.charAt(),			.equalsIgnoreCase(),	.equals()	 
+.split(),		 	.toCharArray(),		.toUpperCase(),		 
+.toLowerCase(),	 	.length(),			.hashCode(),		 
+.compareTo(),	 	.format(),			.intern(),		 
+.binarySearch(), 	.toString()			
+*/
 public class _03String {
 	public static void main(String[] args) {
-		int [] intarr = { 72, 101, 108, 108, 111 };	// Unicode code points for 'H', 'e', 'l', 'l', 'o'
-		String s1 = "Sagar";	// added in the string pool then create memory in heap and added into it. //Here 2 obj are created.
+		int [] uniCodeArr = { 72, 101, 108, 108, 111 };	// Unicode code points for 'H', 'e', 'l', 'l', 'o'
+		String s1 = "Sagar";	// added in the string pool then create memory in heap and added into it. // Here 2 obj are created.
 		String str = new String("Sagar");	// The string literal "Sagar" is in the pool, but new String("Sagar") creates a new String object in the heap that is not automatically added to the String pool. Therefore, c is a new String instance with the same value as the literal but a different reference.
 		String s2 = str;
 		String str3 = new String("Sagar".toCharArray(), 0, 2); // Sa // accept only characher array
-		String str4 = new String(intarr, 0, intarr.length);	// Hello
+		String str4 = new String(uniCodeArr, 0, uniCodeArr.length);	// Hello
 		String s3intern = new String("Sagar").intern();	// new String("Sagar") creates a new String object in the heap, and .intern() ensures that the resulting reference points to the string in the String pool. If "Sagar" is already in the pool, d will refer to the same pooled instance.
 
-		System.out.println(str3);									// Sa
-		System.out.println(str4);									// Hello
-		System.out.println("str==s1: " + str == s1);				// false	// comparing based on reference ie. stack address
-		System.out.println("str.equals(s1): " + str.equals(s1));	// true		// comparing based on value ie. heap address
-		System.out.println("str.compareTo(s1): " + str.compareTo(s1)); // true
-		System.out.println("str==s1: " + s1 == s3intern);			// true
-		System.out.println("str==s1: " + str == s3intern);			// false
+		System.out.println(str3);										// Sa
+		System.out.println(str4);										// Hello
+		System.out.println("str==s1: " + str == s1);					// false	// comparing based on reference ie. stack address
+		System.out.println("str.equals(s1): " + str.equals(s1));		// true		// comparing based on value ie. heap address
+		System.out.println("str.compareTo(s1): " + str.compareTo(s1)); 	// true
+		System.out.println("str==s1: " + s1 == s3intern);				// true
+		System.out.println("str==s1: " + str == s3intern);				// false
 		
 
 		System.out.println("hashCode str:" + str.hashCode());		// 79644074
@@ -29,7 +38,7 @@ public class _03String {
 		// This behavior is called String Immutable.
 
 		System.out.println("length() method: " + str.length());
-		System.out.println(str.toUpperCase());
+		System.out.println(str.toUpperCase());	// .toLowerCase(),
 		System.out.println(str.indexOf("a")); 					// 1
 		System.out.println(str.charAt(1)); 					// a
 		String s3 = "saGar";
@@ -64,7 +73,7 @@ public class _03String {
 			System.out.print(c + ",");								// s,a,g,a,r,
 		}
 		System.out.println();
-		String str2 = Arrays.toString(charArr); // [s, a, g, a, r]
+		String str2 = Arrays.toString(charArr); // "[s, a, g, a, r]"
 		str2 = new String(charArr); // sagar
 		str2 = new String(charArr, 0, 2); // sa
 		System.out.println(str2);
@@ -78,7 +87,7 @@ public class _03String {
 			+ve:	first obj is bigger ie second object is smaller
 			
 			abc = 	97 98 99
-			abe = - 97 98 101	=> 97-97 = 0 | 98-98=0 | 99-101 = -2
+			abe = - 97 98 101	=> 97-97 = 0 | 98-97=+1 | 99-101 = -2
 			
 		*/
 		System.out.println("abc".compareTo("abe"));	// -2

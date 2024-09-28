@@ -24,7 +24,7 @@ public class _8_3_Inheritance_IsA {
 	public static void main(String[] args) {
 		Add obj = new Add();
 		System.out.println(obj.sum());
-		// //System.out.println(obj.sub()); //error
+		// System.out.println(obj.sub()); //error
 
 		AddSub obj1 = new AddSub();
 		System.out.println(obj1.sum()); // parent

@@ -37,13 +37,17 @@ When to go for interface and when to Abstract class ?
 
 Why Multiple Inheritance supports in Interface?
 	- Bcoz, interface don't have constructor.
-*/
 
-//Types of Interface :
-//	1] Marker Interface -> without any method
-//	2] SAM -> Single Abstract Method -> Functional Interface => only one abstract method
-//	3] Normal Interface.
-//		There are many more types of interfaces...
+
+Types of Interface :
+	1] Marker Interface -> without any method
+		- Serializable, Clonable, Remote, EventListener, RandomAccess
+	2] SAM -> Single Abstract Method -> Functional Interface => only one abstract method
+		- Runnable, Callable, ActionListener, Comparable, Comparator, Predicate, Supplier, Consumer
+	3] Normal Interface.
+		There are many more types of interfaces...
+
+*/
 
 interface inter0 {
 } // Marker Interface
@@ -104,7 +108,7 @@ class Class1 {
 }
 
 // class Class10 implements Inter4 extends Class1{} //Error
-class Class2 extends Class1 implements Inter4 // Both 1st Class and then Interface otherwise it throws error
+class Class2 extends Class1 implements Inter4 // Both, 1st Class and then Interface otherwise it throws error
 {
 	// - Here class1 and interface4 both had defined common() method.
 	// - Class have more Priority than Interface.

@@ -1,10 +1,9 @@
 /*
 PolyMorphism means redefining the information.
-
-Polymorphism means "many forms", and it occurs when we have 
+Polymorphism means "many forms", and it occurs when we have
  many classes that are related to each other by inheritance.
- Like we specified in the previous chapter; 
- Inheritance lets us inherit attributes and methods from another class. 
+ Like we specified in the previous chapter;
+ Inheritance lets us inherit attributes and methods from another class.
  Polymorphism uses those methods to perform different tasks.
 
 Types :
@@ -56,6 +55,11 @@ class CA // Method OverLoading
 		System.out.println(" Show CA");
 	}
 
+	// public int show() {				//Duplicate method show() in type CA
+	// 	System.out.println(" Show CA");
+	// 	return 0;
+	// }
+
 	public void show(int a) {
 		System.out.println(" Show CA with 1 Int Parameter");
 	}
@@ -75,6 +79,15 @@ class CB extends CA // C++ : class CB : public/private/protected CA{}
 		System.out.println(" Show CB ");
 		super.show(10); // super is used to call parent class Method or variable.
 	}
+
+	// public int show(int a) {				// return type int is not compatible with void
+	// 	return a;
+	// }
+
+	
+	// private void show(int a) {				// attempting to assign weaker access privileges; was public
+	// 	return a;
+	// }
 
 	public void sayCB() {
 		System.out.println(" sayCB");

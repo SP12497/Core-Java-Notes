@@ -6,7 +6,6 @@ Map
 
 	Map <String,String> map = new HashMap<>();
 		map.put("Name", "Sagar");		//(Key , Value);
-		map.set("Name", "Swapnil");
 		map					//toString
 		map.get("key1")		//value
 		map.values()		// list of values

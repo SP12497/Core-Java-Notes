@@ -8,7 +8,7 @@ Encapsulation:
 		In Abstraction, the variables of a class will be hidden from other classes,	and can be accessed only through 
 		the methods of their current class. Therefore, it is also known as DATA HIDING.
 	Method Hiding:
-		- OverRiding of static method is not possible is java. But we can overload static method.
+		- OverRiding of static method is not possible in java. But we can overload static method.
 		- If we ReDefining the static method of super class into sub class then, this is called as Method Hidding.
 
 To achieve Data Hiding in Java −

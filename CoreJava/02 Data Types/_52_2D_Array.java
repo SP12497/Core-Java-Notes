@@ -49,7 +49,7 @@ public class _52_2D_Array {
 		
 		// sort based of count of inner elements: 
 		
-		Arrays.sort(arr, (int [] o1, int [] o2) -> sumOfArray(o1) - sumOfArray(o2) );	// if return -ve, then o1 will come first (ascending order) // -1, 0 : no change, 1: swap
+		Arrays.sort(arr, (int [] o1, int [] o2) -> sumOfArray(o1) - sumOfArray(o2) );	// // Comparator : compare()	// if return -ve, then o1 will come first (ascending order) // -1, 0 : no change, 1: swap
 		System.out.println("sort by sumOfArray: " + Arrays.deepToString(arr));	// [[11, 12, 13], [22, 22, 24, 24], [31, 32, 33]]
 		
 

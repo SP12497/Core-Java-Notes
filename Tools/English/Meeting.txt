@@ -8,7 +8,7 @@
 	- Emergency meeting : team member ill, or proj issue
 	- Whole team discuss how to fix the problem
 5. Senior Management Meeting
-	 - by senior peoples one a month or quaterly
+	 - by senior peoples once a month or quaterly
 	 - top management will review the business, and decision accordingly
 6. One-on-One meeting :
 	- boss with me.
@@ -26,7 +26,7 @@
 
 External Meeting :
 	1. Meeting with Prospect :
-		- prospect : a person to whom , we want to sell service or product. 
+		- prospect : a person to whom, we want to sell service or product. 
 	2. Meeting with Customers :
 	3. Meeting with Contractors :
 		Contractors :
@@ -67,9 +67,9 @@ Questions ?
 	- Sorry, but I have another meeting at the same time, so we'll have to reschedule this meeting.
 	- Can i skip this meeting
 	- You missed the last meeting to
-	- Have all attendees confirmed theit availability?
+	- Have all attendees confirmed their availability?
 		Only two persons have confirmed thier availability.
-	- Mr. Anuj jas declined my meeting invite
+	- Mr. Anuj has declined my meeting invite
 	- All others has accepted my meeting invite
 	- Whats the agenda of the meeting.
 	- Please ensure that the meeting doesn't exceed its duration.
@@ -88,3 +88,4 @@ Phrases :
 	As mention in the agenda, We are going to discuss..
 	
 	Our goal today is to...
+		- finalize the project plan and assign the tasks to the team members.

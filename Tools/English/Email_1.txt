@@ -19,7 +19,7 @@ Email Writing :
 	- I haven't received your email yet.
 	- Let me refresh my inbox once.
 	- Oh, your email was sitting in my junk folder.
-	- Let me move it from the junk folder  to the inbox.
+	- Let me move it from the junk folder to the inbox.
 	- The email is stuck in the outbox.
 	- I mistakenly deleted that email.
 	- I can't find that email now.

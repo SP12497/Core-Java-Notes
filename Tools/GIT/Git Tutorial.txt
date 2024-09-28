@@ -1,6 +1,6 @@
 Workspace (Working directory) -> Staging area -> LocalRepo (GIT) -> RemoteRepo (GITHUB)
 --
-inti 
+init
 status
 add
 commit
@@ -17,11 +17,11 @@ git add : add files from workspace to staging area
 	- git add abc.txt xyz.txt 	: specific file
 	
 3] LocalRepo :
-	befor move files from staging to local, need to provice some configurations
+	before move files from local to staging, need to provide some configurations
 	-> configuration commands needs only first time
 	- git config --global user.email "Sagar.patil@abc.com"
 	- git config --global user.name "Sagar"
-	then
+	once configuration is done, then we can perform git operations.
 	- git commit -m "mandatory comment" 
 
 	----------------------
@@ -41,7 +41,7 @@ If we modify any files, and moves to local repo
 	-For Workspace to LocalRepo :
 		- git commit -a -m "commiting modified files"
 			- a : means moves into staging area
-			- m : means movies into local repo
+			- m : means provide message for commit
 			
 =======================
 Part 4 :
@@ -91,3 +91,45 @@ git Checkout :
 9. git branch: This command lists all the local branches in the current repository.
 - git branch -d <branch-name>: This command deletes the specified branch.
 - git branch -D <branch-name>: This command forces delete the specified branch.
+
+
+
+
+1. Working directory
+	- codebase where we are working (system like Laptop/Desktop)
+	- git init : to create a new repository
+	- git clone <repo_url> : to obtain a repository from an existing URL
+	- git status : to check the status of the working directory
+	- git branch : to list all the branches in the repository
+	- git add: to add files from the working directory to the staging area
+		- git add -A : to add all files
+		- git add . : to add all files
+		- git add <file-name> : to add a specific file
+	- git commit
+		- git commit -m "message" 		: to commit the changes from the staging directory to the local repository
+		- git commit -a -m "message" 	: to commit the changes from the working directory to the local repository
+	- git switch : only to switch between branches
+		- git switch -c <branch-name> : to create a new branch and switch to it
+		- git switch <branch-name> : to switch to an existing branch
+	- git checkout : to switch between branches or commits
+		- git checkout -b <branch-name> : to create a new branch and switch to it
+		- git checkout <branch-name> : to switch/Checkout to an existing branch
+		- git checkout <commit-hash> : to switch/Checkout to a specific commit
+	- git reset <commit> :	reset the commit
+		1. git reset --soft: Undo commits but keep changes staged.
+		2. git reset --mixed: Undo commits and unstage changes (but keep the changes in your working directory). This is the default behavior if no option is specified.
+		3. git reset --hard: Undo commits and unstage changes and delete all changes in your working directory.
+	- git merge <branch-name> : to merge the specified branch's history into the current branch
+	- git revert <commit> : to revert the commit
+	- git log:
+		- git log : to view the commit history
+		- git log --oneline : to view the commit history in a single line
+	- git config --global user.name "name" : to set the global name
+	- git config --global user.email "email" : to set the global email
+	- git pull:
+		- git pull: to fetch and merge changes from the remote server to the working directory
+		- git pull origin <branch-name> : to fetch and merge changes from the remote server to the working directory
+2. Staging area:
+3. Local repository:
+	- git push origin <branch-name> : to push the committed changes from the local repository to the remote repository
+4. Remote repository

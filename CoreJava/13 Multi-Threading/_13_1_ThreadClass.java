@@ -1,9 +1,8 @@
 // TODO: Executor service? Thread safety?
 
 // We can achieve multi-threading using:
-// - interface Runnable
-// - class Thread implements Runnable
-// class Thread implements Runnable{}
+// - interface Runnable { void run(); }
+// - class Thread implements Runnable { void start() {}; void run() {}; }
 
 /*
 What is Multithreading in Java?

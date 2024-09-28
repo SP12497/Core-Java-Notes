@@ -32,8 +32,8 @@ Subnetting :
 		2^16-2 = 65,534-20 = 65,514 host id's we can not used.
 		- its wasting of IP's.
 		- to avoid wasting of IP's, we used Subnetting
-	- 10.0.0.0/8	: Class A : first octed for network ID
-	- 150.50.22.33/16	:	Class B	:	first 2 octed for network ID
-	- 200.22.33/36	:	Class C	:	first 3 octed for network ID
+	- 10.0.0.0/8		: Class A 	: first octed for network ID
+	- 150.50.22.33/16	: Class B	:	first 2 octed for network ID
+	- 200.22.33/24		: Class C	:	first 3 octed for network ID
 	- 8 / 16 / 32 is a CIDR id
 	
