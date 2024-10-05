@@ -179,96 +179,96 @@ Types of AWS Databases:
             - Double Write IOPS (I/O Operations Per Second) for Multi-AZ (write to both DBs)
             - No charge for data transfer from primary to standby DB.
 
-## AWS RDS Lab:
-    Lab 1: Create RDS DB instance:
-        - Service: AWS RDS
-        - RDS > Create Database
-            - Engine options: MySQL
-            - Templates: Free tier
-            - DB instance size: db.t2.micro
-            - Storage type: General Purpose SSD (gp3)
-            - Allocated storage: 20 GB
-            - Connectivity:
-                - Virtual Private Cloud (VPC): default VPC
-                - Additional connectivity configuration: 
-                    - Subnet group: default
-                    - Publicly accessible: Yes
-                    - VPC security group: new security group
-                    - availability zone: choose any
-            - Additional configuration:
-                - Database name: db1
-                - Master username: admin
-                - Master password: admin123
-            - done
-        - RDS > Databases > db1 > Connectivity & Security
-            - Security group: Inbound rules: Add rule
-                - 
-                    - Type: MySQL/Aurora
-                    - Source: Anywhere
-                - 
-                    - Type: SSH
-                    - Source: Anywhere
-            - Linux Instance:
-                - EC2 > Create instance
-                    - AMI: Amazon Linux 2
-                    - Instance type: t2.micro
-                    - Configure Instance: 
-                        - Auto assign Public IP: Enable
-                        - Security group: existing DB security group
-                    - Download PEM key
-                - Install Putty and Putty Gen:
-                    - Putty Gen:
-                        - Load PEM key, select pem key file.
-                        - Save private key in any folder : key.ppk
-                    - Putty:
-                        - Hostname: Public IP of EC2
-                        - Connection > SSH > Auth:
-                            - Browse: Private key file for authentication: key.ppk
-                        - Open: login as ec2-user
-                        - it will open terminal
-                    - Terminal commands:
-                        - 'ec2-user'    // login as ec2-user
-                        - 'sudo su -'   // login as root
-                        - 'yum install -y mysql'   // install mysql
-                        - 'mysql -h <db-endpoint> -u admin -p' db1  // db1 is database name
-                            - password: admin123
-                            - show databases;
-                            -> Successfully connected to RDS DB instance
-                                - create database db2;
-                                - use db2;
-                                - create table t1 (id int, name varchar(20));
-                                - insert into t1 values (1, 'abc');
-                                - select * from t1;
-                                - exit;
-                - Windows Instance:
-                    - DB Security group: Inbound rules: Add rule
+    # AWS RDS Lab:
+        Lab 1: Create RDS DB instance:
+            - Service: AWS RDS
+            - RDS > Create Database
+                - Engine options: MySQL
+                - Templates: Free tier
+                - DB instance size: db.t2.micro
+                - Storage type: General Purpose SSD (gp3)
+                - Allocated storage: 20 GB
+                - Connectivity:
+                    - Virtual Private Cloud (VPC): default VPC
+                    - Additional connectivity configuration: 
+                        - Subnet group: default
+                        - Publicly accessible: Yes
+                        - VPC security group: new security group
+                        - availability zone: choose any
+                - Additional configuration:
+                    - Database name: db1
+                    - Master username: admin
+                    - Master password: admin123
+                - done
+            - RDS > Databases > db1 > Connectivity & Security
+                - Security group: Inbound rules: Add rule
+                    - 
                         - Type: MySQL/Aurora
-                        - Type: RDP
-                        - Type: HTTP
-                        - Type: HTTPS
                         - Source: Anywhere
+                    - 
+                        - Type: SSH
+                        - Source: Anywhere
+                - Linux Instance:
                     - EC2 > Create instance
-                        - AMI: Windows Server 2019
+                        - AMI: Amazon Linux 2
                         - Instance type: t2.micro
                         - Configure Instance: 
                             - Auto assign Public IP: Enable
                             - Security group: existing DB security group
-                        - Download RDP file and connect to Windows instance
-                    - Setup:
-                        Windows button > Server Manager > Local Server > 
-                            IE Enhanced Security Configuration > Off
-                            Windows Defender Firewall > Off
-                        - Browser:
-                            - Download and Install 'Web Platform Installer' from Microsoft website
-                            - Open 'Microsoft Web Platform Installer'
-                                - Search 'MySQL' > Add > Install 
-                                    - set password: 123..
-                        - cmd:
+                        - Download PEM key
+                    - Install Putty and Putty Gen:
+                        - Putty Gen:
+                            - Load PEM key, select pem key file.
+                            - Save private key in any folder : key.ppk
+                        - Putty:
+                            - Hostname: Public IP of EC2
+                            - Connection > SSH > Auth:
+                                - Browse: Private key file for authentication: key.ppk
+                            - Open: login as ec2-user
+                            - it will open terminal
+                        - Terminal commands:
+                            - 'ec2-user'    // login as ec2-user
+                            - 'sudo su -'   // login as root
+                            - 'yum install -y mysql'   // install mysql
                             - 'mysql -h <db-endpoint> -u admin -p' db1  // db1 is database name
                                 - password: admin123
                                 - show databases;
                                 -> Successfully connected to RDS DB instance
-                                    - Run MySQL commands
+                                    - create database db2;
+                                    - use db2;
+                                    - create table t1 (id int, name varchar(20));
+                                    - insert into t1 values (1, 'abc');
+                                    - select * from t1;
+                                    - exit;
+                    - Windows Instance:
+                        - DB Security group: Inbound rules: Add rule
+                            - Type: MySQL/Aurora
+                            - Type: RDP
+                            - Type: HTTP
+                            - Type: HTTPS
+                            - Source: Anywhere
+                        - EC2 > Create instance
+                            - AMI: Windows Server 2019
+                            - Instance type: t2.micro
+                            - Configure Instance: 
+                                - Auto assign Public IP: Enable
+                                - Security group: existing DB security group
+                            - Download RDP file and connect to Windows instance
+                        - Setup:
+                            Windows button > Server Manager > Local Server > 
+                                IE Enhanced Security Configuration > Off
+                                Windows Defender Firewall > Off
+                            - Browser:
+                                - Download and Install 'Web Platform Installer' from Microsoft website
+                                - Open 'Microsoft Web Platform Installer'
+                                    - Search 'MySQL' > Add > Install 
+                                        - set password: 123..
+                            - cmd:
+                                - 'mysql -h <db-endpoint> -u admin -p' db1  // db1 is database name
+                                    - password: admin123
+                                    - show databases;
+                                    -> Successfully connected to RDS DB instance
+                                        - Run MySQL commands
 
 # AWS Dynamo DB: (NoSQL)
     -  DynamoDB is a fast and flexible NoSQL database service for all applications that need consistent, single-digit-millisecond latency at any scale. Its flexible data model and reliable performance make DynamoDB a great fit for mobile, web, gaming, advertising technology, Internet of Things, and other applications.
