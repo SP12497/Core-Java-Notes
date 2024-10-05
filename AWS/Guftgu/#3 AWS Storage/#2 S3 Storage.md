@@ -1,5 +1,4 @@
-/*
-Part 3: Amazon S3 (Simple Storage Service):
+# Part 3: Amazon S3 (Simple Storage Service):
     - Amazon S3 is an "object storage" service that offers industry-leading scalability, data availability, security, and performance.
     - Amazon S3 is designed to store and retrieve any amount of data from anywhere on the web (internet http, https).
     - we cant install OS on S3, we can only store data.
@@ -14,7 +13,7 @@ Part 3: Amazon S3 (Simple Storage Service):
     - Bucket ownership is not transferable. (If you created a bucket, you are the owner of that bucket, you can not transfer ownership to someone else)
     - S3 bucket is region specific. We cant select AZ while creating bucket.
 
-- Types of Storage Classes in S3:
+## Types of Storage Classes in S3:
     1. S3 Standard:
         Storage Cost: Highest
         Retrieval Cost: Lowest.
@@ -59,12 +58,14 @@ Part 3: Amazon S3 (Simple Storage Service):
         Use Cases: Non-critical, reproducible data.
         Features: Lower cost for storage of non-critical data that can be easily recreated if lost. Provides 99.99% durability compared to the 99.999999999% durability of other storage classes.
     8. S3 Redundancy Storage (RRS) is deprecated. (No longer available for new customers)
-- Summary Based on Cost:
+
+##$ Summary Based on Cost:
     Cheapest Storage: S3 Glacier Deep Archive
     Most Expensive Storage: S3 Standard
     Cheapest Retrieval: S3 Standard
     Most Expensive Retrieval: S3 Glacier Deep Archive
-- S3 Bucket Naming Rules:
+
+### S3 Bucket Naming Rules:
     - S3 bucket names (keys) are globally unique across all AWS accounts.
     - Bucket names cannot be change/rename after they are created.
     - If a bucket is deleted, its name becomes available again to you or other account to use.
@@ -80,7 +81,7 @@ Part 3: Amazon S3 (Simple Storage Service):
     - The S3 url is: 
         https://s3-<region>.amazonaws.com/<bucket-name>/<object-name>
 
-Subresources of S3 bucket:
+### Subresources of S3 bucket:
     - Lifecycle:
         - to define rules for objects in the bucket.
         - eg. initialy store data in S3 standard, after 30 days move to S3 IA, after 60 days move to Glacier. after 90 days delete.
@@ -93,7 +94,7 @@ Subresources of S3 bucket:
         - to control access to objects in the bucket.
         - bucket policy.
 
-S3 Object:
+### S3 Object:
     - An object is a file and any metadata that describes that file.
     - size of an object can be from 0 bytes to 5TB.
     - each object is stored and retrieved using a unique key (Id or name).
@@ -110,32 +111,32 @@ S3 Object:
         - Make reource publically accessible
         - Use IAM policies to control access to S3 resources.
 
-Versioning in S3:
-- Versioning is enabled at the bucket level.
-    - Versioning is a way of keeping multiple variants of an object in the same bucket.
-    - Once versioning is enabled, it can not be disabled, only suspended. (IMPORTANT NOTE)
-    - When versioning is enabled, S3 generates a unique ID for each version of an object.
-    - When you delete an object, it is not deleted permanently, only the current version is deleted. accidentially deleted object can be restored.
-    - You can delete a specific version of an object.
-    - Versioning is a great backup tool.
-    - Updating object refers to PutObject, PutObjectAcl, CopyObject, CompleteMultipartUpload, and PostObject, DeleteObject, DeleteObjectVersion.
-    - Delete Marker: When you delete an object, a delete marker is created to indicate that latest version of the object is deleted.
-      You can still view the object and its versions, but the latest version is deleted.
-      If you delete the delete marker, then the object is restored.
-    - charges: you will be charged for all versions of an object stored in increased storage cost.
-        eg. Version 1: 5MB => cost = 5MB
-            Version 2: 5.2MB => cost 0.2MB
-            Version 3: 5.5MB => cost 0.3MB
-            Total cost = 5MB + 0.2MB + 0.3MB = 5.5MB
-    - use lifecycle policies to archive or delete old versions of objects.
-    - Bucket Versioning State:
-        - Unversioned: Default state, no versioning. (once enabled, can not be disabled/Unversioned, only suspended)
-        - Enabled: Versioning is enabled.
-        - Suspended: Versioning is suspended, no new versions are created, but existing versions are retained.
-    - Versioning applies to all objects in the bucket, including new objects.
-      Object in Bucket before enabling versioning will have version ID null.
+### Versioning in S3:
+    - Versioning is enabled at the bucket level.
+        - Versioning is a way of keeping multiple variants of an object in the same bucket.
+        - Once versioning is enabled, it can not be disabled, only suspended. (IMPORTANT NOTE)
+        - When versioning is enabled, S3 generates a unique ID for each version of an object.
+        - When you delete an object, it is not deleted permanently, only the current version is deleted. accidentially deleted object can be restored.
+        - You can delete a specific version of an object.
+        - Versioning is a great backup tool.
+        - Updating object refers to PutObject, PutObjectAcl, CopyObject, CompleteMultipartUpload, and PostObject, DeleteObject, DeleteObjectVersion.
+        - Delete Marker: When you delete an object, a delete marker is created to indicate that latest version of the object is deleted.
+        You can still view the object and its versions, but the latest version is deleted.
+        If you delete the delete marker, then the object is restored.
+        - charges: you will be charged for all versions of an object stored in increased storage cost.
+            eg. Version 1: 5MB => cost = 5MB
+                Version 2: 5.2MB => cost 0.2MB
+                Version 3: 5.5MB => cost 0.3MB
+                Total cost = 5MB + 0.2MB + 0.3MB = 5.5MB
+        - use lifecycle policies to archive or delete old versions of objects.
+        - Bucket Versioning State:
+            - Unversioned: Default state, no versioning. (once enabled, can not be disabled/Unversioned, only suspended)
+            - Enabled: Versioning is enabled.
+            - Suspended: Versioning is suspended, no new versions are created, but existing versions are retained.
+        - Versioning applies to all objects in the bucket, including new objects.
+        Object in Bucket before enabling versioning will have version ID null.
 
-S3 Multi-Factor Authentication (MFA) Delete:
+### S3 Multi-Factor Authentication (MFA) Delete:
     - Multifactor authentication (MFA) adds an extra layer of security on top of your username and password.
     - MFA Delete requires two forms of authentication to delete an object version. 
     - MFA Delete can only be enabled on the bucket versioning is enabled.
@@ -143,7 +144,7 @@ S3 Multi-Factor Authentication (MFA) Delete:
         - Your AWS account credentials
         - A valid MFA code from the device in your possession. like Google Authenticator, Authy, Okta, etc.
 
-S3 Multi-Part Upload: https://docs.aws.amazon.com/AmazonS3/latest/userguide/qfacts.html
+### S3 Multi-Part Upload: https://docs.aws.amazon.com/AmazonS3/latest/userguide/qfacts.html
     - Multi-Part upload is used to upload large objects in parts.
       eg. 100MB file can be uploaded in 5 parts of 20MB each part. 
       But the object will be stored as a single object.
@@ -151,7 +152,7 @@ S3 Multi-Part Upload: https://docs.aws.amazon.com/AmazonS3/latest/userguide/qfac
     - part size: 5 MiB to 5 GiB. There is no minimum size limit on the last part of your multipart upload.
     - Multi-Part upload is recommended for files larger than 100MB.
 
-Copy Object in S3:
+### Copy Object in S3:
     - Copy object is used to copy objects from one bucket to another bucket.
     - Copy object is used to copy objects within the same bucket.
     - Copy object is used to copy objects with different storage classes.
@@ -165,7 +166,7 @@ Copy Object in S3:
         - Move object accross regions: Copy object to another bucket in a different region.
         - Change object metadata: Copy object with new metadata. (System metadata and user metadata)
 
-Cross-Region Replication (CRR):
+### Cross-Region Replication (CRR):
     - Cross-Region Replication (CRR) is used to replicate objects from one bucket to another bucket in a different region. Vise versa is not possible. only source bucket can replicate to destination bucket.
     - CRR is used to replicate objects across different AWS accounts or different storage classes or different encryption types.
     - Since replication in different regions, you will be charged for data transfer/copying. (cross-region data transfer charges)
@@ -175,10 +176,8 @@ Cross-Region Replication (CRR):
         - Lower latency: Replicate data to a region closer to users to reduce latency. (eg. US East to Mumbai)
         - Data sovereignty: Replicate data to a region that meets data sovereignty requirements.
 
-*/
 
-/*
-Static Website hosting in S3 bucket:
+### Static Website hosting in S3 bucket:
     - S3 can host a static website.
     - Static website: HTML, CSS, JS, images, videos, etc.
     - S3 static website hosting is used to host static websites.
@@ -203,4 +202,3 @@ Static Website hosting in S3 bucket:
                     - Alias Target: S3 bucket endpoint (eg. my-example.com.s3-website-us-east-1.amazonaws.com)
         - Now, after some time, you can access your website using the domain name. (eg. www.my-example.com)
         - Test: Open browser -> www.my-example.com -> You should see the website.
-*/

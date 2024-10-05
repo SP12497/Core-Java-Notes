@@ -1,5 +1,4 @@
-/*
-AWS Storage:
+# AWS Storage:
     - used to store and retrieve data
     - Types of storage services: 
         - Object Storage: Amazon S3 (Simple Storage Service)
@@ -10,7 +9,7 @@ AWS Storage:
         - Database Storage: Amazon RDS (Relational Database Service), Amazon DynamoDB
         - Backup and Disaster Recovery: AWS Backup
         - Hybrid Storage: AWS Outposts
-    - 3 types of storage:
+    - Types of storage:
         1. Object Storage
             Amazon S3 (Simple Storage Service)
             - (Assume like EC2 instance HDD, We can only access by that perticular EC2 instance)
@@ -83,10 +82,7 @@ AWS Storage:
     - These services can be combined and tailored to meet specific requirements,
       providing a flexible and powerful set of tools for various storage needs in the cloud.
 
-*/
-
-/*
-Part 2: Block vs Object Storage:
+# Part 2: Block vs Object Storage:
     - Block Storage:
         - Example: Amazon EBS (Elastic Block Store)
         - Block storage is suitable for transactional databases, randon read/write loads and structured database storage.
@@ -103,14 +99,11 @@ Part 2: Block vs Object Storage:
         - The Object Global Unique ID is a unique identifier for the object (can be object name itself) and it must be unique such that it can be used to retrieve the object disregarding the object's physical location.
         - Object storage is suitable for unstructured data, such as videos, images, and log files.
         - it cannot be mounted as a drive to an operating system, it can only be accessed via API calls.
-*/
 
-/*
-AWS EFS (Elastic File System):
-    - https://aws.amazon.com/efs/faq/
+## AWS EFS (Elastic File System):
+    - [Link Text] https://aws.amazon.com/efs/faq/
     - EFS is a fully managed, elastic, scalable, and highly available file storage service.
     - EFS is a file storage service for Amazon EC2 instances.
     - EFS is a regional service, which means it is not limited to a single Availability Zone.
     - *If you have multiple EC2 instances in different AZs, you can use EFS to share files between them.
     - Only works with Linux EC2 instances.
-*/
