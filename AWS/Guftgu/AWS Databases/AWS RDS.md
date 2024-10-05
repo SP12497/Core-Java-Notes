@@ -1,19 +1,3 @@
-# Types of AWS Databases:
-    - Relational Databases
-        - Amazon Aurora
-        - Amazon RDS
-    - Key-Value Stores
-        -> Key-Value stores are a type of NoSQL database that uses a simple key-value method to store data.
-        - Amazon DynamoDB
-    - In-Memory Caching
-        - Amazon ElastiCache
-    - Graph Databases
-        -> Graph databases is basically a collection of nodes and edges. Nodes represent entities and edges represent relationships between entities.
-        - Amazon Neptune
-    - Document Databases
-        -> Document databases are a type of NoSQL database that is designed to store semi-structured data as documents.
-        - Amazon DocumentDB
-    
 # AWS RDS: Relational Database Service
     - In an AWS fully managed relational DB engines services, where AWS is responsible for:
         - Security and Patching
