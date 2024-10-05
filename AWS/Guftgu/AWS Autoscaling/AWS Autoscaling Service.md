@@ -1,5 +1,5 @@
 # AWS Autoscaling:
-    - Autoscaling in on region ie. inside VPC and outside Availability Zones. 
+    - Autoscaling in on region level ie. inside VPC and outside Availability Zones. 
     - It is a feature of AWS that allows you to automatically adjust the number of EC2 instances in your application.
     - Scale OUT / Scale UP : Increase the number of instances
     - Scale IN / Scale DOWN : Decrease the number of instances
@@ -23,7 +23,7 @@
                 - Number of Instances: 5
         - Target Value: The value that the metric should maintain.
 
-# Autocaling Balancing:
+# Autoscaling Balancing:
     - Autoscaling scaling groups (ASG) contains information about the instances that are launched as part of the group with availability zones.
     - ASG=>  AZ1: 5 instances, AZ2: 3 instances, AZ3: 1 instance
     - Autoscaling balancing ensures that the number of instances in each availability zone is balanced.
