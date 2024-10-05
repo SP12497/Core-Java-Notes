@@ -58,13 +58,13 @@ class FinaleMethodClass {
 		System.out.println("FinaleMethodClass : Show A");
 	}
 
-	public void show(int a) {	// We can overload the fina method
+	public void show(int a) {	// We can overload the final method
 		System.out.println("FinaleMethodClass : Show A  :" + a);
 	}
 }
 
 class InheritB extends FinaleMethodClass {
-	// once Final , we cant override the final method.
+	// once Final , we can't override the final method.
 	// public void show() { System.out.println("Show B"); }
 	
 	public void show(int a) {

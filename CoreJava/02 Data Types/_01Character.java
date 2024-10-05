@@ -14,7 +14,7 @@ public class _01Character {
 		char ws = ' ';
 		System.out.println(Character.isWhitespace(ws));	// true
 		
-		System.out.println(Character.toUpperCase(c));	// A	
+		System.out.println(Character.toUpperCase(c));	// A
 		// System.out.println(obj.toUpperCase());		// Error: The method toUpperCase(char) in the type Character is not applicable for the arguments ()
 		System.out.println(obj.toUpperCase(obj));		// A		// toUpperCase is a static method. So, we can call it using class name or object name.
 		System.out.println(Character.toUpperCase(obj));	// A

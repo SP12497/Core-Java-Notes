@@ -1,5 +1,4 @@
-/*
-AWS Autoscaling:
+# AWS Autoscaling:
     - Autoscaling in on region ie. inside VPC and outside Availability Zones. 
     - It is a feature of AWS that allows you to automatically adjust the number of EC2 instances in your application.
     - Scale OUT / Scale UP : Increase the number of instances
@@ -11,7 +10,7 @@ AWS Autoscaling:
     - Autoscaling ensures that you have the correct number of EC2 instances running to handle the load of your application.
     - Autoscaling helps you save cost by cutting down the number of instances when the load is low.
 
-AWS Autoscaling Components:
+# AWS Autoscaling Components:
     - Launch Configuration: 
         - Template for the instances that are launched as part of the autoscaling group.
         - It defines the instance type, AMI, key pair, security group, block device mapping.
@@ -23,10 +22,8 @@ AWS Autoscaling Components:
             - CPU Utilization: Maximum, Minimum, Average
                 - Number of Instances: 5
         - Target Value: The value that the metric should maintain.
-*/
 
-/*
-Autocaling Balancing:
+# Autocaling Balancing:
     - Autoscaling scaling groups (ASG) contains information about the instances that are launched as part of the group with availability zones.
     - ASG=>  AZ1: 5 instances, AZ2: 3 instances, AZ3: 1 instance
     - Autoscaling balancing ensures that the number of instances in each availability zone is balanced.
@@ -49,7 +46,8 @@ Theory:
     - Instances is not part of the autoscaling group until it is attached.
     - AMI used to launch the EC2 still exists even after the instance is attached to the autoscaling group.
     - Instances must be in the same availability zone as mentioned in the autoscaling group.
-Autoscaling Group:
+
+# Autoscaling Group:
         - Desired Capacity: Number of instances that should be running in the group.
         - Min Capacity: Minimum number of instances that should be running in the group.
         - Max Capacity: Maximum number of instances that should be running in the group.
@@ -61,7 +59,7 @@ Autoscaling Group:
     - Delte ASG: if we delete ASG, then all instances in the group are terminated.
     - delete only ASG: detach all instances from the ASG and then delete the ASG.
 
-Elastic Load Balancer:
+# Elastic Load Balancer:
     - Load balancer distributes the incoming traffic to the instances in the autoscaling group.
     - Autoscaling group can be associated with multiple load balancers.
     - Load balancer can be associated with multiple autoscaling groups.
@@ -69,7 +67,7 @@ Elastic Load Balancer:
     - Instances and ELB must be in the same VPC.
     - no need to register the instances with the load balancer, ASG will do it.
     
-Health Check:
+# Health Check:
     - Health Check used to determine the health of the instances.
         - Health Check Type: EC2 or ELB
         - Health Check Grace Period: Time to wait before checking the health of the instances. (default: 300 seconds)

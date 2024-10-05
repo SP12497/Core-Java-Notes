@@ -1,3 +1,14 @@
+Types of No-SQL Database :
+	- Columnar Database
+		- data is stored in columns rather than rows (RDBMS stores data in rows)
+		- Cassandra, HBase
+	- Document Database
+		- MongoDB, CouchDB, RavenDB
+	- Key-Value Database
+		- Redis, DynamoDB, Riak, BerkeleyDB
+	- Graph Database
+		- Neo4j, ArangoDB, OrientDB, FlockDB
+
 - show databases
 - use database_name
 - show collections

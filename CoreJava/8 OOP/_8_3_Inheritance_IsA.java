@@ -26,13 +26,13 @@ public class _8_3_Inheritance_IsA {
 		System.out.println(obj.sum());
 		// System.out.println(obj.sub()); //error
 
-		AddSub obj1 = new AddSub();
-		System.out.println(obj1.sum()); // parent
-		System.out.println(obj1.sub()); // child
-
 		Add obj2 = new AddSub();
 		System.out.println(obj2.sum()); // parent //call
 		// System.out.println(obj2.sub()); //child //error: reference is parent type.
+
+		AddSub obj1 = new AddSub();
+		System.out.println(obj1.sum()); // parent
+		System.out.println(obj1.sub()); // child
 	}
 }
 

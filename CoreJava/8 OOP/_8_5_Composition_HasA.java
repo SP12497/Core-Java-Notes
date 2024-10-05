@@ -1,4 +1,8 @@
 /*
+Composition (Aggregation): Has-A Relationship.
+	- Composition is a restricted form of Aggregation in which two entities are highly dependent on each other.
+	- It represents part-of relationship.
+
 	Employee Has A Address class	
 	 Used in Class A having reference of another class B
 
@@ -28,7 +32,7 @@ class Employee {
 	}
 
 	void disp() {
-		System.out.println(id + " " + name + " " + sal);
+		System.out.println(this.id + " " + name + " " + sal);
 		System.out.println(add.city + " " + add.state + " " + add.pin);
 	}
 }

@@ -2,6 +2,8 @@ public class _8_8_2_Static_method_Hiding{
 	public static void main(String[] args) {
 	    System.out.println("RBI.balance: " +RBI.balance);
 	    System.out.println("SBI.balance: " + SBI.balance);
+        
+
 		System.out.println("SBI.getBalance(6): " + SBI.getBalance(6)); // RBI Method Hiding
 		System.out.println("RBI.getBalance(5): " + RBI.getBalance(5));
 		System.out.println("SBI.getBalance(''): " + RBI.getBalance(""));
@@ -14,13 +16,15 @@ public class _8_8_2_Static_method_Hiding{
 
 class RBI {
     static int balance = 100;
-    private int interest = 10;  // Data Hiding
+    private static int interest = 20;
+    private int tax = 10;
     
     public static int getBalance(int a) {
         return balance;
     }
     public static int getBalance(String a) {
-        return 777;
+        // return tax; // static method can't access non-static (instance) variable
+        return interest;
     }
 } 
 
@@ -36,13 +40,11 @@ class SBI extends RBI {
 
 /*
 Output:
-    RBI.balance: 100
-    SBI.balance: 100
+RBI.balance: 100
+SBI.balance: 100
 
-    RBI.getBalance(1): 100    
-    SBI.getBalance(6): 44
-
-    RBI.getBalance(5): 100
-    SBI.getBalance(''): 777
-    rbi.balance: 100
+ RBI.getBalance(1): 100SBI.getBalance(6): 44
+RBI.getBalance(5): 100
+SBI.getBalance(''): 20
+rbi.balance: 100
 */

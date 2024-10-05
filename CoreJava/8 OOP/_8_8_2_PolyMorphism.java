@@ -10,10 +10,11 @@ Types :
 	1. Method Overloading.  	: Early Binding,  Static Binding,	Compile Time Polymorphism. 
 		- Instance Method name is same but signature(parameters) should be different in same class.
 		- Same: method name, Class
-		  Different : Parameter
+		  Different : Parameter and
+		- return type can be same or different.
 	2. Method OverRiding. 	: Late Binding ,  Dynamic Binding, 	Run Time Polymorphism.
 		- Instance Method name and signature(parameters) are same but during Inheritance (different class).
-		- Same: method name , Parameter 
+		- Same: method name , Parameter and return type.
 		  Different : Class
 		  
 	Method Hiding:
@@ -22,6 +23,23 @@ Types :
 	Data Hiding:
 		In Abstraction, the variables of a class will be hidden from other classes, and can be accessed only through
 		the methods of their current class. Therefore, it is also known as DATA HIDING.
+
+Rules of Method Overriding in Java
+ -> Following are rules of method overriding in java which must be followed  while overriding any method :
+	- As stated earlier private, static and final method can not be overridden in Java.
+	- Method signature must be same including return type, number of method parameters, type of parameters and order of parameters
+	- Overriding method can not throw higher Exception than original or overridden method. 
+		means if original method throws IOException than overriding method can not throw super class of IOException
+		ie. Exception but it can throw any sub class of IOException or simply does not throw any Exception.
+		This rule only applies to "checked Exception" in Java, overridden method is free to throw any unchecked Exception.
+	- Overriding method can not reduce accessibility of overridden method, 
+		means if original or overridden method is public than overriding method can not make it protected.
+
+super keyword:
+	- super is used to call parent class Method or variable.
+	- super() is used to call parent class constructor.
+	- super is used to refer immediate parent class instance variable.
+	- super keyword instance method. Not in static method (static method is class level method, which is directly called by class name).
 */
 
 public class _8_8_2_PolyMorphism {
@@ -93,28 +111,3 @@ class CB extends CA // C++ : class CB : public/private/protected CA{}
 		System.out.println(" sayCB");
 	}
 }
-
-/*
- * Rules of Method Overriding in Java
- * -> Following are rules of method overriding in java which must be followed
- * while overriding any method :
- * - As stated earlier private, static and final method can not be overridden in
- * Java.
- * - Method signature must be same including return type, number of method
- * parameters, type of parameters and order of parameters
- * - Overriding method can not throw higher Exception than original or
- * overridden method. means if original method throws IOException
- * than overriding method can not throw super class of IOException
- * e.g. Exception but it can throw any sub class of IOException or simply does
- * not throw any Exception.
- * This rule only applies to "checked Exception" in Java, overridden method is
- * free to throw any unchecked Exception.
- * - Overriding method can not reduce accessibility of overridden method, means
- * if original or overridden method is public
- * than overriding method can not make it protected.
- * 
- * 
- * Read more:
- * https://javarevisited.blogspot.com/2011/12/method-overloading-vs-method-
- * overriding.html#ixzz6mppG9klH
- */
