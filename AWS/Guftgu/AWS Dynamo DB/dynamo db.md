@@ -179,8 +179,7 @@ Types of AWS Databases:
             - Double Write IOPS (I/O Operations Per Second) for Multi-AZ (write to both DBs)
             - No charge for data transfer from primary to standby DB.
 
-
-# AWS RDS Lab:
+## AWS RDS Lab:
     Lab 1: Create RDS DB instance:
         - Service: AWS RDS
         - RDS > Create Database
