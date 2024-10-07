@@ -79,4 +79,14 @@ To effectively prepare for the certification, follow this roadmap:
 - Focus on best practices and the AWS Well-Architected Framework.
 - Pay attention to services like Lambda, S3, DynamoDB, and CI/CD tools as these are core to the developer role.
 
-By following this roadmap, focusing on hands-on practice, and understanding core AWS services, you'll be well-prepared for the AWS Certified Developer - Associate exam.
+## Passing Score for AWS Certified Developer - Associate Exam
+
+The passing score for the AWS Certified Developer - Associate exam typically ranges between 70% and 75%. However, AWS does not publish an exact passing score because the exam is scaled, and the required score may slightly vary depending on the difficulty of the exam version you take.
+
+The exam is scored out of 1,000 points, and to pass, you usually need to score around 720-750 out of 1,000.
+
+### Key Points
+
+- The exam uses scaled scoring, meaning your raw score (the number of correct answers) is converted to a consistent scale.
+- Each exam version may have different difficulty levels, which is why the passing score is not always the same.
+- Aim for a minimum of 75% to ensure you pass comfortably.
