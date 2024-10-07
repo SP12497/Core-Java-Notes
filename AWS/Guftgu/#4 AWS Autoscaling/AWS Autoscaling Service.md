@@ -10,20 +10,24 @@
     - Autoscaling ensures that you have the correct number of EC2 instances running to handle the load of your application.
     - Autoscaling helps you save cost by cutting down the number of instances when the load is low.
 
-# AWS Autoscaling Components:
+## AWS Autoscaling Components:
     - Launch Configuration: 
         - Template for the instances that are launched as part of the autoscaling group.
         - It defines the instance type, AMI, key pair, security group, block device mapping.
     - Autoscaling Group:
         - Group of instances that are launched based on the Launch Configuration.
-        - It defines the minimum, maximum, desired number of instances. Health check Period.
+        - It defines the minimum, maximum, desired number of instances. Health check Period (by default 5 min).
+        - Group Name, Group Size, VPC, Subnets, Load Balancer, Health Check Type, Health Check Grace Period, Termination Policy.
     - Scaling Policies:
         - Metric Type:
             - CPU Utilization: Maximum, Minimum, Average
                 - Number of Instances: 5
+                - CPU Utilization: 80%
+                - Scale Out: 5 instances
+                - Scale In: 2 instances
         - Target Value: The value that the metric should maintain.
 
-# Autoscaling Balancing:
+# (Part 2) Autoscaling Balancing:
     - Autoscaling scaling groups (ASG) contains information about the instances that are launched as part of the group with availability zones.
     - ASG=>  AZ1: 5 instances, AZ2: 3 instances, AZ3: 1 instance
     - Autoscaling balancing ensures that the number of instances in each availability zone is balanced.
