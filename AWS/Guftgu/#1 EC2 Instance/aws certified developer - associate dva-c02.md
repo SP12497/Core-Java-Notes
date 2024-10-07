@@ -1,5 +1,7 @@
+# AWS Certified Developer - Associate (DVA-C02) Syllabus
+[text](https://d1.awsstatic.com/training-and-certification/docs-dev-associate/AWS-Certified-Developer-Associate_Exam-Guide.pdf)
+
 The AWS Certified Developer - Associate certification is designed for individuals who have experience in developing and maintaining AWS-based applications. It covers a broad range of topics to ensure that candidates have the necessary skills to design, develop, deploy, and maintain applications on AWS. Here's a breakdown of the syllabus or domains covered in the AWS Certified Developer - Associate exam, as well as the recommended roadmap to prepare for it:
-# AWS Certified Developer - Associate Syllabus
 
 The exam focuses on the following five domains:
 
