@@ -1,7 +1,8 @@
 /*
 What is Nodejs?
     - Node.js is an open-source, cross-platform, JavaScript runtime environment that executes JavaScript code outside a web browser.
-    - Node.js lets developers use JavaScript to write command line tools and for server-side scripting—running scripts server-side to produce dynamic web page content before the page is sent to the user's web browser.
+    - Node.js lets developers use JavaScript to write command line tools and for server-side scripting—running scripts server-side 
+      to produce dynamic web page content before the page is sent to the user's web browser.
     - Single threaded, event-driven, non-blocking I/O model.
     - Huge library of open-source packages available. Huge community support.
     
@@ -31,19 +32,19 @@ readline module: (Read Input From User)
     - It is a built-in module in Node.js.
     - Practical: Create a file named "readline.js" and write the following code in it.
 */
-        const readline = require('readline');
-        const rl = readline.createInterface({
-            input: process.stdin,
-            output: process.stdout
-        });
-        rl.question('Enter a number: ', (num) => {
-            console.log(`You entered: ${num}`);
-            rl.close();         // emit close event to close the interface
-        });
-        rl.on('close', () => {  // We can listen to the close event to perform some action on close event.
-            console.log('Readline interface closed.');
-            process.exit(0);    // exit the process
-        });
+    const readline = require('readline');
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+    rl.question('Enter a number: ', (num) => {
+        console.log(`You entered: ${num}`);
+        rl.close();         // emit close event to close the interface
+    });
+    rl.on('close', () => {  // We can listen to the close event to perform some action on close event.
+        console.log('Readline interface closed.');
+        process.exit(0);    // exit the process
+    });
 
 /*
 fs module:
@@ -63,10 +64,11 @@ fs module:
 */
 const fs = require('fs');
 // Read file:
-fs.readFile('/Node/samplefile.txt', 'utf8', (err, data) => {   // read file asynchronously
+// fs.readFile(path, encoding, callback);
+fs.readFile('/Node/samplefile.txt', 'utf8', (err, data) => {   // read file asynchronously, utf8 is encoding, will get callback once file read is completed.
     if (err) {
-    console.error(err);
-    return;
+        console.error(err);
+        return;
     }
     console.log(data);
 });
@@ -97,34 +99,35 @@ Routing:
         - Resource based url pattern: http://localhost:3000/user     || /user/123
             - Route Parameter:
                 - www.example.com/books/:category/:language
-                www.example.com/books/programming/javascript
-                req.url => /books/programming/javascript
-                req.params.category => programming
-                req.params.language => javascript
+                    eg. www.example.com/books/programming/javascript
+                    read data from url:
+                        req.url => /books/programming/javascript
+                        req.params.category => programming
+                        req.params.language => javascript
             - Query String / Query Parameter:
                 - www.example.com/books?category=programming&language=javascript
-                - req.query.category, req.query.language
+                    read data from url:
+                        req.query.category
+                        req.query.language
+
 ------------------------------
-Architecture of NODE JS (C++):
-    - V8 JavaScript Engine: (C++ ann JS)
-    - Libuv: (C++) => Event Loop, File System, Networking
-        - Event Loop => Handles asynchronous operations
-        - Thread Pool => Handles file system operations
+#27 Architecture of NODE JS:
+    - V8 JavaScript Engine: (C++ and JS)
+        -> converts JavaScript code into machine code.
+    - Libuv: (C++):
+        -> handles asynchronous operations.
+        1. Event Loop:
+            - easy tasks, like timers, I/O operations, and callbacks.
+            - Handles asynchronous operations
+        2. Thread Pool:
+            - heavy tasks, like file system operations, file compression, and cryptography.
+            - by default, the thread pool size is 4. We can increase or decrease the size of the thread pool upto 128.
+            Windows: `set UV_THREADPOOL_SIZE=10`
     - HTTP Parser: (C) => Parse HTTP requests and responses
     - C-ares: (C)   => Handles DNS queries
     - OpenSSL: (C)  => Provides SSL support
     - Zlib: (C)    => Provides support for gzip compression
     
-- Node.js uses the V8 JavaScript Engine to execute code.
-- Node.js follows a single-threaded, event-driven, non-blocking I/O model.
-- Node.js provides a set of built-in modules to perform different operations.
-- Node.js uses the libuv library to handle asynchronous operations.
-- Node.js uses the event-driven architecture to perform non-blocking I/O operations.
-- Node.js uses the CommonJS module system to organize code.
-- Node.js uses the npm package manager to manage packages.
-- Node.js uses the Express.js framework to build web applications.
-- Node.js uses the MongoDB database to store data.
-
 Process:
     - program in running state is called process.
     - Every process has One Main Thread.
@@ -134,10 +137,15 @@ Node js process:
     - Main Thread: Single Threaded
     - Event Loop: Handles asynchronous operations
     - Thread Pool: 
-        - all heavy operations like file system operations, network operations are not handled by the main thread. They are handled by the thread pool.
-        - By default, the thread pool size is 4. We can increase or decrease the size of the thread pool upto 128.
-        - Advantage: Heavy operations handled by thread pool, so main thread is free to handle other operations.
+        - all heavy operations like file system operations, network operations are not handled by the main thread.
         - In node.js, we can not create multiple threads. We can only create child processes.
 
-Event Loop: refer "Event Loop.js" file.
+------------
+#28 Event Loop: refer "Event Loop.js" file.
+#29 NODE JS Event Loop in Practice: refer "Event Loop.js" file.
+
+------------
+
+
+
 */

@@ -55,11 +55,11 @@ map.set("IN", "India");
 // console.log(map);
 
 for (const entry of map) {
-    // console.log(entry);
+    console.log(entry);     // ['IN', 'India'], ['USA', 'United States of America'], ['Fr', 'Franch']
     // entry[0] , entry[1]
 }
 
-for (const [key, value] of map) {
+for (const [key, value] of map) {   // Destructuring
     // console.log(key, ":-", value);
 }
 

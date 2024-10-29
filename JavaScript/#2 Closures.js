@@ -139,11 +139,11 @@ console.log("________________#6__________________");
 // Que 1: Shadowing
 let count = 0;
 (function printCount() {
-    if (count === 0) {
+    if (count === 0) {  // 0    // outer scope
         let count = 1; // shodowing // hide parent variable, by creating local variable.
         console.log("if count:", count);
     }
-    console.log("printCount:", count);
+    console.log("printCount:", count);  // 0
 })();
 // ans: 1, 0
 
@@ -201,7 +201,7 @@ for (var i = 0; i < 5; i++)
     console.log(i);     // 01234
 
 function a() {
-    for (var i = 0; i < 3; i++) {   //use let for : 0 1 2
+    for (var i = 0; i < 3; i++) {   // use let for : 0 1 2
         setTimeout(function log() {
             console.log(i); // 3 3 3
         }, i * 1000);
@@ -216,7 +216,7 @@ function b() {
 
         function log(i) {
             setTimeout(function () {
-                console.log(i); // 012
+                console.log(i); // 0 1 2
             }, i * 1000);
         }
 
@@ -231,6 +231,7 @@ console.log("_______________ #10 Clousure Private Counter _______________");
 
 function counter() {
     var _counter = 0;   // private property
+    
     function add(num) {
         _counter += num;
     }
@@ -322,7 +323,7 @@ console.log("________________#14 Memoize Polyfill______________");
 // Q9. Implement Memoize Polyfill
 // used for cache the data.
 const clumsyProduct = (num1, num2) => {
-    for (let i = 0; i < 100000000; i++) { }
+    for (let i = 0; i < 100000000; i++) { }  // time consuming task
     return num1 * num2;
 }
 

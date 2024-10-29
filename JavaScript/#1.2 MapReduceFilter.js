@@ -72,7 +72,7 @@ console.log("reduce findMax:", arr.reduce((acc, curr) => {
 }));
 
 console.log("my reduce", arr.reduce((acc, curr) => {
-    return acc < curr ? curr : acc;
+    return acc > curr ? acc : curr;
 }, 0));
 
 
@@ -99,7 +99,7 @@ console.log("firstNamesOlderThan30:", firstNamesOlderThan30);   // [ 'John', 'Ro
 // acc => {26:1, 46:2, 38:1}
 const countOfAge = users.reduce((acc, curr) => {
     if (acc[curr.age]) {
-        acc[curr.age] = ++acc[curr.age];
+        acc[curr.age] = ++acc[curr.age];   // obj['46'] = obj.'46' + 1
     } else {
         acc[curr.age] = 1;
     }
@@ -117,3 +117,42 @@ const lastNameOlderThan30 = users.reduce((acc, curr) => {
 }, []);
 
 console.log("reduce lastNameOlderThan30:", lastNameOlderThan30);
+
+
+// ------------
+// find method:
+    // - returns the first object that satisfies the condition.
+const findUser = users.find(obj => obj.age === 46); // returns first matched object.
+console.log("findUser:", findUser);   // { firstName: 'John', lastName: 'Cena', age: 46 }
+
+// some method:
+    // - returns true if any of the objects in the array satisfy the condition.
+const isAnyUserOlderThan50 = users.some(obj => obj.age > 40); // returns true or false
+console.log("isAnyUserOlderThan50:", isAnyUserOlderThan50);    // true      // present in some object.
+
+// every method:
+    // - returns true if all the objects in the array satisfy the condition.
+const isEveryUserOlderThan20 = users.every(obj => obj.age > 20); // returns true or false
+console.log("isEveryUserOlderThan20:", isEveryUserOlderThan20);    // true      // all object.
+
+// includes method:
+    // - returns true if the array contains the specified element.
+const arr1 = [1, 2, 3, 4, 5, 3];
+const isElementPresent = arr1.includes(3);   // returns true or false
+console.log("isElementPresent:", isElementPresent);    // true
+
+// indexOf method:
+    // - returns the index of the first occurrence of the specified element in the array.
+const indexOfElement = arr1.indexOf(3);   // returns index of element
+console.log("indexOfElement:", indexOfElement);    // 2
+
+// lastIndexOf method:
+    // - returns the index of the last occurrence of the specified element in the array.
+const lastIndexOfElement = arr1.lastIndexOf(3);   // returns index of element
+console.log("lastIndexOfElement:", lastIndexOfElement);    // 5
+
+// findIndex method:
+    // - returns the index of the first object that satisfies the condition.
+const findIndexUser = users.findIndex(obj => obj.age === 46); // returns index of first matched object.
+console.log("findIndexUser:", findIndexUser);   // 1
+

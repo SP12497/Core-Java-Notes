@@ -24,8 +24,8 @@ Normalization:
 		- ensure data dependency make some logical sence
 		- Removes repeating groups from the table.
 		- Create a separate table for each set of related data
-		- Identify each set of related data with a primary key
-		- eg. Student and Address should not be in single row, create separate table
+		  Identify each set of related data with a primary key
+		  eg. Student and Address should not be in single row, create separate table
 Normalization Types:
 - 1st Normal form:
 	- Each cell in a row contain single value.
@@ -35,8 +35,13 @@ Normalization Types:
 	- There should be no transitive dependency for non-prime attributes.
 	- Student and Address should not be in single row, create a separate table.
 	- Transitively dependency?
-		- Suppose, C is depends on B and B is depends on A. Then transitively, C is depends of A.
-	- All non prime attributes(sName, sAge), must be depends on prime attributes (sRollNo)
+		- Before #NF:
+            |order_id | order_date | customer_id | customer_name | customer_city |
+        - Here, customer_name and customer_city are transitively dependent on order_id.
+        - To remove this transitive dependency, we can create a separate table for customer details.
+        - After 3NF:
+            |order_id | order_date | customer_id |
+            |customer_id | customer_name | customer_city |
 
 
 ==============
@@ -48,7 +53,7 @@ ACID Properties.
       the entire transaction is rolled back, and neither account is affected.
 2. Consistency:
     - Consistency ensures that a transaction transforms the database from one consistent state to another consistent state.
-    - Example: In a database system enforcing a foreign key constraint, consistency ensures that 
+    - Example: (invalid foreign key during insert) In a database system enforcing a foreign key constraint, consistency ensures that 
       if a transaction attempts to insert a record with a foreign key referencing a non-existing primary key, 
       the transaction fails, maintaining the overall consistency of the database.
 3. Isolation:
@@ -56,6 +61,9 @@ ACID Properties.
     - Example: In a multi-user database system, isolation ensures that 
       if one transaction reads data while another transaction is updating the same data, 
       the first transaction sees a consistent view of the data, unaffected by the changes made by the second transaction until it's committed.
+      - eg. User 1: Updating branch and address of the student table.
+        User 2: Reading the student table, it should not see the updated branch and address until User 1 commits the transaction.
+            - while reading, either see old data or new data, but not the intermediate data like getting updated branch but not updated address.
 4. Durability:
     - Durability guarantees that once a transaction is committed, its effects are permanent and persist even in the event of system failures.
       Such as power outages or crashes. Committed changes must be stored permanently in non-volatile storage (e.g., disk) 
@@ -82,8 +90,8 @@ Integrity Constraits:
     - Database integrity refers to the accuracy, consistency, and reliability of data stored in a database. 
     - There are several types of integrity constraints that help maintain data integrity:
  1. Entity Integrity:
-    - In short, it states that primary key value can't be null.
-    - Entity integrity ensures that each row (or record) in a table is uniquely identifiable. 
+    - In short, states that entire row identified by Primary key value and can't be null.
+    - Entity integrity ensures that each row (or record) in a table is uniquely identifiable.
     - It is typically enforced by primary key constraints, which prevent duplicate or null values in the primary key column(s).
  2. Referential Integrity:
     - In short, Foreign key value can be either available in reference table or must be null.
@@ -104,7 +112,7 @@ Integrity Constraits:
 
 1. Domain Constraits	: on Attribute Condition/checks
 2. Entity Integrity Constraits	: primary key null not allowed, 
-3. Referential Integrity Constraits	: FK should be PK of other table or null
+3. Referential Integrity Constraits	: FK must be either PK of other table or null
 4. Key Constraits	: choose entity/column as Primary key which is unique and not null
 
 By enforcing these integrity constraints, databases ensure data accuracy, consistency, and reliability, which are crucial for reliable and meaningful data storage and retrieval.
@@ -236,7 +244,7 @@ create table newBook (
     create table employee_backup as select emp_id, emp_name from employee;
 -- How to create table withot data of another table?
     create table emp LIKE employee;
-    create table emp AS select emp_id, emp_name from employee where 1=0;
+    create table emp AS select emp_id, emp_name from employee where 1=0;    -- only structure, no data.
 /*
 -----------------------
 DDL 2. Alter:
@@ -330,7 +338,7 @@ DML: 1. Insert ... Into:
     INSERT INTO table_name (column1, column2, column3) VALUES (value1, value2, value3), (value4, value5, value6), ...;
 */  
 -- 2. Inserting Multiple Rows in a Single Statement:
-    insert into rack values('r1', 14), ("r2", 55), ("r3", 65), ("r4", 77);
+    insert into rack values('r1', 14), ("r2", 55), ("r3", 65), ("r4", 77); -- same sequence as column defined in table.
     insert into author (authorId, authorName) values ("a1", "Sagar"),("a2", "Tejas");
     insert into author (authorId) values ("a3"), ("a4");
 -- 1. Inserting Single Rows:
@@ -349,7 +357,7 @@ DML: 1. Insert ... Into:
     insert into student_archive select * from students where sMarks > 40;           -- if student_archive table has the same columns as students table.
     insert into student_archive select sId, sName from students where sMarks > 40;  -- if student_archive table only have 2 columns, ie sId, sName.
     INSERT INTO employees_archive (id, name, salary) SELECT id, name, salary FROM employees WHERE hire_date < '2022-01-01';
-    insert into student_archive (sId, sName) select sId, sName from students where sMarks > 40; -- AS allows only in create.
+    insert into student_archive (sId, sName) select sId, sName from students where sMarks > 40; -- 'AS' allows only in create.
 
 /*
 -------------------
@@ -499,7 +507,7 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
 -- Select with Group By Clause:
     -- Group by statement is used to group the rows that have the same value. 
     -- The Group by clause is used in conjunction with the SELECT statement and Aggregate function to group rows together by common column values.
-    select avg(salary) from employees;  -- return average salary count.
+    select avg(salary) from employees;  -- returns 'single value' of average salary count of all employees.
     -- select department, avg(salary) from employees; -- error: avg function is combining multiple rows into one row, so we need to group by department.
     select department, avg(salary) from employees GROUP BY department;  -- return average salary count of each department.
     select subject, count(salary) as salaryCount, avg(salary) as "salary Average" from Teacher group by subject;
@@ -508,7 +516,7 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
     -- There is a small difference between DISTINCT and GROUP BY:
     - DISTINCT is used to remove duplicate records.
     - GROUP BY is used to group data from different columns into one or more columns. It can also be used with aggregate functions.
-    - WHERE clause is used on top of SELECT, FROM, INSERT INTO, and UPDATE SET statements.
+    - WHERE clause is used on top of SELECT FROM, DELETE FROM, and UPDATE SET statements.
     - HAVING clause is used on top of GROUP BY statements.
     */
     -- Group by as a distinct:
@@ -529,12 +537,15 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
     -- select authorId, category, avg(bookPrice) from book group by authorId having avg(bookPrice)>500;    -- error: category is missing in group by.
     select authorId, category, avg(bookPrice) from book group by category, authorId having avg(bookPrice)>500;
     select authorId, category, avg(bookPrice) from book where bookPrice>500 group by authorId, category having avg(bookPrice)>1000;
+    SELECT department, COUNT(*) AS employee_count FROM employees GROUP BY department HAVING employee_count > 10 AND department = 'Sales';
+
 -- Select with Subquery:
     SELECT first_name, last_name FROM employees WHERE department_id IN (SELECT department_id FROM departments WHERE location = 'New York');
 -- Select with Aggregate Functions:
     SELECT AVG(salary), MAX(age), MIN(sales) FROM employees;
     -- we can not use aggregate functions in where clause:
         -- SELECT AVG(salary) from employees WHERE MAX(age) = 20;   ...Wrong
+    select avg(salary) from employee having avg(salary) > 10000;
 -- Union: Show all unique records of both table without duplicates means all are unique.
     -- UNION: Show all unique records from both tables without duplicates.
     -- NOTE: Both tables must have the same number of columns.
@@ -574,17 +585,17 @@ Note: The employee structure and data queries are available in the "tables-for-j
         select employee.emp_id, department.dept_id from employee Join Department ON employee.dept_id = department.dept_id;
         SELECT e.emp_name, d.dept_name FROM employee e JOIN department d ON e.dept_id = d.dept_id;
     -- below queries are same:
-        select b.bookName, a.authorName from Book b INNER JOIN Author a ON b.authorId = a.authorId;
         select b.bookName, a.authorName from Book AS b JOIN Author AS a ON b.authorId = a.authorId; -- AS is optional.
+        select b.bookName, a.authorName from Book b INNER JOIN Author a ON b.authorId = a.authorId;
         select b.bookName, a.authorName from Book b JOIN Author a ON b.authorId = a.authorId;
         select b.bookName, a.authorName from Book b JOIN Author a where b.authorId = a.authorId;    -- where clause only works for inner join.
-    -- For Inner Join, JOIN keyword is optional
+    -- For Inner Join, 'JOIN' keyword is optional
         select b.bookName, a.authorName from book b, author a where a.authorId = b.authorId;
 -- 2. Left OUTER Join:
     -- left join = ALL Left + Matching Right
         -- if on condition will fail, then right table columns will show null.
-        SELECT e.emp_name, d.dept_name FROM employee e LEFT OUTER JOIN department d ON e.dept_id = d.dept_id;
-        SELECT e.emp_name, d.dept_name FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id; -- OUTER is optional.
+        SELECT e.emp_name, d.dept_name FROM employee e LEFT OUTER JOIN department d ON e.dept_id = d.dept_id;   -- OUTER is optional.
+        SELECT e.emp_name, d.dept_name FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id;
         select b.bookName, a.authorName from Book b LEFT JOIN Author a ON b.authorId = a.authorId;
         -- select b.bookName, a.authorName from Book b LEFT JOIN Author a where b.authorId = a.authorId;   -- error: where clause only works for inner join.
 -- 3. Right OUTER Join:
@@ -636,7 +647,7 @@ Note: The employee structure and data queries are available in the "tables-for-j
         -- If two tables share the same column name, it will perform an INNER JOIN.
             -- For example, if Employee has 'dept_id' and Department has 'dept_id':
             SELECT e.emp_name, d.dept_name FROM employee e NATURAL JOIN department d;
-        -- If two tables have different column names, it will perform a CROSS JOIN as cartisian JOIN.
+        -- If two tables have different column names, it will perform a CROSS JOIN as cartesian JOIN.
             -- For example, if Employee has 'dept_id' and Department has 'department_id':
             alter table department rename column dept_id to department_id;
             SELECT e.emp_name, d.dept_name FROM employee e NATURAL JOIN department d;
@@ -818,7 +829,7 @@ What are the privileges are granted in GRANT ALL ?
 
 -- GRANTS: (ON, TO)
     USE database_name; GRANT SELECT ON table_name TO 'username'@'hostname';
-    GRANT ALL PRIVILEGES ON database_name.* TO 'username'@'hostname';   -- Privileges keyword is optional.
+    GRANT ALL PRIVILEGES ON database_name.* TO 'username'@'hostname';   -- 'Privileges' keyword is optional.
     GRANT ALL ON database_name.* TO 'username'@'hostname';
     GRANT SELECT, INSERT, UPDATE, DELETE ON database_name.* TO 'username'@'hostname';
     grant select, update(emp_name, salary) ON mydb.employee TO 'u1'@'localhost';
