@@ -1,4 +1,4 @@
-/*
+``` javascript
 What is Nodejs?
     - Node.js is an open-source, cross-platform, JavaScript runtime environment that executes JavaScript code outside a web browser.
     - Node.js lets developers use JavaScript to write command line tools and for server-side scripting—running scripts server-side 
@@ -89,7 +89,7 @@ fs.writeFile('/Node/samplefile.txt', textIn + '\nHello World!', (err) => {   // 
 
 
 /*
-Routing:
+#11 Routing:
     - Routing defines the way in which the client request are handled by the application endpoints.
     - We can make our application to respond to different URLs with different response using Routing.
     - Routing basically means implementing different actions for different URLs.
@@ -109,6 +109,51 @@ Routing:
                     read data from url:
                         req.query.category
                         req.query.language
+
+
+#22 Streams in Node.js:
+    - With Streams, we can process data piece by piece instead of reading or writing the whole data at once.
+    - Advantages of Streams:
+        - Memory Efficient: Streams are memory efficient because they process data in chunks.
+        - Performance: Streams are fast because they process data in chunks. No need to wait for the whole data to be read or written.
+        - Time Efficient: Streams are time efficient because they process data in chunks.
+
+    - Types of Streams:
+        1. Readable Stream:
+            - used to ready data chunk by chunks from a source.
+            - events: data, end, error, close
+            - fs.createReadStream(), http.request()
+            - methods: read(), pipe(), unpipe(), unshift(), resume(), pause()
+           - Example 1:
+            server.on('request', (req, res) => {
+                    const readStream = fs.createReadStream('file.txt');
+                    readStream.on('data', (chunk) => {
+                        res.write(chunk);
+                    });
+                    readStream.on('end', () => {
+                        res.end();
+                    });
+                    readStream.on('error', (err) => {
+                        console.error(err.message);
+                        res.statusCode = 500;
+                        res.end(err.message);
+                    });
+                });
+            - Example 2:
+                const readStream = fs.createReadStream('file.txt');
+                readStream.pipe(res);   
+                // no need to listen to data, end, error events. It will automatically handle these events. 
+                // Removes boilerplate code.
+                // readStream.pipe(writeStream);  // pipe data from readStream to writeStream.
+        2. Writable Stream:
+            - used to write data chunk by chunks to a destination.
+            - events: drain, finish, error, close
+            - methods: write(), end(), cork(), uncork()
+        3. Duplex Stream:
+            - used to read and write data together in chunks.
+        4. Transform Stream:
+            - used to modify or transform the data while reading or writing.
+            - eg. zlib.createGzip(), zlib.createGunzip()
 
 ------------------------------
 #27 Architecture of NODE JS:

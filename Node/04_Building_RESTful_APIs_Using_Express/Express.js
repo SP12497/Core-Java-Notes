@@ -1,7 +1,12 @@
 /*
 Express: 
+    - Express is a free and open-source web application framework for Node.js.
     - Express is a fast, unopinionated, and minimalist web framework for Node.js. 
     - It provides a simple and flexible way to build web applications and APIs.
+
+const express = require('express');
+const app = express();
+app.listen(3000, () => console.log('Listening on port 3000...'));
 
 Here are some important methods and functionalities in Express:
 1. `express()` 
