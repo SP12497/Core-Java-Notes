@@ -144,6 +144,10 @@ NAT Instance:
 
 NAT Gateway: (NAT instance is different service) (#2 Lab on VPC NAT GW.png)
     - Its in public subnet
+    - An AWS NAT Gateway allows private subnets to initiate outbound connections to the internet or other AWS services but does not accept any inbound connections from the internet. This means it only facilitates outbound traffic from the private subnet to external destinations.
+        - Outbound-Only Traffic: Private resources can send requests out (e.g., accessing the internet or other services) through the NAT Gateway.
+        - No Inbound Connections: The NAT Gateway does not accept inbound traffic from external sources. It is purely for allowing private subnet resources to initiate traffic.
+        - In essence, the NAT Gateway only supports one-way outbound traffic for resources within a private subnet.
     - When private subnet instance wants to communicate over internet, subnet instance have private IP and subnet private gateway will call/request NAT gateway in public subnet,
       convert our private ip to public ip to send over internet or vise versa, request from public ip send to our private gateway
     - You can use a network address translation gateway (NAT Gateway) to enable instances in a private subnets to connect to the internet or other AWS services, but prevent internet from initiating a connection with those instances.
@@ -156,6 +160,33 @@ NAT Gateway: (NAT instance is different service) (#2 Lab on VPC NAT GW.png)
     - After you have created a NAT gateway, you must update the route table associated with one or more of your private subnets to point internet bound traffic to the NAT gateway. This enables instances in your private subnet to communicate with the internet.
     (update route table of all private subnet 0.0.0.0/0 -> NAT Gateway presents in public subnet).
     - Deleting a NAT gateway, disassociates its elastic ip address, but does not release the address from your account. You are charged for the elastic ip address as long as it is allocated to your account.
+    - NAT Gateway Connectivty types:
+        - Public: 
+            Directly connected to internet gateway for internet access.
+            Can goes to internet or communicate with other AWS services (other VPC).
+            - Need to have Elastic IP.
+        - Private: 
+            Can not go to internet and only communicate with other AWS services (other VPC) via NAT Gateway.
+    - Scenario:
+        - To allow private subnet to access internet, we need to register Internet Gateway in Route Table of Private Subnet. 
+          This makes private subnet as public subnet, so to avoid this, we use NAT Gateway.
+        - NAT Gateway is used to allow private subnet to access internet without making it public subnet.
+        - Will create NAT Gateway in Public Subnet and update Route Table of Private Subnet to point to NAT Gateway.
+          Now, private subnet can access internet without making it public subnet.
+    - Lab:
+        - Create VPC, 2 Subnet, 2 EC2 instance, 2 Route Table, 1 IG for Public subnet and 1 NAT Gateway.
+        - Nat Gateway:
+            - subnet: public
+            - Elastic ip is mandatory for NAT GW: create new Elastic IP
+        - Update route table:
+            - Public Subnet:
+                - Destination: 0.0.0.0/0
+                  Target: Select created IG
+            - Private Subnet:
+                - Destination: 0.0.0.0/0
+                  Target: select created NAT GW
+    - Test:
+        Connecct to private EC2 instance and try to access internet. (cmd: ping www.google.com)
 
 Security Groups: (#3 Security Groups architecture.png)
     - inside subnets but on top of instances. EC2 instance level.
@@ -479,4 +510,19 @@ Access VPC Instance through VPN:
                 - Open OpenVPN Connect and import configuration file
                 - Connect to VPN
         - Now, we can access Private EC2 instance by private IP address Using RDP connection.
+*/
+/*
+Transit Gateway:
+    - It is a service that enables customers to connect their VPCs and their on-premises networks to a single gateway.
+    - It simplifies the network and reduces operational overhead.
+    
+    - Steps:
+        - Create multiple VPCs
+        - Create Transit Gateway
+        - Transit Gateway Attachments: Attach VPCs to Transit Gateway
+        - Update Route Table of each VPCs:
+            - Destination: another vpc-cidr
+              Target: Transit Gateway-> select Transit Gateway of another VPC
+
+
 */

@@ -273,3 +273,11 @@ Steps:
         - Delete VPC Peering Connection
         - Delete Internet Gateway
         - Delete VPCs
+
+
+# AWS WAF & Shield: (Web Application Firewall)
+[text](https://youtu.be/FHRXXrQ765M?si=Yxf1vqUhhqIy1JPe)
+    - #2.3 WAF.png
+    - Protects against DDoS attacks and Malicious Web Traffic.
+    - Protect your web applications from common web exploits that could affect application availability, compromise security, or consume excessive resources.
+    - We can allow or block traffic based on the rules that we define. (eg. Allow only traffic from specific IP addresses)

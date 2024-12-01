@@ -12,11 +12,22 @@
         - Item: A collection of attributes
         - Attribute: A key-value pair
         - Primary Key: A unique attribute that identifies an item
-        - Secondary Index: An index that allows you to query the table using an alternate key
-        - Partition Key: The primary key attribute that determines the partition in which an item is stored
-        - Sort Key: The primary key attribute that determines the sort order of items with the same partition key
-        - Local Secondary Index: An index that has the same partition key as the table, but a different sort key
-        - Global Secondary Index: An index with a partition key and sort key that can be different from those on the table
+        - Secondary Index: An index that allows you to query the table using an alternate key (non-primary key)
+        - Partition Key: The primary key attribute that determines the partition in which an item is stored (Mandatory for Query)
+        - Sort Key: The primary key attribute that determines the sort order of items with the same partition key (Optional for Query)
+        - Local Secondary Index: An index that has the same partition key as the table, but a different sort key (partition key + Any other key) (Note: table must have sort key)
+        - Global Secondary Index: An index with a partition key and sort key that can be different from those on the table (non-partition key and non-sort key index)
+            - Projection: Attributes to be copied from the table into the index
+            - eg. Create Global Index with Projection:
+                Table: rollNo (Partition Key), name, age, Division, section
+                - if GSI: name | Projection: name, age, Division (can not be partition key)
+                - then, it will create new table with name as partition key as name and fields as name, age, Division ( name (Partition Key), age, Division)
+            - Test:
+                1. Query by rollNo (Partition Key): will return all fields: rollNo, name, age, Division, section
+                2. Query by name (GSI): will return: rollNo, name, age, Division
+
+
+                
     - Limits:
         - Maximum total size of a DynamoDB table (including all items and indexes): 400 GB per partition.
         - Maximum size of a single item: 400 KB 

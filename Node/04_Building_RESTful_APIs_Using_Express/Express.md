@@ -1,4 +1,4 @@
-/*
+``` javascript
 Express: 
     - Express is a free and open-source web application framework for Node.js.
     - Express is a fast, unopinionated, and minimalist web framework for Node.js. 
@@ -12,12 +12,13 @@ Here are some important methods and functionalities in Express:
 1. `express()` 
     - Creates an Express application.
     - This function returns an instance of the Express application that can be used to configure routes and middleware.
-    - For example, `const express = require('express'); const app = express()` creates a new Express application.
+    - For example, `const express = require('express'); const app = express(); creates a new Express application.
     - `app` is an instance of the Express application that can be used to define routes and middleware.
 
 2. `app.use()` 
     - Mounts middleware functions in the application's request processing pipeline.
     - It is used to handle tasks such as parsing request bodies, logging, and more.
+    - app.use(express.json()); // used to get the request body in request object in JSON format. By default, req.body will be undefined.
 
 3. `app.get(path, callback)` 
     - Handles HTTP GET requests for the specified path. 
@@ -122,9 +123,11 @@ Go To: 04_Building_RESTful_APIs_Using_Express\express-demo\advance\058_custom_mi
         - internally it will attach incoming request data to req.body and do parsing like JSON.parse(req.body);
         - middleware to parse JSON object.
         - without this, req.body will be undefined.  eg. console.log(req.body); // undefined
-*/
+    - app.use((req, res, next) => {
+        console.log('Logging...');
+        next();
+    });
 
-/*
 Route Handlers:
     app.get('/api/v1/movies', getAllMovies); // function getAllMovies(req, res) { res.send(movies); }
     app.get('/api/v1/movies/:id', getMovie);
@@ -140,4 +143,56 @@ Route Handlers:
         .get(getMovie)
         .patch(updateMovie)
         .delete(deleteMovie);
-*/
+
+---------
+#42 Mounting Routes:
+    - Benefits:
+        - Modularize the code. (Code written in separate files)
+        - Easy to maintain.
+        - Easy to understand.
+        - Easy to test.
+- controller.js:
+    const express = require('express');
+    // const app = express();
+    const moviewRouter = express.Router();
+    moviewRouter.route('/')
+            .get(getAllMovies)
+            .post(createMovie);
+
+    moviewRouter.route('/:id')
+        .get(getMovie)
+        .patch(validateBody, updateMovie)   // #45 Chaining multiple middleware functions
+        .delete(deleteMovie);
+    
+    validateBody = (req, res, next) => {    // middleware function
+        if (!req.body.name || req.body.name.length < 3) {
+            return res.status(400).send('Name is required and should be minimum 3 characters.');
+        }
+        next();
+    }
+- app.js:
+    const moviewRouter = require('./controller');
+    app.use('/api/v1/movies', moviewRouter);    // middleware to mount the router at specific path.
+
+
+#44 param middleware:
+    - this middleware is executed when a specific parameter is present in any URL.
+    - localhost:3000/api/v1/movies/1
+    router.param('id', (req, res, next, value) => {
+        console.log(`Movie id is: ${value}`);
+        let movie = movies.find(m => m.id === parseInt(value));
+        if (!movie) 
+            return res.status(404).send('Movie not found');
+        next();
+    });
+
+#46 Serving static files:
+    - ./public/index.html
+    app.use(express.static('./public'));  // register all public files to be served as static files.
+    - test: http://localhost:3000/index.html
+
+#47 Environment variables:
+    - Node.js: process.env.NODE_ENV
+        - set NODE_ENV=production
+    - Express: app.get('env')
+        - app.get('env') === 'production'

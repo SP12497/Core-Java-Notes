@@ -138,6 +138,8 @@ Install and Run Mongo DB:
         })
     -- 4. Rename Collection:
         db.students.renameCollection("stud");  -- Rename 'students' to 'stud'
+    -- 5. Stats of Collection:
+        db.students.stats();        -- Stats of 'students' collection.
         
     /* Node.js connection:
         const MongoClient = require('mongodb').MongoClient;
@@ -164,13 +166,20 @@ Install and Run Mongo DB:
             db.students.find({"name":"sa"});
             db.students.find({"name":"sa"}, {"name":1, "age":1});
             db.students.findOne({"name":"sa"});
+            typeof db.students.findOne().age;  -- number
         -- Update: updateOne(filter, update, options), updateMany(filter, update, options), replaceOne(filter, data, options)
             db.students.updateOne({"name":"sa"}, {$set:{"age": 24}});               -- Update only first matching document.
             db.students.updateMany({"name":"sa"}, {$set:{"age": 24}});              -- Update all matching documents.
             db.students.replaceOne({"name":"sa"}, {"name":"sa", "age": 24});
         -- Delete: deleteOne(filter, options), deleteMany(filter, options)
             db.students.deleteOne({"name":"sa"});
+            db.students.deleteOne({});  -- Delete first document 
             db.students.deleteMany({"name":"sa"});
+            db.students.deleteMany({}); -- Delete all documents.
+            -- remove() is deprecated.
+                -- remove(filter, isDeleteOne)  -- isDeleteOne: true/false
+            db.students.remove({"name":"sa"}, true);  -- deleteOne
+            db.students.remove({"name":"sa"}, false); -- deleteMany
 
 
     -- 1. Inserting Data:
