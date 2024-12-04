@@ -110,7 +110,7 @@ Integrity Constraits:
     - Semantic integrity ensures that the data stored in the database accurately represents real-world entities and relationships. 
     - It is maintained through proper database design, normalization, and business logic enforcement.
 
-1. Domain Constraits	: on Attribute Condition/checks
+1. Domain Constraits	: Data should be valid by adding Condition/checks
 2. Entity Integrity Constraits	: primary key null not allowed, 
 3. Referential Integrity Constraits	: FK must be either PK of other table or null
 4. Key Constraits	: choose entity/column as Primary key which is unique and not null
@@ -242,7 +242,7 @@ create table newBook (
 -- How to create table with data of another table?
     create table Book As select * from book;
     create table employee_backup as select emp_id, emp_name from employee;
--- How to create table withot data of another table?
+-- How to create table without data of another table?
     create table emp LIKE employee;
     create table emp AS select emp_id, emp_name from employee where 1=0;    -- only structure, no data.
 /*
@@ -261,25 +261,23 @@ DDL 2. Alter:
         alter table Rack Modify Column rackFloor varchar(20);
         alter table Rack Modify rackFloor varchar(20);
         alter table Rack Modify rackFloor varchar(22) not null; -- before applying not null, make sure rackFloor must be present in all existing records.
-
     -- Drop Column:
-        alter table rack Drop Column rackFloor;
+        alter table rack Drop COLUMN rackFloor;
         alter table rack Drop rackFloor;
         ALTER TABLE table_name DROP INDEX idx_name;
-    
     -- Change:
-        alter table rack change column rackFloor rackFloorNo int(20);   -- rename column name
-        alter table rack change rackFloor rackFloorNo int(20);
+        alter table rack change column rackFloor rackFloorNo int(20);   -- rename column name or/and change data type.
+        alter table rack change rackFloor rackFloorNo int(20);          -- rename column name
     -- RENAME TO:
-        alter table department RENAME COLUMN dept_id to department_id;  -- rename column
-        alter table book1 Rename To book2;  -- rename table name
+        alter table department RENAME COLUMN dept_id to department_id;  -- RENAME COLUMN
+        alter table book1 Rename To book2;  -- RENAME TO: rename table name
 -- DDL 5. Rename:
         Rename table newBook to newBook1;   -- rename table name
 -- DDL 3. Drop:
     -- used to delete existing database objects such as tables, indexes, views, or databases themselves.
+    DROP DATABASE database_name;
     drop table employee;
     drop table employee, department;
-    DROP DATABASE database_name;
     DROP INDEX index_name ON table_name;
     DROP VIEW view_name;
     DROP TRIGGER trigger_name;
@@ -550,7 +548,7 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
     -- UNION: Show all unique records from both tables without duplicates.
     -- NOTE: Both tables must have the same number of columns.
     -- ALL LEFT + Non-Duplicate RIGHT
-    SELECT bookname FROM allbooks UNION SELECT bookname FROM book;  -- Show only unique book names from both tables
+    SELECT bookname FROM allbooks UNION SELECT bookname FROM book;  -- Show only unique booknames from both tables
 -- Union ALL:
     -- ALL LEFT + ALL RIGHT
     SELECT bookname FROM allbooks UNION ALL SELECT bookname FROM book; -- Show all records from both tables, including duplicates.
@@ -617,9 +615,11 @@ Note: The employee structure and data queries are available in the "tables-for-j
                 + any additional records in the right table (left table columns will be null)
   -- MySQL: Left Join + UNION + Right Join.
 */  SELECT e.emp_name, d.dept_name FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id 
-        UNION SELECT e.emp_name, d.dept_name FROM employee e RIGHT JOIN department d ON e.dept_id = d.dept_id;
+        UNION 
+        SELECT e.emp_name, d.dept_name FROM employee e RIGHT JOIN department d ON e.dept_id = d.dept_id;
     SELECT e.emp_name, d.dept_name FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id 
-        UNION ALL SELECT e.emp_name, d.dept_name FROM employee e RIGHT JOIN department d ON e.dept_id = d.dept_id 
+        UNION ALL 
+        SELECT e.emp_name, d.dept_name FROM employee e RIGHT JOIN department d ON e.dept_id = d.dept_id 
         where e.dept_id IS NULL;
   -- SQL:
     SELECT e.emp_name, d.dept_name FROM employee e FULL OUTER JOIN department d ON e.dept_id = d.dept_id;
@@ -629,9 +629,9 @@ Note: The employee structure and data queries are available in the "tables-for-j
     -- returns cartesian project. : Employee->6records, Department->4records = Total 24 records. (each record match each other)
     -- Cross Join don't need "ON"
     -- Here, no ON check so, employee and department don't have relationships, it each record of employee will match to each record of department.
-    SELECT e.emp_name, d.dept_name FROM employee e CROSS JOIN department d; 
+    SELECT e.emp_name, d.dept_name FROM employee e CROSS JOIN department d; -- Cartesian Join
     -- Here, ON Check, so work as INNER JOIN.
-    SELECT e.emp_name, d.dept_name FROM employee e CROSS JOIN department d ON e.dept_id = d.dept_id;
+    SELECT e.emp_name, d.dept_name FROM employee e CROSS JOIN department d ON e.dept_id = d.dept_id;    -- Inner Join
 -- -------------
 -- Problem 2: Write a query to fetch the employee name and their corresponding department name.
 -- Also make sure to display the company name and the company location corresponding to each employee.
@@ -693,10 +693,10 @@ Note: The employee structure and data queries are available in the "tables-for-j
 
 	UPDATE author set nationality ='Iran' where authorid = 'A011';
 
-    select * from author;   -- shows nationality ='Iran'.
+    select * from author where authorid = 'A011';   -- shows nationality ='Iran'.
  	
 	ROLLBACK TO THREE; -- Rollback to savepoint three.
-    select * from author;   -- shows nationality = '
+    select * from author where authorid = 'A011';   -- shows nationality = 'USA'.
 
 	-- ROLLBACK TO TWO;
     RELEASE SAVEPOINT TWO;  -- Remove savepoint. Not queries.
@@ -960,11 +960,11 @@ Views:
     create TEMPORARY table emp AS select emp_id, emp_name from employee where 1=0;
     desc tEmployee;
 -- Create only structure and data from other table:
-    CREATE TEMPORARY TABLE tEmployee2 AS select emp_id, emp_name from employee; -- AS is not mandatory
+    CREATE TEMPORARY TABLE tEmployee2 AS select emp_id, emp_name from employee; -- 'AS' is Optional.
     CREATE TEMPORARY TABLE tEmployee select emp_id, emp_name from employee;
     select * from tEmployee;
 -- DROP:
-    DROP TEMPORARY TABLE tEmployee; -- This is safe to use, if won't delete Table or view. 
+    DROP TEMPORARY TABLE tEmployee; -- This is safe to use, if won't delete Table or view.
     DROP TEMPORARY TABLE IF EXISTS tEmployee2;  -- No error, if present then delete
     DROP TABLE tEmployee2;
 -- we can't see the temporary table using (show full tables;)  
@@ -986,7 +986,7 @@ Variable :
 ---------- 
     - Variables are used to store data temporarily during the execution of SQL statements or stored procedures. 
     - There are different types of variables in MySQL:
-        1. User-Defined Variables: (@)
+        1. User-Defined Variables: (@)  // session variable
             - User-defined variables in MySQL start with the '@' symbol.
             - They are local to the session in which they are created.
             - Example:
@@ -1047,7 +1047,7 @@ INTO :
     SELECT @num * 5;
     select max(salary) INTO @sal from employee;
     select @sal:=max(salary) INTO @SAL from employee;
-    select * from employee where salary =@sal;
+    select * from employee where salary = @sal;
 -- 2. Local Variable:
     DELIMITER //
     Create Procedure Test()  
@@ -1216,11 +1216,10 @@ There are 2 types:
     CREATE FUNCTION getEmpName(empId varchar(20))
     RETURNS varchar(50)
     BEGIN
-        return (select emp_name from employee where emp_id= empId);
+        return (select emp_name from employee where emp_id=empId);
     END #
     DELIMITER ;
     select getEmpName('E3');
-
 
 
 /* =========================================================
@@ -1235,7 +1234,7 @@ Strored Procedure:
         -> Triggers
         -> Other stored procedure
         -> Applications such as Java , Python , Node, PHP
-    - when a query triggered then it goes to 
+    - when a query triggered then it goes to
 			->Front end ->Back End -> Server -> Server resolve it -> Back end ->Front End.
             - above process will repeate in each query. In procedure, will gather all the queries and send to the server and reduces the time.
     - Stored procedures offer several advantages, including improved performance, code modularity, and enhanced security.
@@ -1296,7 +1295,7 @@ Strored Procedure:
     -- ---- 
     -- DECIMAL(10,2);   -- 12345678.12  -- Total size 10 num, and after .2
     DELIMITER //
-    ALTER PROCEDURE GetEmployeeSalary(IN empId varchar(20))
+    ALTER PROCEDURE GetEmployeeSalaryStatus(IN empId varchar(20))
     BEGIN
         DECLARE salary DECIMAL(10,2);   -- 12345678.12  -- Total size 10 num, and after .2
         
@@ -1309,7 +1308,7 @@ Strored Procedure:
         END IF;
     END //
     DELIMITER ;
-    CALL GetEmployeeSalary("E1");
+    CALL GetEmployeeSalaryStatus("E1");
 
     -- -------
     Delimiter /
@@ -1326,14 +1325,14 @@ Strored Procedure:
     END /
     Delimiter ;
 -- Call : 
-    CALL useSwitch('M005',@sts);
+    CALL useSwitch('M005', @sts);
     Select @sts;
 
 
 /* =========================================================
 TRIGGERS:
     /*
-    - Triggers implement Domain Integrity.
+    - Triggers implement Domain Integrity. (Domain Integrity is the assurance of the correctness of the data in a database.)
     - Triggers are database objects in MySQL that are associated with a table and 
         automatically perform an action when a certain event occurs on the table.
     - These events can be INSERT, UPDATE or DELETE operations.
@@ -1462,7 +1461,7 @@ Syntax:
         SET greaterMsg = concat("Sorry.. Year can't be greater than: ", now() );
 
         if yr > year(now()) then
-            SIGNAL SQLSTATE '45000'	SET MESSAGE_TEXT = checkYear;
+            SIGNAL SQLSTATE '45000'	SET MESSAGE_TEXT = greaterMsg;
         ElseIf yr < 1990 then
             SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = 'Sorry.. Year cant be less than 1900';
         end if;
@@ -1478,11 +1477,11 @@ Syntax:
     delimiter ;
 
 /*
-1. While DO     -- while loop in JAVA
-2. Repeat       -- do-while loop in JAVA
-3. LOOP         -- infinite loop in JAVA       -- for (;;) {} -- while (true) {}   -- do {} while (true);
-4. Cursor       -- for each loop in JAVA
-5. With Keyword -- CTE in JAVA -- filter the data and show the data. -- filter in Javastream API.   -- data.filter(condition).map(transform);
+1. While ? DO         -- while loop in JAVA
+2. Repeat UNTIL ?     -- do-while loop in JAVA
+3. LOOP (IF LEAVE)  -- infinite loop in JAVA       -- for (;;) {} -- while (true) {}   -- do {} while (true);
+4. Cursor           -- for each loop in JAVA
+5. With Keyword     -- CTE in JAVA -- filter the data and show the data. -- filter in Javastream API.   -- data.filter(condition).map(transform);
 
 1. While DO:
     - The WHILE statement is used to execute a set of SQL statements repeatedly as long as a certain condition is true.

@@ -58,8 +58,8 @@ app.listen(port, () => console.log(`Listing on port ${port}...`));
 
 // 061 Environments:
 //============================
-console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
-console.log(`app: ${app.get('env')}`);  // if NODE_ENV is not present then by default returns 'development'
+console.log(`NODE_ENV: ${process.env.NODE_ENV}`); // Node.js environment variable
+console.log(`app: ${app.get('env')}`);  // express environment variable // if NODE_ENV is not present then by default returns 'development'
 
 if (app.get('env') === 'development') {
     console.log("only dev services are enabled");
@@ -98,10 +98,10 @@ dbDebugger('Connected to the database...')
 /*
 RUN:
     step 1: 
-        - set DEBUG=app:startup     // only startup related debug will print
-        - set DEBUG=app:db          // only db related debug will print
+        - set DEBUG=app:startup         // only startup related debug will print
+        - set DEBUG=app:db              // only db related debug will print
         - set DEBUG=app:db,app:startup  // both debug will print
-        - set DEBUG=app:*           // all debug will print
+        - set DEBUG=app:*               // all debug will print
     step 2:
         - node <filename> // run the project/file
 */
@@ -132,4 +132,4 @@ app.use('/api/students', students); // all routes of students will start with /a
 app.use('/', home); // note: this "/" should be at the end, because it will match all routes.
 
 const { myLogger } = require('./middleware/myMiddleware');
-app.use(myLogger); // This wont word, this line should be before all routes
+app.use(myLogger); // This won't work, this line should be before all routes

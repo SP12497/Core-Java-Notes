@@ -154,12 +154,12 @@ Route Handlers:
 - controller.js:
     const express = require('express');
     // const app = express();
-    const moviewRouter = express.Router();
-    moviewRouter.route('/')
+    const movieRouter = express.Router();
+    movieRouter.route('/')
             .get(getAllMovies)
             .post(createMovie);
 
-    moviewRouter.route('/:id')
+    movieRouter.route('/:id')
         .get(getMovie)
         .patch(validateBody, updateMovie)   // #45 Chaining multiple middleware functions
         .delete(deleteMovie);
@@ -171,8 +171,8 @@ Route Handlers:
         next();
     }
 - app.js:
-    const moviewRouter = require('./controller');
-    app.use('/api/v1/movies', moviewRouter);    // middleware to mount the router at specific path.
+    const movieRouter = require('./controller');
+    app.use('/api/v1/movies', movieRouter);    // middleware to mount the router at specific path.
 
 
 #44 param middleware:

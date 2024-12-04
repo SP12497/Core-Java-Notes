@@ -12,7 +12,7 @@ log('message'); // did not call the listener, because the listener is not regist
 // ------------
 // create a class and call using same object:
 
-const Logger = require('./logger2')
+const Logger = require('./logger2');
 const loggerObj = new Logger(); // Logger class extends EventEmitter class. loggerObj have all the properties and functions of EventEmitter class.
 
 loggerObj.on('messageLogged2', function () {    // register the listener in Logger class before calling the log function.

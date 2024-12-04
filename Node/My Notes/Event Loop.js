@@ -36,18 +36,17 @@ LIBUV:
         - eg. process.nextTick(function callback() {});
 
 Event Loop Phases by Procademy Youtube Channel:
-    - Phase 1: Expired timers 
-    - Phase 2: I/O Tasks and polling
-    - Phase 3: setImmediate() callbacks
-    - Phase 4: Closed callbacks
-    - Microtasks Queue (High Priority)
-    - Next Tick Queue  (High Priority)
+    - Phase 1: Expired timers               // setTimout(), setInterval()
+    - Phase 2: I/O Tasks and polling        // readFile, readStream
+    - Phase 3: setImmediate() callbacks     // setImmediate
+    - Phase 4: Closed callbacks             // fs.close, socket.on('close')
+    - Microtasks Queue (High Priority)      // Promises (.then, .catch, .finally)
+    - Next Tick Queue  (High Priority)      // process.nextTick(callback)
 */
 
 // ------------------------------
 // #29 NODE JS Event Loop in Practice:
 const fs = require('fs');
-
 
 // Example : 1
 /*
@@ -55,7 +54,8 @@ console.log("Program Started");
 
 //setImmediate():
 //  - As per node defination, this function is always complete execution before any timeout functions.
-//  - But, there is a know bug, setTimout(0) is in Phase 1 and setImmediate() is in Phase 3. So, setImmediate() is not always executed after setImmediate(). It depends on the phase in which they are added to the event loop.
+//  - But, there is a know bug, setTimout(0) is in Phase 1 and setImmediate() is in Phase 3. So, setImmediate() is not always executed after setImmediate().
+//    It depends on the phase in which they are added to the event loop.
 
 setImmediate(() => {    // Phase 3
     console.log("Stored setImmediate callback in Phase 3.");
@@ -97,7 +97,7 @@ fs.readFile('samplefile.txt', (err, data) => {
         console.log("Stored setImmediate callback in Phase 3.");    // Phase 2 -> Next Tick Queue -> Phase 3 -> Phase 4 -> Phase 5 -> Phase 6 -> Phase 1 -> ....
     });
 
-    process.nextTick(() => {        // Picked once current phase ie. Phase 2 is completed.
+    process.nextTick(() => {        // Picked once current phase (any between Phase 1 to 4) ie. Phase 2 is completed.
         console.log("Stored in Next Tick Queue.");
     });
     
