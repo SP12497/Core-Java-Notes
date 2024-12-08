@@ -27,7 +27,7 @@ class Employee {
 	}
 
 	public void showData() {
-		System.out.print("EmpId = " + empId + "  " + " Employee Name = " + name);
+		System.out.print("EmpId = " + empId + "  " + " Employee Name = " + this.name);
 		System.out.println();
 	}
 }

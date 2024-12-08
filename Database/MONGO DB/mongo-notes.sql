@@ -164,7 +164,7 @@ Install and Run Mongo DB:
         -- Read: find(query, projection/options), findOne(query, projection)
             db.students.find();
             db.students.find({"name":"sa"});
-            db.students.find({"name":"sa"}, {"name":1, "age":1});
+            db.students.find({"name":"sa"}, {"name":1, "age":1});   -- Projection: only show name and age fields.
             db.students.findOne({"name":"sa"});
             typeof db.students.findOne().age;  -- number
         -- Update: updateOne(filter, update, options), updateMany(filter, update, options), replaceOne(filter, data, options)

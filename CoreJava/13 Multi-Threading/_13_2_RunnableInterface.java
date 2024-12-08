@@ -38,11 +38,11 @@ public class _13_2_RunnableInterface
 {
 	public static void main(String[] args) 
 	{
-		A obj1 =  new A();
-		obj1.start();		//Thread class
+		A obj1 =  new A();	// Thread class
+		obj1.start();
 		
-		B obj2 =  new B();
-		Thread t2 = new Thread(obj2);	// require to convert runnable into Thread. Thread have start method.
+		B obj2 =  new B();	// Runnable Interface
+		Thread t2 = new Thread(obj2);	// Thread class have start method.
 		t2.start();
 		
 	//3. By Implementing Runnable Interface

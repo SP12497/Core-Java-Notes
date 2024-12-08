@@ -1,7 +1,7 @@
 /*
 Inheritance	: - Sharing the Information.
 	- In Java, it is possible to inherit attributes and methods from one class to another. 
-	- Inheritance can be defined as the process where one class acquires the properties (methods and fields) of another.
+	- Inheritance can be defined as the process where one class acquires the properties (methods and variables) of another.
 	- We group the "inheritance concept" into two categories:
 		- superclass (parent/base) - the class being inherited from.
 		- subclass (child/derived) - the class that inherits from another class.

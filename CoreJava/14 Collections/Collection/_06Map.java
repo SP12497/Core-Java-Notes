@@ -17,7 +17,7 @@ Map Implementation:
 	- HashMap:
 		- Does not maintain any order of its elements.
 		- Allows one null key and multiple null values.
-		- ASynchronized by default, so it's not thread-safe, but can be synchronized externally if needed.
+		- Asynchronized by default, so it's not thread-safe, but can be synchronized externally if needed.
 		- Use: Generally preferred for its fast access and retrieval.
 	- LinkedHashMap:
 		- Uses a combination of hash table and linked list to maintain the insertion order.
@@ -36,12 +36,30 @@ interface Map:
 	containsValue(Object value): Returns true if the map contains one or more keys mapped to the specified value.
 	remove(Object key): Removes the mapping for the specified key from the map if it is present.
 	keySet(): Returns a Set view of the keys contained in the map. Changes to the set are reflected in the map, and vice versa.
-	values(): Returns a Collection view of the values contained in the map. Changes to the collection are reflected in the map, and vice versa.
 	entrySet(): Returns a Set view of the key-value mappings contained in the map. Each element in the set is a Map.Entry object representing a key-value pair.
+	values(): Returns a Collection view of the values contained in the map. Changes to the collection are reflected in the map, and vice versa.
 	size(): Returns the number of key-value mappings in the map.
 	isEmpty(): Returns true if the map contains no key-value mappings.
 	clear(): Removes all of the mappings from the map.
 	getOrDefault(5 , -1);: 
+
+What is ConcurrentHashMap?
+	- ConcurrentHashMap is a thread-safe implementation of the Map interface.
+	- It allows multiple threads to read and write concurrently without any blocking.
+	- It achieves this by dividing the map into segments and locking only a portion of the map during updates.
+	- ConcurrentHashMap does not throw ConcurrentModificationException if the map is modified while iterating over it.
+	- It is a good choice for a multi-threaded environment where multiple threads are reading and writing to the map concurrently.
+	eg. ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
+	
+HashMap vs. ConcurrentHashMap:
+	- HashMap is not thread-safe, while ConcurrentHashMap is thread-safe.
+	- HashMap allows multiple threads to read and write concurrently, but it may lead to data corruption if not synchronized externally.
+	- ConcurrentHashMap allows multiple threads to read and write concurrently without any external synchronization.
+	- HashMap is faster than ConcurrentHashMap for single-threaded applications.
+	- ConcurrentHashMap is slower than HashMap for single-threaded applications due to the overhead of maintaining thread-safety.
+	- HashMap throws ConcurrentModificationException if the map is modified while iterating over it, while ConcurrentHashMap does not.
+	- HashMap is suitable for single-threaded applications or external synchronization, while ConcurrentHashMap is suitable for multi-threaded applications.
+	- HashMap is not suitable for multi-threaded applications without external synchronization, while ConcurrentHashMap is suitable for multi-threaded applications.
 */
 // Map.of("msg", "received"); check this method
 // Map<String, Object> user = new HashMap<>(); user.put("city", "NDB");
@@ -110,7 +128,7 @@ public class _06Map {
 		System.out.println(map.remove("Age")); // null
 
 //	9. entry:
-		System.out.println(map.entrySet()); 	// [Game=Cricket, Name=Patil]
+		System.out.println(map.entrySet()); 	// returns Map.Entry objects => [Game=Cricket, Name=Patil]
 		System.out.println(map.keySet()); 		// [Game, Name]
 		System.out.println(map.values()); 		// [Cricket, Patil]
 

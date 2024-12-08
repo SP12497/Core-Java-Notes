@@ -73,7 +73,7 @@ class CA // Method OverLoading
 		System.out.println(" Show CA");
 	}
 
-	// public int show() {				//Duplicate method show() in type CA
+	// public int show() {				// Duplicate method show() in type CA
 	// 	System.out.println(" Show CA");
 	// 	return 0;
 	// }
@@ -86,8 +86,9 @@ class CA // Method OverLoading
 		System.out.println(" Show CA with 1 Double Parameter");
 	}
 
-	public void show(int a, int b) {
-		System.out.println(" Show CA with 2 Int Parameter");
+	public int show(int a, int b) {			// return type can be different.
+		System.out.println("int Show CA with 2 Int Parameter");
+		return a+b;
 	}
 }
 
@@ -101,6 +102,10 @@ class CB extends CA // C++ : class CB : public/private/protected CA{}
 	// public int show(int a) {				// return type int is not compatible with void
 	// 	return a;
 	// }
+	
+	public char show(char a) {				// parameter is different so it is not overriding.
+		return a;
+	}
 
 	
 	// private void show(int a) {				// attempting to assign weaker access privileges; was public

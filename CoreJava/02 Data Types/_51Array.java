@@ -1,12 +1,12 @@
 import java.util.Arrays;
 
 /*
-Arrays:
-.toString(array);               .deepToString(array);               .fill(array, value);    
-.copyOf(array, length);         .copyOfRange(array, from, to);
-.sort(array);                   .sort(array, comparator);    
-.binarySearch(array, key);      .equals(array1, array2);
-.deepHashCode(array);           .hashCode(array);
+class Arrays:
+    .toString(array);               .deepToString(array);               .fill(array, value);    
+    .copyOf(array, length);         .copyOfRange(array, from, to);
+    .sort(array);                   .sort(array, comparator);    
+    .binarySearch(array, key);      .equals(array1, array2);
+    .deepHashCode(array);           .hashCode(array);
 */
 
 class Student {
@@ -19,6 +19,7 @@ class Student {
 public class _51Array {
     public static void main(String[] args) {
     //  Declaration:
+        // int arr1[] = new int[]; // error: either provide size or initialize
         int arr1[] = new int[5]; // using primitive datatypes
         Integer arr2[] = new Integer[5]; // Wrapper classes
         // int [] arr2 = new int[5] {11,22,33,44,55}; // error: don't define size // error: Cannot define dimension expressions when an array initializer is provided means, while declaration if we are initalizing, then passing array size not allowed.

@@ -70,9 +70,9 @@ Create quick List:
 */
 public class _02LinkedList {
 	public static void main(String[] args) {
-		Collection<Integer> ll2 = new LinkedList<>();
-		List<Integer> ll1 = new LinkedList<>();
-		Deque<Integer> ll3 = new LinkedList<>();
+		Collection<Integer> cl = new LinkedList<>();
+		List<Integer> lst = new LinkedList<>();
+		Deque<Integer> dq = new LinkedList<>();
 		LinkedList<Integer> ll = new LinkedList<>();    // Java Collection implements Double LL.
 
 		ll.add(11);

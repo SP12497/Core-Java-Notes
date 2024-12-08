@@ -7,6 +7,7 @@ Deep Cloning in Java
 	This makes the cloned object independent of the original object and any changes made in any of the object won’t be reflected on the other.
 */
 
+// interface Cloneable => Cloneable is a Marker interface that is used to indicate that the class allows the cloning of objects.
 
 class ABC extends Object implements Cloneable		//by default all classes are extends Objects
 {													//implements Cloneable : gives permission to class that allows to clone of object(deep copy of obj)
@@ -19,7 +20,7 @@ class ABC extends Object implements Cloneable		//by default all classes are exte
 	}
 
 	@Override
-	public Object clone() throws CloneNotSupportedException
+	public Object clone() throws CloneNotSupportedException			// Object Class method
 	{
 		return super.clone();
 	}

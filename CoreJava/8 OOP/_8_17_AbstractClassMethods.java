@@ -2,8 +2,7 @@
 ABSTRACT :
 	https://docs.oracle.com/javase/tutorial/java/IandI/abstract.html#:~:text=An%20abstract%20class%20is%20a,but%20they%20can%20be%20subclassed.&text=When%20an%20abstract%20class%20is,methods%20in%20its%20parent%20class.
 
-	- An abstract class is a class that is declared abstract—it may 
-		or may not include abstract methods. 
+	- An abstract class is a class that is declared abstract, it may or may not include abstract methods. 
 	- Abstract classes cannot be instantiated, but they can be subclassed.
 
 	abstract class AmolPhone
@@ -27,7 +26,7 @@ abstract class AmolPhone {
 
 	public abstract void text(); // Here, 2 unimplemented methods. So mark class as abstract
 
-	abstract void watch();
+	abstract void watch();		// by default it is public, so no need to write public keyword.
 }
 
 abstract class BabanPhone extends AmolPhone // Here one more abstract method which is unimplemented or not defined , so
@@ -64,8 +63,7 @@ public class _8_17_AbstractClassMethods {
 		// AmolPhone obj = new AmolPhone(); // we cannot create object of abstract class with abstract class constructor.
 
 		System.out.println("__________________OBJ1______________________");
-		AmolPhone obj1 = new ChetanPhone(); // we can access only those methods which are completely defines in
-											// AmolPhone class.
+		AmolPhone obj1 = new ChetanPhone(); // we can access only those methods which are completely defines in AmolPhone class.
 		obj1.call();
 		obj1.play();
 		obj1.text();
@@ -108,6 +106,5 @@ public class _8_17_AbstractClassMethods {
 
 	public static void show(AmolPhone obj) {
 		obj.watch();
-	} // create parameter of parent abstract class, and call Baban or Chetan by
-		// passing object of it.
+	} // create parameter of parent abstract class, and call Baban or Chetan by passing object of it.
 }

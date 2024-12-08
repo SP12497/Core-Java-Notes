@@ -1,5 +1,4 @@
-// An interface is a completely "abstract class" that is 
-//	used to group related methods with empty bodies:
+// An interface is a completely "abstract class" that is used to group related methods with empty bodies:
 
 // - To access the interface methods, the interface must be implemented (kinda like inherited)
 //   by another class with the 'implements' keyword (instead of extends).
@@ -15,8 +14,7 @@
 	 * 		c] On implementation of an interface, you must override all of its methods or make class as Abstract.
 	 * 		d] Interface methods are by default :'public abstract', no need to specity.
 	 * 		e] Interface attributes/variables are by default : 'public static final' 
-	 * 		e] An interface cannot contain a constructor 
-	 * 		   (as it cannot be used to create objects) 
+	 * 		e] An interface cannot contain a constructor (as it cannot be used to create objects) 
 	 *   	f] To implement multiple interfaces, separate them with a comma(,):
 	 *		G] Interface have 100% abstract methods. Only the spectifications not implementations.
 
@@ -35,7 +33,7 @@ When to go for interface and when to Abstract class ?
 	- When we know implentations but not completely, then should go with Abstract.
 	- When we know all the implementations then should go with Concreate class / Normal Class.
 
-Why Multiple Inheritance supports in Interface?
+(IMP) Why Multiple Inheritance supports in Interface?
 	- Bcoz, interface don't have constructor.
 
 
@@ -126,7 +124,7 @@ public class _8_21_1_InterfaceClass {
 
 		System.out.println("Reference of Inter1 interface using constructor of child class:");
 		Inter1 obj1 = new ClassInter();
-		System.out.println(obj1.salary);	// 10.00	// first interface will get priority
+		System.out.println(obj1.salary);	// 10.00	// first interface will get priority ie 'Inter1'
 		obj1.show(); // Inter1
 		// obj1.print(); //Inter2 //error : print in not Inter1 type.
 

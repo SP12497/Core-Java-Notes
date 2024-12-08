@@ -53,7 +53,7 @@ public class _01ArrayList {
 		List<String> vector = new Vector<>();
 		ArrayList anytype = new ArrayList<>(); // we can store any value. // Default constructor without parameterized
 		ArrayList<String> al1 = new ArrayList<>(); // Default constructor
-		ArrayList<String> al2 = new ArrayList<>(size); // parameterized constructor 
+		ArrayList<String> al2 = new ArrayList<>(size); // parameterized constructor
 
 //	2. Declaration + Initialization :
 		List<Integer> ls1 = Arrays.asList(new Integer[] { 11, 22, 33 }); // Only wrapper classes, primitive datatypes (int) not support
@@ -77,7 +77,7 @@ public class _01ArrayList {
 		cl.add("Tejas");
 		cl.add("SAGAR"); // duplicates are allowed
 		cl.addAll(Arrays.asList("AA", "CC", "BB"));			// copy list
-		// ls1.add(2, 30); // Collection don't have this method.
+		// ls1.add(2, 30); // interface Collection don't have this method.
 		
 
 		// List
@@ -105,7 +105,7 @@ public class _01ArrayList {
 		// ls1.set(50, 123);	// List: java.lang.ArrayIndexOutOfBoundsException
 
 //  6. Printing:
-		System.out.println("anytype:" + anytype);
+		System.out.println("anytype:" + anytype);	// [1, 11, Sagar, A, Patil, true, null, null]
 		// For Each Loop:
 		for (String string : cl) {
 			System.out.println(string);
@@ -122,8 +122,8 @@ public class _01ArrayList {
 		
 //  7. Deep copy
 		//List<Integer> ls5 = Arrays.asList(al4);	// Type mismatch: cannot convert from List<ArrayList<Integer>> to List<Integer>
-		List<Integer> ls5 = new ArrayList<>(ls2);	// Deep Copy: way 1
-		ls5.addAll(ls2);	// Deep Copy: way 2
+		List<Integer> ls5 = new ArrayList<>(ls2);	// Deep Copy: way 1: by constructor
+		ls5.addAll(ls2);	// Deep Copy: way 2: by addAll list
 
 		ls5.add(5);
 		ls5.set(2, 66);

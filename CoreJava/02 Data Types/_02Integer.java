@@ -50,7 +50,8 @@ public class _02Integer {
 		/*
 		 * - when assigning a value of a larger data type to a variable of a smaller
 		 * data type. - Data loss may occur when converting from a larger data type to a
-		 * smaller one. For example, when casting a double to an int, the fractional
+		 * smaller one. 
+		 * For example, when casting a double to an int, the fractional
 		 * part is truncated.
 		 */
 	}

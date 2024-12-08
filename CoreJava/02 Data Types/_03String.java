@@ -17,7 +17,7 @@ public class _03String {
 		String s2 = str;
 		String str3 = new String("Sagar".toCharArray(), 0, 2); // Sa // accept only characher array
 		String str4 = new String(uniCodeArr, 0, uniCodeArr.length);	// Hello
-		String s3intern = new String("Sagar").intern();	// new String("Sagar") creates a new String object in the heap, and .intern() ensures that the resulting reference points to the string in the String pool. If "Sagar" is already in the pool, d will refer to the same pooled instance.
+		String s3intern = new String("Sagar").intern();	// new String("Sagar") creates a new String object in the heap, and .intern() ensures that the resulting reference points to the string in the String pool. If "Sagar" is already in the pool, it will refer to the same pooled instance.
 
 		System.out.println(str3);										// Sa
 		System.out.println(str4);										// Hello
@@ -39,7 +39,7 @@ public class _03String {
 
 		System.out.println("length() method: " + str.length());
 		System.out.println(str.toUpperCase());	// .toLowerCase(),
-		System.out.println(str.indexOf("a")); 					// 1
+		System.out.println(str.indexOf("a")); 					// 1	// start from 0 // missing char return -1
 		System.out.println(str.charAt(1)); 					// a
 		String s3 = "saGar";
 		System.out.println("equalsIgnoreCase: " + s1.equalsIgnoreCase(s3)); // true
@@ -84,7 +84,7 @@ public class _03String {
 		Returns 3 values:
 			-ve:	first obj is smaller
 			0:		both are same
-			+ve:	first obj is bigger ie second object is smaller
+			+ve:	first obj is bigger ie. second object is smaller
 			
 			abc = 	97 98 99
 			abe = - 97 98 101	=> 97-97 = 0 | 98-97=+1 | 99-101 = -2

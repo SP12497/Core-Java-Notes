@@ -89,11 +89,20 @@ const users = [
 const fullNameArr = users.map(obj => obj.firstName + " " + obj.lastName);
 console.log("fullNameArr:", fullNameArr);   // [ 'Sagar Patil', 'John Cena', 'Roman Reigns', 'Brock Lesnar' ]
 
+// Q. Get last name of all the users whose age is greater that 30...
 const olderThan30 = users.filter(obj => obj.age > 30);
 console.log("olderThan30:", olderThan30);   // [ { firstName: 'John', lastName: 'Cena', age: 46 }, { firstName: 'Roman', lastName:
 
 const firstNamesOlderThan30 = users.filter(obj => obj.age > 30).map(obj => obj.firstName);  // Chaining of map and filter
 console.log("firstNamesOlderThan30:", firstNamesOlderThan30);   // [ 'John', 'Roman', 'Brock' ]
+
+const lastNameOlderThan30 = users.reduce((acc, curr) => {
+    if (curr.age > 30)
+        acc.push(curr.lastName);
+    return acc;
+}, []);
+
+console.log("reduce lastNameOlderThan30:", lastNameOlderThan30);
 
 // Count of same ages
 // acc => {26:1, 46:2, 38:1}
@@ -107,17 +116,6 @@ const countOfAge = users.reduce((acc, curr) => {
 }, {});
 
 console.log("countOfAge:", countOfAge);
-
-// Q. Get last name of all the users whose age is greater that 20... using Reduce.
-
-const lastNameOlderThan30 = users.reduce((acc, curr) => {
-    if (curr.age > 30)
-        acc.push(curr.lastName);
-    return acc;
-}, []);
-
-console.log("reduce lastNameOlderThan30:", lastNameOlderThan30);
-
 
 // ------------
 // find method:
@@ -155,4 +153,3 @@ console.log("lastIndexOfElement:", lastIndexOfElement);    // 5
     // - returns the index of the first object that satisfies the condition.
 const findIndexUser = users.findIndex(obj => obj.age === 46); // returns index of first matched object.
 console.log("findIndexUser:", findIndexUser);   // 1
-

@@ -77,7 +77,7 @@ Number.parseInt("123");  // 123
 Number.parseInt("123.45");  // 123
 Number.parseInt("123.45.67");  // 123
 Number.parseInt("a123b");  // NAN
-Number.parseInt("123b");  // 123
+Number.parseInt("123abc");  // 123
 Number.parseInt(null);  // NAN
 Number.parseInt(undefined);  // NAN
 Number.parseInt(true);  // NAN
@@ -133,7 +133,8 @@ Boolean(-1n);      // true
 console.log("\n\n---------------------")
 console.log("_____conversion/typecasting_____");
 let fname = "Sagar", lname = " Patil";
-console.log(fname + lname);     // Sagar Patil
+console.log(fname + lname);     // SagarPatil
+console.log(fname, lname);     // Sagar Patil
 
 console.log("1" + 2);   // 12
 console.log(1 + "2");   // 12   // number get converted into string
@@ -153,7 +154,7 @@ console.log(+ undefined);  // NaN
 
 let no1, no2, no3;
 no1 = no2 = no3 = 2 + 2;    // assignment from right to left // 4
-console.log(no1, no2, no3);
+console.log(no1, no2, no3); // 4 4 4
 
 
 console.log("\n\n---------------------")

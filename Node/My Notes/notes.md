@@ -162,7 +162,7 @@ fs.writeFile('/Node/samplefile.txt', textIn + '\nHello World!', (err) => {   // 
     - Libuv: (C++):
         -> handles asynchronous operations.
         1. Event Loop:
-            - easy tasks, like timers, I/O operations, and callbacks.
+            - tasks like timers, I/O operations, and callbacks.
             - Handles asynchronous operations
         2. Thread Pool:
             - heavy tasks, like file system operations, file compression, and cryptography.

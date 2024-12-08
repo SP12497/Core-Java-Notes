@@ -138,10 +138,7 @@ System.out.println("7-------------------------");
 		{
 			for (int j=1; j<=i;	j++)	//Columns
 			{
-				
-			
 				System.out.print( i + " ");
-				
 			}
 			System.out.println();
 		}

@@ -13,8 +13,7 @@ Encapsulation:
 
 To achieve Data Hiding in Java −
 	- Declare the variables of a class as private.
-	- Provide public setter and getter methods to modify 
-	  and view the variables values.
+	- Provide public setter and getter methods to modify and view the variables values.
 
 What is OOP:
 	Object-oriented programming is about creating objects that contain both data and functions.
@@ -31,7 +30,7 @@ class RunEncap {
 	private String name;	// by default String object is "null"
 
 	// public
-	public int getRollno() { // method, function, code block // its a code acting on the data
+	public int getRollno() { // instance method, function, code block // its a code acting on the data
 		return rollno;
 	}
 

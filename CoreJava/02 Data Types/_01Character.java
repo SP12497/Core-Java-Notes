@@ -1,5 +1,17 @@
 import java.util.Arrays;
 
+/*
+charValue()	: Returns the value of this Character object.
+isWhitespace(char ch)	: Determines if the specified character is white space according to Java.
+toUpperCase(char ch)	: Converts the character argument to uppercase.
+toUpperCase()	: Converts the character argument to uppercase.
+isDigit(char ch)	: Determines if the specified character is a digit.
+isLetter(char ch)	: Determines if the specified character is a letter.
+isLowerCase(char ch)	: Determines if the specified character is a lowercase letter.
+Arrays.toString(arr)
+arr.toCharArray()
+*/
+
 public class _01Character {
 	public static void main(String[] args) {
 //		char c = "A";	// Type mismatch: cannot convert from String to char

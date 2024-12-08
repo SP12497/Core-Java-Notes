@@ -9,8 +9,8 @@ Final variables:
 */
 
 // Final VARIABLE 		: To create Constant Variable
-// Final Method 		: Prevent Method Overriding  
-// Final Class 			: Prevent Inheritance
+// Final method 		: Prevent Method Overriding  
+// Final class 			: Prevent Inheritance
 
 
 public class _8_13_FinalKeyword {
@@ -35,11 +35,11 @@ public class _8_13_FinalKeyword {
 
 		// Final Method:
 
-		FinaleMethodClass obj = new FinaleMethodClass();
+		FinalMethodClass obj = new FinalMethodClass();
 		obj.show();
 		obj.show(100);
-		System.out.println("FinaleMethodClass obj1 = new InheritB() : ");
-		FinaleMethodClass obj1 = new InheritB(); // error
+		System.out.println("FinalMethodClass obj1 = new InheritB() : ");
+		FinalMethodClass obj1 = new InheritB(); // error
 		obj1.show();
 		obj1.show(11);
 
@@ -49,21 +49,21 @@ public class _8_13_FinalKeyword {
 // --------------
 // Final Method :
 // --------------
-class FinaleMethodClass {
+class FinalMethodClass {
 	int x; // Instance Variable: by default 0
 	static int y; // Class Variable // Static variable: by default 0
 
 	final public void show() // Final Method : can't override but can overload
 	{
-		System.out.println("FinaleMethodClass : Show A");
+		System.out.println("FinalMethodClass : Show A");
 	}
 
 	public void show(int a) {	// We can overload the final method
-		System.out.println("FinaleMethodClass : Show A  :" + a);
+		System.out.println("FinalMethodClass : Show A  :" + a);
 	}
 }
 
-class InheritB extends FinaleMethodClass {
+class InheritB extends FinalMethodClass {
 	// once Final , we can't override the final method.
 	// public void show() { System.out.println("Show B"); }
 	

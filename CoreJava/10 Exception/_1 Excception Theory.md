@@ -11,8 +11,12 @@ class Throwable {
     // 1. Exception: Errors that can be handled.
     class Exception extends Throwable {
         // Checked Exceptions (Compile Time)
-        class IOException extends Exception {}
         class SQLException extends Exception {}
+        class IOException extends Exception {
+            class FileNotFoundException extends IOException {}
+        }
+        class InterruptedException extends Exception {} // Thread.sleep(milliseconds);
+
 
         // Unchecked Exceptions (Runtime)
         class RuntimeException extends Exception {
@@ -20,6 +24,7 @@ class Throwable {
             class NullPointerException extends RuntimeException {} // calling method on a null object
             class ArrayIndexOutOfBoundsException extends RuntimeException {}
             class ClassCastException extends RuntimeException {}
+            class SecurityException extends RuntimeException {}
         }
     }
 
@@ -58,22 +63,6 @@ try {
 void method() throws IOException, SQLException {
     // Method implementation
 }
-
-// finally block
-try {
-    // Code that might throw an exception
-} catch (Exception e) {
-    // Handle the exception
-} finally {
-    // Executes regardless of whether an exception was thrown
-}
-
-// Common Exceptions
-
-class ArithmeticException extends RuntimeException {}
-class FileNotFoundException extends IOException {}
-class ArrayIndexOutOfBoundsException extends RuntimeException {}
-class SecurityException extends RuntimeException {}
 
 // FAQ
 

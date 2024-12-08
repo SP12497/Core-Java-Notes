@@ -37,7 +37,7 @@ class C2 extends C1 {
     }
 
     public void paramCheck(int num, double a) {     // works fine
-        System.out.println("Inside void C1.paramCheck(int, double): " + num);
+        System.out.println("Inside void C2.paramCheck(int, double): " + num);
     }
 }
 
@@ -51,5 +51,8 @@ public class _8_8_1_Method_overloading_and_riding_combine {
         C2 c2 = new C2();
         c2.m1(10);			//Inside C2.m1(int): 10
         c2.m1(10.11);       //Inside C1.m1(double): 10.11
+
+        c2.paramCheck(1, 1.1);  // Inside void C2.paramCheck(int, double): 1
+        c2.paramCheck(1.1, 1);  // Inside void C1.paramCheck(double, int): 1.1
     }
 }
