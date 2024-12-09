@@ -32,7 +32,6 @@ Terminology of AOP, Aspect, Advice, Joinpoint, Pointcut etc
             - @Around: Runs before and after the method execution.
         - Example: A logging aspect that logs method execution time could have @Before and @After advices.
     4. Pointcut: (which method to run : execution(* com.aop.services.PaymentServiceImpl.makePayment())
-        - execution(* com.aop.services.PaymentServiceImpl.makePayment())
         - A pointcut is an expression that matches join points (method executions). 
           Pointcuts are expressions that define which join points should be advised by a given advice.
         - Example: A pointcut expression might specify all methods in a class or all methods with a specific annotation.
