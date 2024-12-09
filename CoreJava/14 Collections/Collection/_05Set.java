@@ -134,7 +134,7 @@ class BookSet {
 		return Objects.hash(id);	// do hashing based on ID field.
 	}
 	
-	@Override		// Define our own checks for equals
+	@Override		// Define our own checks for equals, if we want to use SET on object for unique objects
 	public boolean equals(Object o) {
 		if(this == o) return true;
 		if(o ==null || this.getClass() != o.getClass()) return false;

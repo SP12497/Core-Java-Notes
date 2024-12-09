@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 /*
 class Collections {}
@@ -19,7 +20,7 @@ Collection:
 	addAll(List) : boolean
 	remove(<E>) : boolean
 	removeAll(List) : boolean
-	clear() : void
+	clear() : void		// make List empty
 	forEach(Consumer obj) : void
 	iterator() : Iterator<E>  //  it.hasNext() : boolean, it.next() : E
 	contains(<E> value) : boolean
@@ -113,6 +114,9 @@ public class _01ArrayList {
 		// stream api:
 		System.out.println("cl.forEach()");
 		cl.forEach(System.out::print);	// ::println
+		cl.stream().forEach(System.out::println);
+		cl.stream().forEach(string -> System.out.println(string));
+		List<String> newList = cl.stream().collect(Collectors.toList());
 		
 		// Iterator:
 		System.out.println("Iterator:");

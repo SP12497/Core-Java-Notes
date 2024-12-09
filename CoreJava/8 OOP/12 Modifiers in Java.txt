@@ -10,7 +10,15 @@
 	synchronized
 	
 	native
+		- public native void nativeMethod();
+		- Declares methods implemented in native code (C/C++)
 	strictfp
 	transient
+		- class TransientExample implements Serializable { private transient String password; }
+		- The transient keyword prevents a field from being serialized when an object is serialized.
+		- It is used for fields that are sensitive, temporary, or derived values that need not be stored.
 	volatile:
-		- volatile keyword is used to indicate that a variable's value will be modified by different threads.
+		- private volatile boolean flag = true;
+		- shared variable across all threads.
+		- Changes made to a volatile variable by one thread are immediately visible to other threads.
+		- Without volatile, threads may cache variables locally, leading to stale values being read.

@@ -82,6 +82,21 @@ interface Inter3 extends Inter1, Inter2 {} // Interface Support Multiple Inherit
 
 // ------------------
 
+/*
+Why Multiple Inheritance supports in Interface?
+	- Bcoz, interface don't have constructor.
+Why Default and Static method introduced in Interface?
+	Key Reasons for Default Methods::
+		- provide Backward Compatibility: 
+				- Before Java 8, if you added a new method to an interface, all classes implementing that interface would need to provide an implementation for the new method. 
+				This could break existing code. 
+				- Default methods solve this by allowing interfaces to provide a default implementation.
+		- Enhancing Functional Interfaces:
+			They provide reusable utility methods in functional interfaces (like Stream API methods in Java).
+	Key Reasons for Static Methods:
+		- Utility Methods for Interfaces: They allow interfaces to provide methods that are not tied to a specific implementation, like Collections.sort() in the Collections framework.
+
+ */
 interface Inter4 // from java 8 : default and static method
 {
 	default void common() {
@@ -131,11 +146,10 @@ public class _8_21_1_InterfaceClass {
 		// -------------------
 		System.out.println("Create constructor of Interface only inside in main. :");
 
-		Inter1 obj2 = new Inter1() // Anonymous Object // Inner class
+		Inter1 obj2 = new Inter1() // Anonymous Class
 		{
 			public void show() {
-				System.out.println(
-						"	Anonymous object. In Inter1 Interface using Inter1() constructor created inside main. Salary : " + salary);
+				System.out.println("	Anonymous object. In Inter1 Interface using Inter1() constructor created inside main. Salary : " + salary);
 			}
 		}; // use Semicolon ;
 

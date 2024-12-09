@@ -19,6 +19,12 @@ public class _03String {
 		String str4 = new String(uniCodeArr, 0, uniCodeArr.length);	// Hello
 		String s3intern = new String("Sagar").intern();	// new String("Sagar") creates a new String object in the heap, and .intern() ensures that the resulting reference points to the string in the String pool. If "Sagar" is already in the pool, it will refer to the same pooled instance.
 
+		s1.chars().forEach(c -> System.out.println((char) c));
+		s1.chars() 
+			.mapToObj(c -> (char) c)
+			.filter(c -> "AEIOUaeiou".indexOf(c) != -1) // Check if it's a vowel
+			.forEach(System.out::print);
+		
 		System.out.println(str3);										// Sa
 		System.out.println(str4);										// Hello
 		System.out.println("str==s1: " + str == s1);					// false	// comparing based on reference ie. stack address

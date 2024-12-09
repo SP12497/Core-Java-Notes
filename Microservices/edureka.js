@@ -11,7 +11,7 @@ Monolithic Architecture:
         - Inflexible : If you want to change one part of the application in different technology/language, you have to change the entire application. 
 
 - Microservices Architecture:
-    - Defination: A microservices architecture, also known as microservices, is an architectural method that relies on a series of independently deployable za services.
+    - Defination: A microservices architecture, also known as microservices, is an architectural method that relies on a series of independently deployable services.
     - it is an architectural style that structures an application as a collection of small autonomous services, modeled around a business domain.
     - In micronservice architecture, each service is self-contained and implements a single business capability.
     - Features:

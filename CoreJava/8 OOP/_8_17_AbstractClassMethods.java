@@ -16,7 +16,7 @@ abstract class AmolPhone {
 		System.out.println("Amol Calling...");
 	}
 
-	// public abstract void chat() {// Error: We can not define abstract method. we can only declare;
+	// public abstract void chat() {	// Error: We can not define abstract method. we can only declare;
 	// 	System.out.println("Amol chatting...");
 	// }
 

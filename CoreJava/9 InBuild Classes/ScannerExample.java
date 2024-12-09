@@ -6,6 +6,7 @@ In this example:
 	nextInt(): '28' - Reads the next token from the input as an integer.
 	nextDouble(): '5.11' - Reads the next token from the input as a double.
 	nextBoolean(): 'true' - Reads the next token from the input as a boolean.
+    next().charAt(0): 'S' - Reads the first character of the next token.
 
 Make sure to import java.util.Scanner at the beginning of your Java file. 
 This example covers various scenarios for reading different types of input using the Scanner class in Java.

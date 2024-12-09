@@ -33,7 +33,7 @@ class Employee {
 
 	void disp() {
 		System.out.println(this.id + " " + name + " " + sal);
-		System.out.println(add.city + " " + add.state + " " + add.pin);
+		System.out.println(add.city + " " + this.add.state + " " + add.pin);
 	}
 }
 

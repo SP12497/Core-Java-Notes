@@ -3,7 +3,7 @@ import java.util.Arrays;
 /*
 class Arrays:
     .toString(array);               .deepToString(array);               .fill(array, value);    
-    .copyOf(array, length);         .copyOfRange(array, from, to);
+    .copyOf(array, length);         .copyOfRange(array, from, to);      .stream(array);
     .sort(array);                   .sort(array, comparator);    
     .binarySearch(array, key);      .equals(array1, array2);
     .deepHashCode(array);           .hashCode(array);
@@ -46,7 +46,6 @@ public class _51Array {
         Arrays.fill(arr2, 10);
         Arrays.fill(students, new Student(1));
         
-
     //  update
         numArr[2] = 31; // 33=>31
 
@@ -62,6 +61,9 @@ public class _51Array {
             System.out.println(str);
         }
 
+        Arrays.stream(strArr).forEach(System.out::println);
+
+    // HashCode:
         System.out.println("---Array hashCode---");
         System.out.println("hashCode: " + arr2.hashCode()); // 705927765
         System.out.println("Arrays.hashCode: " + Arrays.hashCode(arr2)); // 38172201
@@ -114,8 +116,8 @@ public class _51Array {
 
         String strArr2[] = Arrays.copyOf(strArr, strArr.length);    // copyOf(T[] original, int newLength)
         strArr2[0] = "Chetan";
-        System.out.println("strArr: " + Arrays.toString(strArr));
-        System.out.println("strArr2: " + Arrays.toString(strArr2));
+        System.out.println("strArr: " + Arrays.toString(strArr));   // [Sagar, Suraj, Nilesh, Yogesh, Kenny, Sagar]
+        System.out.println("strArr2: " + Arrays.toString(strArr2)); // [Chetan, Suraj, Nilesh, Yogesh, Kenny, Sagar]
 
         /* Array Resizing:
             Java arrays are fixed-size, so resizing directly isn't possible.

@@ -66,6 +66,7 @@ HashMap vs. ConcurrentHashMap:
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -85,8 +86,8 @@ public class _06Map {
 		// var map = new HashMap<String, String>(); // JAVA 10
 
 		Map<Integer, Integer> unmodifiableMap = Collections.unmodifiableMap(new HashMap<>());	// Constant map
-		Map<String, String> synchronizedMap = Collections.synchronizedMap(new HashMap<>()); // Using a synchronized map
-																							// (for thread-safety):
+		Map<String, String> synchronizedMap = Collections.synchronizedMap(new HashMap<>()); // Using a synchronized map (for thread-safety)	// Make entire map lock/synchronized
+		Map<Integer, String> concurrentHashMap = new ConcurrentHashMap<>();	// ConcurrentHashMap is a thread-safe // Lock only a portion (segment) of the map during updates
 
 // 	2. Declaration + Initialization: using instance block
 		Map<String, String> map1 = new HashMap<String, String>() { // empty '<>' cannot be used with anonymous classes
@@ -138,7 +139,7 @@ public class _06Map {
 
 // 11. Iteration:
 // 11.1 Map.Entry<> 
-		// interface Map{ interface Entry { getKey(); getValue(); }}
+		// interface Map { interface Entry { getKey(); getValue(); }}
 		// Map.Entry<String, String> entry // store only 1 value
 		// map.entrySet() // list of (Entry)
 		Set<Map.Entry<String, String>> set = map.entrySet();
@@ -166,5 +167,20 @@ public class _06Map {
 		um.put(4, true);	// java.lang.UnsupportedOperationException
 // 13. // Compare 2 maps
 		boolean areEqual = mp.equals(um);
+
+// ConcurrentHashMap:
+		Map<Integer, String> map = new HashMap<>();		// This can cause data inconsistency in a multi-threaded environment because HashMap is not synchronized.
+		// Thread 1
+		map.put(1, "One");
+		// Thread 2 (simultaneously)
+		map.put(2, "Two");
+
+
+		Map<Integer, String> cmap = new ConcurrentHashMap<>();	// ConcurrentHashMap allows safe concurrent access without the need for additional synchronization.
+		// Thread 1
+		cmap.put(1, "One");
+		// Thread 2 (simultaneously)
+		cmap.put(2, "Two");
+
 	}
 }
