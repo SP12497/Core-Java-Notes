@@ -2,6 +2,8 @@
 #28 Event Loop:
 --------------
 redirected from: Architecture of NODE JS (C++) in ./notes.js
+- The event loop is a fundamental concept in JavaScript that ensures non-blocking, asynchronous operations.
+- It enables JavaScript, which has a single-threaded runtime, to execute multiple tasks like handling events, performing I/O operations, and running timers without blocking the main thread.
 Execution Flow:
 Suppose: we are doing async operation like reading file, then we can use callback function to handle the response.
 - eg. fs.readFile('file.txt', (err, data) => {});

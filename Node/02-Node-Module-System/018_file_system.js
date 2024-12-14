@@ -4,7 +4,7 @@ const fs = require('node:fs');
 https://nodejs.org/docs/latest/api/fs.html
 
 file system contains each method is sync and async form.
-async methods require callback function.x
+async methods require callback function.
 */
 
 const files = fs.readdirSync('./'); // read all the files of the current folder.

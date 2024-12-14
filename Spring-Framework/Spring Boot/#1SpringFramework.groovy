@@ -69,7 +69,8 @@ public class UserNotFoundException extends RuntimeException {
 	}
 }
 -------
-@ControllerAdvice	// return customized response to all errors/
+// @RestControllerAdvice
+@ControllerAdvice	// return customized response to all errors
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(Exception.class)

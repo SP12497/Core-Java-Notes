@@ -127,9 +127,9 @@ How to create REST API?
 Bidirectional Relationships:
     - below annotations provided by the Jackson library, which is commonly used for JSON processing in Java applications, including those built with Spring Boot.
         - @JsonManagedReference
-            - Annotate the forward side of a bidirectional relationship in JPA entities. It tells Jackson to include this property during serialization and to manage its reference.
+            - Annotate the forward side of a bidirectional relationship in JPA entities. It tells Jackson to 'include' this property during serialization and to manage its reference.
         - @JsonBackReference :
-            - Annotate the reverse side of a bidirectional relationship in JPA entities. It tells Jackson to ignore this property during serialization and to use the reference from @JsonManagedReference to prevent circular dependencies and infinite recursion.
+            - Annotate the reverse side of a bidirectional relationship in JPA entities. It tells Jackson to 'ignore' this property during serialization and to use the reference from @JsonManagedReference to prevent circular dependencies and infinite recursion.
     - eg.
         @Entity public class Book {
             @Id int bookId;
@@ -531,7 +531,7 @@ Unit Testing: (Junit 5 + Assertj Core)
                 @Mock   // @Autowired: will give actual DB connection object.
                 PersonRepo personRepo;
 
-                // @Autowired: internally PersonService has Autowired PersonRepo. 
+                // @Autowired: internally PersonService has Autowired mocked PersonRepo. 
                 private PersonService personService;
 
                 @BeforeEach
@@ -585,6 +585,7 @@ MongoDB Connections:
 
 ------
 Profiles:
+    - It is a way to segregate parts of your application configuration and make it only available in certain environments.
     - manage environment based configurations
     - Practical:
         - application.properties:

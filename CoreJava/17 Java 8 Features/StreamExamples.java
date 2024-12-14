@@ -1,4 +1,7 @@
 /*
+- In Java, a Stream is a sequence of elements supporting functional-style operations for processing data.
+- It allows operations like filtering, mapping, and reducing on a collection or array without modifying the source.
+
 list..stream().collect(Collectors.toList()):
     Filter: Select elements based on a condition.
     Map: Transform elements into a new form.
@@ -60,6 +63,7 @@ public class StreamExamples {
 
         // 3. Sorted: Sort in reverse order
         List<Integer> reverseSorted = numbers.stream()
+                // .sorted()    // Ascending order
                 .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
         System.out.println("Reverse Sorted Numbers: " + reverseSorted);
@@ -92,6 +96,7 @@ public class StreamExamples {
         // 8. ForEach: Print each number
         System.out.print("ForEach Numbers: ");
         numbers.stream()
+                // .forEach(System.out::print);
                 .forEach(num -> System.out.print(num + " "));
         System.out.println();                              // 1 2 3 4 5 6 7 8 9 10
 

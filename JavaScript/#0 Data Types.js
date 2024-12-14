@@ -282,7 +282,7 @@ let str = "Hello, World!";
 // slice(startIndex, endIndex): endIndex is optional
 // split(startIndex, length): length is optional
 console.log(str.substring(7, 12));  // Output: "World"
-console.log(str.substring(12, 7));  // Output: "World" (swapped indices)
+console.log(str.substring(12, 7));  // Output: "World" (swapped indexes)
 console.log(str.substring(-3, 5));  // Output: "Hello" (negative index treated as 0
 console.log(str.substring(-6, -1)); // Output: ""
 
@@ -443,8 +443,8 @@ console.log(marvel_heroes[0][1]);       // h
 // marvel_heroes.push("Hulk", "BlackPanther", "Hulk");
 var all_heroes = marvel_heroes.concat(dc_heroes);
 var all_heroes2 = marvel_heroes.concat("Superman", "Batman", "WonderWomen"); // same as above
-console.log(all_heroes);    // [ 'thor', 'Ironman', 'SpiderMan', 'Superman', 'Batman', 'WonderWomen' ]
-console.log(all_heroes2);    // [ 'thor', 'Ironman', 'SpiderMan', 'Superman', 'Batman', 'WonderWomen' ]
+console.log(all_heroes);        // [ 'thor', 'Ironman', 'SpiderMan', 'Superman', 'Batman', 'WonderWomen' ]
+console.log(all_heroes2);       // [ 'thor', 'Ironman', 'SpiderMan', 'Superman', 'Batman', 'WonderWomen' ]
 
 
 all_heroes = [...marvel_heroes, ...dc_heroes];  // using spread operator
@@ -459,6 +459,7 @@ console.log((Array.isArray("Sagar")));  // false: its string
 console.log((Array.from("Sagar")));     // [ 'S', 'a', 'g', 'a', 'r' ] // convert into array
 
 console.log(Array.from({ name: "sagar" })); // [] // array of what? key or value?
+
 
 var mark1 = 100;
 var mark2 = 80;

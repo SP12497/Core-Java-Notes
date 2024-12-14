@@ -380,7 +380,7 @@ create object using xml:
 	@ComponentScan	:
 		- set Package (which package to scan?)
 		- eg :  @ComponentScan(basePackages = "com.springcore.javaconfig")
-			- It will scan the package and check @Controller, @Service, @JapRepository and some other annotations and create a object for those.
+			- It will scan the package and check @Controller, @Service, @JpaRepository and some other annotations and create a object for those.
 	
 	@Bean :
 		- on method which return new object;

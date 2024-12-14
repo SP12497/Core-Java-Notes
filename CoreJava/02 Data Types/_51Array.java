@@ -3,7 +3,7 @@ import java.util.Arrays;
 /*
 class Arrays:
     .toString(array);               .deepToString(array);               .fill(array, value);    
-    .copyOf(array, length);         .copyOfRange(array, from, to);      .stream(array);
+    .copyOf(array, length);         .copyOfRange(array, from, to);      Arrays.stream(array);
     .sort(array);                   .sort(array, comparator);    
     .binarySearch(array, key);      .equals(array1, array2);
     .deepHashCode(array);           .hashCode(array);
@@ -101,6 +101,8 @@ public class _51Array {
         System.out.println(Arrays.toString(strArr));
 
         System.out.println("---array search---");
+        // Note: Array should be sorted before binary search.
+        Arrays.sort(numArr);
         System.out.println(Arrays.binarySearch(numArr, 44)); // 3
         System.out.println(Arrays.binarySearch(numArr, 45)); // -5 // 45 should be available at index 5, but not present so returns -5
         // 45 will be after 44: (index(44) starts from 1 => -(4 + 1) => -5  

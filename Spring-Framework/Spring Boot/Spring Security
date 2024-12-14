@@ -1,7 +1,7 @@
 Authentication: eg. ID Card
 Authorization: Access of perticular classroom/department`
 Role Based Authentication: user define a user's group, like 'user' or 'admin'. With this approch, you can finely tune who can access what in your application.
-JWT: When a yser logs in, a JWT is generated and send back to the client.
+JWT: When a user logs in, a JWT is generated and send back to the client.
     This token is included in every subsequent request, allowing the server to verify the user's identity and grant access.
 Refresh Tokens: Whenever JWT token expires, then refresh the token without re-login. It improves security.
 Dependencies: 

@@ -139,7 +139,7 @@ ModelAndView Practical:
       public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView(); // Note: Model we have to pass as param but not ModelAndView
 
-        modelAndView.setViewNam("index");
+        modelAndView.setViewName("index");
 
         modelAndView.addAttribute("name", "Sagar");
         List<String> frnds = new ArrayList<String>();

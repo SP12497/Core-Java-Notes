@@ -16,7 +16,7 @@ Here are some important methods and functionalities in Express:
     - `app` is an instance of the Express application that can be used to define routes and middleware.
 
 2. `app.use()` 
-    - Mounts middleware functions in the application's request processing pipeline.
+    - Mounts middleware functions in the application request processing pipeline.
     - It is used to handle tasks such as parsing request bodies, logging, and more.
     - app.use(express.json()); // used to get the request body in request object in JSON format. By default, req.body will be undefined.
 

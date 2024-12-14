@@ -1,5 +1,5 @@
 Spring with ORM Framework:
-    - Spring ORM is a module that provides integration layers for popular object-relational mapping APIs, including JPA, JDO, Hibernate, and iBatis.
+    - Spring ORM is a module that provides integration layers for popular object-relational mapping APIs, including JPA, JDBC, Hibernate, and iBatis.
     - #3.1 ORM implementation.png
 
 Advantages:

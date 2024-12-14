@@ -37,6 +37,11 @@ public class User {     // User hashCode: 222 | 444
     public void init() {
         System.out.println("User object hashcode" + this.hashCode());
     }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("User object hashcode" + this.hashCode());
+    }
 }
 
 @Component  // singleton : Eager: at start of application

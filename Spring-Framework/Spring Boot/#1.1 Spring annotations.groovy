@@ -97,18 +97,21 @@
 @RequestHeader: This annotation is used to bind HTTP headers to method parameters in the controller method.
 
 @ResponseStatus: This annotation is used to specify the HTTP status code to be returned by the controller method.
+@ControllerAdvice: This annotation is used to define global exception handlers.
+@RestControllerAdvice: This annotation is used to define global exception handlers for REST controllers.
 @ExceptionHandler: Handles exceptions thrown by controller methods.
 @CrossOrigin: Configures cross-origin resource sharing (CORS) for web controllers.
 
 @Valid: Indicates that a method parameter should be validated.
+
+@EnableScheduling: Enables scheduling of @Scheduled methods.
 @Scheduled: This annotation is used to indicate that a method parameter should be validated. It is commonly used in conjunction with Bean Validation annotations such as @NotNull, @Size, etc.
 
-@Async: Indicates that a method should be executed asynchronously.
-@EnableScheduling: Enables scheduling of @Scheduled methods.
 @EnableAsync: Enables asynchronous method execution.
+@Async: Indicates that a method should be executed asynchronously.
 
 @Cacheable: Marks a method for caching results.
-@CacheEvict: Marks a method for evicting entries from the cache.
+@CacheEvict: Marks a method for evicting/removing entries from the cache.
 
 =============
 Code:
@@ -139,7 +142,7 @@ public class MyController {
     @RequestMapping(value="/home/{sId}", method = RequestMethod.POST)
     @ResponseBody
     public Student home(@RequestBody Student stud, 
-                        @PathVariable("sId) Integer studId,
+                        @PathVariable("sId") Integer studId,
                         @RequestParam("email") String email) {  // <input name="email" />
         return this.student;    // return student object as json response
     }
