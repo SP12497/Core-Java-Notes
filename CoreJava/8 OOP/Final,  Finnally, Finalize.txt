@@ -11,3 +11,10 @@
 Note : 
 finally meant for cleanup activities related to try block. Or a code that must be executed.
 where as finalize() meant for cleanup activities related to object.
+
+
+Q. Hashing in Java:
+	- Hashing in Java is the process of converting an object into a fixed-size hash code using the hashCode() method, 
+		which helps in efficiently storing and retrieving data in hash-based collections like HashMap and HashSet.
+	- It uses techniques like chaining or open addressing to handle collisions, ensuring fast lookups and insertions.
+	- The hashCode() method is used to generate a hash code for an object based on its contents, which is used to determine its position in the hash table.

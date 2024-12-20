@@ -27,6 +27,9 @@ Map Implementation:
 		- Maintains elements in sorted order based on the natural ordering of keys or a provided Comparator.
 		- Does not allow null keys but allows multiple null values.
 		- Use: Useful when you need to maintain elements in a specific sorted order.
+	- ConcurrentHashMap:
+		- Useful for multi-threaded applications where multiple threads are reading and writing to the map concurrently.
+		- introduced in Java 1.5
 
 ---------------
 interface Map:
@@ -47,7 +50,7 @@ What is ConcurrentHashMap?
 	- ConcurrentHashMap is a thread-safe implementation of the Map interface.
 	- It allows multiple threads to read and write concurrently without any blocking.
 	- It achieves this by dividing the map into segments and locking only a portion of the map during updates.
-	- ConcurrentHashMap does not throw ConcurrentModificationException if the map is modified while iterating over it.
+	- ConcurrentHashMap does not throw 'ConcurrentModificationException' if the map is modified while iterating over it.
 	- It is a good choice for a multi-threaded environment where multiple threads are reading and writing to the map concurrently.
 	eg. ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
 	
@@ -57,7 +60,7 @@ HashMap vs. ConcurrentHashMap:
 	- ConcurrentHashMap allows multiple threads to read and write concurrently without any external synchronization.
 	- HashMap is faster than ConcurrentHashMap for single-threaded applications.
 	- ConcurrentHashMap is slower than HashMap for single-threaded applications due to the overhead of maintaining thread-safety.
-	- HashMap throws ConcurrentModificationException if the map is modified while iterating over it, while ConcurrentHashMap does not.
+	- HashMap throws 'ConcurrentModificationException' if the map is modified while iterating over it, while ConcurrentHashMap does not.
 	- HashMap is suitable for single-threaded applications or external synchronization, while ConcurrentHashMap is suitable for multi-threaded applications.
 	- HashMap is not suitable for multi-threaded applications without external synchronization, while ConcurrentHashMap is suitable for multi-threaded applications.
 */
@@ -144,6 +147,10 @@ public class _06Map {
 		// map.entrySet() // list of (Entry)
 		Set<Map.Entry<String, String>> set = map.entrySet();
 		set.forEach(System.out::println); // Game=Cricket Name=Patil
+		
+		// map.forEach(System.out::println); // Error: Map does not support
+		map.forEach((k, v) -> System.out.println(k + " " + v));
+
 
 		for (Map.Entry<String, String> entry : map.entrySet())
 			System.out.println(entry.getKey() + ":" + entry.getValue());
@@ -169,11 +176,9 @@ public class _06Map {
 		boolean areEqual = mp.equals(um);
 
 // ConcurrentHashMap:
-		Map<Integer, String> map = new HashMap<>();		// This can cause data inconsistency in a multi-threaded environment because HashMap is not synchronized.
-		// Thread 1
-		map.put(1, "One");
-		// Thread 2 (simultaneously)
-		map.put(2, "Two");
+		Map<Integer, String> hmap = new HashMap<>();		// This can cause data inconsistency in a multi-threaded environment because HashMap is not synchronized.
+		hmap.put(1, "One");	// Thread 1 (simultaneously)
+		hmap.put(2, "Two");	// Thread 2 (simultaneously)
 
 
 		Map<Integer, String> cmap = new ConcurrentHashMap<>();	// ConcurrentHashMap allows safe concurrent access without the need for additional synchronization.

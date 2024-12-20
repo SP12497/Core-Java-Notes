@@ -18,7 +18,7 @@ db.first.find()
 
 document=>  	db.first.insert({Name:"Shital",Dept:"HR"})
 
-Collection -> document ->key value pair
+Collection -> document -> key value pair
 
 //Single Insert :
 	db.first.insert({empid:"E001" , name="Suraj", salary:27000})

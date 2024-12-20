@@ -20,7 +20,7 @@
         Use Cases: Frequently accessed data.
         Features: High availability, low latency, and high durability. Suitable for a wide range of use cases such as cloud applications, dynamic websites, content distribution, mobile and gaming applications, and big data analytics.
         Storage Duration: No minimum storage duration. You pay for what you use.
-    2. S3 Intelligent-Tiering:
+    2. S3 Intelligent-Tiering (frequent Access):
         Storage Cost: Moderate
         Retrieval Cost: Depends on access pattern, small monitoring feeCost: Moderate Cost
         Amazon will automatically move data between two access tiers (frequent and infrequent) based on changing access patterns.

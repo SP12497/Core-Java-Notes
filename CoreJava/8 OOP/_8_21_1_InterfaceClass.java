@@ -36,15 +36,25 @@ When to go for interface and when to Abstract class ?
 (IMP) Why Multiple Inheritance supports in Interface?
 	- Bcoz, interface don't have constructor.
 
+(IMP) Why Default and Static method introduced in Interface?
+	Key Reasons for Default Methods::
+		-> provide Backward Compatibility: 
+				- Before Java 8, if you added a new method to an interface, all classes implementing that interface would need to provide an implementation for the new method. 
+				This could break existing code. 
+				- Default methods solve this by allowing interfaces to provide a default implementation.
+		- Enhancing Functional Interfaces:
+			They provide reusable utility methods in functional interfaces (like Stream API methods in Java).
+	Key Reasons for Static Methods:
+		- Utility Methods for Interfaces: They allow interfaces to provide methods that are not tied to a specific implementation, like Collections.sort() in the Collections framework.
+
 
 Types of Interface :
 	1] Marker Interface -> without any method
 		- Serializable, Clonable, Remote, EventListener, RandomAccess
-	2] SAM -> Single Abstract Method -> Functional Interface => only one abstract method
+	2] Functional Interface / SAM (Single Abstract Method) => only one abstract method
 		- Runnable, Callable, ActionListener, Comparable, Comparator, Predicate, Supplier, Consumer
 	3] Normal Interface.
 		There are many more types of interfaces...
-
 */
 
 interface inter0 {
@@ -52,7 +62,7 @@ interface inter0 {
 
 interface Inter1 // Functional Interface // Single Abstract Method Interface
 {
-	double salary = 10.00; // by default: public static final //and mandate to assign values at the time
+	double salary = 10.00; // by default: public static final // and mandate to assign values at the time
 							// of declaration.
 	// double balance; // error : mandate to assign values at the time of declaration.
 
@@ -82,21 +92,6 @@ interface Inter3 extends Inter1, Inter2 {} // Interface Support Multiple Inherit
 
 // ------------------
 
-/*
-Why Multiple Inheritance supports in Interface?
-	- Bcoz, interface don't have constructor.
-Why Default and Static method introduced in Interface?
-	Key Reasons for Default Methods::
-		- provide Backward Compatibility: 
-				- Before Java 8, if you added a new method to an interface, all classes implementing that interface would need to provide an implementation for the new method. 
-				This could break existing code. 
-				- Default methods solve this by allowing interfaces to provide a default implementation.
-		- Enhancing Functional Interfaces:
-			They provide reusable utility methods in functional interfaces (like Stream API methods in Java).
-	Key Reasons for Static Methods:
-		- Utility Methods for Interfaces: They allow interfaces to provide methods that are not tied to a specific implementation, like Collections.sort() in the Collections framework.
-
- */
 interface Inter4 // from java 8 : default and static method
 {
 	default void common() {
@@ -181,7 +176,7 @@ public class _8_21_1_InterfaceClass {
 		Inter4.staticMethod(); // Static Method access by Interface/Class name
 		// Inter4.defaultMethod(); // Default Method access by Object
 
-		Inter4 i4 = new Inter4() {}; // anonymous object
+		Inter4 i4 = new Inter4() {}; // anonymous class
 		i4.defaultMethod();
 
 	}

@@ -27,6 +27,7 @@ public class _52_2D_Array {
 	}
 	
 	public static void main(String[] args) {
+		// int [] arr[] = new int[3][] { { 11, 13, 12 }, { 31, 33, 32 }, { 24, 22, 22, 24 } }; // Error: Cannot define dimension expressions when an array initializer is provided
 		int [] arr[] = new int[][] { { 11, 13, 12 }, { 31, 33, 32 }, { 24, 22, 22, 24 } };	// Jagged Array N*Any // inner array length not fixed
 		int[][] arr2 = new int[5][3];	// Rectangular array N*M // inner array length fixed ie 3
 		int arr3 [][] = new int[5][3];

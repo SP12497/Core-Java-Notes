@@ -83,7 +83,7 @@
         - It is the listener that listens for incoming requests from the target groups.
 
 ## ALB:
-    - It may take sometime foe the registration of the EC2 instances under the ELB to complete.
+    - It may take sometime for the registration of the EC2 instances under the ELB to complete.
     - It is a regional service.
     - (EC2 initiated api calls will not go through ELB) ELB has nothing to do with the outbound traffic that is initiated/generated from the registered EC2 instances destined to the internet or to any other instances withing the VPC.
 

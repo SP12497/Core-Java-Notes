@@ -25,8 +25,6 @@
             - Test:
                 1. Query by rollNo (Partition Key): will return all fields: rollNo, name, age, Division, section
                 2. Query by name (GSI): will return: rollNo, name, age, Division
-
-
                 
     - Limits:
         - Maximum total size of a DynamoDB table (including all items and indexes): 400 GB per partition.

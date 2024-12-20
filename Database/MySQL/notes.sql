@@ -539,6 +539,7 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
 
 -- Select with Subquery:
     SELECT first_name, last_name FROM employees WHERE department_id IN (SELECT department_id FROM departments WHERE location = 'New York');
+    SELECT first_name, last_name FROM employees WHERE department_id IN ("123", '456', '789');
 -- Select with Aggregate Functions:
     SELECT AVG(salary), MAX(age), MIN(sales) FROM employees;
     -- we can not use aggregate functions in where clause:
@@ -904,7 +905,7 @@ Views:
 -- 2.1 Regular Index:
     -- Create an index on salary in the employee table to speed up queries filtering by salary
     CREATE INDEX idx_salary ON employee(salary);
--- 2.2 nique Index:
+-- 2.2 Unique Index:
     -- If you want to ensure that emp_name values are unique (if applicable), you can create a unique index.
     CREATE UNIQUE INDEX idx_unique_emp_name ON employee(emp_name);
 -- 2.3 Composite Index:
@@ -955,7 +956,7 @@ Views:
         column2 datatype2,
         INDEX tIndex (column1)
     );
--- Create only structure withot data from other table:
+-- Create only structure withoUt data from other table:
     CREATE TEMPORARY TABLE tEmployee LIKE employee; 
     create TEMPORARY table emp AS select emp_id, emp_name from employee where 1=0;
     desc tEmployee;
@@ -1144,6 +1145,8 @@ There are 2 types:
 
     select truncate(15.195, 1); -- 15.1 -- take 1 value after point.
     select truncate(15.195, 2); -- 15.19
+
+    select coalesce(null, 10, 20); -- 10    //  a || b || c
 
 -- 1.3 Time and Date"
     select curdate(); -- 2024-02-29
@@ -1367,6 +1370,7 @@ Syntax:
     SELECT Trigger_NAME, EVENT_OBJECT_TABLE FROM INFORMATION_SCHEMA.triggers where INFORMATION_SCHEMA.triggers.TRIGGER_SCHEMA LIKE '%classroom%' ;
 
 -- RETURN ERROR Message.
+    Delimeter $;
     CREATE TRIGGER prevent_duplicate_emails
     BEFORE INSERT ON users
     FOR EACH ROW
@@ -1374,7 +1378,9 @@ Syntax:
         IF EXISTS (SELECT * FROM users WHERE email = NEW.email) THEN
             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Email must be unique';
         END IF;
-    END;
+    END $
+
+    DELIMITER ;
 
 ---------- Practice on each type: ----------
 -- Q. If someone date of join of employee out of year 1990-2020. Give proper error messages.

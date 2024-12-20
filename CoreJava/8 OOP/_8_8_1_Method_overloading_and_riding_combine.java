@@ -14,6 +14,11 @@ class C1 {
     public void paramCheck(double num, int a) {
         System.out.println("Inside void C1.paramCheck(double, int): " + num);
     }
+
+    public String m1(String s) {        // can change return type in overloading
+        System.out.println("Inside String C1.m1(String): " + s);
+        return s;
+    }
     
 }
 
@@ -27,12 +32,13 @@ class C2 extends C1 {
     //     System.out.println("Inside void C1.m1(double): " + num);
     // }
 
-    public int m1(int num) {
+    public int m1(int num) {            // parent method is private, so it is not overriding.
         System.out.println("Inside int C2.m1(int): " + num);
         return num;
     }
 
-    public void m1(char c) {        // we can increase the access specifier, but can't decrease. (protected -> public)
+    // parent is protected, so we can increase the access specifier, but can't decrease.
+    public void m1(char c) {    // (protected -> public)
         System.out.println("Inside int C2.m1(char): " + c);
     }
 

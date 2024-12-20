@@ -194,6 +194,7 @@ console.log("2" === 2); // false
         - null
         - undefined
         - Symbol: (Symbol(111))
+            - Use case of Symbol: to create unique identifiers for objects.
         - BigInt: (123n)
     - Reference (Non-Primitive);    // store on heap memory and reference store on stack.
         - Array: [1,2,"c",null]
@@ -396,7 +397,7 @@ console.log("myTimeStamp:", myTimeStamp);   // 1720120400329 ans in mili sec.
 console.log(date.getTime());   // ans in mili sec.  // 1720120400313  
 console.log(myTimeStamp - date.getTime()); // 6, ans in mili sec, time difference
 
-console.log(Math.floor(Date.now() / 1000));    // 1710196046, convert into seconds
+console.log(Math.floor(Date.now() / 1000));    // 1710196046, miliseconds convert into seconds
 
 console.log(date.getMonth());   // 2
 

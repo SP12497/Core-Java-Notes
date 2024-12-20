@@ -16,6 +16,8 @@ Types :
 		- Instance Method name and signature(parameters) are same but during Inheritance (different class).
 		- Same: method name , Parameter and return type.
 		  Different : Class
+		- We can not reduce the visibility of the inherited method. (Public -> Protected/private/default)
+		  But we can increase the visibility of the inherited method. (Protected -> Public)
 		  
 	Method Hiding:
 		- OverRiding of static method is not possible is java. But we can overload static method.

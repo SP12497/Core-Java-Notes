@@ -270,3 +270,7 @@ console.log("cloneUser2:", cloneUser2);             // { name: 'Sagar', age: 26,
 console.log("cloneUser3:", cloneUser3);             // { name: 'Sagar', age: 26, address: { zip: 999 } }
 
 // TODO: Learn Object class properties.
+
+Object.freeze(cloneUser1); // it will make the object as read-only
+Object.seal(cloneUser2); // it will make the object as read-only, but we can modify the existing properties.
+Object.preventExtensions(cloneUser3); // it will make the object as read-only, but we can modify the existing properties.

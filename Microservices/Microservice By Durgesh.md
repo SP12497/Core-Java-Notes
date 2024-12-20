@@ -8,10 +8,17 @@ Total 3 Services:
     - Service 2: Rating Service
     - Service 3: Hotel Service
 
-    API Gateway -> User Service:
-                    -> Rating Service
-                    -> Hotel Service
+    API Gateway -> User Service (with DB1):
+                    -> Rating Service (with DB2)
+                    -> Hotel Service (with DB2)
+                -> Okta Auth (OAuth2.0)
+                -> Service Registry (Eureka)
+    Github -> Config Server
 
+    Request Flow:
+        - API Gateway -> User Service (Get User by User Id)
+                            -> Rating Service (Get Rating by User Id)
+                            -> Hotel Service (Get Hotel by Hotel Id)
 Project:
     - Service 1: User Service (MySQL)
         - Dependencies:
@@ -25,10 +32,10 @@ Project:
             - spring.datasource.url: jdbc:mysql://localhost:3306/user
             - spring.datasource.username: root
             - spring.datasource.password: root
-            - spring.jpa.hibernate.ddl-auto: update
+            - spring.jpa.hibernate.ddl-auto: update     // create, update, validate, none
             - spring.jpa.show-sql: true
         - model/entity:
-            - public class User {
+            - @Entity public class User {
                 @Id
                 private String userId;
                 private String name;
@@ -37,6 +44,19 @@ Project:
                 @Transient
                 private List<Rating> ratings = new ArrayList<>();
             }
+            - public class Rating {         // Without @Entity, same structure as Rating Service
+                ...
+                private List<Hotel> hotels = new ArrayList<>();
+            }
+            - public class Hotel { ... }
+        - repository:
+            - public interface UserRepository extends JpaRepository<User, String> {}
+        - Controller:
+            - GET: /users
+            - POST: /users
+            - GET: /users/{userId}
+            // - PUT: /users/{userId}
+            // - DELETE: /users/{userId}
     - Service 2: Hotel Service (PostgreSQL)
         - Dependencies:
             - Spring Web
@@ -50,16 +70,22 @@ Project:
             - spring.datasource.password: root
             - spring.jpa.hibernate.ddl-auto: update
             - spring.jpa.show-sql: true
-        - repository:
-            - public interface HotelRepository extends JpaRepository<Hotel, String> {}
         - model/entity:
-            - public class Hotel {
+            - @Entity public class Hotel {
                 @Id
                 private String id;
                 private String name;
                 private String location;
                 private String about;
             }
+        - repository:
+            - public interface HotelRepository extends JpaRepository<Hotel, String> {}
+        - Controller:
+            - GET: /hotels
+            - POST: /hotels
+            - GET: /hotels/{hotelId}
+            // - PUT: /hotels/{hotelId}
+            // - DELETE: /hotels/{hotelId}
     - Service 3: Rating Service (MongoDB)
         - Dependencies:
             - Spring Web
@@ -72,7 +98,7 @@ Project:
             - spring.data.mongodb.database: rating
             // - spring.data.mongodb.uri: mongodb://localhost:27017
         - model/entity:
-            - public class Rating {
+            - @Entity public class Rating {
                 @Id
                 private String ratingId;
                 private String userId;
@@ -93,13 +119,14 @@ Project:
             repository.findAll();
             repository.findByUserId(userId);
         - Controller:
-            - GET: /rating/user/{userId}
-            - GET: /rating/hotel/{hotelId}
-            - POST: /rating                 // create rating
-    - ServiceRegistry:
+            - GET: /ratings/user/{userId}
+            - GET: /ratings/hotel/{hotelId}
+            - POST: /ratings                 // create rating
+    
+    - ServiceRegistry:  (Eureka Server)
         - Dependencies:
             - Eureka Server (Spring Cloud Discovery)  (spring-cloud-starter-netflix-eureka-server)
-            - Cloud Bootstrap (Spring Cloud)
+            - Cloud Bootstrap (Spring Cloud)      (spring-cloud-starter)
         - application.properties:
             - server.port: 8761
             - eureka.instance.hostname: localhost
@@ -117,7 +144,7 @@ Project:
         - UserService: (Same for HotelService and RatingService)
             - Dependencies:
                 - Eureka Discovery Client (spring-cloud-starter-netflix-eureka-client)
-                - Cloud Bootstrap (Spring Cloud)    
+                - Cloud Bootstrap (Spring Cloud)    (Optional)
             - pom.xml:
                 <properties>
                     <java.version>17</java.version>
@@ -157,13 +184,39 @@ Project:
 
 Note: 
     - How to call one service from another service?
+        - Notes on RestTemplate:
+                - Generic:
+                    - ResponseEntity<T> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, responseClass);
+                    - ResponseEntity<T> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, responseClass);
+                    - eg. ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
+                - GET
+                    - restTemplate.getForObject(url, responseClass);
+                    - restTemplate.getForEntity(url, responseClass);
+                    -eg. ResponseEntity<Hotel> response = restTemplate.getForEntity(url, Hotel.class);
+                - POST
+                    - restTemplate.postForObject(url, request, responseClass);
+                    - restTemplate.postForEntity(url, request, responseClass);
+                    -eg. Map<String, Object> payload = new HashMap<>();  payload.put("userId", 1);
+                        ResponseEntity<String> response = restTemplate.postForEntity(url, payload, String.class);
+                - PUT:
+                    - restTemplate.put(url, request);
+                    - restTemplate.exchange(url, HttpMethod.PUT, requestEntity, responseClass);
+                    - eg. restTemplate.put(url, request);   // response is void
+                    - eg. ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
+                - DELETE:
+                    - restTemplate.delete(url);
+                    - eg. restTemplate.delete(url);   // response is void
+                - RESPONSE:
+                    - response.getBody();
+                    - response.getStatusCode();
+                    - response.getHeaders();
         - Use RestTemplate:
             - RestTemplate restTemplate = new RestTemplate();
               restTemplate.getForObject("http://localhost:8082/hotel", Hotel.class);        // return Hotel object
             - ResponseEntity<Hotel> forEntity = restTemplate.getForEntity("http://localhost:8082/hotel", Hotel.class);        // return ResponseEntity<Hotel> // contains status code, headers, body
               Hotel hotel = forEntity.getBody();
 
-            - using @autoWired
+            - using @autowired
                 @SpringBootApplication          // @SpringBootApplication is also a @Configuration
                 @EnableDiscoveryClient
                 public class UserServiceApplication {
@@ -171,6 +224,10 @@ Note:
                     @LoadBalanced   // LoadBalanced is used to call service using service name instead of IP address and port
                     public RestTemplate restTemplate() {
                         return new RestTemplate();
+                    }
+
+                    public static void main(String[] args) {
+                        SpringApplication.run(UserServiceApplication.class, args);
                     }
                 }
 
@@ -182,7 +239,7 @@ Note:
                     public User getUserWithRating(String userId) {
                         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
                         // get rating for this user
-                        Rating [] ratings = restTemplate.getForObject("http://rating-service/rating/users/" + userId, Rating[].class);
+                        Rating [] ratings = restTemplate.getForObject("http://rating-service/rating/users/" + userId, Rating[].class);      // required  @LoadBalanced
                         List<Rating> ratings = Arrays.asList(ratings);  // Arrays.stream(ratings).toList();
                         // Way 2: ArrayList<Rating> ratings = restTemplate.getForObject("http://localhost:8083/rating/users/" + userId, ArrayList.class);
                         // Way3: ArrayList<Rating> ratings = restTemplate.getForObject("http://rating-service/rating/users/" + userId, ArrayList.class);
@@ -197,14 +254,11 @@ Note:
                             // hotelResponse.getStatusCode();
                             return rating;
                         }).collect(Collectors.toList());
-
-
-
                         logger.info("Ratings: " + ratings); 
-
                         return user;
                     }
                 }
+            
         - Use Feign Client:
             - Practical:
                 - @FeignClient(name = "hotel-service")
@@ -217,12 +271,13 @@ Note:
                 - It is used to make web service calls to other microservices in a more straightforward way.
                 - If you want to use Feign, create a new interface and annotate it with @FeignClient.
             - Dependencies:
-                - Spring Cloud Starter OpenFeign (spring-cloud-starter-openfeign)
+                - OpenFeign (SPRING CLOUD ROUTING) (spring-cloud-starter-openfeign)
                 - Spring Cloud Starter Netflix Eureka Client
             - Configuration:
                 @SpringBootApplication
                 @EnableEurekaClient
-                @EnableFeignClients
+                @LoadBalanced
+                @EnableFeignClients             // Enable Feign Client
                 public class UserServiceApplication {
                     public static void main(String[] args) {
                         SpringApplication.run(UserServiceApplication.class, args);
@@ -235,6 +290,19 @@ Note:
                         @GetMapping("/hotel/{hotelId}")
                         public Hotel getHotel(@PathVariable String hotelId);
                     }
+                }
+
+                @FeignClient(name = "rating-service")
+                public interface RatingServiceProxy {
+                    @GetMapping("/ratings/users/{userId}")
+                    public List<Rating> getRatingByUserId(@PathVariable String userId);
+
+                    @PostMapping("/ratings")
+                    public Rating createRating(@RequestBody Rating rating);
+
+                    @PutMapping("/ratings/{ratingId}")
+                    public Rating updateRating(@PathVariable String ratingId, @RequestBody Rating rating);
+
                 }
                 
                 public class UserService {

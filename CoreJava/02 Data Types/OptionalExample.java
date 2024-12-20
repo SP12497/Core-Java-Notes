@@ -1,7 +1,8 @@
 // OptionalExample.java
 import java.util.Optional;
 
-// In Java, the Optional class, introduced in Java 8, provides a way to handle potentially null values more gracefully and avoids the pitfalls of null pointer exceptions. 
+// In Java, the Optional class, introduced in Java 8, 
+// provides a way to handle potentially null values more gracefully and avoids the pitfalls of null pointer exceptions. 
 // It’s essentially a container that can either hold a value (non-null) or be empty.
 
 public class OptionalExample {

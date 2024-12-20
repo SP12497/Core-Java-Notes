@@ -20,7 +20,8 @@ Defn: VPC is virtual network or DataCenter inside AWS of one client.
                 - Implied Router
                 - Avability Zone-A    cidr- 10.0.0.0/24
                     - Public subnet // can go on internet if custom routing table has 0.0.0.0/0 cidr.
-                        - NAT Gateway (only in public subnet)
+                        - Internet Gateway(Route traffic to internet)  (if we attach IG to Subnet, then subnet becomes public subnet) 
+                        - NAT Gateway (only in public subnet) (Using NAT Gateway, private subnet can access internet) (private subnet -> NAT Gateway -> Internet Gateway)
                         - EC2 Instance
                 - Avability Zone-B    cidr- 10.0.0.1/24
                     - Private subnet-B    // local

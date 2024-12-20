@@ -1,15 +1,14 @@
 import java.util.Arrays;
 
 /*
-charValue()	: Returns the value of this Character object.
-isWhitespace(char ch)	: Determines if the specified character is white space according to Java.
-toUpperCase(char ch)	: Converts the character argument to uppercase.
-toUpperCase()	: Converts the character argument to uppercase.
-isDigit(char ch)	: Determines if the specified character is a digit.
-isLetter(char ch)	: Determines if the specified character is a letter.
-isLowerCase(char ch)	: Determines if the specified character is a lowercase letter.
-Arrays.toString(arr)
-arr.toCharArray()
+characterObj.charValue()		: Returns the value of this Character object.
+Character.isWhitespace(char ch)	: Determines if the specified character is white space according to Java.
+Character.toUpperCase(char ch)	: Converts the character argument to uppercase.
+Character.isDigit(char ch)		: Determines if the specified character is a digit.
+Character.isLetter(char ch)		: Determines if the specified character is a letter.
+Character.isLowerCase(char ch)	: Determines if the specified character is a lowercase letter.
+Arrays.toString(array)
+array.toCharArray()
 */
 
 public class _01Character {

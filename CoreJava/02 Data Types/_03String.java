@@ -7,7 +7,11 @@ import java.util.Arrays;
 .split(),		 	.toCharArray(),		.toUpperCase(),		 
 .toLowerCase(),	 	.length(),			.hashCode(),		 
 .compareTo(),	 	.format(),			.intern(),		 
-.binarySearch(), 	.toString()			
+.toString()			.chars() // Stream API	
+
+
+Arrays.:
+	.binarySearch(array, value), .sort(array), .toString()
 */
 public class _03String {
 	public static void main(String[] args) {
@@ -19,11 +23,12 @@ public class _03String {
 		String str4 = new String(uniCodeArr, 0, uniCodeArr.length);	// Hello
 		String s3intern = new String("Sagar").intern();	// new String("Sagar") creates a new String object in the heap, and .intern() ensures that the resulting reference points to the string in the String pool. If "Sagar" is already in the pool, it will refer to the same pooled instance.
 
+		// Stream API:
 		s1.chars().forEach(c -> System.out.println((char) c));
-		s1.chars() 
+		s1.chars()
 			.mapToObj(c -> (char) c)
 			.filter(c -> "AEIOUaeiou".indexOf(c) != -1) // Check if it's a vowel
-			.forEach(System.out::print);
+			.forEach(System.out::print);	// aa
 		
 		System.out.println(str3);										// Sa
 		System.out.println(str4);										// Hello
@@ -53,6 +58,8 @@ public class _03String {
 		String sentence = "My Name is sagar";
 		String words[] = sentence.split(" ");
 		System.out.println(Arrays.toString(words));					// [My, Name, is, sagar]
+
+		Arrays.sort(words);	// IMP Note: Sort the array before binary search
 		for (String w : words) {
 			System.out.println(Arrays.binarySearch(words, w) + ": " + w);	// 0: My	// 1: Name	//...
 		}

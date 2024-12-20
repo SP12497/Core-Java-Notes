@@ -14,6 +14,10 @@ ViewTemplate:
     - Renders the view
     - Returns the response
 
+@SpringBootApplication:
+    - This annotation is used to enable the Spring Boot application.
+    - It is a combination of @Configuration, @EnableAutoConfiguration, and @ComponentScan annotations.
+
 Generate correilationId:
     String correlationId = UUID.randomUUID().toString();
 
@@ -178,6 +182,9 @@ RequestMapping:
 
 ResponseEntity:
     - ResponseEntity represents the entire HTTP response, including the status code, headers, and body.
+
+    - ResponseEntity<User> responseEntity = new ResponseEntity.status(HttpStatus.CREATED).body(user);    // Returns a ResponseEntity with the given body and status code CREATED (201).
+
     - ResponseEntity<String> responseEntity = new ResponseEntity<>("Hello, World!", HttpStatus.OK);
     - ResponseEntity<User> responseEntity = new ResponseEntity<>(user, HttpStatus.OK);
     - ResponseEntity<Void> responseEntity = new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -196,7 +203,6 @@ ResponseEntity:
     - ResponseEntity<User> responseEntity = new ResponseEntity<>(user, HttpStatus.OK);    // Returns a ResponseEntity with the given body and status code OK (200).
     - ResponseEntity<User> responseEntity = new ResponseEntity<>(user, HttpStatus.CREATED);    // Returns a ResponseEntity with the given body and status code CREATED (201).
 
-    - ResponseEntity<User> responseEntity = new ResponseEntity.status(HttpStatus.CREATED).body(user);    // Returns a ResponseEntity with the given body and status code CREATED (201).
     
 
     @RequestMapping("/home")

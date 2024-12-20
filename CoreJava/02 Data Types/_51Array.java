@@ -3,7 +3,7 @@ import java.util.Arrays;
 /*
 class Arrays:
     .toString(array);               .deepToString(array);               .fill(array, value);    
-    .copyOf(array, length);         .copyOfRange(array, from, to);      Arrays.stream(array);
+    .copyOf(array, length);         .copyOfRange(array, from, to);      .stream(array);
     .sort(array);                   .sort(array, comparator);    
     .binarySearch(array, key);      .equals(array1, array2);
     .deepHashCode(array);           .hashCode(array);

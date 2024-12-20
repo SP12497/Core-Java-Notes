@@ -1,6 +1,8 @@
 
 // Java program to count frequencies of array items 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.*;
 
 class GFG {
 
@@ -24,6 +26,14 @@ class GFG {
 		}
 	}
 
+	// Using Stream api:
+	static void countFreqByStream(int arr[], int n) {
+		Map<Integer, Long> mp = Arrays.stream(arr).boxed()
+				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+		mp.forEach((k, v) -> System.out.println(k + " " + v));
+	}
+
 	// Driver code
 	public static void main(String args[]) {
 		int arr[] = { 10, 20, 20, 10, 10, 20, 5, 20 };
@@ -31,5 +41,10 @@ class GFG {
 		countFreq(arr, n);
 		// String str;
 		// str.toCharArray()
+
+		// -----
+		List<String> words = Arrays.asList("hello", "world", "hello", "java", "world");
+		Map<String, Long> wordCount = words.stream()
+				.collect(Collectors.groupingBy(word -> word, Collectors.counting()));
 	}
 }

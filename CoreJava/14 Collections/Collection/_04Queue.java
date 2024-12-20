@@ -135,7 +135,7 @@ public class _04Queue {
 
 // remove:
 		dq.poll();	// delete from start: remove() pollFirst()
-		dq.pollLast();	// deleme from last.  
+		dq.pollLast();	// delete from last.  
 		System.out.println(dq);
 		
 // Peek:

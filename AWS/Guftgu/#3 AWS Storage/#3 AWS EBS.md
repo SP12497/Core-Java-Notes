@@ -81,8 +81,6 @@
         -> Create a snapshot of EBS volume (region specific) and then create a new EBS volume in another AZ using that snapshot.
     Q. How to migrate EBS volume from one region to another region?
         -> Create a snapshot of EBS volume (region specific) and then copy that snapshot to another region. Then create a new EBS volume in another region using that snapshot.
-    Q. How to migrate EBS volume from one region to another region?
-        - S3 and snapshot are region specific. So, copy the snapshot from one region to another region S3 bucket and then create a new EBS volume in another region using that snapshot.
     Q. If snapshot size is 20GB, can we reduce the size of EBS volume while creating from snapshot?
         -> No, we can not reduce the size of EBS volume less than snapshot size.
         -> Note: snapshot size <= EBS volume size

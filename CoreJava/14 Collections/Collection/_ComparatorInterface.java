@@ -26,7 +26,7 @@ class _ComparatorInterface {
 		// Object
 
 		// Sort by last digit using lambda expression
-		Collections.sort(c, (o1, o2) -> {
+		Collections.sort(c, (o1, o2) -> {			// Compare Method
 			return o1 > o2 ? 1 : -1; // Ascending order
 		});
 

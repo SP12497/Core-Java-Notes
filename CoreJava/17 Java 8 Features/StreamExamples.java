@@ -22,6 +22,11 @@ Collectors:
     toList: Collect elements into a List.
     toSet: Collect elements into a Set.
     toMap: Collect elements into a Map.
+    toCollection: Collect elements into a specified collection.
+    toConcurrentMap: Collect elements into a concurrent Map.
+    toUnmodifiableList: Collect elements into an unmodifiable List.
+    toUnmodifiableSet: Collect elements into an unmodifiable Set
+
     joining: Concatenate elements into a single String.
     counting: Count the number of elements.
     summingInt: Sum the elements as an int.
@@ -34,10 +39,7 @@ Collectors:
     maxBy: Find the maximum element based on a comparator.
     minBy: Find the minimum element based on a comparator.
     collectingAndThen: Apply a finisher function after collecting.
-    toCollection: Collect elements into a specified collection.
-    toConcurrentMap: Collect elements into a concurrent Map.
-    toUnmodifiableList: Collect elements into an unmodifiable List.
-    toUnmodifiableSet: Collect elements into an unmodifiable Set
+    
 */
 
 import java.util.*; // Comparator => java.util.Comparator
@@ -92,6 +94,12 @@ public class StreamExamples {
                 .reduce(0, Integer::sum);
                 // .reduce(0, (num1, num2) -> num1 + num2);
         System.out.println("Sum of Numbers: " + sum);             // 55
+
+        // example: Cound of repeated words in a list
+        List<String> words = Arrays.asList("hello", "world", "hello", "java", "world");
+        Map<String, Long> wordCount = words.stream()
+                .collect(Collectors.groupingBy(word -> word, Collectors.counting()));
+        
 
         // 8. ForEach: Print each number
         System.out.print("ForEach Numbers: ");

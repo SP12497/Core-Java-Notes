@@ -43,7 +43,7 @@ Stack:
 	peek(): E
 	empty(): boolean
 	isEmpty()
-	search():int // returns index start from 1
+	search(E): E // returns index start from 1
 	
 */
 public class _03Stack {

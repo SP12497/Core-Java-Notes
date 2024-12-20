@@ -58,7 +58,7 @@ Deque:
 	- Fetch and Remove:
 		poll()	// fetch first element and remove
 		pollFirst()	// fetch first element and remove or null if list is empty
-		pollLast(
+		pollLast()
 	- Update:
 		set(int index, E element)
 	- toString
@@ -66,6 +66,22 @@ Deque:
 	
 Create quick List:
 	List<Integer> ls = Arrays.asList(11,22,33);
+-------
+LinkedList descendingIterator() returns an iterator that iterates over the element in reverse order.
+LinkedList<Integer> ll = new LinkedList<>();
+
+ll.add(1);
+ll.add(2);
+ll.add(3);
+
+System.out.println(ll);
+
+LinkedList<Integer> ll1 = new LinkedList<>();
+
+ll.descendingIterator().forEachRemaining(ll1::add);
+
+System.out.println(ll1);
+-----
 	
 */
 public class _02LinkedList {
@@ -91,6 +107,7 @@ public class _02LinkedList {
 		System.out.println(ll.peek());
 		System.out.println(ll.indexOf(11));	// 1
 			
+		ll.forEach(System.out::print);
 	}
 	
 

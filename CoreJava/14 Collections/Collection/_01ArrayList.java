@@ -42,6 +42,18 @@ Difference:
 	
 Create quick List:
 	List<Integer> ls = Arrays.asList(11,22,33);
+
+
+Important methods:
+	ls5.add(5);			// 5
+	ls5.set(2, 66);		// 33 => 66	set(2, 66)
+	ls1.get(1);			// 22
+	ls1.indexOf(11);	// 0
+	cl.contains("AA"));	// true
+
+	cl.forEach(System.out::print);
+	cl.stream().forEach(System.out::println);
+	cl.stream().forEach(string -> System.out.println(string));
 	
 */
 
