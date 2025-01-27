@@ -30,7 +30,7 @@ JS Engine:
                     - Inline Caching
         - JIT Compiler (Just In Time):
             - JS Engine have JIT Compiler.
-            - This will use both Interpretter and Compiler, Its all depends on which enginer we are using.
+            - This will use both Interpretter and Compiler, Its all depends on which engine we are using.
             - Each engine have its there own definations.
             - Interpretter start converting code to byte code line by line. 
               During converting, it takes help of compiler to optimize the code.

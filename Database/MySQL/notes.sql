@@ -500,6 +500,7 @@ OFFSET: Optional clause that specifies the number of rows to skip before startin
     -- 5th highest salary:
         SELECT DISTINCT salary FROM employee ORDER BY salary DESC LIMIT 1 OFFSET 4;
         SELECT DISTINCT salary FROM employee WHERE salary < (SELECT MAX(salary) FROM employee) ORDER BY salary DESC LIMIT 1 OFFSET 4;
+        -- skip 4 records one by one:
         SELECT DISTINCT salary FROM employee WHERE salary < (SELECT MAX(salary) FROM employee WHERE salary < (SELECT MAX(salary) FROM employee WHERE salary < (SELECT MAX(salary) FROM employee))) ORDER BY salary DESC LIMIT 1;
 
 -- Select with Group By Clause:
@@ -942,7 +943,7 @@ Views:
     - Monitor and Optimize: Regularly use EXPLAIN to analyze query performance and adjust indexes as needed.
 
 
-/* ==================================================================
+==================================================================
 -- Temporary Table:
     - A special type of table that allows you to store a temporary result set.
 	   which you can reuse several times in a SINGLE SESSION.

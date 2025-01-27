@@ -112,7 +112,7 @@ In this section will learn:
 ===============
 Request Process pipeline:
     - Request
-        - Middeleware : 1: express.json(), 2: route()
+        - Middleware : 1: express.json(), 2: route()
             - Response
 Go To: 04_Building_RESTful_APIs_Using_Express\express-demo\advance\058_custom_middleware.js
 

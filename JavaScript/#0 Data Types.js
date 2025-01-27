@@ -2,7 +2,7 @@
 #1 What is Temporal Dead Zone?
     - refers to the period between the creation of a variable (using let or const) and 
       its declaration being processed by the JavaScript engine.
-    -  During this temporal dead zone, accessing the variable results in a ReferenceError.
+    - During this temporal dead zone, accessing the variable results in a ReferenceError.
         ->
             console.log(a); // accessing a before declaration // This is in temporal dead zone. // a is present in scripts scope.
             let a = 1;  // Temporal DZ ended.
@@ -13,7 +13,7 @@
 
 // console.log(x);     // ReferenceError: x is not defined
 
-// console.log(b); // present in global scope with undefined
+// console.log(b); // 'undefined' // present in global scope
 // var b = 3; 
 console.log("\n\n---------------------")
 console.log("____________");
@@ -64,8 +64,8 @@ Number("123");  // 123
 Number("123.45");  // 123.45
 Number("123.45.67");  // NAN
 Number("a123b");  // NAN
-Number("0x123");  // 291    // Hexadecimal to Decimal
 Number("0b101");  // 5      // Binary to Decimal
+Number("0x123");  // 291    // Hexadecimal to Decimal
 Number("0o123");  // 83     // Octal to Decimal
 Number(null);  // 0
 Number(undefined);  // NAN
@@ -257,7 +257,7 @@ console.log(mystr.indexOf("t")); // -1  // not present
 // String.substring(start: number, end?: number): string
 console.log(mystr.substring(0, 4)); // abcd
 console.log(mystr.substring(2, 4)); // cd
-console.log(mystr.substring(-2, 4)); // abcd
+console.log(mystr.substring(-2, 4)); // abcd (negative index treated as 0)
 
 console.log("slice:", mystr.slice(0, 4)); // abcd
 console.log(mystr.slice(-4, 4)); // cd
@@ -284,7 +284,7 @@ let str = "Hello, World!";
 // split(startIndex, length): length is optional
 console.log(str.substring(7, 12));  // Output: "World"
 console.log(str.substring(12, 7));  // Output: "World" (swapped indexes)
-console.log(str.substring(-3, 5));  // Output: "Hello" (negative index treated as 0
+console.log(str.substring(-3, 5));  // Output: "Hello" (negative index treated as 0)
 console.log(str.substring(-6, -1)); // Output: ""
 
 console.log(str.slice(7, 12));  // Output: "World"
@@ -326,7 +326,7 @@ console.log(otherNumber.toPrecision(4)); // 123.5
 console.log(otherNumber.toPrecision(2)); // 1.2e+2
 
 var no = 1000000;
-console.log(no.toLocaleString());    // us standart: 1,000,000
+console.log(no.toLocaleString());    // us standard: 1,000,000
 console.log(no.toLocaleString('en-IN'));    // Indian standard: 10,00,000
 
 console.log(Number.MAX_VALUE);  // 1.7976931348623157e+308
@@ -338,6 +338,7 @@ console.log(Number.NEGATIVE_INFINITY);  // -Infinity
 console.log(Number.EPSILON);    // 2.220446049250313e-16
 console.log(Number.NaN);    // NaN
 console.log(NaN);           // NaN
+console.log(Infinity)       // Infinity
 console.log();
 
 console.log("\n\n---------------------")

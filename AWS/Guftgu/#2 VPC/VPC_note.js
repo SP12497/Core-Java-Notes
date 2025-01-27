@@ -199,6 +199,18 @@ Security Groups: (#3 Security Groups architecture.png)
     - Stateful (if inbound(request) port is 80 so by default outbound post is also 80. No need to declare separately), return traffic, of allowed inboud traffic is allowed, even if there are no rules to allow it.
     - NACL are stateless outbound traffic for an allowed inbound traffic must be explicitly allowed too.
 
+    - SG are acting as a firewall at the instance level.
+    - They regulates:
+        - Access to Ports
+        - Authoried IP ranges - IPv4 and IPv6
+        - Control of inbound network (ingress) (Default: blocked) and outbound network (egress) (Default: authorised) traffic.
+    - Terminology:
+        - Type: SSH, HTTP, HTTPS, RDP, ICMP, Custom TCP Rule, Custom UDP Rule, Custom ICMP Rule
+        - Protocol: TCP, UDP, ICMP
+        - Port Range: 0-65535
+        - Source: Caller's IP address, Security Group, CIDR Block
+        - Description: Description of the rule
+
 NACL:   (https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html) (#5 NACL points to 2 subnet.png | #6 NACL= 1 subnet ponints to 2 NACL not possible.png)
     - placed at Router level, Inside VPC, its on all Subnet level, not bound/tied to specific availability zone.
     - 1 NACL can point multiple subnets in any availability zones within VPC  (#5 NACL points to 2 subnet.png)

@@ -23,7 +23,7 @@
     - for await (variable of asyncIterable) {}
 */
 
-console.log("====== 2. for loop ======");
+console.log("====== 1. for loop ======");
 for (let i = 0; i < 5; i++) {   // initialization; condition; increment
     console.log(i); // Logs 0, 1, 2, 3, 4
 }
@@ -119,7 +119,7 @@ const myCoding = [
     {
         languageName: "Python",
         languageFileExt: "py"
-    },
+    },  
     {
         languageName: "JavaScript",
         languageFileExt: "js"

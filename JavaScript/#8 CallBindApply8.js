@@ -9,7 +9,7 @@ function sayHello() {
     console.log("this.name:", this.name);
 }
 sayHello();             // undefined
-sayHello.call(obj);     // Sagar // call(object, List<arguments>)
+sayHello.call(obj);     // Sagar // call(this object, List<arguments>)
 
 function sayHello2(age, city) {
     console.log("this.name:", this.name, ". and my age is:", age, ". and my city is:", city);
@@ -196,4 +196,4 @@ const obj4 = {
     }
 };
 
-obj4.greet(); // Node: Hello, undefined - Alice - World! / Browser: Hello, - Alice - World!
+obj4.greet(); // Node: Hello, undefined - Alice - World! // Browser: Hello, - Alice - World!

@@ -55,7 +55,7 @@ const fs = require('fs');
 console.log("Program Started");
 
 //setImmediate():
-//  - As per node defination, this function is always complete execution before any timeout functions.
+//  - As per node defination, 'setImmediate' function is always complete execution before any timeout functions.
 //  - But, there is a know bug, setTimout(0) is in Phase 1 and setImmediate() is in Phase 3. So, setImmediate() is not always executed after setImmediate().
 //    It depends on the phase in which they are added to the event loop.
 

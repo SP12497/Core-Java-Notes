@@ -115,7 +115,7 @@ function job(state) {
 //         return job(true);
 //     })
 //     .catch(function (error) {
-//         console.log("catch1:", error);
+//         console.log("catch2:", error);
 //     })
 //     .then(function (data) {
 //         console.log("then3:", data);

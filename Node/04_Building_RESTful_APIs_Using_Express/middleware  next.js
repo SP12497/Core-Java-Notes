@@ -51,7 +51,7 @@ Using next() Method in Express Middleware
    - next() without arguments.
 
 2. Passing an Error to Error-Handling Middleware:
-   next(err) with an error argument.
+   next(err) with an error argument.    // pass Error object
 
 3. Skipping to the Next Route Handler:
    next('route') to skip to the next route handler.

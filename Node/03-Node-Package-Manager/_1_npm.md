@@ -38,7 +38,7 @@
 
 029 NPM Packages and Source Control:
 ====================================
-- We have have to exclude node_module folder, when code is on source control repository (like github)
+- We have to exclude node_module folder, when code is on source control repository (like github)
 - we can create node_module dependencies again using: npm i
 - To hide from github, mention node_module folder path in ".gitignore" file.
 

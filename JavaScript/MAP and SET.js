@@ -1,5 +1,6 @@
 /*
 Method	Description
+const map = new Map();
 map.set(key, value)	Adds a key-value pair to the map.
 map.get(key)	Retrieves the value associated with the key.
 map.has(key)	Checks if a key exists in the map.
@@ -9,6 +10,7 @@ map.size	Returns the number of key-value pairs.
 forEach((value, key)=>{})	Executes a provided function once per key-value pair.
 
 
+const set = new Set();
 set.add(value)	Adds a value to the set.
 set.has(value)	Checks if a value exists in the set.
 set.delete(value)	Removes a value from the set.

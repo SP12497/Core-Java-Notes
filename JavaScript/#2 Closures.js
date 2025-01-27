@@ -56,11 +56,11 @@ Disadvantages:
 //global scope
 var username = "global username"
 function Subscribe() {
-    // inner scope 1
+    // outer function scope 1
     console.log("global scope:", username);
     var name = "Roadside Coder"; // local scope
     function displayName() { // displayName is called as closure
-        // inner scope 2 as local scope
+        // inner scope as local scope
         var innerScope = "inner local scope";
         console.log("local scope:", innerScope);
         console.log("lexical scope:", name);
@@ -253,6 +253,9 @@ console.log(myCounter.retrive());
 
 console.log("_______________ #11 Module Pattern _______________");
 // Q6. What is Module Pattern?
+// Module pattern is a design pattern used to create self-contained, reusable modules of code.
+// The module pattern utilizes a combination of closures and immediately invoked function expressions (IIFE) to encapsulate private data and expose a public API for interaction with that data.
+
 var Module = (function () {
     function privateMethod() {      // private method
         console.log("privateMethod");
