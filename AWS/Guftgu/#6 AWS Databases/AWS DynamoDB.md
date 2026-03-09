@@ -1,4 +1,3 @@
-
 # AWS Dynamo DB: (NoSQL)
     -  DynamoDB is a fast and flexible NoSQL database service for all applications that need consistent, single-digit-millisecond latency at any scale. Its flexible data model and reliable performance make DynamoDB a great fit for mobile, web, gaming, advertising technology, Internet of Things, and other applications.
     - Basic:
@@ -12,6 +11,9 @@
         - Item: A collection of attributes
         - Attribute: A key-value pair
         - Primary Key: A unique attribute that identifies an item
+			- 2 types:
+				- Only Partition Key (HASH) : unique userId
+				- Partition Key (userId) + Sort Key (gameId) (HASH + RANGE)
         - Secondary Index: An index that allows you to query the table using an alternate key (non-primary key)
         - Partition Key: The primary key attribute that determines the partition in which an item is stored (Mandatory for Query)
         - Sort Key: The primary key attribute that determines the sort order of items with the same partition key (Optional for Query)
@@ -35,6 +37,16 @@
         - low latency reads and writes access
     - Read Capacity Units (RCUs) and Write Capacity Units (WCUs):
         - DynamoDB is charged based on RCUs and WCUs.
+		- Two modes:
+			1. Provisioned Mode
+				- specify the no of reads/writes per sec.
+				- pay for provisioned read & write capacity unit
+				- Option to setup auto-scaling of throughtput to meed demand
+					- throughput can be exceeded temporarily using "Burst Capacity"
+					- If burst capacity has been consumed, you'll get a "ProvisionedThroughtputExceededException"
+			2. On-Demand Mode (default)
+				- reads/writes automatically scale up/down with you workload
+				- pay for what you use, more expensive  
         - RCU: Read Capacity Unit
             - 1 RCU = 4 KB per second (if used 2KB, charged for 4KB ie. 1RCU)
             - 1 RCU = 2 Eventually consistent reads per second (default) (8 KB per second)                
@@ -42,9 +54,9 @@
             - 1 RCU = 1 Transactional reads per second (4 KB per second)
             
             - Eventually consistent: Read operation might reflect the changes in the table, but not guaranteed.
-                eg. If you write data eg. 1,2,3 and during writing data 3 (eg. 3 written takes 1 sec), if dynamo receives read request, it will return 1,2. won't wait to return 3.
+                eg. If you write data eg. 1,2,3 and during writing data 3 (eg. 3 written takes 1 sec), if dynamo receives read request, it will return 1,2. it won't wait for 3 to be written.
             - Strongly consistent: Read operation will reflect the changes in the table, guaranteed.
-                eg. during writing data 3, if read request comes, it will for 3 to be written and then return 1,2,3.
+                eg. during writing data 3, if read request comes, it will wait for 3 to be written and then return 1,2,3.
             - Transactional: Read operation will reflect the changes in the table, guaranteed. (2x cost of Strongly consistent)
         - WCU: Write Capacity Unit
             - 1 WCU = 1 KB(write) per second
@@ -53,6 +65,15 @@
         - DynamoDB is costly for write operations and cheap for read operations. 
         - So, consider DynamoDB for read-heavy applications.
           Do not consider for write-heavy applications.
+		  
+	Problems:
+		- we write 10 items per sec, with item size 2KB?
+			- Requires: 10(2KB/1KB) = 20WCUs
+		- we write 6 items per sec, with item size 4.5KB?
+			- KB size round off to upper KB 5.
+			- 6(5KB/1KB) = 30WCUs
+		- We write 120 items per minute, with item size 2KB
+			- (120/60sec)(2/1KB) = 4WCUs
     - Biilling/Pricing:
         - Reads are cheaper than writes
         - On-Demand Capacity Mode:
@@ -67,7 +88,7 @@
             - Each tables provisioned read/write throughput (Hourly Rates)
             - Indexed data storage (GB/month) (DynamoDB attributes points to S3 url for large data)
             - Internal data transfer (other regions)
-        - Free ties:
+        - Free tiers:
             - 25 GB of indexed data storage
             - 25 units of write capacity and 25 units of read capacity
             - 2.5 million write requests and 2.5 million read requests per month
@@ -76,7 +97,7 @@
     - No limit on number of items in a table.
     - Global tables: 
         - DynamoDB available in multiple regions.
-        - Multi-region, multi-master, cross-region replication
+        - Multi-region, multi-master, cross-region application
         - Read/write data in multiple regions
         - Automatic conflict resolution
         - No additional charge for global tables

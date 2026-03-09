@@ -40,7 +40,7 @@ How SQS Charges:
 
 -------------------
 Polling:
-    1. Short Polling:
+    1. Short Polling: (0 sec)
         - A request is retuned immediately even if the queue is empty. 
           (Server call SQS, check message is avaible, 
             if not, then comeback immediately with empty request. 
@@ -50,7 +50,7 @@ Polling:
         - Default by SQS
         - ReceiveMessageWaitTime is set to 0.
         - More request are used which implies higher cost.
-    2. Long Polling:
+    2. Long Polling: (upto 20 sec)
         - Is preferred to regular/short polling. It uses fewer requests and request cost by
         - Eliminating false empty responses by querying all the servers
         - reduce the number of empty responses, 

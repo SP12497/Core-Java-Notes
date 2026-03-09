@@ -322,7 +322,7 @@ Testing:
         Security Group: RDP -> 
             Public | Private: RDP | HTTP | HTTPS -> Source(Anywhere)
     Validation:
-        - We don't have public IP in private Gateway, so we cant connect private subnet EC2 instance from our local machine,
+        - We don't have public IP in private Gateway, so we can't connect private subnet EC2 instance from our local machine,
           but we can access by public subnet EC2 instance
         - Connect to public subnet EC2 instance:
             cmd: "ping 8.8.8.8"
