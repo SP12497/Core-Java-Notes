@@ -1,0 +1,25 @@
+AWS SDK:
+    - AWS Software Development Kit (SDK) is a collection of tools and libraries that allow developers to interact with AWS services programmatically.
+    - It provides APIs and utilities for various programming languages, making it easier to integrate AWS services into applications.
+    - The AWS SDK supports multiple programming languages, including Java, Python, JavaScript, Ruby, and more.
+    - With the AWS SDK, developers can perform operations such as creating and managing AWS resources, handling authentication and authorization, and making API calls to AWS services.
+    - The AWS SDK also includes features like error handling, retry logic, and support for asynchronous operations, making it easier to build robust and scalable applications on AWS.
+    - To use the AWS SDK, developers need to set up their AWS credentials and configure the SDK with the appropriate region and service endpoints.
+    - Embedded within your application.
+
+- Setup:
+    - Download and install AWS CLI
+    - command:
+        - aws -version
+        - aws configure
+    - Provide your AWS Access Key ID, Secret Access Key, default region, and output format when prompted during the configuration process.
+    
+
+
+- Create access keys:
+    - Go to AWS Management Console
+    - Navigate to IAM (Identity and Access Management)
+    - Click on "Users" and select the user for whom you want to create access keys
+    - Click on the "Security credentials" tab
+    - Under "Access keys", click on "Create access key"
+    - Note down the Access Key ID and Secret Access Key, as you will need them to configure the AWS SDK in your application. Also you can download the key csv file for future reference.

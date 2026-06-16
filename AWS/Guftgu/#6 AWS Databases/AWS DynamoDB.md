@@ -159,6 +159,24 @@
     -> DynamoDB is a fully managed NoSQL database service provided by AWS. It is a key-value and document database. It is a serverless database.
     Q. What is the difference between RCU and WCU?
     Q. What is the difference between Eventually consistent and Strongly consistent reads?
+		Scenario:
+			- Application write Dynamo DB server 1, and server 1 sync data (data replication) in server 2 and server 3.
+			- if user request data in Server 2 during replication/syncing. we have below 2 options.
+		1. Eventually consistent read (default):
+			- if we read just after a write, its possible  we'll get some stale(not fully updated) data becuase of replication
+			- 1 RCU = 2 Eventually consistent reads (4Kb item size)
+		2. Strogly consistent read:
+			- if we read just after a write, we will get the correct data
+			- set "ConsistentRead" parameter to True in API calls (GetItem, BatchGetItem, Query, Scan)
+			- Consumes twice the RCU, Expensive, Higher latency
+			- 1 RCU = 1 Strogly consistent reads (4Kb item size)
+		Example:
+			1. 10 Strogly consistent reads, with item size 4KB?
+				- 10 (4kb/4kb) = 10 RCUs
+			2. 16 Eventually consistent reads, with item size 12KB?
+				- (16/2)(12kb/4kb) = 24 RCUs
+			3. 10 Strogly consistent reads, with item size 6KB?
+				- 10 (8kb/4kb) = 20 RCUs (we must round up 6KB to 8KB)
     Q. What is the difference between Partition Key and Sort Key?
     -> Partition Key: The primary key attribute that determines the partition in which an item is stored
     -> Sort Key: The primary key attribute that determines the sort order of items with the same partition key

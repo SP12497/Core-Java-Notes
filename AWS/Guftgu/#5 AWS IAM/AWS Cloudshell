@@ -1,0 +1,10 @@
+AWS Cloudshell:
+    - AWS Cloudshell only available for few regions.
+    - its a AWS Browser based cli.
+    - AWS CloudShell is a browser-based shell that makes it easy to securely manage, interact with, and explore your AWS resources.
+      It provides a pre-authenticated command-line environment with the AWS Command Line Interface (CLI) and
+      popular tools pre-installed, allowing you to quickly access and manage your AWS resources without needing to set up a local environment.
+    - With AWS CloudShell, you can run commands, scripts, and applications directly from your web browser, 
+     making it convenient for users who prefer a command-line interface or need to perform quick tasks without the overhead of configuring a local environment.
+    - It also provides a secure and isolated environment for running commands, ensuring that your AWS credentials and resources are protected.
+

@@ -187,7 +187,7 @@ NAT Gateway: (NAT instance is different service) (#2 Lab on VPC NAT GW.png)
                 - Destination: 0.0.0.0/0
                   Target: select created NAT GW
     - Test:
-        Connecct to private EC2 instance and try to access internet. (cmd: ping www.google.com)
+        Connecct to privzate EC2 instance and try to access internet. (cmd: ping www.google.com)
 
 Security Groups: (#3 Security Groups architecture.png)
     - inside subnets but on top of instances. EC2 instance level.
@@ -210,6 +210,14 @@ Security Groups: (#3 Security Groups architecture.png)
         - Port Range: 0-65535
         - Source: Caller's IP address, Security Group, CIDR Block
         - Description: Description of the rule
+    
+Classic Ports to know:
+    - 22: SSH (Secure Shell) - log into a Linux instance
+    - 21: FTP (File Transfer Protocol) - transfer files to and from an instance
+    - 22: SFTP (Secure File Transfer Protocol) - securely transfer files to and from an instance
+    - 80: HTTP (Hypertext Transfer Protocol) - access unsecure web servers running on an instance
+    - 443: HTTPS (Hypertext Transfer Protocol Secure) - access secure web servers running on an instance
+    - 3389: RDP (Remote Desktop Protocol) - log into a Windows instance
 
 NACL:   (https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html) (#5 NACL points to 2 subnet.png | #6 NACL= 1 subnet ponints to 2 NACL not possible.png)
     - placed at Router level, Inside VPC, its on all Subnet level, not bound/tied to specific availability zone.

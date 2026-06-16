@@ -1,4 +1,17 @@
 /*
+IAM Summary: in one line
+    - Users: mapped to a physical user, has a password for AWS console
+    - Groups: contains users only
+    - Policies: JSON document that outlines permissions for users, groups
+    - Roles: for Ec2 INSTANCES OR AWS services
+    - Security: MFA + Password policy
+    - AWS CLI: manage your AWS services using command line interface
+    - AWS SDK: manage your AWS services using code (programming language)
+    - Access Keys: access AWS using the CLI and SDK (Access Key ID and Secret Access Key)
+    - Audit: IAM Credential Report and IAM Access Advisor
+*/
+
+/*
 IAM:
     - IAM refers to Identity and Access Management.
     - it refers to a framework or policies and technologies for ensuring
@@ -61,6 +74,17 @@ An IAM policy has a specific structure that includes the following elements:
                 - if we don't specify the principal, the policy applies to all principals (users, groups, and roles).
                 - "Principal": "*"  => allows any user (public access) for the first statement.
             - "Condition" : (Optional) Specifies any additional conditions under which the statement applies.
+
+How can users access AWS?
+    1. AWS Management Console:
+        - protected by password and MFA (Multi-Factor Authentication)
+    2. AWS Command Line Interface (CLI):
+        - protected by access key and secret access key.
+    3. AWS Software Development Kits (SDKs):
+        - for code
+        - protected by access key and secret access key. 
+    - Access key ID === username
+    - Secret access key === password
 
 Example:
 {
@@ -466,4 +490,40 @@ Lab 4: Cross Account Access:
             - Now, Sagar entered into MyAccount2 and can see the S3 bucket in MyAccount2
             - Profile (Right Top) > Back to Sagar: MyAccount1
                 - Sagar entered into MyAccount1 and can see the EC2 instances in MyAccount1
+*/
+
+/*
+IAM Security Tools:
+    - IAM Credential Report: (Account-Level)
+        - The IAM credential report is a report that provides a summary of the status of your IAM users and their credentials.
+        - The report includes information about the users, their access keys, their passwords, and their MFA devices.
+        - Steps: IAM -> Credential Report > Download Report
+
+    - IAM Access Advisor: (User-Level)
+        - The IAM access advisor is a tool that provides information about the permissions that are granted to an IAM user, group, or role.
+        - The access advisor shows the services that the user has access to and the last time the user accessed those services.
+        - Steps: IAM -> Users -> Sagar -> Access Advisor\
+
+IAM Guidelines and Best Practices:
+    - Dont use the root user except for AWS account setup.
+    - one physical user = one AWS user
+    - Assign users to groups and assign permissions to groups.
+    - Create a strong password policy for your users.
+    - Enable MFA for all users who have access to the AWS Management Console.
+    - Create and use Roles for giving permissions to Aws services.
+    - Use Access Keys for Programmatic Access (CLI/SDK)
+    - Audit permissions of your account using IAM credentials Report and IAM access advisor.
+    - Never share IAM users & access keys.
+
+Shared Responsibility Model for IAM:
+    AWS:
+        - Infrastructure (global network security)
+        - Configuration and vulnerability analysis
+        - Compliance validation
+    - You:
+        - Users, Groups, Roles, Policies management and monitoring
+        - Enable MFA on all accounts
+        - Rotate all your keys often
+        - Use IAM tools to apply appropriate permissions to users, groups, and roles.
+        - Analyze access patterns and review permissions regularly.
 */
