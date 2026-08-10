@@ -1,0 +1,507 @@
+DOCKER NOTES
+
+Official References
+
+https://docs.docker.com/build/
+https://docs.docker.com/reference/cli/docker/image/build/#specifying-external-cache-sources
+https://www.docker.com/blog/advanced-dockerfiles-faster-builds-and-smaller-images-using-buildkit-and-multistage-builds/
+
+1. DOCKER BASICS
+
+docker run Creates a container from an image and starts it.
+
+    Example:
+        docker run hello-world
+
+    Equivalent flow:
+        docker create hello-world
+            -> Creates a container and returns the container ID.
+
+        docker start -a <container_id>
+            -> Starts the container.
+            -> -a = attach to the container and show its output.
+
+docker run can also override the default command:
+
+    docker run busybox echo hi there
+        -> Runs busybox and executes "echo hi there".
+
+    docker run busybox ls
+        -> Runs "ls" inside the busybox container.
+
+2. CONTAINER LISTING
+
+docker ps Shows currently running containers.
+
+Example: Terminal 1: docker run busybox ping google.com
+
+    Terminal 2:
+        docker ps
+
+docker ps –all Shows all containers, including stopped containers.
+
+3. REMOVE CONTAINERS / UNUSED RESOURCES
+
+docker system prune Removes unused Docker resources, including stopped
+containers, unused networks, dangling images, and build cache.
+
+    NOTE:
+    Use this carefully because it can delete resources you may want
+    to keep.
+
+4. CONTAINER LOGS
+
+docker logs Shows the logs/output of a container.
+
+    Similar to:
+        docker start -a <container_id>
+
+    Difference:
+        docker start -a starts/attaches to a container.
+        docker logs reads the logs of an existing container.
+
+5. STOP VS KILL
+
+docker stop Gracefully stops a running container.
+
+    - Sends SIGTERM first.
+    - Docker waits for the configured grace period (10 seconds by default).
+    - If the container does not stop, Docker sends SIGKILL.
+
+docker kill Immediately stops the container.
+
+    - Sends SIGKILL.
+    - Does not give the application time to shut down gracefully.
+
+KEY DIFFERENCE: stop = graceful shutdown kill = immediate shutdown
+
+6. REDIS WITH DOCKER
+
+Start Redis:
+
+    docker run redis
+
+Now suppose we want to use Redis CLI.
+
+Running this in another terminal:
+
+    redis-cli
+
+may fail because redis-cli is not running in the Redis container.
+
+Use docker exec instead:
+
+    docker exec -it <container_id> redis-cli
+        -> Opens Redis CLI inside the running Redis container.
+
+    docker exec -it <container_id> sh
+        -> Opens a shell inside the Redis container.
+
+Once inside the shell, we can run Linux commands such as:
+
+    ls
+    echo hello
+    redis-cli
+
+7. DOCKER EXEC
+
+docker exec Runs another command inside an already running container.
+
+Example:
+
+    docker exec -it <container_id> redis-cli
+    docker exec -it <container_id> sh
+
+What does -it mean?
+
+    -i = interactive
+         Keeps STDIN open so we can provide input.
+
+    -t = pseudo-terminal
+         Provides a terminal-like interface for easier interaction.
+
+Together:
+
+    -it
+        -> Lets us interact with the container through a terminal.
+
+Linux processes have three standard streams:
+
+    STDIN  = input
+    STDOUT = normal output
+    STDERR = error output
+
+Example:
+
+    docker run -it busybox sh
+
+This: 1. Starts a busybox container. 2. Opens a shell. 3. Connects our
+terminal to the container.
+
+8. DOCKER IMAGE VS CONTAINER
+
+IMAGE: A read-only template used to create containers.
+
+CONTAINER: A running or stopped instance created from an image.
+
+Simple way to remember:
+
+    Image      -> Blueprint
+    Container  -> Running instance
+
+9. CREATING AN IMAGE USING A DOCKERFILE
+
+Step 1: Create a project directory.
+
+Step 2: Create a file named:
+
+        Dockerfile
+
+    at the root of the project.
+
+Example Dockerfile for Redis:
+
+    # Use an existing Docker image as a base
+    FROM alpine
+
+    # Download and install Redis
+    RUN apk add --update redis
+
+    # Command to run when the container starts
+    CMD ["redis-server"]
+
+Step 3: Build the image:
+
+        docker build .
+
+    The "." means:
+        Use the current directory as the build context.
+
+Step 4: Run the image:
+
+        docker run <image_id>
+
+10. TAGGING A DOCKER IMAGE
+
+Image IDs are difficult to remember, so we normally give images a
+name/tag.
+
+Build with a tag:
+
+    docker build -t stephengrider/redis:latest .
+
+Meaning:
+
+    -t
+        Tag the image.
+
+    stephengrider
+        Docker Hub username / Docker ID.
+
+    redis
+        Repository / project name.
+
+    latest
+        Image tag/version.
+
+    .
+        Current directory is used as the build context.
+
+Run the tagged image:
+
+    docker run stephengrider/redis
+
+If no tag is specified, Docker uses:
+
+    latest
+
+Example:
+
+    docker run stephengrider/redis
+        = docker run stephengrider/redis:latest
+
+Why do some images have short names like “redis” or “busybox”?
+
+Official/community images can be referenced directly by their image
+name.
+
+For your own Docker Hub repository, the username is commonly included:
+
+    <docker-id>/<repository>:<tag>
+
+11. CREATING AN IMAGE MANUALLY WITHOUT A DOCKERFILE
+
+An image can also be created by starting a container, making changes,
+and then committing the container as a new image.
+
+Step 1: Start Alpine and open a shell:
+
+        docker run -it alpine sh
+
+Step 2: Install Redis:
+
+        apk add --update redis
+
+Step 3: Open another terminal and find the container ID:
+
+        docker ps
+
+Step 4: Commit the container as an image:
+
+        docker commit -c 'CMD ["redis-server"]' <container_id>
+
+On Windows, quoting may need to be adjusted depending on the shell.
+
+Example:
+
+        docker commit -c "CMD ['redis-server']" <container_id>
+
+IMPORTANT: Using a Dockerfile is preferred for normal development
+because Dockerfiles are repeatable, readable, and easier to maintain.
+
+12. .DOCKERIGNORE
+
+Create a file named:
+
+    .dockerignore
+
+Purpose: Specifies files and folders that should NOT be sent as part of
+the Docker build context.
+
+Example:
+
+    node_modules
+    .git
+    *.log
+
+Why ignore node_modules?
+
+    Dependencies can be installed inside the container using npm install.
+    There is usually no need to copy the local node_modules directory
+    into the image.
+
+13. NODE.JS DOCKERFILE
+
+Example:
+
+    FROM node:14-alpine
+
+    # Copy package files first
+    COPY ./package.json ./
+
+    # Set the working directory
+    WORKDIR /usr/app
+
+    # Install dependencies
+    RUN npm install
+
+    # Copy application source code
+    COPY ./ ./
+
+    # Start the application
+    CMD ["npm", "start"]
+
+WHY COPY package.json FIRST?
+
+Docker builds images in layers and can reuse cached layers.
+
+If package.json has not changed:
+
+    COPY package.json
+        -> Cached
+
+    RUN npm install
+        -> Cached
+
+Then, when source code changes:
+
+    COPY ./ ./
+        -> Rebuilt
+
+This avoids running npm install again for every source-code change.
+
+IMPORTANT: In real projects, package-lock.json should generally also be
+copied before npm install:
+
+        COPY package*.json ./
+
+    This allows npm to use the lock file for reproducible installs.
+
+14. WORKDIR
+
+WORKDIR /usr/app
+
+Sets the current working directory inside the image/container.
+
+Instead of placing application files directly at the root, the
+application files are stored under:
+
+    /usr/app
+
+After setting WORKDIR, commands such as COPY, RUN, and CMD operate
+relative to that directory unless an absolute path is used.
+
+15. RUNNING A NODE APPLICATION IN DOCKER
+
+Suppose the Node application listens on:
+
+    8080
+
+Run the image:
+
+    docker run stephengrider/simpleweb
+
+The application may show:
+
+    Listening on port 8080
+
+But opening:
+
+    http://localhost:8080
+
+may not work.
+
+WHY?
+
+The Node application is running on port 8080 INSIDE the Docker
+container.
+
+The container’s port is not automatically exposed to the host machine.
+
+16. PORT MAPPING
+
+Use:
+
+    docker run -p 8080:8080 stephengrider/simpleweb
+
+Format:
+
+    -p <host_port>:<container_port>
+
+Example:
+
+    -p 8080:8080
+
+Means:
+
+    localhost:8080
+          |
+          v
+    Docker container:8080
+
+So traffic coming to:
+
+    http://localhost:8080
+
+is forwarded to port 8080 inside the container.
+
+IMPORTANT: EXPOSE in a Dockerfile documents the intended container port,
+but it does NOT publish the port to the host.
+
+Example:
+
+    EXPOSE 8080
+
+You still need:
+
+    docker run -p 8080:8080 <image>
+
+17. DOCKER BUILD OUTPUT / PROGRESS
+
+By default, Docker may show a compact build output.
+
+To see more detailed build output:
+
+    docker build --progress=plain .
+
+Useful when debugging Docker builds.
+
+18. DISABLING BUILDKIT
+
+BuildKit is the modern Docker build engine and is enabled by default in
+modern Docker versions.
+
+To disable it temporarily in an environment that supports the variable:
+
+    DOCKER_BUILDKIT=0 docker build .
+
+NOTE: This is mainly useful for learning/debugging older Docker build
+behavior. BuildKit is generally recommended for modern builds.
+
+19. QUICK COMMAND CHEAT SHEET
+
+Create + start container: docker run
+
+Create only: docker create
+
+Start container: docker start
+
+Start and attach: docker start -a
+
+List running containers: docker ps
+
+List all containers: docker ps –all
+
+Show container logs: docker logs
+
+Stop gracefully: docker stop
+
+Kill immediately: docker kill
+
+Run command inside running container: docker exec -it
+
+Open shell inside container: docker exec -it sh
+
+Build image: docker build .
+
+Build image with tag: docker build -t /: .
+
+Run tagged image: docker run /:
+
+Run with port mapping: docker run -p :
+
+Remove unused Docker resources: docker system prune
+
+Show detailed build progress: docker build –progress=plain .
+
+Disable BuildKit temporarily: DOCKER_BUILDKIT=0 docker build .
+
+20. QUICK REVISION: MOST IMPORTANT CONCEPTS
+
+IMAGE Template/blueprint used to create containers.
+
+CONTAINER Instance created from an image.
+
+docker run Create + start a container.
+
+docker create Create a container but do not start it.
+
+docker start Start an existing container.
+
+docker exec Run a command inside an already running container.
+
+docker stop Gracefully stop a container.
+
+docker kill Immediately stop a container.
+
+Dockerfile Instructions used to build a Docker image.
+
+.dockerignore Files/folders excluded from the Docker build context.
+
+WORKDIR Sets the working directory inside the image/container.
+
+-p Maps host port to container port.
+
+-it Interactive terminal connection.
+
+CMD Default command executed when a container starts.
+
+RUN Executes a command while building the image.
+
+COPY Copies files from the build context into the image.
+
+EXPOSE Documents the port the containerized application listens on; it
+does not publish the port to the host.
+
+Build context The files/directories Docker can access during docker
+build. “.” means the current directory.
