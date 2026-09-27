@@ -1,5 +1,3 @@
-# 3.router.md
-
 # React Router — Interview Notes
 
 ## 1. Installation
