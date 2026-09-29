@@ -1,0 +1,1009 @@
+AWS CLOUD FUNDAMENTALS - QUICK READING NOTES
+===============================================
+
+Purpose:
+Use these notes as a quick foundation before starting AWS Certified Developer - Associate preparation.
+
+
+1. AWS GLOBAL INFRASTRUCTURE
+----------------------------
+
+AWS infrastructure is organized mainly around:
+
+- Regions
+- Availability Zones (AZs)
+- Data Centers
+- Edge Locations
+- Points of Presence (PoPs)
+
+Think of the hierarchy roughly as:
+
+AWS
+ |
+ +-- Region
+      |
+      +-- Availability Zone (AZ)
+           |
+           +-- One or more Data Centers
+
+
+2. AWS REGION
+-------------
+
+A Region is a separate geographic area where AWS has infrastructure.
+
+Examples:
+- Mumbai (ap-south-1)
+- Singapore (ap-southeast-1)
+- US East - N. Virginia (us-east-1)
+- Frankfurt (eu-central-1)
+- Tokyo (ap-northeast-1)
+
+Important:
+- Regions are physically separated from each other.
+- You choose a Region when deploying many AWS resources.
+- Different Regions can have different service availability, pricing, and limits.
+- Data residency requirements may influence Region selection.
+- Regions help with geographic proximity, compliance, disaster recovery, and latency.
+
+
+3. AVAILABILITY ZONE (AZ)
+-------------------------
+
+An Availability Zone is an isolated location inside an AWS Region.
+
+Example:
+
+Mumbai Region:
+- ap-south-1a
+- ap-south-1b
+- ap-south-1c
+
+Important:
+- A Region contains multiple AZs.
+- AZs are designed to be isolated from failures in other AZs.
+- AZs within a Region are connected using AWS private networking.
+- Deploying across multiple AZs improves availability and fault tolerance.
+
+Easy way to remember:
+
+Region = Geographic area
+AZ = Isolated infrastructure location inside a Region
+
+
+4. DATA CENTER
+--------------
+
+A Data Center is a physical facility containing:
+- Servers
+- Storage
+- Networking equipment
+- Power systems
+- Cooling systems
+- Physical security
+
+AWS operates multiple data centers within its infrastructure.
+
+Important distinction:
+- AZ is an AWS infrastructure boundary/location.
+- A data center is the physical facility containing hardware.
+- An AZ can consist of one or more physically separate data centers.
+
+
+5. EDGE LOCATION
+----------------
+
+An Edge Location is an AWS site used mainly to deliver content and provide low-latency access to users.
+
+Commonly associated with:
+- Amazon CloudFront
+- Amazon Route 53
+- AWS WAF
+- AWS Shield
+
+Example:
+A user in Pune requests an image/video.
+CloudFront can serve cached content from a nearby edge location instead of the application's origin server.
+
+Main goal:
+Reduce latency and improve user experience.
+
+
+6. POINT OF PRESENCE (PoP)
+---------------------------
+
+A Point of Presence (PoP) is an AWS location used to provide network/content delivery capabilities close to users.
+
+Edge Locations are a type of AWS point of presence.
+
+Simple understanding:
+
+PoP = General term for AWS network edge locations
+Edge Location = A specific type of PoP commonly used by services such as CloudFront
+
+For exam preparation, remember:
+- CloudFront uses a global network of edge locations.
+- Edge locations are separate from AWS Regions and AZs.
+
+
+7. GLOBAL SERVICES VS REGIONAL SERVICES
+---------------------------------------
+
+This is an important AWS concept.
+
+REGIONAL SERVICE
+----------------
+
+A regional service operates within a specific AWS Region.
+
+Examples:
+- Amazon EC2
+- Amazon RDS
+- Amazon ECS
+- Amazon EKS
+- AWS Lambda
+- Amazon VPC
+- Amazon EBS
+
+Example:
+If you create an EC2 instance in ap-south-1, it exists in that Region.
+
+
+GLOBAL SERVICE
+--------------
+
+A global service is designed to be available across multiple Regions and is not tied to one specific Region in the same way.
+
+Common examples:
+- IAM
+- Route 53
+- CloudFront
+- AWS WAF
+- AWS Organizations
+
+Important:
+Not every service described as "global" behaves exactly the same way internally.
+For exam questions, focus on whether the resource is Region-specific or globally managed.
+
+
+8. REGION vs AZ vs EDGE LOCATION
+--------------------------------
+
+Region:
+- Large geographic area
+- Contains multiple AZs
+- Used for deploying regional resources
+
+Availability Zone:
+- Isolated infrastructure location inside a Region
+- Used for high availability
+
+Edge Location:
+- Located closer to end users
+- Primarily used for low-latency content delivery/network services
+
+
+9. AWS RESOURCE SCOPE
+---------------------
+
+AWS resources can have different scopes.
+
+Regional:
+- EC2
+- VPC
+- RDS
+- Lambda
+- ECS
+
+Availability-Zone-specific:
+- EC2 instances
+- EBS volumes
+- Subnets
+
+Global:
+- IAM users/roles
+- Route 53 hosted zones
+- CloudFront distributions
+
+Important exam habit:
+Whenever you see a question about moving/copying/sharing a resource,
+first ask:
+"Is this resource Regional, AZ-specific, or Global?"
+
+
+10. HIGH AVAILABILITY (HA)
+--------------------------
+
+High Availability means keeping an application/service available even when part of the infrastructure fails.
+
+Typical AWS design:
+
+                 Region
+          /         |                 AZ-A       AZ-B       AZ-C
+         |          |          |
+       App        App        App
+      Server     Server     Server
+
+If one AZ fails, applications in the other AZs can continue serving traffic.
+
+Common services/patterns:
+- Elastic Load Balancer
+- Auto Scaling
+- Multi-AZ RDS
+- Multiple AZs for application servers
+
+
+11. FAULT TOLERANCE
+-------------------
+
+Fault tolerance means a system can continue functioning even when a component fails.
+
+Examples:
+- Multiple EC2 instances across AZs
+- Multi-AZ database architecture
+- Replication
+- Load balancing
+
+
+12. SCALABILITY
+---------------
+
+Scalability = Ability to handle increasing workload.
+
+Vertical Scaling:
+- Increase the size/power of a single machine.
+- Example: t3.medium -> t3.large
+
+Horizontal Scaling:
+- Add more instances.
+- Example: 2 EC2 instances -> 5 EC2 instances
+
+AWS commonly encourages horizontal scaling for distributed applications.
+
+
+13. ELASTICITY
+-------------
+
+Elasticity = Automatically increase or decrease resources based on demand.
+
+Example:
+Normal traffic:
+- 2 EC2 instances
+
+Peak traffic:
+- 8 EC2 instances
+
+After traffic falls:
+- Back to 2 EC2 instances
+
+Common AWS service:
+- EC2 Auto Scaling
+
+
+14. CAPEX vs OPEX
+-----------------
+
+Traditional data center:
+- Large upfront hardware cost
+- Maintenance
+- Power
+- Cooling
+- Hardware replacement
+
+This is generally CAPEX (Capital Expenditure).
+
+Cloud:
+- Pay for resources/services you use
+- Less upfront infrastructure investment
+
+This is generally OPEX (Operational Expenditure).
+
+
+15. SHARED RESPONSIBILITY MODEL
+-------------------------------
+
+AWS security follows the Shared Responsibility Model.
+
+AWS is responsible FOR security OF the cloud:
+- Physical data centers
+- Physical hardware
+- Networking infrastructure
+- Managed infrastructure layer
+
+Customer is responsible FOR security IN the cloud:
+- IAM configuration
+- Application code
+- Data
+- Security groups
+- Encryption/configuration
+- OS patching on customer-managed servers (for services where customer manages the OS)
+
+Example:
+For an EC2 instance:
+AWS -> physical infrastructure
+Customer -> OS, application, IAM permissions, security configuration
+
+
+16. AWS WELL-ARCHITECTED BASICS
+-------------------------------
+
+The AWS Well-Architected Framework has six pillars:
+
+1. Operational Excellence
+2. Security
+3. Reliability
+4. Performance Efficiency
+5. Cost Optimization
+6. Sustainability
+
+Remember these six names.
+
+
+17. CORE AWS SERVICE CATEGORIES
+------------------------------
+
+Compute:
+- EC2
+- Lambda
+- ECS
+- EKS
+
+Storage:
+- S3
+- EBS
+- EFS
+
+Database:
+- RDS
+- DynamoDB
+- Aurora
+
+Networking:
+- VPC
+- Route 53
+- Elastic Load Balancing
+- CloudFront
+- API Gateway
+
+Security:
+- IAM
+- KMS
+- Secrets Manager
+- WAF
+- Shield
+
+Monitoring:
+- CloudWatch
+- CloudTrail
+- AWS Config
+
+Developer/DevOps:
+- CodeCommit
+- CodeBuild
+- CodeDeploy
+- CodePipeline
+
+Messaging:
+- SQS
+- SNS
+- EventBridge
+
+
+18. VPC BASICS
+--------------
+
+VPC = Virtual Private Cloud
+
+A VPC is your logically isolated network in AWS.
+
+Important VPC concepts:
+- CIDR
+- Subnet
+- Route Table
+- Internet Gateway (IGW)
+- NAT Gateway
+- Security Group
+- Network ACL
+
+Typical structure:
+
+VPC
+ |
+ +-- Public Subnet
+ |      |
+ |      +-- EC2
+ |
+ +-- Private Subnet
+        |
+        +-- Application / Database
+
+
+19. PUBLIC vs PRIVATE SUBNET
+----------------------------
+
+Public Subnet:
+- Has a route to an Internet Gateway.
+- Resources can potentially communicate with the Internet, depending on their configuration.
+
+Private Subnet:
+- Does not have a direct route to the Internet Gateway.
+- Often used for application servers and databases.
+- Outbound Internet access can be provided through a NAT Gateway.
+
+
+20. IAM BASICS
+-------------
+
+IAM = Identity and Access Management
+
+Key IAM concepts:
+- User
+- Group
+- Role
+- Policy
+
+User:
+Represents a person/application identity.
+
+Group:
+Collection of IAM users.
+
+Role:
+An identity that can be assumed by AWS services, users, or workloads.
+
+Policy:
+JSON document defining permissions.
+
+Example:
+
+Allow Lambda to read files from S3.
+
+Think:
+WHO -> CAN DO WHAT -> ON WHICH RESOURCE
+
+
+21. S3 BASICS
+------------
+
+Amazon S3 = Object Storage
+
+Important concepts:
+- Bucket
+- Object
+- Key
+- Region
+- Storage Class
+
+Example:
+Bucket:
+techscribe-agent-core-hm
+
+Object:
+parsed/123/status.json
+
+S3 is highly durable and commonly used for:
+- Files
+- Images
+- Documents
+- Logs
+- Backups
+- Data lakes
+- Static website assets
+
+
+22. EC2 BASICS
+-------------
+
+EC2 = Elastic Compute Cloud
+
+EC2 provides virtual servers.
+
+Important concepts:
+- AMI
+- Instance Type
+- EBS
+- Security Group
+- Key Pair
+- User Data
+- Auto Scaling
+- Elastic Load Balancer
+
+
+23. LAMBDA BASICS
+-----------------
+
+AWS Lambda is serverless compute.
+
+You provide:
+- Code
+- Runtime
+- Permissions
+- Configuration
+
+AWS manages:
+- Servers
+- OS maintenance
+- Infrastructure scaling
+
+Lambda is commonly triggered by:
+- API Gateway
+- S3
+- EventBridge
+- SQS
+- SNS
+- CloudWatch/EventBridge schedules
+
+
+24. SERVERLESS
+-------------
+
+Serverless does NOT mean "no servers exist."
+
+It means AWS manages the underlying servers/infrastructure for you.
+
+Examples:
+- Lambda
+- S3
+- DynamoDB
+- API Gateway
+
+
+25. API GATEWAY
+--------------
+
+API Gateway is used to create/manage APIs.
+
+Common pattern:
+
+Client
+  |
+  v
+API Gateway
+  |
+  v
+Lambda
+  |
+  v
+DynamoDB / RDS / S3
+
+
+26. SQS vs SNS
+--------------
+
+SQS:
+- Queue
+- Consumers pull/process messages
+- Good for decoupling workloads
+- Helps absorb traffic spikes
+
+SNS:
+- Pub/Sub messaging
+- One message can be delivered to multiple subscribers
+
+Easy memory:
+
+SQS = Queue
+SNS = Fan-out / Notification
+
+
+27. CLOUDWATCH vs CLOUDTRAIL
+----------------------------
+
+CloudWatch:
+- Monitoring
+- Metrics
+- Logs
+- Alarms
+- Dashboards
+
+CloudTrail:
+- Records AWS API activity
+- Helps answer: "Who did what, when, and from where?"
+
+Easy memory:
+
+CloudWatch = What is happening?
+CloudTrail = Who did it?
+
+
+28. AWS KMS
+----------
+
+KMS = Key Management Service
+
+Used to create/manage encryption keys.
+
+Commonly used with:
+- S3
+- EBS
+- RDS
+- Secrets Manager
+- Lambda environment variables
+
+
+29. SECRETS MANAGER
+------------------
+
+AWS Secrets Manager stores sensitive values securely.
+
+Examples:
+- Database passwords
+- API keys
+- Tokens
+- Credentials
+
+Avoid hardcoding secrets in source code.
+
+
+30. ROUTE 53
+-----------
+
+Amazon Route 53 is AWS DNS service.
+
+Used for:
+- Domain name resolution
+- DNS routing
+- Health checks
+- Domain registration
+
+Example:
+
+api.example.com
+      |
+      v
+Route 53
+      |
+      v
+Load Balancer / API Gateway / other endpoint
+
+
+31. CLOUDFRONT
+-------------
+
+CloudFront = AWS Content Delivery Network (CDN).
+
+Purpose:
+- Cache content closer to users
+- Reduce latency
+- Reduce load on origin
+- Improve performance
+
+Typical architecture:
+
+User
+ |
+ v
+CloudFront Edge Location
+ |
+ v
+S3 / Load Balancer / API / EC2
+
+
+32. LOAD BALANCER
+-----------------
+
+Elastic Load Balancing distributes traffic across targets.
+
+Types commonly encountered:
+- Application Load Balancer (ALB)
+- Network Load Balancer (NLB)
+- Gateway Load Balancer (GWLB)
+
+ALB:
+- Layer 7
+- HTTP/HTTPS
+- Path-based / host-based routing
+
+NLB:
+- Layer 4
+- TCP/UDP/TLS
+- High-performance networking
+
+
+33. DATABASE BASICS
+-------------------
+
+RDS:
+- Managed relational database service
+- Supports engines such as PostgreSQL, MySQL, MariaDB, Oracle, SQL Server
+
+DynamoDB:
+- Managed NoSQL database
+- Key-value/document model
+- Highly scalable
+
+Aurora:
+- AWS relational database engine compatible with MySQL/PostgreSQL
+
+
+34. MULTI-AZ vs READ REPLICA
+----------------------------
+
+Multi-AZ:
+- Primarily for high availability/failover.
+
+Read Replica:
+- Primarily for read scaling and read-heavy workloads.
+
+Important exam distinction:
+HA != Read Scaling
+
+
+35. REGIONAL DISASTER RECOVERY
+-----------------------------
+
+For stronger disaster recovery, applications can be deployed across multiple Regions.
+
+Example:
+
+Primary:
+ap-south-1
+
+DR:
+ap-southeast-1
+
+Possible components:
+- S3 replication
+- Database replication
+- Route 53 failover
+- Infrastructure as Code
+
+
+36. LATENCY
+-----------
+
+Latency = Time taken for a request/response to travel.
+
+Ways to reduce latency:
+- Use a Region close to users
+- Use CloudFront
+- Cache data
+- Use edge locations
+- Optimize network architecture
+
+
+37. DURABILITY vs AVAILABILITY
+------------------------------
+
+Durability:
+"Will my data remain safe/not be lost?"
+
+Availability:
+"Can I access the service when I need it?"
+
+These are different concepts.
+
+Example:
+S3 is designed for extremely high durability.
+Availability is a different metric from durability.
+
+
+38. BASIC AWS DESIGN TO REMEMBER
+--------------------------------
+
+A common modern web application:
+
+User
+  |
+  v
+Route 53
+  |
+  v
+CloudFront
+  |
+  +----------------------+
+  |                      |
+  v                      v
+S3 (static)          API Gateway
+                         |
+                         v
+                       Lambda
+                         |
+                  +------+------+
+                  |             |
+                  v             v
+                 S3         DynamoDB/RDS
+
+For larger applications, an ALB + ECS/EC2 architecture may be used.
+
+
+39. IMPORTANT EXAM TERMS
+------------------------
+
+Know these terms before starting Developer Associate preparation:
+
+- Region
+- Availability Zone
+- Edge Location
+- Point of Presence
+- Data Center
+- Global service
+- Regional service
+- High Availability
+- Fault Tolerance
+- Scalability
+- Elasticity
+- Durability
+- Latency
+- CAPEX
+- OPEX
+- Shared Responsibility Model
+- Well-Architected Framework
+- IAM
+- VPC
+- Subnet
+- Security Group
+- S3
+- EC2
+- Lambda
+- API Gateway
+- DynamoDB
+- RDS
+- CloudFront
+- Route 53
+- SQS
+- SNS
+- CloudWatch
+- CloudTrail
+- KMS
+- Secrets Manager
+
+
+40. QUICK MEMORY SHEET
+----------------------
+
+Region
+= Geographic AWS area
+
+AZ
+= Isolated infrastructure location inside a Region
+
+Data Center
+= Physical facility containing AWS hardware
+
+Edge Location
+= Location closer to users for low-latency delivery
+
+PoP
+= AWS point-of-presence location; edge locations are a key type
+
+CloudFront
+= CDN / edge caching
+
+Route 53
+= DNS
+
+IAM
+= Identity + permissions
+
+S3
+= Object storage
+
+EC2
+= Virtual server
+
+Lambda
+= Serverless compute
+
+RDS
+= Managed relational database
+
+DynamoDB
+= Managed NoSQL
+
+VPC
+= Virtual network
+
+SQS
+= Queue
+
+SNS
+= Publish/subscribe
+
+CloudWatch
+= Monitoring/logs/metrics
+
+CloudTrail
+= AWS API activity/audit
+
+KMS
+= Encryption key management
+
+Secrets Manager
+= Secret storage
+
+ALB
+= HTTP/HTTPS load balancing
+
+NAT Gateway
+= Private subnet outbound Internet access
+
+IGW
+= Internet connectivity for a VPC
+
+
+41. BEFORE STARTING DEVELOPER ASSOCIATE
+---------------------------------------
+
+Make sure you understand these four layers first:
+
+1. AWS Global Infrastructure
+   - Region
+   - AZ
+   - Data Center
+   - Edge Location
+   - PoP
+
+2. Networking Basics
+   - VPC
+   - Subnet
+   - Route Table
+   - IGW
+   - NAT Gateway
+   - Security Group
+   - NACL
+   - DNS
+
+3. Security Basics
+   - IAM
+   - Roles
+   - Policies
+   - KMS
+   - Secrets Manager
+   - Shared Responsibility
+
+4. Core Services
+   - S3
+   - EC2
+   - Lambda
+   - API Gateway
+   - DynamoDB
+   - RDS
+   - SQS
+   - SNS
+   - CloudWatch
+   - CloudTrail
+   - CloudFront
+   - Route 53
+
+
+ONE-LINE ARCHITECTURE TO REMEMBER
+---------------------------------
+
+Region
+  -> AZs
+      -> Data Centers
+
+Users
+  -> Edge Locations / CloudFront
+      -> AWS Region
+          -> VPC
+              -> Compute
+                  -> Database / Storage
+
+
+STUDY ORDER FOR AWS DEVELOPER ASSOCIATE
+---------------------------------------
+
+Recommended order:
+
+1. AWS Cloud Fundamentals
+2. IAM + Security
+3. VPC + Networking
+4. S3
+5. EC2 + Load Balancing + Auto Scaling
+6. Lambda
+7. API Gateway
+8. DynamoDB
+9. RDS/Aurora
+10. SQS + SNS + EventBridge
+11. CloudWatch + CloudTrail
+12. KMS + Secrets Manager
+13. CloudFront + Route 53
+14. CI/CD and Developer Tools
+15. Serverless architecture
+16. Hands-on labs
+17. Practice questions
+
+
+END
